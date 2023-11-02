@@ -1,0 +1,52 @@
+@import "/src/UI/_GlobalStyles/colors";
+@import "/src/UI/_GlobalStyles/sizes";
+@import "/src/UI/_GlobalStyles/mixins";
+
+html {
+  // Always display the vertical scrollbar
+  overflow-y: scroll;
+}
+
+body {
+  background-color: $color-app-bg;
+  color: $color-body-text;
+  font-family: "Proxima Nova", sans-serif;
+
+  // Border-box everything by default
+  box-sizing: border-box;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+}
+
+// To avoid these elements to bleed through the parent
+img,
+iframe,
+embed,
+video {
+  max-width: 100%;
+  display: block; // To avoid extra space below the element
+}
+
+main {
+  background-color: $color-app-bg;
+  color: $color-body-text;
+
+  margin: 40px auto 110px;
+  width: min($vw-lg, 100% - 2 * $min-content-side-margin);
+
+  @include vw(xl) {
+    width: min($vw-xl, 100% - 2 * $min-content-side-margin);
+  }
+
+  @include vw(xxl) {
+    width: min($vw-xxl, 100% - 2 * $min-content-side-margin);
+  }
+}
+
+p {
+  line-height: 1.75em;
+}

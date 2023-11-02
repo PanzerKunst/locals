@@ -1,0 +1,25 @@
+@import "./sizes";
+
+@mixin vw($size) {
+  @if $size == xxl {
+    @media (min-width: #{$vw-xxl}) {
+      @content;
+    }
+  } @else if $size == xl {
+    @media (min-width: #{$vw-xl}) {
+      @content;
+    }
+  } @else if $size == lg {
+    @media (min-width: #{$vw-lg}) {
+      @content;
+    }
+  } @else if $size == md {
+    @media (min-width: #{$vw-md}) {
+      @content;
+    }
+  } @else {
+    @media (min-width: #{$vw-sm}) {
+      @content;
+    }
+  }
+}

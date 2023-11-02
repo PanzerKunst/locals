@@ -1,0 +1,15 @@
+// Base colors, only used in this file
+$color-white: #fff;
+$color-greyscale-n4: #A3A3AB;
+$color-greyscale-n8: #2F2F34;
+$color-greyscale-n9: #1d1d1f;
+$color-purple: #7143d1;
+
+// Functional colors, to use in the rest of the app
+$color-app-bg: $color-white;
+$color-body-text: $color-greyscale-n8;
+$color-offset-text: $color-greyscale-n4;
+$color-btn-primary: $color-purple;
+$color-btn-secondary: $color-greyscale-n8;
+$color-loader: $color-purple;
+$color-link: $color-white;

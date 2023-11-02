@@ -1,0 +1,9 @@
+@import "/src/UI/_GlobalStyles/colors";
+
+.circular-loader {
+  text-align: center;
+
+  > .MuiCircularProgress-root .MuiCircularProgress-progress {
+    stroke: $color-loader;
+  }
+}
