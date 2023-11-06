@@ -30,8 +30,9 @@ export default function HomePage() {
   const [followedArtists, setFollowedArtists] = useState<SpotifyArtist[]>([])
 
   const spotifyApiCodeFromUrl = new URLSearchParams(window.location.search).get("code")
+  const spotifyApiErrorFromUrl = new URLSearchParams(window.location.search).get("error")
 
-  const shouldRedirect = !spotifyAccessToken && !spotifyApiCodeFromUrl
+  const shouldRedirect = !spotifyApiErrorFromUrl && !spotifyAccessToken && !spotifyApiCodeFromUrl
 
   if (shouldRedirect) {
     redirectToAuthCodeFlow()
@@ -43,7 +44,7 @@ export default function HomePage() {
     ["spotifyAccessToken", spotifyApiCodeFromUrl],
     () => getAccessToken(spotifyApiCodeFromUrl!),
     {
-      enabled: !spotifyAccessToken && !!spotifyApiCodeFromUrl
+      enabled: !spotifyApiErrorFromUrl && !spotifyAccessToken && !!spotifyApiCodeFromUrl
     }
   )
 
@@ -68,6 +69,14 @@ export default function HomePage() {
     return (
       <main>
         <span>Error fetching data</span>
+      </main>
+    )
+  }
+
+  if (spotifyApiErrorFromUrl) {
+    return (
+      <main>
+        <span>{spotifyApiErrorFromUrl}</span>
       </main>
     )
   }
