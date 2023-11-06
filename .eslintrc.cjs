@@ -14,7 +14,8 @@ module.exports = {
     "react-refresh",
     "react",
     "import",
-    "css-import-order"
+    "css-import-order",
+    "@typescript-eslint"
   ],
   settings: {
     react: {
