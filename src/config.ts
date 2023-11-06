@@ -4,6 +4,6 @@ type Config = {
 }
 
 export const config: Config = {
-  SPOTIFY_CLIENT_ID: "3e38c6df20b84e57805a855aaa18515b",
-  SPOTIFY_AUTH_REDIRECT_URI: "http://localhost:5173/spotify-callback"
+  SPOTIFY_CLIENT_ID: process.env.SPOTIFY_CLIENT_ID!,
+  SPOTIFY_AUTH_REDIRECT_URI: process.env.SPOTIFY_AUTH_REDIRECT_URI!
 }
