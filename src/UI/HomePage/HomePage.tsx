@@ -22,6 +22,8 @@ function setIsApiError(value: boolean) { isApiErrorSignal.value = value }
 const isApiError = isApiErrorSignal.value */
 
 export default function HomePage() {
+  // TODO: handle URL /spotify-callback?error=access_denied
+
   const [spotifyAccessToken, setSpotifyAccessToken] = useState(getSpotifyApiAccessTokenFromLocalStorage())
   const [topArtistsPage, setTopArtistsPage] = useState(0)
   const [topArtists, setTopArtists] = useState<SpotifyArtist[]>([])
