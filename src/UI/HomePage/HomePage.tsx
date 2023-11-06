@@ -128,7 +128,7 @@ export default function HomePage() {
           <h1>Logged in as {spotifyProfile.display_name}</h1>
           {spotifyProfile.images.length > 0 && (
             <img
-              src={spotifyProfile.images[1].url}
+              src={spotifyProfile.images[0]!.url}
               alt="user-avatar"
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
@@ -149,7 +149,7 @@ export default function HomePage() {
           <ul>
             {topArtists.map((artist) => (
               <li key={artist.id}>
-                {artist.images.length > 0 && <img src={artist.images[0].url} alt="artist-avatar"/>}
+                {artist.images.length > 0 && <img src={artist.images[0]!.url} alt="artist-avatar"/>}
                 <span>{artist.name}</span>
               </li>
             ))}
@@ -163,7 +163,7 @@ export default function HomePage() {
           <ul>
             {followedArtists.map((artist) => (
               <li key={artist.id}>
-                {artist.images.length > 0 && <img src={artist.images[0].url} alt="artist-avatar"/>}
+                {artist.images.length > 0 && <img src={artist.images[0]!.url} alt="artist-avatar"/>}
                 <span>{artist.name}</span>
               </li>
             ))}
