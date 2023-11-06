@@ -21,37 +21,34 @@ module.exports = {
       version: "detect"
     }
   },
-  overrides: [{
-    files: ["*.ts", "*.tsx"],
-    rules: {
-      "quotes": ["error", "double"],
-      "indent": ["error", 2],
-      "semi": ["error", "never"],
-      "max-len": ["warn", {"code": 150}],
-      "no-unused-vars": "error",
-      "react/react-in-jsx-scope": "off",
-      "react/jsx-max-props-per-line": ["error", {"maximum": 3}],
-      "@typescript-eslint/ban-ts-comment": ["error", {"ts-ignore": "allow-with-description"}],
-      "@typescript-eslint/no-unused-vars": "off", // Already covered by no-unused-vars
-      "import/order": ["error", {
-        "groups": [
-          "external",
-          "internal"
-        ],
-        "pathGroups": [
-          {
-            "pattern": "(^@)|(^\\w)",
-            "group": "external"
-          },
-          {
-            "pattern": "^\\.(\\.)?",
-            "group": "internal"
-          }
-        ],
-        "newlines-between": "always",
-        "alphabetize": {"order": "asc"}
-      }],
-      "react-refresh/only-export-components": ["warn", {allowConstantExport: true}],
-    }
-  }]
+  rules: {
+    "quotes": ["error", "double"],
+    "indent": ["error", 2],
+    "semi": ["error", "never"],
+    "max-len": ["warn", {"code": 150}],
+    "no-unused-vars": "error",
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-max-props-per-line": ["error", {"maximum": 3}],
+    "@typescript-eslint/ban-ts-comment": ["error", {"ts-ignore": "allow-with-description"}],
+    "@typescript-eslint/no-unused-vars": "off", // Already covered by no-unused-vars
+    "import/order": ["error", {
+      "groups": [
+        "external",
+        "internal"
+      ],
+      "pathGroups": [
+        {
+          "pattern": "(^@)|(^\\w)",
+          "group": "external"
+        },
+        {
+          "pattern": "^\\.(\\.)?",
+          "group": "internal"
+        }
+      ],
+      "newlines-between": "always",
+      "alphabetize": {"order": "asc"}
+    }],
+    "react-refresh/only-export-components": ["warn", {allowConstantExport: true}],
+  }
 }
