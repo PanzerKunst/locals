@@ -3,17 +3,17 @@ import { defineConfig } from "vite"
 import checker from "vite-plugin-checker"
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
-    checker({
+    mode === "development" && checker({
       eslint: {
-        lintCommand: "eslint ./src/**/*.{ts,tsx,js,jsx}",
-      },
+        lintCommand: "eslint ./src/**/*.{ts,tsx}"
+      }
     })
   ],
   build: {
     manifest: true,
     sourcemap: true
-  },
-})
+  }
+}))
