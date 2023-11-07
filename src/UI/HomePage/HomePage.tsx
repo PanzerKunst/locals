@@ -1,6 +1,7 @@
 import { useState, MouseEvent } from "react"
 import { useQuery } from "react-query"
 
+import { storeArtists } from "../../Data/BackendApis/ArtistApi.ts"
 import { getAccessToken, redirectToAuthCodeFlow } from "../../Data/SpotifyApis/AuthApi.ts"
 import { fetchFollowedArtists } from "../../Data/SpotifyApis/FollowedArtistsApi.ts"
 import { fetchProfile } from "../../Data/SpotifyApis/ProfileApi.ts"
@@ -111,6 +112,13 @@ export default function HomePage() {
     ])
   }
 
+  const handleStoreArtistsClick = async () => {
+    const artists = [...topArtists, ...followedArtists]
+    const storedArtists = await storeArtists(artists)
+
+    console.log("stored artists", storedArtists)
+  }
+
   const handleMouseMove = (event: MouseEvent<HTMLImageElement>) => {
     const img = event.currentTarget
 
@@ -130,6 +138,8 @@ export default function HomePage() {
 
   const spotifyProfile = spotifyProfileQuery.data!
 
+  console.log("spotifyProfile", spotifyProfile)
+  console.log("topArtists", topArtists)
   console.log("total artists", topArtists.length)
 
   return (
@@ -184,7 +194,7 @@ export default function HomePage() {
 
       <button onClick={handleTopArtistsClick}>Fetch top artists</button>
       <button onClick={handleFollowedArtistsClick}>Fetch followed artists</button>
-
+      <button onClick={handleStoreArtistsClick}>Store artists</button>
     </main>
   )
 }
