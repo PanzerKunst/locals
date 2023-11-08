@@ -1,4 +1,4 @@
-import { refreshToken, redirectToAuthCodeFlow } from "./AuthApi.ts"
+import { redirectToAuthCodeFlow } from "./AuthApi.ts"
 import { httpStatusCode } from "../../Util/HttpUtils.ts"
 import { getSpotifyApiAccessTokenFromLocalStorage } from "../../Util/LocalStorage.ts"
 import { SpotifyUserProfile } from "../SpotifyModels/SpotifyUserProfile.ts"
