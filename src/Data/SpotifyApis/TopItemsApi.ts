@@ -34,6 +34,19 @@ export async function fetchTopArtists(pageNb: number): Promise<SpotifyArtist[]> 
   })
 
   if (!result.ok) {
+    /* if (result.status === httpStatusCode.UNAUTHORIZED) {
+      if (shouldRetry) {
+        await refreshToken()
+        return fetchTopArtists(pageNb, false)
+      } else {
+        await redirectToAuthCodeFlow()
+      }
+    }
+
+    if (result.status === httpStatusCode.FORBIDDEN) {
+      await redirectToAuthCodeFlow()
+    } */
+
     if ([httpStatusCode.UNAUTHORIZED, httpStatusCode.FORBIDDEN].includes(result.status)) {
       await redirectToAuthCodeFlow()
     }

@@ -35,6 +35,19 @@ export async function fetchFollowedArtists(lastArtistId: string | undefined): Pr
       await redirectToAuthCodeFlow()
     }
 
+    /* if (result.status === httpStatusCode.UNAUTHORIZED) {
+      if (shouldRetry) {
+        await refreshToken()
+        return fetchFollowedArtists(lastArtistId, false)
+      } else {
+        await redirectToAuthCodeFlow()
+      }
+    }
+
+    if (result.status === httpStatusCode.FORBIDDEN) {
+      await redirectToAuthCodeFlow()
+    } */
+
     throw new Error("Error while fetching followed artists")
   }
 

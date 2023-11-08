@@ -1,8 +1,9 @@
 import qs from "qs"
 
 import {
+  getSpotifyApiRefreshTokenFromLocalStorage,
   getSpotifyApiVerifierFromLocalStorage,
-  saveSpotifyApiAccessTokenInLocalStorage,
+  saveSpotifyApiAccessTokenInLocalStorage, saveSpotifyApiRefreshTokenInLocalStorage,
   saveSpotifyApiVerifierInLocalStorage
 } from "../../Util/LocalStorage.ts"
 import { config } from "../../config.ts"
@@ -12,6 +13,7 @@ export async function redirectToAuthCodeFlow() {
   const challenge = await generateCodeChallenge(verifier)
 
   saveSpotifyApiAccessTokenInLocalStorage(undefined)
+  saveSpotifyApiRefreshTokenInLocalStorage(undefined)
   saveSpotifyApiVerifierInLocalStorage(verifier)
 
   const queryParams = {
@@ -46,14 +48,17 @@ export async function getAccessToken(code: string): Promise<string> {
     body: qs.stringify(queryParams)
   })
 
-  const { access_token } = await result.json()
+  const { access_token, refresh_token } = await result.json()
   saveSpotifyApiAccessTokenInLocalStorage(access_token)
+  saveSpotifyApiRefreshTokenInLocalStorage(refresh_token)
 
   return access_token
 }
 
-/* TODO
-export async function getRefreshToken() {
+export async function refreshToken() {
+  // TODO: remove
+  console.log("refreshToken")
+
   const refreshToken = getSpotifyApiRefreshTokenFromLocalStorage()
 
   if (!refreshToken) {
@@ -73,12 +78,9 @@ export async function getRefreshToken() {
   })
 
   const { access_token, refresh_token } = await result.json()
-
   saveSpotifyApiAccessTokenInLocalStorage(access_token)
   saveSpotifyApiAccessTokenInLocalStorage(refresh_token)
-
-  return access_token
-} */
+}
 
 function generateCodeVerifier(length: number) {
   let text = ""

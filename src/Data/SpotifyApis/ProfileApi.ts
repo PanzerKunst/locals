@@ -1,4 +1,4 @@
-import { redirectToAuthCodeFlow } from "./AuthApi.ts"
+import { refreshToken, redirectToAuthCodeFlow } from "./AuthApi.ts"
 import { httpStatusCode } from "../../Util/HttpUtils.ts"
 import { getSpotifyApiAccessTokenFromLocalStorage } from "../../Util/LocalStorage.ts"
 import { SpotifyUserProfile } from "../SpotifyModels/SpotifyUserProfile.ts"
@@ -22,6 +22,19 @@ export async function fetchProfile(): Promise<SpotifyUserProfile> {
     if ([httpStatusCode.UNAUTHORIZED, httpStatusCode.FORBIDDEN].includes(result.status)) {
       await redirectToAuthCodeFlow()
     }
+
+    /* if (result.status === httpStatusCode.UNAUTHORIZED) {
+      if (shouldRetry) {
+        await refreshToken()
+        return fetchProfile(false)
+      } else {
+        await redirectToAuthCodeFlow()
+      }
+    }
+
+    if (result.status === httpStatusCode.FORBIDDEN) {
+      await redirectToAuthCodeFlow()
+    } */
 
     throw new Error("Error while fetching profile")
   }
