@@ -16,20 +16,17 @@ export function ScrollToVisible({ children, className = "" }: Props) {
   }
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry?.isIntersecting) {
-          controls.start("visible")
-        } else {
-          controls.start("hidden")
-        }
-      },
-      {
-        root: undefined, // relative to the viewport
-        rootMargin: "0px",
-        threshold: 0.1 // triggers when 10% of the element is visible
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry?.isIntersecting) {
+        controls.start("visible")
+        observer.unobserve(entry.target) // Unobserve the element after it becomes visible
       }
-    )
+    },
+    {
+      root: undefined, // relative to the viewport
+      rootMargin: "0px",
+      threshold: 0.1 // triggers when 10% of the element is visible
+    })
 
     const element = ref.current
 

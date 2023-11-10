@@ -23,7 +23,7 @@ export default function IndexPage() {
             <p>Social media leads to short form, superficial content, read in a few seconds before being scrolled away. This system prevents artists
               from providing us with high quality, deeper content.</p>
 
-            <p>We listen to a massive variety of artists over time. Manually following every one of them on social media would be crazy.</p>
+            <p>We listen to a massive variety of artists over time. Manually following every one of them on social media isn&apos;t sustainable.</p>
           </ScrollToVisible>
         </div>
         <div className="bottom-triangle"/>
