@@ -32,6 +32,9 @@ export async function fetchFollowedArtists(appContext: AppContextType, lastArtis
 
   if (!result.ok) {
     if ([httpStatusCode.UNAUTHORIZED, httpStatusCode.FORBIDDEN].includes(result.status)) {
+      // TODO: remove
+      console.log("fetchFollowedArtists > redirectToAuthCodeFlow")
+
       await redirectToAuthCodeFlow(appContext)
     }
 

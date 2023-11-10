@@ -40,6 +40,9 @@ export default function HomePage() {
   const shouldRedirect = !spotifyApiErrorFromUrl && !spotifyApiAccessToken && !spotifyApiCodeFromUrl
 
   if (shouldRedirect) {
+    // TODO: remove
+    console.log("HomePage > redirectToAuthCodeFlow")
+
     redirectToAuthCodeFlow(appContext)
     return undefined
   }

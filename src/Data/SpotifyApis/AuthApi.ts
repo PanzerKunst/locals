@@ -52,6 +52,9 @@ export async function refreshToken(appContext: AppContextType) {
   const { spotifyApiRefreshToken, setSpotifyApiAccessToken, setSpotifyApiRefreshToken } = appContext
 
   if (!spotifyApiRefreshToken) {
+    // TODO: remove
+    console.log("refreshToken > redirectToAuthCodeFlow")
+
     await redirectToAuthCodeFlow(appContext)
   }
 

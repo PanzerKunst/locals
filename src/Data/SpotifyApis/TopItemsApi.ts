@@ -49,6 +49,9 @@ export async function fetchTopArtists(appContext: AppContextType, pageNb: number
     } */
 
     if ([httpStatusCode.UNAUTHORIZED, httpStatusCode.FORBIDDEN].includes(result.status)) {
+      // TODO: remove
+      console.log("fetchTopArtists > redirectToAuthCodeFlow")
+
       await redirectToAuthCodeFlow(appContext)
     }
 

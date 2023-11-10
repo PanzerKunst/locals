@@ -28,11 +28,17 @@ export async function fetchProfile(appContext: AppContextType, shouldRetry = tru
         await refreshToken(appContext)
         return fetchProfile(appContext, false)
       } else {
+        // TODO: remove
+        console.log("fetchProfile > redirectToAuthCodeFlow 1")
+
         await redirectToAuthCodeFlow(appContext)
       }
     }
 
     if (result.status === httpStatusCode.FORBIDDEN) {
+      // TODO: remove
+      console.log("fetchProfile > redirectToAuthCodeFlow 2")
+
       await redirectToAuthCodeFlow(appContext)
     }
 
