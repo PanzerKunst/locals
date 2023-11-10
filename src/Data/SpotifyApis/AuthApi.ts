@@ -1,20 +1,16 @@
 import qs from "qs"
 
-import {
-  getSpotifyApiRefreshTokenFromLocalStorage,
-  getSpotifyApiVerifierFromLocalStorage,
-  saveSpotifyApiAccessTokenInLocalStorage, saveSpotifyApiRefreshTokenInLocalStorage,
-  saveSpotifyApiVerifierInLocalStorage
-} from "../../Util/LocalStorage.ts"
+import { AppContextType } from "../../AppContext.tsx"
 import { config } from "../../config.ts"
 
-export async function redirectToAuthCodeFlow() {
-  const verifier = generateCodeVerifier(128)
+export async function redirectToAuthCodeFlow(appContext: AppContextType) {
+  const { spotifyApiVerifier, setSpotifyApiVerifier, setSpotifyApiAccessToken, setSpotifyApiRefreshToken } = appContext
+  const verifier = spotifyApiVerifier || generateCodeVerifier(128)
   const challenge = await generateCodeChallenge(verifier)
 
-  saveSpotifyApiAccessTokenInLocalStorage(undefined)
-  saveSpotifyApiRefreshTokenInLocalStorage(undefined)
-  saveSpotifyApiVerifierInLocalStorage(verifier)
+  setSpotifyApiAccessToken(undefined)
+  setSpotifyApiRefreshToken(undefined)
+  setSpotifyApiVerifier(verifier)
 
   const queryParams = {
     client_id: config.SPOTIFY_CLIENT_ID,
@@ -28,18 +24,15 @@ export async function redirectToAuthCodeFlow() {
   document.location = `https://accounts.spotify.com/authorize?${qs.stringify(queryParams)}`
 }
 
-export async function getAccessToken(code: string): Promise<string> {
-  const spotifyVerifier = getSpotifyApiVerifierFromLocalStorage()
-
-  // TODO: remove
-  console.log("spotifyVerifier", spotifyVerifier)
+export async function getAccessToken(appContext: AppContextType, code: string): Promise<string> {
+  const { spotifyApiVerifier, setSpotifyApiAccessToken, setSpotifyApiRefreshToken } = appContext
 
   const queryParams = {
     client_id: config.SPOTIFY_CLIENT_ID,
     grant_type: "authorization_code",
     code,
     redirect_uri: config.SPOTIFY_AUTH_REDIRECT_URI,
-    code_verifier: spotifyVerifier!
+    code_verifier: spotifyApiVerifier!
   }
 
   const result = await fetch("https://accounts.spotify.com/api/token", {
@@ -49,25 +42,22 @@ export async function getAccessToken(code: string): Promise<string> {
   })
 
   const { access_token, refresh_token } = await result.json()
-  saveSpotifyApiAccessTokenInLocalStorage(access_token)
-  saveSpotifyApiRefreshTokenInLocalStorage(refresh_token)
+  setSpotifyApiAccessToken(access_token)
+  setSpotifyApiRefreshToken(refresh_token)
 
   return access_token
 }
 
-export async function refreshToken() {
-  // TODO: remove
-  console.log("refreshToken")
+export async function refreshToken(appContext: AppContextType) {
+  const { spotifyApiRefreshToken, setSpotifyApiAccessToken, setSpotifyApiRefreshToken } = appContext
 
-  const refreshToken = getSpotifyApiRefreshTokenFromLocalStorage()
-
-  if (!refreshToken) {
-    await redirectToAuthCodeFlow()
+  if (!spotifyApiRefreshToken) {
+    await redirectToAuthCodeFlow(appContext)
   }
 
   const queryParams = {
     grant_type: "refresh_token",
-    refresh_token: refreshToken,
+    refresh_token: spotifyApiRefreshToken,
     client_id: config.SPOTIFY_CLIENT_ID
   }
 
@@ -78,8 +68,8 @@ export async function refreshToken() {
   })
 
   const { access_token, refresh_token } = await result.json()
-  saveSpotifyApiAccessTokenInLocalStorage(access_token)
-  saveSpotifyApiAccessTokenInLocalStorage(refresh_token)
+  setSpotifyApiAccessToken(access_token)
+  setSpotifyApiRefreshToken(refresh_token)
 }
 
 function generateCodeVerifier(length: number) {

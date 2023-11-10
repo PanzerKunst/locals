@@ -10,7 +10,7 @@ html {
 body {
   background-color: $color-app-bg;
   color: $color-body-text;
-  font-family: "Proxima Nova", sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
 
   // Border-box everything by default
   box-sizing: border-box;
@@ -32,10 +32,12 @@ video {
 }
 
 main {
-  background-color: $color-app-bg;
-  color: $color-body-text;
+  margin-block: 40px 110px;
+}
 
-  margin: 40px auto 110px;
+.container {
+  margin-inline: auto;
+
   width: min($vw-lg, 100% - 2 * $min-content-side-margin);
 
   @include vw(xl) {

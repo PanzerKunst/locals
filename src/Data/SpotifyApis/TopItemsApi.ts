@@ -1,23 +1,24 @@
 import qs from "qs"
 
 import { redirectToAuthCodeFlow } from "./AuthApi.ts"
+import { AppContextType } from "../../AppContext.tsx"
 import { httpStatusCode } from "../../Util/HttpUtils.ts"
-import { getSpotifyApiAccessTokenFromLocalStorage } from "../../Util/LocalStorage.ts"
 import { SpotifyArtist } from "../SpotifyModels/SpotifyArtist.ts"
 
 const pageSize = 49
 
 /**
+ * @param appContext
  * @param pageNb starts at 0
  */
-export async function fetchTopArtists(pageNb: number): Promise<SpotifyArtist[]> {
+export async function fetchTopArtists(appContext: AppContextType, pageNb: number): Promise<SpotifyArtist[]> {
+  const { spotifyApiAccessToken } = appContext
+
   // TODO: remove
   console.log("fetchTopArtists", pageNb)
 
-  const accessToken = getSpotifyApiAccessTokenFromLocalStorage()
-
-  if (!accessToken) {
-    throw new Error("No Spotify API access token found in local storage")
+  if (!spotifyApiAccessToken) {
+    throw new Error("No Spotify API access token found in app context")
   }
 
   const queryParams = {
@@ -30,7 +31,7 @@ export async function fetchTopArtists(pageNb: number): Promise<SpotifyArtist[]> 
 
   const result = await fetch(url, {
     method: "GET",
-    headers: { Authorization: `Bearer ${accessToken}` }
+    headers: { Authorization: `Bearer ${spotifyApiAccessToken}` }
   })
 
   if (!result.ok) {
@@ -48,7 +49,7 @@ export async function fetchTopArtists(pageNb: number): Promise<SpotifyArtist[]> 
     } */
 
     if ([httpStatusCode.UNAUTHORIZED, httpStatusCode.FORBIDDEN].includes(result.status)) {
-      await redirectToAuthCodeFlow()
+      await redirectToAuthCodeFlow(appContext)
     }
 
     throw new Error("Error while fetching top artists")

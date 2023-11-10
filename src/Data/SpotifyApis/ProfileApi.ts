@@ -1,40 +1,40 @@
-import { redirectToAuthCodeFlow } from "./AuthApi.ts"
+import { redirectToAuthCodeFlow, refreshToken } from "./AuthApi.ts"
+import { AppContextType } from "../../AppContext.tsx"
 import { httpStatusCode } from "../../Util/HttpUtils.ts"
-import { getSpotifyApiAccessTokenFromLocalStorage } from "../../Util/LocalStorage.ts"
 import { SpotifyUserProfile } from "../SpotifyModels/SpotifyUserProfile.ts"
 
-export async function fetchProfile(): Promise<SpotifyUserProfile> {
+export async function fetchProfile(appContext: AppContextType, shouldRetry = true): Promise<SpotifyUserProfile> {
   // TODO: remove
   console.log("fetchProfile")
 
-  const accessToken = getSpotifyApiAccessTokenFromLocalStorage()
+  const { spotifyApiAccessToken } = appContext
 
-  if (!accessToken) {
-    throw new Error("No Spotify API access token found in local storage")
+  if (!spotifyApiAccessToken) {
+    throw new Error("No Spotify API access token found in app context")
   }
 
   const result = await fetch("https://api.spotify.com/v1/me", {
     method: "GET",
-    headers: { Authorization: `Bearer ${accessToken}` }
+    headers: { Authorization: `Bearer ${spotifyApiAccessToken}` }
   })
 
   if (!result.ok) {
-    if ([httpStatusCode.UNAUTHORIZED, httpStatusCode.FORBIDDEN].includes(result.status)) {
+    /* if ([httpStatusCode.UNAUTHORIZED, httpStatusCode.FORBIDDEN].includes(result.status)) {
       await redirectToAuthCodeFlow()
-    }
+    } */
 
-    /* if (result.status === httpStatusCode.UNAUTHORIZED) {
+    if (result.status === httpStatusCode.UNAUTHORIZED) {
       if (shouldRetry) {
-        await refreshToken()
-        return fetchProfile(false)
+        await refreshToken(appContext)
+        return fetchProfile(appContext, false)
       } else {
-        await redirectToAuthCodeFlow()
+        await redirectToAuthCodeFlow(appContext)
       }
     }
 
     if (result.status === httpStatusCode.FORBIDDEN) {
-      await redirectToAuthCodeFlow()
-    } */
+      await redirectToAuthCodeFlow(appContext)
+    }
 
     throw new Error("Error while fetching profile")
   }

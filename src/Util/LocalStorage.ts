@@ -1,6 +1,4 @@
-import dayjs from "dayjs"
-
-type ContextInLocalStorage = {
+export type ContextInLocalStorage = {
   spotifyApiVerifier?: string;
   spotifyApiAccessToken?: string;
   spotifyApiRefreshToken?: string;
@@ -92,7 +90,6 @@ export function saveSpotifyApiAccessTokenInLocalStorage(spotifyApiAccessToken: s
   const updatedContext: ContextInLocalStorage = {
     ...getContextFromLocalStorage(),
     spotifyApiAccessToken,
-    spotifyApiTokenExpirationDate: dayjs().add(1, "hour").toISOString()
   }
 
   window.localStorage.setItem(localStorageKey, JSON.stringify(updatedContext))
@@ -109,6 +106,23 @@ export function saveSpotifyApiRefreshTokenInLocalStorage(spotifyApiRefreshToken:
   const updatedContext: ContextInLocalStorage = {
     ...getContextFromLocalStorage(),
     spotifyApiRefreshToken,
+  }
+
+  window.localStorage.setItem(localStorageKey, JSON.stringify(updatedContext))
+}
+
+
+// spotifyApiTokenExpirationDate
+
+export function getSpotifyApiTokenExpirationDateFromLocalStorage(): Date | undefined {
+  const dateInStorage = getContextFromLocalStorage().spotifyApiTokenExpirationDate
+  return dateInStorage ? new Date(dateInStorage) : undefined
+}
+
+export function saveSpotifyApiTokenExpirationDateInLocalStorage(spotifyApiTokenExpirationDate: Date | undefined): void {
+  const updatedContext: ContextInLocalStorage = {
+    ...getContextFromLocalStorage(),
+    spotifyApiTokenExpirationDate: spotifyApiTokenExpirationDate?.toISOString()
   }
 
   window.localStorage.setItem(localStorageKey, JSON.stringify(updatedContext))

@@ -1,20 +1,20 @@
 import qs from "qs"
 
 import { redirectToAuthCodeFlow } from "./AuthApi.ts"
+import { AppContextType } from "../../AppContext.tsx"
 import { httpStatusCode } from "../../Util/HttpUtils.ts"
-import { getSpotifyApiAccessTokenFromLocalStorage } from "../../Util/LocalStorage.ts"
 import { SpotifyArtist } from "../SpotifyModels/SpotifyArtist.ts"
 
 const pageSize = 50
 
-export async function fetchFollowedArtists(lastArtistId: string | undefined): Promise<SpotifyArtist[]> {
+export async function fetchFollowedArtists(appContext: AppContextType, lastArtistId: string | undefined): Promise<SpotifyArtist[]> {
   // TODO: remove
   console.log("fetchFollowedArtists", lastArtistId)
 
-  const spotifyApiAccessToken = getSpotifyApiAccessTokenFromLocalStorage()
+  const { spotifyApiAccessToken } = appContext
 
   if (!spotifyApiAccessToken) {
-    throw new Error("No Spotify API access token found in local storage")
+    throw new Error("No Spotify API access token found in app context")
   }
 
   const queryParams = {
@@ -32,7 +32,7 @@ export async function fetchFollowedArtists(lastArtistId: string | undefined): Pr
 
   if (!result.ok) {
     if ([httpStatusCode.UNAUTHORIZED, httpStatusCode.FORBIDDEN].includes(result.status)) {
-      await redirectToAuthCodeFlow()
+      await redirectToAuthCodeFlow(appContext)
     }
 
     /* if (result.status === httpStatusCode.UNAUTHORIZED) {

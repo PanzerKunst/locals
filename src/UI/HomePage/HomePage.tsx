@@ -1,13 +1,15 @@
-import { useState, MouseEvent } from "react"
+import { MouseEvent } from "react"
+import { useState } from "react"
 import { useQuery } from "react-query"
 
+import { useAppContext } from "../../AppContext.tsx"
 import { storeArtists } from "../../Data/BackendApis/ArtistApi.ts"
 import { getAccessToken, redirectToAuthCodeFlow } from "../../Data/SpotifyApis/AuthApi.ts"
 import { fetchFollowedArtists } from "../../Data/SpotifyApis/FollowedArtistsApi.ts"
 import { fetchProfile } from "../../Data/SpotifyApis/ProfileApi.ts"
 import { fetchTopArtists } from "../../Data/SpotifyApis/TopItemsApi.ts"
 import { SpotifyArtist } from "../../Data/SpotifyModels/SpotifyArtist.ts"
-import { getSpotifyApiAccessTokenFromLocalStorage } from "../../Util/LocalStorage.ts"
+import { SpotifyMedia } from "../../Data/SpotifyModels/SpotifyMedia.ts"
 import CircularLoader from "../_CommonComponents/CircularLoader.tsx"
 
 /* const spotifyAccessTokenSignal = signal<string | undefined>()
@@ -25,36 +27,38 @@ const isApiError = isApiErrorSignal.value */
 export default function HomePage() {
   // TODO: handle URL /spotify-callback?error=access_denied
 
-  const [spotifyAccessToken, setSpotifyAccessToken] = useState(getSpotifyApiAccessTokenFromLocalStorage())
-  const [topArtistsPage, setTopArtistsPage] = useState(0)
+  const appContext = useAppContext()
+  const { spotifyApiAccessToken } = appContext
+
+  const [topArtistsPageNb, setTopArtistsPageNb] = useState(0)
   const [topArtists, setTopArtists] = useState<SpotifyArtist[]>([])
   const [followedArtists, setFollowedArtists] = useState<SpotifyArtist[]>([])
 
   const spotifyApiCodeFromUrl = new URLSearchParams(window.location.search).get("code")
   const spotifyApiErrorFromUrl = new URLSearchParams(window.location.search).get("error")
 
-  const shouldRedirect = !spotifyApiErrorFromUrl && !spotifyAccessToken && !spotifyApiCodeFromUrl
+  const shouldRedirect = !spotifyApiErrorFromUrl && !spotifyApiAccessToken && !spotifyApiCodeFromUrl
 
   if (shouldRedirect) {
-    redirectToAuthCodeFlow()
+    redirectToAuthCodeFlow(appContext)
     return undefined
   }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const spotifyAccessTokenQuery = useQuery(
     ["spotifyAccessToken", spotifyApiCodeFromUrl],
-    () => getAccessToken(spotifyApiCodeFromUrl!),
+    () => getAccessToken(appContext, spotifyApiCodeFromUrl!),
     {
-      enabled: !spotifyApiErrorFromUrl && !spotifyAccessToken && !!spotifyApiCodeFromUrl
+      enabled: !spotifyApiErrorFromUrl && !spotifyApiAccessToken && !!spotifyApiCodeFromUrl
     }
   )
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const spotifyProfileQuery = useQuery(
     "spotifyProfile",
-    () => fetchProfile(),
+    () => fetchProfile(appContext),
     {
-      enabled: !!spotifyAccessToken
+      enabled: !!spotifyApiAccessToken
     }
   )
 
@@ -82,29 +86,27 @@ export default function HomePage() {
     )
   }
 
-  function saveSpotifyApiAccessTokenIfNeeded() {
-    if (!spotifyAccessTokenQuery.data || spotifyAccessToken === spotifyAccessTokenQuery.data) {
-      return
+  function getSpotifyProfileImage(): SpotifyMedia | undefined {
+    if (!spotifyProfile || spotifyProfile.images.length === 0) {
+      return undefined
     }
 
-    setSpotifyAccessToken(spotifyAccessTokenQuery.data)
+    return spotifyProfile.images.at(-1)
   }
 
-  saveSpotifyApiAccessTokenIfNeeded()
-
   const handleTopArtistsClick = async () => {
-    const artists = await fetchTopArtists(topArtistsPage)
+    const artists = await fetchTopArtists(appContext, topArtistsPageNb)
 
     setTopArtists([
       ...topArtists,
       ...artists
     ])
 
-    setTopArtistsPage(topArtistsPage + 1)
+    setTopArtistsPageNb(topArtistsPageNb + 1)
   }
 
   const handleFollowedArtistsClick = async () => {
-    const artists = await fetchFollowedArtists(followedArtists.at(-1)?.id)
+    const artists = await fetchFollowedArtists(appContext, followedArtists.at(-1)?.id)
 
     setFollowedArtists([
       ...followedArtists,
@@ -137,19 +139,20 @@ export default function HomePage() {
   }
 
   const spotifyProfile = spotifyProfileQuery.data!
+  const spotifyProfileImage = getSpotifyProfileImage()
 
   console.log("spotifyProfile", spotifyProfile)
   console.log("topArtists", topArtists)
   console.log("total artists", topArtists.length)
 
   return (
-    <main>
+    <main className="container">
       {spotifyProfile && (
         <section>
           <h1>Logged in as {spotifyProfile.display_name}</h1>
-          {spotifyProfile.images.length > 0 && (
+          {spotifyProfileImage && (
             <img
-              src={spotifyProfile.images[0]!.url}
+              src={spotifyProfileImage.url}
               alt="user-avatar"
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}

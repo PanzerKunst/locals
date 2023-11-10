@@ -13,6 +13,7 @@ module.exports = {
   plugins: [
     "react-refresh",
     "react",
+    "react-hooks",
     "import",
     "css-import-order"
   ],
@@ -29,6 +30,7 @@ module.exports = {
     "no-unused-vars": "error",
     "react/react-in-jsx-scope": "off",
     "react/jsx-max-props-per-line": ["error", {"maximum": 3}],
+    "react/jsx-no-constructed-context-values": "error",
     "@typescript-eslint/ban-ts-comment": ["error", {"ts-ignore": "allow-with-description"}],
     "@typescript-eslint/no-unused-vars": "off", // Already covered by no-unused-vars
     "import/order": ["error", {

@@ -1,25 +1,23 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import { BrowserRouter, Route, Routes } from "react-router-dom"
 
 import HomePage from "./HomePage/HomePage.tsx"
 import IndexPage from "./IndexPage/IndexPage.tsx"
+import { AppHeader } from "./_CommonComponents/AppHeader.tsx"
+import { AppContextProvider } from "../AppContext.tsx"
 
 import "./App.scss"
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <IndexPage/>,
-  },
-  {
-    path: "/home",
-    element: <HomePage/>,
-  },
-  {
-    path: "/spotify-callback",
-    element: <HomePage/>,
-  }
-])
-
 export default function App() {
-  return <RouterProvider router={router}/>
+  return (
+    <AppContextProvider>
+      <BrowserRouter>
+        <AppHeader/>
+        <Routes>
+          <Route path="/" element={<IndexPage/>}/>
+          <Route path="/home" element={<HomePage/>}/>
+          <Route path="/spotify-callback" element={<HomePage/>}/>
+        </Routes>
+      </BrowserRouter>
+    </AppContextProvider>
+  )
 }

@@ -1,15 +1,20 @@
 // Base colors, only used in this file
-$color-white: #fff;
-$color-greyscale-n4: #A3A3AB;
-$color-greyscale-n8: #2F2F34;
-$color-greyscale-n9: #1d1d1f;
-$color-purple: #7143d1;
+$color-greyscale-0: rgb(0 0 0); // #000
+$color-greyscale-1: rgb(14 36 57); // #0E2439
+$color-greyscale-5: rgb(156 179 201); // #9CB3C9
+$color-greyscale-9: rgb(242 242 242); // #f2f2f2
+$color-greyscale-10: rgb(255 255 255); // #fff
+$color-pink: rgb(184 4 126); // #B8047E
+$color-purple: rgb(125 11 144); // #7D0B90
 
 // Functional colors, to use in the rest of the app
-$color-app-bg: $color-white;
-$color-body-text: $color-greyscale-n8;
-$color-offset-text: $color-greyscale-n4;
-$color-btn-primary: $color-purple;
-$color-btn-secondary: $color-greyscale-n8;
+$color-app-bg: $color-greyscale-1;
+$color-app-alt-bg-1: $color-pink;
+$color-app-alt-bg-2: $color-purple;
+$color-body-text: $color-greyscale-10;
+$color-offset-text: $color-greyscale-5;
+$color-btn-primary: $color-pink;
+$color-btn-secondary: $color-purple;
 $color-loader: $color-purple;
-$color-link: $color-greyscale-n8;
+$color-link: $color-greyscale-10;
+$color-link-underline: $color-pink;
