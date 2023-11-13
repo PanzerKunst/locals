@@ -1,4 +1,4 @@
-import * as classNames from "classnames"
+import classNames from "classnames"
 import { motion, AnimationControls, useAnimation } from "framer-motion"
 import { ReactNode, useRef, useEffect } from "react"
 

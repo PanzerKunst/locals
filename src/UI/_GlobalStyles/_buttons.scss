@@ -16,7 +16,7 @@ a.button {
 
   transition: background-size 0.3s ease;
 
-  &:hover {
+  &.filling {
     background-size: 100% 100%;
   }
 

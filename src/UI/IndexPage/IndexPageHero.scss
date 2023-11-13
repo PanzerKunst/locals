@@ -1,0 +1,47 @@
+@import "/src/UI/_GlobalStyles/colors";
+@import "/src/UI/_GlobalStyles/mixins";
+
+#hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  background-color: $color-greyscale-0; // TODO
+
+  height: 400px;
+  @include vw(md) {
+    height: 550px;
+  }
+  @include vw(lg) {
+    height: 700px;
+  }
+
+  > h1 {
+    flex-basis: 50%;
+    text-align: center;
+    font-weight: 400;
+    font-size: 40px;
+
+    @include vw(md) {
+      font-size: 60px;
+    }
+
+    @include vw(lg) {
+      font-size: 90px;
+    }
+
+    @include vw(xl) {
+      font-size: 120px;
+      text-align: right;
+      width: 75%;
+    }
+
+    @include vw(xxl) {
+      font-size: 150px;
+    }
+
+    > span {
+      display: block;
+    }
+  }
+}

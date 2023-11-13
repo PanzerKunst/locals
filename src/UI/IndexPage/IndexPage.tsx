@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom"
 
+import { IndexPageHero } from "./IndexPageHero.tsx"
+import { FillingButton } from "../_CommonComponents/FillingButton.tsx"
 import { ScrollToVisible } from "../_CommonComponents/ScrollToVisible.tsx"
 
 import "./IndexPage.scss"
@@ -7,9 +9,8 @@ import "./IndexPage.scss"
 export function IndexPage() {
   return (
     <main id="index-page">
-      <section id="hero">
-        <div className="bottom-triangle"/>
-      </section>
+      <IndexPageHero/>
+      {/* <div className="bottom-triangle"/> */}
 
       <section id="the-problem">
         <div className="container">
@@ -26,7 +27,7 @@ export function IndexPage() {
             <p>We listen to a massive variety of artists over time. Manually following every one of them on social media isn&apos;t sustainable.</p>
           </ScrollToVisible>
         </div>
-        <div className="bottom-triangle"/>
+        {/* <div className="bottom-triangle"/> */}
       </section>
 
       <section id="the-solution">
@@ -45,7 +46,9 @@ export function IndexPage() {
           </ScrollToVisible>
 
           <ScrollToVisible className="centered-contents">
-            <Link to="/home" className="button">Get started</Link>
+            <FillingButton>
+              <Link to="/home" className="button">Get started</Link>
+            </FillingButton>
           </ScrollToVisible>
         </div>
       </section>
