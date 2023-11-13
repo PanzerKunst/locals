@@ -21,7 +21,7 @@ export async function redirectToAuthCodeFlow(appContext: AppContextType) {
     code_challenge: challenge
   }
 
-  document.location = `https://accounts.spotify.com/authorize?${qs.stringify(queryParams)}`
+  document.location.replace(`https://accounts.spotify.com/authorize?${qs.stringify(queryParams)}`)
 }
 
 export async function getAccessToken(appContext: AppContextType, code: string): Promise<string> {
