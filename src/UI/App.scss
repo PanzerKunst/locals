@@ -12,8 +12,7 @@ body {
   color: $color-body-text;
   font-family: "Source Sans Pro", sans-serif;
 
-  // Border-box everything by default
-  box-sizing: border-box;
+  box-sizing: border-box; // Border-box everything by default
 
   *,
   *::before,

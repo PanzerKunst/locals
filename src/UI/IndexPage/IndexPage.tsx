@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 
 import { IndexPageHero } from "./IndexPageHero.tsx"
-import { FillingButton } from "../_CommonComponents/FillingButton.tsx"
+import { AnimatedButton } from "../_CommonComponents/AnimatedButton.tsx"
 import { ScrollToVisible } from "../_CommonComponents/ScrollToVisible.tsx"
 
 import "./IndexPage.scss"
@@ -46,9 +46,9 @@ export function IndexPage() {
           </ScrollToVisible>
 
           <ScrollToVisible className="centered-contents">
-            <FillingButton>
-              <Link to="/home" className="button">Get started</Link>
-            </FillingButton>
+            <AnimatedButton className="filling">
+              <Link to="/home" className="button skewed"><span>Get started</span></Link>
+            </AnimatedButton>
           </ScrollToVisible>
         </div>
       </section>

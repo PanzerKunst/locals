@@ -1,10 +1,18 @@
 import { motion } from "framer-motion"
+import { Link } from "react-router-dom"
+
+import { AnimatedButton } from "../_CommonComponents/AnimatedButton.tsx"
 
 import "./IndexPageHero.scss"
 
-const variants = {
+const headingVariants = {
   hidden: { x: "100%", opacity: 0 },
   visible: { x: 0, opacity: 1 }
+}
+
+const buttonVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 }
 }
 
 export function IndexPageHero() {
@@ -15,7 +23,7 @@ export function IndexPageHero() {
           initial="hidden"
           animate="visible"
           transition={{ duration: 0.7 }}
-          variants={variants}
+          variants={headingVariants}
         >
           Connect with your
         </motion.span>
@@ -23,11 +31,22 @@ export function IndexPageHero() {
           initial="hidden"
           animate="visible"
           transition={{ duration: 0.7, delay: 0.3 }}
-          variants={variants}
+          variants={headingVariants}
         >
           favourite artists
         </motion.span>
       </h1>
+
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        transition={{ duration: 0.3, delay: 1 }}
+        variants={buttonVariants}
+      >
+        <AnimatedButton className="filling">
+          <Link to="/home" className="button skewed"><span>Get started</span></Link>
+        </AnimatedButton>
+      </motion.div>
     </section>
   )
 }

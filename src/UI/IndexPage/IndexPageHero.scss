@@ -2,11 +2,12 @@
 @import "/src/UI/_GlobalStyles/mixins";
 
 #hero {
+  overflow-x: hidden; // To hide scrollbar of heading outside the viewport
+  background-color: $color-greyscale-0; // TODO
+
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-
-  background-color: $color-greyscale-0; // TODO
+  justify-content: space-between;
 
   height: 400px;
   @include vw(md) {
@@ -17,17 +18,19 @@
   }
 
   > h1 {
-    flex-basis: 50%;
-    text-align: center;
     font-weight: 400;
+    text-align: center;
     font-size: 40px;
+    margin-top: 150px;
 
     @include vw(md) {
       font-size: 60px;
+      margin-top: 250px;
     }
 
     @include vw(lg) {
       font-size: 90px;
+      margin-top: 270px;
     }
 
     @include vw(xl) {
@@ -37,11 +40,25 @@
     }
 
     @include vw(xxl) {
-      font-size: 150px;
+      margin-top: 240px;
+      font-size: 140px;
     }
 
     > span {
       display: block;
+    }
+  }
+
+  > div {
+    display: flex;
+    justify-content: flex-end;
+
+    margin: 0 50px 50px 0;
+    @include vw(md) {
+      margin: 0 70px 70px 0;
+    }
+    @include vw(lg) {
+      margin: 0 100px 100px 0;
     }
   }
 }
