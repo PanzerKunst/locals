@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 
-import HomePage from "./HomePage/HomePage.tsx"
-import IndexPage from "./IndexPage/IndexPage.tsx"
+import { HomePage } from "./HomePage/HomePage.tsx"
+import { IndexPage } from "./IndexPage/IndexPage.tsx"
 import { AppHeader } from "./_CommonComponents/AppHeader.tsx"
 import { AppContextProvider } from "../AppContext.tsx"
 

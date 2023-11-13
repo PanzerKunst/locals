@@ -31,10 +31,10 @@ export function AppHeader() {
   return (
     <header className="app-header container">
       <nav>
-        <Link to={homeUrl}>Home</Link>
+        <Link to={homeUrl} className="underline-appears">Home</Link>
         <div>
-          <a href="#the-problem" onClick={handleLinkClick}>The problem</a>
-          <a href="#the-solution" onClick={handleLinkClick}>The solution</a>
+          <a href="#the-problem" onClick={handleLinkClick} className="underline-appears">The problem</a>
+          <a href="#the-solution" onClick={handleLinkClick} className="underline-disappears">The solution</a>
 
           <IconButton aria-label="menu">
             <Menu/>

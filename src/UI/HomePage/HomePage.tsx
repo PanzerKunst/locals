@@ -10,7 +10,7 @@ import { fetchProfile } from "../../Data/SpotifyApis/ProfileApi.ts"
 import { fetchTopArtists } from "../../Data/SpotifyApis/TopItemsApi.ts"
 import { SpotifyArtist } from "../../Data/SpotifyModels/SpotifyArtist.ts"
 import { SpotifyMedia } from "../../Data/SpotifyModels/SpotifyMedia.ts"
-import CircularLoader from "../_CommonComponents/CircularLoader.tsx"
+import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 
 /* const spotifyAccessTokenSignal = signal<string | undefined>()
 function setSpotifyAccessToken(value: string) { spotifyAccessTokenSignal.value = value }
@@ -24,7 +24,7 @@ const isApiErrorSignal = signal(false)
 function setIsApiError(value: boolean) { isApiErrorSignal.value = value }
 const isApiError = isApiErrorSignal.value */
 
-export default function HomePage() {
+export function HomePage() {
   // TODO: handle URL /spotify-callback?error=access_denied
 
   const appContext = useAppContext()

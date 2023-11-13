@@ -1,5 +1,8 @@
+import * as classNames from "classnames"
 import { motion, AnimationControls, useAnimation } from "framer-motion"
 import { ReactNode, useRef, useEffect } from "react"
+
+import "./ScrollToVisible.scss"
 
 type Props = {
   children: ReactNode;
@@ -11,15 +14,21 @@ export function ScrollToVisible({ children, className = "" }: Props) {
   const ref = useRef<HTMLDivElement>(null)
 
   const variants = {
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-    hidden: { opacity: 0, y: 100 }
+    hidden: {
+      opacity: 0,
+      y: 100,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5 }
+    }
   }
 
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => {
       if (entry?.isIntersecting) {
         controls.start("visible")
-        observer.unobserve(entry.target) // Unobserve the element after it becomes visible
       }
     },
     {
@@ -42,14 +51,14 @@ export function ScrollToVisible({ children, className = "" }: Props) {
   }, [controls])
 
   return (
-    <motion.div
+    <motion.span
       ref={ref}
       initial="hidden"
       animate={controls}
       variants={variants}
-      className={className}
+      className={classNames("scroll-to-visible", className)}
     >
       {children}
-    </motion.div>
+    </motion.span>
   )
 }

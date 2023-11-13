@@ -1,11 +1,40 @@
 @import "./colors";
 
-a {
+a:not(.button) {
   color: $color-link;
 
+  position: relative; // Absolutely-positioned ::after
+  padding-block: 1px;
   text-decoration: none;
 
-  &:hover {
-    text-decoration: underline;
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    height: 1px;
+    background-color: $color-link-underline;
+    transition: width 0.3s ease;
+  }
+
+  &.underline-appears {
+    &::after {
+      left: 0;
+      width: 0;
+    }
+
+    &:hover::after {
+      width: 100%;
+    }
+  }
+
+  &.underline-disappears {
+    &::after {
+      right: 0;
+      width: 100%;
+    }
+
+    &:hover::after {
+      width: 0;
+    }
   }
 }

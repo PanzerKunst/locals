@@ -1,4 +1,4 @@
-@import "./sizes";
+@import "./numbers";
 
 @mixin vw($size) {
   @if $size == xxl {

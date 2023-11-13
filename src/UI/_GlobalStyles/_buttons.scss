@@ -1,5 +1,33 @@
 @import "./colors";
 
-.MuiButton-root.MuiButton-variantSolid.secondary {
-  background-color: $color-btn-secondary;
+button,
+a.button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  color: $color-btn-text;
+  font-weight: 600;
+
+  background-image: linear-gradient(to right, $color-btn-bg-primary-gradient-start, $color-btn-bg-primary-gradient-end);
+  background-size: 0 100%;
+  background-position: left center;
+  background-repeat: no-repeat;
+
+  transition: background-size 0.3s ease;
+
+  &:hover {
+    background-size: 100% 100%;
+  }
+
+
+  // Size
+
+  font-size: 20px;
+  min-height: 50px;
+  padding-inline: 10px;
+}
+
+a.button {
+  text-decoration: none;
 }

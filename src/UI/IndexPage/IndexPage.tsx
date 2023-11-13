@@ -4,7 +4,7 @@ import { ScrollToVisible } from "../_CommonComponents/ScrollToVisible.tsx"
 
 import "./IndexPage.scss"
 
-export default function IndexPage() {
+export function IndexPage() {
   return (
     <main id="index-page">
       <section id="hero">
@@ -45,7 +45,7 @@ export default function IndexPage() {
           </ScrollToVisible>
 
           <ScrollToVisible className="centered-contents">
-            <Link to="/home">Get started</Link>
+            <Link to="/home" className="button">Get started</Link>
           </ScrollToVisible>
         </div>
       </section>
