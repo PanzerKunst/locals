@@ -2,7 +2,8 @@ import classNames from "classnames"
 import { motion, AnimationControls, useAnimation } from "framer-motion"
 import { ReactNode, useRef, useEffect } from "react"
 
-import "./ScrollToVisible.scss"
+import s from "/src/UI/_GlobalStyles/_exports.module.scss"
+import "./FadeIn.scss"
 
 type Props = {
   children: ReactNode;
@@ -15,11 +16,11 @@ const motionVariants = {
   },
   visible: {
     opacity: 1,
-    transition: { duration: 0.5 }
+    transition: { duration: s.animationDurationShort }
   }
 }
 
-export function ScrollToVisible({ children, className = "" }: Props) {
+export function FadeIn({ children, className = "" }: Props) {
   const controls: AnimationControls = useAnimation()
   const ref = useRef<HTMLDivElement>(null)
 
