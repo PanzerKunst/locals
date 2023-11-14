@@ -1,5 +1,3 @@
-import { Menu } from "@mui/icons-material"
-import { IconButton } from "@mui/joy"
 import { animate } from "framer-motion"
 import { MouseEvent } from "react"
 import { Link } from "react-router-dom"
@@ -36,9 +34,9 @@ export function AppHeader() {
           <a href="#the-problem" onClick={handleLinkClick} className="underline-appears">The problem</a>
           <a href="#the-solution" onClick={handleLinkClick} className="underline-disappears">The solution</a>
 
-          <IconButton aria-label="menu">
+          {/* <IconButton aria-label="menu">
             <Menu/>
-          </IconButton>
+          </IconButton> */}
         </div>
       </nav>
     </header>

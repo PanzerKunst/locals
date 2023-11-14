@@ -1,4 +1,5 @@
 @import "./colors";
+@import "./numbers";
 
 a:not(.button) {
   color: $color-link;
@@ -13,7 +14,7 @@ a:not(.button) {
     bottom: 0;
     height: 1px;
     background-color: $color-link-underline;
-    transition: width 0.3s ease;
+    transition: width #{$animation-duration-short}s ease;
   }
 
   &.underline-appears {

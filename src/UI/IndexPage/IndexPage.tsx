@@ -47,7 +47,7 @@ export function IndexPage() {
 
           <ScrollToVisible className="centered-contents">
             <AnimatedButton className="filling">
-              <Link to="/home" className="button skewed"><span>Get started</span></Link>
+              <Link to="/home" className="button"><span>Get started</span></Link>
             </AnimatedButton>
           </ScrollToVisible>
         </div>

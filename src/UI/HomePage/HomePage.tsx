@@ -1,5 +1,4 @@
-import { MouseEvent } from "react"
-import { useState } from "react"
+import { MouseEvent, useState } from "react"
 import { useQuery } from "react-query"
 
 import { useAppContext } from "../../AppContext.tsx"
@@ -25,8 +24,6 @@ function setIsApiError(value: boolean) { isApiErrorSignal.value = value }
 const isApiError = isApiErrorSignal.value */
 
 export function HomePage() {
-  // TODO: handle URL /spotify-callback?error=access_denied
-
   const appContext = useAppContext()
   const { spotifyApiAccessToken } = appContext
 
@@ -35,11 +32,16 @@ export function HomePage() {
   const [followedArtists, setFollowedArtists] = useState<SpotifyArtist[]>([])
 
   const spotifyApiCodeFromUrl = new URLSearchParams(window.location.search).get("code")
-  const spotifyApiErrorFromUrl = new URLSearchParams(window.location.search).get("error")
+  const spotifyApiErrorFromUrl = new URLSearchParams(window.location.search).get("error") // /spotify-callback?error=access_denied
 
-  const shouldRedirect = !spotifyApiErrorFromUrl && !spotifyApiAccessToken && !spotifyApiCodeFromUrl
+  if (spotifyApiErrorFromUrl) {
+    document.location.replace("/?alert=spotifyAccessDenied") // TODO
+    return undefined
+  }
 
-  if (shouldRedirect) {
+  const shouldRedirectToAuth = !spotifyApiAccessToken && !spotifyApiCodeFromUrl
+
+  if (shouldRedirectToAuth) {
     // TODO: remove
     console.log("HomePage > redirectToAuthCodeFlow")
 

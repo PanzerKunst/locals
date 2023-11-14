@@ -1,4 +1,5 @@
 @import "./colors";
+@import "./numbers";
 
 button,
 a.button {
@@ -15,20 +16,20 @@ a.button {
   background-position: left center;
   background-repeat: no-repeat;
 
-  transition: background-size 0.3s ease;
+  transition: background-size #{$animation-duration-short}s ease;
 
   &.filling {
     background-size: 100% 100%;
   }
 
-  &.skewed {
+  /* &.skewed {
     $skew: -10deg;
     transform: skewX($skew);
 
     > * {
       transform: skewX(-$skew);
     }
-  }
+  } */
 
 
   // Size
