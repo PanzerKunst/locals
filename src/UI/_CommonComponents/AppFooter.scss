@@ -1,0 +1,20 @@
+@import "/src/UI/_GlobalStyles/mixins";
+
+.app-footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  min-height: 100px;
+
+  @include vw(md) {
+    flex-direction: row;
+  }
+
+  > span {
+    @include vw(md) {
+      order: -1;
+    }
+  }
+}

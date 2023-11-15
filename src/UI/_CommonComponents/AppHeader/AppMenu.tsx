@@ -21,9 +21,6 @@ export function AppMenu() {
     setIsOpen(inOpen)
   }
 
-  // TODO: remove
-  console.log("isOpen", isOpen)
-
   return (
     <motion.div className="app-menu" initial={false} animate={isOpen ? "open" : "closed"}>
       <MenuToggle onToggle={() => setIsOpen(!isOpen)}/>

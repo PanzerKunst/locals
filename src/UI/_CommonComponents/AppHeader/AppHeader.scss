@@ -10,7 +10,7 @@
   top: 0;
   z-index: $z-index-header;
 
-  transition: background-color #{$animation-duration-medium}s ease-in;
+  transition: background-color #{$animation-duration-medium}s ease-out;
 
   &.scrolled-down {
     background-color: $color-app-bg;
