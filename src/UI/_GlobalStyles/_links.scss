@@ -1,41 +1,53 @@
 @import "./colors";
 @import "./numbers";
+@import "./mixins";
 
 a:not(.button) {
   color: $color-link;
-
-  position: relative; // Absolutely-positioned ::after
-  padding-block: 1px;
   text-decoration: none;
 
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    height: 1px;
-    background-color: $color-link-underline;
-    transition: width #{$animation-duration-short}s ease;
+  &.underline {
+    position: relative; // Absolutely-positioned ::after
+    padding-block: 1px;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      height: 1px;
+      @include to-right-red-gradient;
+      transition: width #{$animation-duration-short}s ease;
+      pointer-events: none; // ensures that the pseudo-element doesn't interfere with the link's interactivity
+    }
+
+    &.appears {
+      &::after {
+        left: 0;
+        width: 0;
+      }
+
+      &:hover::after {
+        width: 100%;
+      }
+    }
+
+    &.disappears {
+      &::after {
+        right: 0;
+        width: 100%;
+      }
+
+      &:hover::after {
+        width: 0;
+      }
+    }
   }
 
-  &.underline-appears {
-    &::after {
-      left: 0;
-      width: 0;
-    }
+  &.text-color {
+    transition: color #{$animation-duration-short}s ease;
 
-    &:hover::after {
-      width: 100%;
-    }
-  }
-
-  &.underline-disappears {
-    &::after {
-      right: 0;
-      width: 100%;
-    }
-
-    &:hover::after {
-      width: 0;
+    &:hover {
+      color: $color-link-hover;
     }
   }
 }

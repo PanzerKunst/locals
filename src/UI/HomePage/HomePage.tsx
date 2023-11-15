@@ -155,7 +155,7 @@ export function HomePage() {
       {spotifyProfile && (
         <section>
           <h1>Logged in as {spotifyProfile.display_name}</h1>
-          {spotifyProfileImage && (
+          {spotifyProfileImage && ( // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
             <img
               src={spotifyProfileImage.url}
               alt="user-avatar"

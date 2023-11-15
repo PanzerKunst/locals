@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useRef } from "react"
+import { cloneElement, ReactElement, useEffect, useRef } from "react"
 
 type Props = {
   children: ReactElement // Expecting a single element
@@ -30,5 +30,5 @@ export function AnimatedButton({ children, className }: Props) {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Clone the child element and add the ref to it
-  return React.cloneElement(children, { ref: childRef })
+  return cloneElement(children, { ref: childRef })
 }

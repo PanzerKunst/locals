@@ -8,13 +8,13 @@ import s from "/src/UI/_GlobalStyles/_exports.module.scss"
 import "./IndexPageHero.scss"
 
 const motionVariants = {
-  hidden: { x: "100%", opacity: 0 },
-  visible: { x: 0, opacity: 1 }
+  initial: { x: "100%", opacity: 0 },
+  animate: { x: 0, opacity: 1 }
 }
 
 const motionTransition = {
   duration: s.animationDurationMedium,
-  ease: "easeIn"
+  ease: "easeOut"
 }
 
 export function IndexPageHero() {
@@ -22,18 +22,18 @@ export function IndexPageHero() {
     <section id="hero">
       <h1>
         <motion.span
-          initial="hidden"
-          animate="visible"
-          transition={motionTransition}
+          initial="initial"
+          animate="animate"
           variants={motionVariants}
+          transition={motionTransition}
         >
           Connect with your
         </motion.span>
         <motion.span
-          initial="hidden"
-          animate="visible"
-          transition={{...motionTransition, delay: 0.3 }}
+          initial="initial"
+          animate="animate"
           variants={motionVariants}
+          transition={{...motionTransition, delay: 0.3 }}
         >
           favourite artists
         </motion.span>

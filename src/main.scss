@@ -1,6 +1,9 @@
 // 3rd-party, MUI excluded
 @import "/node_modules/normalize.css/normalize.css";
 
+// 3rd party overrides
+@import "UI/_GlobalStyles/3rdPartyOverrides/mui";
+
 // App globals
 @import "UI/_GlobalStyles/buttons";
 @import "UI/_GlobalStyles/fonts";

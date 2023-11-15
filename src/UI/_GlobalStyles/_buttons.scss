@@ -1,17 +1,26 @@
 @import "./colors";
 @import "./numbers";
+@import "./mixins";
 
 button,
 a.button {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
 
+  cursor: pointer;
   color: $color-btn-text;
+  padding: 0;
+
+  min-height: 40px;
+  min-width: 40px;
+}
+
+button:not(.icon-only),
+a.button:not(.icon-only) {
   font-weight: 600;
 
-  background-image: linear-gradient(to right, $color-btn-bg-primary-gradient-start, $color-btn-bg-primary-gradient-end);
+  @include to-right-red-gradient;
   background-size: 0 100%;
   background-position: left center;
   background-repeat: no-repeat;
@@ -35,10 +44,27 @@ a.button {
   // Size
 
   font-size: 20px;
-  min-height: 50px;
-  padding-inline: 10px;
+  padding-inline: 20px;
 }
 
 a.button {
   text-decoration: none;
+}
+
+button.icon-only,
+a.button.icon-only {
+  border: none;
+  outline: none;
+  background: none;
+
+  svg {
+    /* @include svg-size(40px);
+
+    transition: all #{$animation-duration-short}s ease-in-out; // Smooth transition for transform
+    transform: scale(1); // Default scale */
+  }
+
+  /* &:hover svg {
+    transform: scale(1.2); // Slightly larger scale on hover
+  } */
 }

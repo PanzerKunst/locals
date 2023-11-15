@@ -1,0 +1,12 @@
+@import "../../_GlobalStyles/colors";
+@import "../../_GlobalStyles/numbers";
+
+button.menu {
+  svg {
+    transition: color #{$animation-duration-short}s ease-in-out;
+
+    &:hover {
+      color: $color-icon-hover;
+    }
+  }
+}

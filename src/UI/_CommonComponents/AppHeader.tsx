@@ -2,6 +2,7 @@ import { animate } from "framer-motion"
 import { MouseEvent } from "react"
 import { Link } from "react-router-dom"
 
+import { AppMenu3 } from "./AppMenu3/AppMenu3.tsx"
 import { useAppContext } from "../../AppContext.tsx"
 
 import "./AppHeader.scss"
@@ -29,16 +30,13 @@ export function AppHeader() {
   return (
     <header className="app-header container">
       <nav>
-        <Link to={homeUrl} className="underline-appears">Home</Link>
+        <Link to={homeUrl} className="underline appears">Home</Link>
         <div>
-          <a href="#the-problem" onClick={handleLinkClick} className="underline-appears">The problem</a>
-          <a href="#the-solution" onClick={handleLinkClick} className="underline-disappears">The solution</a>
-
-          {/* <IconButton aria-label="menu">
-            <Menu/>
-          </IconButton> */}
+          <a href="#the-problem" onClick={handleLinkClick} className="underline appears">The problem</a>
+          <a href="#the-solution" onClick={handleLinkClick} className="underline appears">The solution</a>
         </div>
       </nav>
+      <AppMenu3/>
     </header>
   )
 }

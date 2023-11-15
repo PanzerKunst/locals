@@ -1,4 +1,11 @@
+@import "./colors";
 @import "./numbers";
+
+@mixin svg-size($size) {
+  width: $size;
+  height: $size;
+  background-size: $size $size;
+}
 
 @mixin vw($size) {
   @if $size == xxl {
@@ -22,4 +29,8 @@
       @content;
     }
   }
+}
+
+@mixin to-right-red-gradient {
+  background-image: linear-gradient(to right, $color-btn-bg-primary-gradient-start, $color-btn-bg-primary-gradient-end);
 }
