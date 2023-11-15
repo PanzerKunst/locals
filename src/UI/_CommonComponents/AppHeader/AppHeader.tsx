@@ -1,18 +1,17 @@
 import { ElectricBolt } from "@mui/icons-material"
-import { animate, AnimationControls, motion, useAnimation } from "framer-motion"
+import { useAnimate } from "framer-motion"
 import { MouseEvent, useEffect } from "react"
 import { Link } from "react-router-dom"
 
 import { AppMenu } from "./AppMenu.tsx"
 import { useAppContext } from "../../../AppContext.tsx"
-import { easeOutFast } from "../../../Util/AnimationUtils.ts"
+import { easeOutFast, MotionTransition } from "../../../Util/AnimationUtils.ts"
 
 import s from "/src/UI/_GlobalStyles/_exports.module.scss"
 
 import "./AppHeader.scss"
 
 let lastScrollY = window.scrollY
-let isHeaderAnimating = false // Required for iOS
 // let isRequestAnimationFrameTicking = false
 
 const motionVariants = {
@@ -26,9 +25,14 @@ const motionVariants = {
   }
 }
 
+const motionTransition: MotionTransition = {
+  duration: Number(s.animationDurationShort),
+  ease: "easeOut"
+}
+
 export function AppHeader() {
   const { spotifyApiAccessToken } = useAppContext()
-  const animationControls: AnimationControls = useAnimation()
+  const [scope, animate] = useAnimate()
   const isLoggedIn = !!spotifyApiAccessToken
   const homeUrl = isLoggedIn ? "/home" : "/"
 
@@ -36,12 +40,12 @@ export function AppHeader() {
     const handleScroll = () => {
       const currentScrollY = window.scrollY
 
-      if (!isHeaderAnimating) {
-        if (currentScrollY > lastScrollY) {
-          animationControls.start("hidden")
-        } else {
-          animationControls.start("visible")
-        }
+      if (currentScrollY === 0) {
+        animate(scope.current, motionVariants.visible, motionTransition)
+      } else if (currentScrollY > lastScrollY) {
+        animate(scope.current, motionVariants.hidden, motionTransition)
+      } else {
+        animate(scope.current, motionVariants.visible, motionTransition)
       }
 
       lastScrollY = currentScrollY
@@ -50,7 +54,7 @@ export function AppHeader() {
     window.addEventListener("scroll", handleScroll, { passive: true })
 
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [animationControls])
+  }, [animate, scope])
 
   /* useEffect(() => {
     const handleScroll = () => {
@@ -98,15 +102,7 @@ export function AppHeader() {
   }
 
   return (
-    <motion.header
-      initial="visible"
-      animate={animationControls}
-      variants={motionVariants}
-      transition={{ duration: s.animationDurationShort, ease: "easeOut"}}
-      onAnimationStart={() => isHeaderAnimating = true}
-      onAnimationComplete={() => isHeaderAnimating = false}
-      className="app-header"
-    >
+    <header ref={scope} className="app-header">
       <nav>
         <Link to={homeUrl} className="button icon-only">
           <ElectricBolt/>
@@ -117,6 +113,6 @@ export function AppHeader() {
         </div>
       </nav>
       <AppMenu/>
-    </motion.header>
+    </header>
   )
 }
