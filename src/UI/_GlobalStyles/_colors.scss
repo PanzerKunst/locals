@@ -1,11 +1,12 @@
 @use "sass:color";
 
 // Base colors, only used in this file
-$color-greyscale-0: rgb(0 0 0); // #000
+$color-black: rgb(0 0 0); // #000
+$color-transparent-black: color.adjust($color-black, $alpha: -1);
+$color-white: rgb(255 255 255); // #fff
 $color-greyscale-1: rgb(37 39 46); // #25272E
 $color-greyscale-5: rgb(147 147 147); // #939393
 $color-greyscale-9: rgb(242 242 242); // #f2f2f2
-$color-greyscale-10: rgb(255 255 255); // #fff
 $color-greyscale-1-opacity-20pc: color.adjust($color-greyscale-1, $alpha: -0.8);
 $color-pink: rgb(184 4 126); // #B8047E
 $color-pink-2: rgb(216 0 214); // #D800D6
@@ -22,12 +23,12 @@ $color-app-alt-bg-1: $color-pink-2;
 $color-app-alt-bg-2: $color-purple-2;
 $color-body-text: $color-greyscale-9;
 $color-offset-text: $color-greyscale-5;
-$color-btn-text: $color-greyscale-10;
+$color-btn-text: $color-white;
 $color-btn-bg-primary-gradient-start: $color-red;
 $color-btn-bg-primary-gradient-end: $color-orange;
 $color-loader: $color-purple;
-$color-link: $color-greyscale-10;
+$color-link: $color-white;
 $color-link-hover: $color-orange;
-$color-icon: $color-greyscale-10;
+$color-icon: $color-white;
 $color-icon-hover: $color-orange;
 $color-drop-shadow: $color-greyscale-1-opacity-20pc;

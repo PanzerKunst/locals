@@ -1,48 +1,57 @@
 import { ElectricBolt } from "@mui/icons-material"
-import classNames from "classnames"
-import { animate } from "framer-motion"
-import { MouseEvent, useEffect, useState } from "react"
+import { animate, AnimationControls, motion, useAnimation } from "framer-motion"
+import { MouseEvent, useEffect } from "react"
 import { Link } from "react-router-dom"
 
 import { AppMenu } from "./AppMenu.tsx"
 import { useAppContext } from "../../../AppContext.tsx"
 import { easeOutFast } from "../../../Util/AnimationUtils.ts"
 
-
 import s from "/src/UI/_GlobalStyles/_exports.module.scss"
 
 import "./AppHeader.scss"
 
-let isRequestAnimationFrameTicking = false
+let lastScrollY = window.scrollY
+
+const motionVariants = {
+  hidden: {
+    y: -60, // header height
+    backgroundColor: s.colorTransparentBlack
+  },
+  visible: {
+    y: 0,
+    backgroundColor: s.colorAppBg
+  }
+}
+
+const motionTransitions = {
+  y: { duration: s.animationDurationShort, ease: "easeOut"},
+  backgroundColor: { duration: s.animationDurationShort, ease: "easeIn"}
+}
 
 export function AppHeader() {
   const { spotifyApiAccessToken } = useAppContext()
-  const [isScrolledDown, setIsScrolledDown] = useState(false)
-
+  const animationControls: AnimationControls = useAnimation()
   const isLoggedIn = !!spotifyApiAccessToken
   const homeUrl = isLoggedIn ? "/home" : "/"
 
   useEffect(() => {
-    handleMenuShadow()
-  }, [])
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
 
-  function handleMenuShadow() {
-    document.addEventListener("scroll", () => {
-      const lastKnownScrollPosition = window.scrollY
-
-      if (!isRequestAnimationFrameTicking) {
-        /* Since scroll events can fire at a high rate, the event handler shouldn't execute computationally expensive
-        operations such as DOM modifications. Instead, it is recommended to throttle the event using
-        requestAnimationFrame() */
-        window.requestAnimationFrame(() => {
-          setIsScrolledDown(lastKnownScrollPosition > 0)
-          isRequestAnimationFrameTicking = false
-        })
-
-        isRequestAnimationFrameTicking = true
+      if (currentScrollY > lastScrollY) {
+        animationControls.start("hidden")
+      } else {
+        animationControls.start("visible")
       }
-    })
-  }
+
+      lastScrollY = currentScrollY
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true })
+
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [animationControls])
 
   const handleLinkClick = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault()
@@ -62,7 +71,13 @@ export function AppHeader() {
   }
 
   return (
-    <header className={classNames("app-header", { "scrolled-down": isScrolledDown })}>
+    <motion.header
+      initial="visible"
+      animate={animationControls}
+      variants={motionVariants}
+      transition={motionTransitions}
+      className="app-header"
+    >
       <nav>
         <Link to={homeUrl} className="button icon-only">
           <ElectricBolt/>
@@ -73,6 +88,6 @@ export function AppHeader() {
         </div>
       </nav>
       <AppMenu/>
-    </header>
+    </motion.header>
   )
 }

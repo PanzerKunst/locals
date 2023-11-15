@@ -6,16 +6,10 @@
   align-items: center;
   gap: 20px;
 
-  position: sticky;
+  position: fixed;
   top: 0;
+  width: 100%;
   z-index: $z-index-header;
-
-  transition: background-color #{$animation-duration-medium}s ease-out;
-
-  &.scrolled-down {
-    background-color: $color-app-bg;
-    @include drop-shadow;
-  }
 
   padding: 10px 15px;
 
