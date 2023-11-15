@@ -6,13 +6,12 @@ import { Link } from "react-router-dom"
 import { AppMenu } from "./AppMenu.tsx"
 import { useAppContext } from "../../../AppContext.tsx"
 import { easeOutFast, MotionTransition } from "../../../Util/AnimationUtils.ts"
+import { isTouchDevice } from "../../../main.tsx"
 
 import s from "/src/UI/_GlobalStyles/_exports.module.scss"
-
 import "./AppHeader.scss"
 
 let lastScrollY = window.scrollY
-// let isRequestAnimationFrameTicking = false
 
 const motionVariants = {
   hidden: {
@@ -37,12 +36,14 @@ export function AppHeader() {
   const homeUrl = isLoggedIn ? "/home" : "/"
 
   useEffect(() => {
+    if (isTouchDevice) {
+      return // Because the animation is buggy on iOS
+    }
+
     const handleScroll = () => {
       const currentScrollY = window.scrollY
 
-      if (currentScrollY === 0) {
-        animate(scope.current, motionVariants.visible, motionTransition)
-      } else if (currentScrollY > lastScrollY) {
+      if (currentScrollY > lastScrollY) {
         animate(scope.current, motionVariants.hidden, motionTransition)
       } else {
         animate(scope.current, motionVariants.visible, motionTransition)
@@ -55,34 +56,6 @@ export function AppHeader() {
 
     return () => window.removeEventListener("scroll", handleScroll)
   }, [animate, scope])
-
-  /* useEffect(() => {
-    const handleScroll = () => {
-      if (!isRequestAnimationFrameTicking) {
-        // Since scroll events can fire at a high rate, the event handler shouldn't execute computationally expensive
-        // operations such as DOM modifications. Instead, it is recommended to throttle the event using
-        // requestAnimationFrame()
-        window.requestAnimationFrame(() => {
-          const currentScrollY = window.scrollY
-
-          if (currentScrollY > lastScrollY) {
-            animationControls.start("hidden")
-          } else {
-            animationControls.start("visible")
-          }
-
-          lastScrollY = currentScrollY
-          isRequestAnimationFrameTicking = false
-        })
-
-        isRequestAnimationFrameTicking = true
-      }
-    }
-
-    window.addEventListener("scroll", handleScroll)
-
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [animationControls]) */
 
   const handleLinkClick = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault()

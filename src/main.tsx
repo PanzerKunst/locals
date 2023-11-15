@@ -13,6 +13,9 @@ dayjs.locale("sv")
 
 const queryClient = new QueryClient()
 
+// @ts-ignore TS2551: Property msMaxTouchPoints does not exist on type Navigator
+export const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0
+
 ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 ).render(
