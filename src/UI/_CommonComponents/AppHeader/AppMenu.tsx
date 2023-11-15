@@ -1,59 +1,57 @@
-import { Drawer } from "@mui/joy"
-import { motion } from "framer-motion"
-import { KeyboardEvent, MouseEvent } from "react"
+import { Modal, ModalDialog } from "@mui/joy"
+import { AnimatePresence, motion } from "framer-motion"
 import { useState } from "react"
 
 import { MenuToggle } from "./MenuToggle.tsx"
 
+import s from "/src/UI/_GlobalStyles/_exports.module.scss"
 import "./AppMenu.scss"
+
+const modalMotionVariants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 }
+}
 
 export function AppMenu() {
   const [isOpen, setIsOpen] = useState(false)
-
-  const toggleDrawer = (inOpen: boolean) => (event: KeyboardEvent | MouseEvent) => {
-    if (
-      event.type === "keydown" &&
-      ((event as KeyboardEvent).key === "Tab" || (event as KeyboardEvent).key === "Shift")
-    ) {
-      return
-    }
-
-    setIsOpen(inOpen)
-  }
 
   return (
     <motion.div className="app-menu" initial={false} animate={isOpen ? "open" : "closed"}>
       <MenuToggle onToggle={() => setIsOpen(!isOpen)}/>
 
-      <Drawer
-        open={isOpen}
-        onClose={toggleDrawer(false)}
-        anchor="right"
-        className="app-menu-drawer"
-      >
-        <div
-          role="presentation"
-          onClick={toggleDrawer(false)}
-          onKeyDown={toggleDrawer(false)}
-        >
-          <nav>
-            <ul>
-              {["Inbox", "Starred", "Send email", "Drafts"].map((text) => (
-                <li key={text}>
-                  {text}
-                </li>
-              ))}
-            </ul>
-            <ul>
-              {["All mail", "Trash", "Spam"].map((text) => (
-                <li key={text}>
-                  {text}
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </div>
-      </Drawer>
+      <AnimatePresence>
+        {isOpen && (
+          <Modal open={isOpen} onClose={() => setIsOpen(false)} className="app-menu-modal">
+            <motion.div
+              initial={modalMotionVariants.initial}
+              animate={modalMotionVariants.animate}
+              exit={modalMotionVariants.initial}
+              transition={{ duration: Number(s.animationDurationShort) }}
+            >
+              <ModalDialog layout="fullscreen">
+                <MenuToggle onToggle={() => setIsOpen(!isOpen)}/>
+
+                <nav>
+                  <ul>
+                    {["Inbox", "Starred", "Send email", "Drafts"].map((text) => (
+                      <li key={text}>
+                        {text}
+                      </li>
+                    ))}
+                  </ul>
+                  <ul>
+                    {["All mail", "Trash", "Spam"].map((text) => (
+                      <li key={text}>
+                        {text}
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+              </ModalDialog>
+            </motion.div>
+          </Modal>
+        )}
+      </AnimatePresence>
     </motion.div>
   )
 }

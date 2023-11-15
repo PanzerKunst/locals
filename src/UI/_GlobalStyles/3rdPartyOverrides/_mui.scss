@@ -1,3 +1,8 @@
 :root {
   --joy-zIndex-modal: 1300; // stylelint-disable-line
 }
+
+.MuiModal-root > .MuiModal-backdrop {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none; // stylelint-disable-line property-no-vendor-prefix
+}

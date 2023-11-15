@@ -9,8 +9,7 @@
   }
 }
 
-.app-menu-drawer > .MuiDrawer-content {
+.app-menu-modal .MuiModalDialog-root {
   background-color: $color-app-bg;
   color: $color-body-text;
-  padding-top: 50px;
 }
