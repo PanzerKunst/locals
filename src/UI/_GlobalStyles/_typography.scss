@@ -11,28 +11,21 @@ h6 {
   line-height: 1em;
 }
 
-h1 {
-  font-size: 28px;
+h1,
+h2 {
+  font-weight: 600;
+}
 
-  @include vw(md) {
-    font-size: 56px;
-  }
+h1 {
+  font-size: max(28px, 5vw);
 }
 
 h2 {
-  font-size: 24px;
-
-  @include vw(md) {
-    font-size: 45px;
-  }
+  font-size: max(24px, 4vw);
 }
 
 p {
-  font-size: 16px;
+  font-size: max(18px, 1.8vw);
   line-height: 1.25em;
   margin-bottom: 1em;
-
-  @include vw(md) {
-    font-size: 20px;
-  }
 }

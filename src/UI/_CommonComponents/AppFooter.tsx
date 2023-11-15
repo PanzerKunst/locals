@@ -8,7 +8,7 @@ export function AppFooter() {
       <nav>
         <ul className="styleless">
           <li>
-            <Link to="/privacy-policy" className="underline appears">Privacy Policy</Link>
+            <Link to="/privacy" className="underline appears">Privacy Policy</Link>
           </li>
         </ul>
       </nav>

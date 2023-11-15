@@ -31,20 +31,23 @@ video {
 }
 
 main {
-  margin-block: 40px 110px;
+  margin-block: max(40px, 25vh);
 }
 
 .container {
   margin-inline: auto;
+  padding: $min-content-side-margin;
 
-  width: min($vw-lg, 100% - 2 * $min-content-side-margin);
+  @include vw(md) {
+    width: 75%;
+  }
 
-  @include vw(xl) {
-    width: min($vw-xl, 100% - 2 * $min-content-side-margin);
+  @include vw(lg) {
+    width: 66%;
   }
 
   @include vw(xxl) {
-    width: min($vw-xxl, 100% - 2 * $min-content-side-margin);
+    width: 60%;
   }
 }
 
