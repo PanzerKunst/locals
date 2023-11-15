@@ -12,6 +12,7 @@ import s from "/src/UI/_GlobalStyles/_exports.module.scss"
 import "./AppHeader.scss"
 
 let lastScrollY = window.scrollY
+let isRequestAnimationFrameTicking = false
 
 const motionVariants = {
   hidden: {
@@ -30,6 +31,7 @@ export function AppHeader() {
   const isLoggedIn = !!spotifyApiAccessToken
   const homeUrl = isLoggedIn ? "/home" : "/"
 
+  /* Doesn't work on iOS
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY
@@ -44,6 +46,34 @@ export function AppHeader() {
     }
 
     window.addEventListener("scroll", handleScroll, { passive: true })
+
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [animationControls]) */
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!isRequestAnimationFrameTicking) {
+        /* Since scroll events can fire at a high rate, the event handler shouldn't execute computationally expensive
+        operations such as DOM modifications. Instead, it is recommended to throttle the event using
+        requestAnimationFrame() */
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY
+
+          if (currentScrollY > lastScrollY) {
+            animationControls.start("hidden")
+          } else {
+            animationControls.start("visible")
+          }
+
+          lastScrollY = currentScrollY
+          isRequestAnimationFrameTicking = false
+        })
+
+        isRequestAnimationFrameTicking = true
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
 
     return () => window.removeEventListener("scroll", handleScroll)
   }, [animationControls])
