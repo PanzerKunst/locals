@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from "react"
+import { MouseEvent, ReactNode, useState } from "react"
 import { useQuery } from "react-query"
 
 import { useAppContext } from "../../AppContext.tsx"
@@ -54,7 +54,7 @@ export function HomePage() {
     ["spotifyAccessToken", spotifyApiCodeFromUrl],
     () => getAccessToken(appContext, spotifyApiCodeFromUrl!),
     {
-      enabled: !spotifyApiErrorFromUrl && !spotifyApiAccessToken && !!spotifyApiCodeFromUrl
+      enabled: !spotifyApiAccessToken && !!spotifyApiCodeFromUrl
     }
   )
 
@@ -68,27 +68,11 @@ export function HomePage() {
   )
 
   if (spotifyAccessTokenQuery.isLoading || spotifyProfileQuery.isLoading) {
-    return (
-      <main>
-        <CircularLoader/>
-      </main>
-    )
+    return renderContents(<CircularLoader/>)
   }
 
   if (spotifyAccessTokenQuery.isError || spotifyProfileQuery.isError) {
-    return (
-      <main>
-        <span>Error fetching data</span>
-      </main>
-    )
-  }
-
-  if (spotifyApiErrorFromUrl) {
-    return (
-      <main>
-        <span>{spotifyApiErrorFromUrl}</span>
-      </main>
-    )
+    return renderContents(<span>Error fetching data</span>)
   }
 
   function getSpotifyProfileImage(): SpotifyMedia | undefined {
@@ -150,8 +134,8 @@ export function HomePage() {
   console.log("topArtists", topArtists)
   console.log("total artists", topArtists.length)
 
-  return (
-    <main className="container">
+  return renderContents(
+    <>
       {spotifyProfile && (
         <section>
           <h1>Logged in as {spotifyProfile.display_name}</h1>
@@ -203,6 +187,16 @@ export function HomePage() {
       <button onClick={handleTopArtistsClick}>Fetch top artists</button>
       <button onClick={handleFollowedArtistsClick}>Fetch followed artists</button>
       <button onClick={handleStoreArtistsClick}>Store artists</button>
-    </main>
+    </>
   )
+
+  function renderContents(children: ReactNode) {
+    return (
+      <div id="home-page">
+        <main className="container">
+          {children}
+        </main>
+      </div>
+    )
+  }
 }

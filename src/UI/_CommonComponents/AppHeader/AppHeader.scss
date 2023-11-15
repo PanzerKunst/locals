@@ -6,6 +6,17 @@
   align-items: center;
   gap: 20px;
 
+  position: sticky;
+  top: 0;
+  z-index: $z-index-header;
+
+  transition: background-color #{$animation-duration-medium}s ease-in;
+
+  &.scrolled-down {
+    background-color: $color-app-bg;
+    @include drop-shadow;
+  }
+
   padding: 10px 15px;
 
   @include vw(md) {
@@ -24,6 +35,13 @@
       justify-content: space-between;
       align-items: center;
       gap: 20px;
+    }
+
+    a.underline {
+      @include vw(md) {
+        font-size: 20px;
+        line-height: 20px; // Vertical centering
+      }
     }
   }
 }

@@ -9,40 +9,12 @@
       margin-bottom: 30px;
     }
 
-    // Triangle
-
-    /* &:not(:last-child) {
-      position: relative;
-      padding-bottom: 50px;
-
-      > .bottom-triangle {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 50px; // Adjust the height to change the size of the triangle
-        clip-path: polygon(100% 100%, 100% 0, 0 100%);
-      }
-    } */
-
-    &#hero {
-
-
-      /* > .bottom-triangle {
-        background-color: $color-app-alt-bg-1;
-      } */
-    }
-
     &:not(:first-child) {
       padding-top: 50px;
     }
 
     &:nth-child(2) {
       background-color: $color-app-alt-bg-1;
-
-      /* > .bottom-triangle {
-        background-color: $color-app-alt-bg-2;
-      } */
     }
 
     &:nth-child(3) {

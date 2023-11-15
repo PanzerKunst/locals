@@ -8,9 +8,8 @@ import "./IndexPage.scss"
 
 export function IndexPage() {
   return (
-    <main id="index-page">
+    <div id="index-page">
       <IndexPageHero/>
-      {/* <div className="bottom-triangle"/> */}
 
       <section id="the-problem">
         <div className="container">
@@ -27,7 +26,6 @@ export function IndexPage() {
             <p>We listen to a massive variety of artists over time. Manually following every one of them on social media isn&apos;t sustainable.</p>
           </FadeIn>
         </div>
-        {/* <div className="bottom-triangle"/> */}
       </section>
 
       <section id="the-solution">
@@ -52,6 +50,6 @@ export function IndexPage() {
           </FadeIn>
         </div>
       </section>
-    </main>
+    </div>
   )
 }
