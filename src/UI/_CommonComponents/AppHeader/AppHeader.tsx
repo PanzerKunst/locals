@@ -16,11 +16,11 @@ let lastScrollY = window.scrollY
 const motionVariants = {
   hidden: {
     y: -60, // header height
-    opacity: 0
+    // opacity: 0 doesn't look good enough
   },
   visible: {
     y: 0,
-    opacity: 1
+    // opacity: 1 doesn't look good enough
   }
 }
 
@@ -37,7 +37,7 @@ export function AppHeader() {
 
   useEffect(() => {
     if (isTouchDevice) {
-      return // Because the animation is buggy on iOS
+      return // Because animations based on scroll position are buggy on mobile, especially iOS
     }
 
     const handleScroll = () => {

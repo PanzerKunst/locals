@@ -192,7 +192,7 @@ export function HomePage() {
 
   function renderContents(children: ReactNode) {
     return (
-      <div id="home-page">
+      <div className="page home">
         <main className="container">
           {children}
         </main>

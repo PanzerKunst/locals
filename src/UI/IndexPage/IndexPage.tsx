@@ -8,7 +8,7 @@ import "./IndexPage.scss"
 
 export function IndexPage() {
   return (
-    <div id="index-page">
+    <div className="page index">
       <IndexPageHero/>
 
       <section id="the-problem">

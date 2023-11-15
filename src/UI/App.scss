@@ -30,8 +30,19 @@ video {
   display: block; // To avoid extra space below the element
 }
 
+// To make sure the footer is always at the bottom of the viewport
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  > .page {
+    flex-grow: 1;
+  }
+}
+
 main {
-  margin-block: max(40px, 25vh);
+  margin-top: max(40px, 25vh);
 }
 
 .container {
