@@ -44,10 +44,10 @@ export function IndexPageHero() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: s.animationDurationShort, delay: 1 }}
+        transition={{ duration: s.animationDurationShort, delay: 0.7 }}
       >
         <AnimatedButton className="filling">
-          <Link to="/home" className="button skewed"><span>Get started</span></Link>
+          <Link to="/home" className="button lg"><span>Get started</span></Link>
         </AnimatedButton>
       </motion.div>
     </section>

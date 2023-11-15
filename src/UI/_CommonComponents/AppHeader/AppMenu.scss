@@ -1,11 +1,11 @@
 @import "src/UI/_GlobalStyles/colors";
 
-.app-menu {
-  // position: relative;  // Absolutely-positioned `button.icon-only` child
+.app-menu > button.icon-only {
+  position: relative;
+  z-index: calc(var(--joy-zIndex-modal) + 1); // stylelint-disable-line
 
-  > button.icon-only {
-    position: relative;
-    z-index: calc(var(--joy-zIndex-modal) + 1); // stylelint-disable-line
+  > svg {
+    margin-top: 2px; // To center icon
   }
 }
 

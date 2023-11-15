@@ -31,20 +31,35 @@ a.button:not(.icon-only) {
     background-size: 100% 100%;
   }
 
-  /* &.skewed {
+  &.skewed {
     $skew: -10deg;
     transform: skewX($skew);
 
     > * {
       transform: skewX(-$skew);
     }
-  } */
+  }
 
 
   // Size
 
-  font-size: 20px;
-  padding-inline: 20px;
+  padding-inline: 15px;
+
+  > span {
+    font-size: 20px;
+    padding-bottom: 2px;
+  }
+
+  &.lg {
+    height: 60px;
+
+    padding-inline: 25px;
+
+    > span {
+      font-size: 30px;
+      padding-bottom: 6px;
+    }
+  }
 }
 
 a.button {
