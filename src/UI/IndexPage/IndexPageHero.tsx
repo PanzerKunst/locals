@@ -4,6 +4,8 @@ import { AnimatedButton } from "../_CommonComponents/AnimatedButton.tsx"
 
 import { Link } from "react-router-dom"
 
+import { easeOutFast } from "../../Util/AnimationUtils.ts"
+
 import s from "/src/UI/_GlobalStyles/_exports.module.scss"
 import "./IndexPageHero.scss"
 
@@ -14,7 +16,7 @@ const motionVariants = {
 
 const motionTransition = {
   duration: s.animationDurationMedium,
-  ease: "easeOut"
+  ease: easeOutFast
 }
 
 export function IndexPageHero() {

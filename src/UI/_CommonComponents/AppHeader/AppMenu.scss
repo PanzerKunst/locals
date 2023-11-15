@@ -1,0 +1,16 @@
+@import "src/UI/_GlobalStyles/colors";
+
+.app-menu {
+  // position: relative;  // Absolutely-positioned `button.icon-only` child
+
+  > button.icon-only {
+    position: relative;
+    z-index: calc(var(--joy-zIndex-modal) + 1); // stylelint-disable-line
+  }
+}
+
+.app-menu-drawer > .MuiDrawer-content {
+  background-color: $color-app-bg;
+  color: $color-body-text;
+  padding-top: 50px;
+}

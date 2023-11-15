@@ -1,11 +1,14 @@
+import { ElectricBolt } from "@mui/icons-material"
 import { animate } from "framer-motion"
 import { MouseEvent } from "react"
 import { Link } from "react-router-dom"
 
-import { AppMenu3 } from "./AppMenu3/AppMenu3.tsx"
-import { useAppContext } from "../../AppContext.tsx"
+import { AppMenu } from "./AppMenu.tsx"
+import { useAppContext } from "../../../AppContext.tsx"
+import { easeOutFast } from "../../../Util/AnimationUtils.ts"
 
 import "./AppHeader.scss"
+import s from "/src/UI/_GlobalStyles/_exports.module.scss"
 
 export function AppHeader() {
   const { spotifyApiAccessToken } = useAppContext()
@@ -23,20 +26,24 @@ export function AppHeader() {
 
       animate(window.scrollY, top, {
         onUpdate: (value) => window.scrollTo(0, value),
+        duration: Number(s.animationDurationMedium),
+        ease: easeOutFast
       })
     }
   }
 
   return (
-    <header className="app-header container">
+    <header className="app-header">
       <nav>
-        <Link to={homeUrl} className="underline appears">Home</Link>
+        <Link to={homeUrl} className="button icon-only">
+          <ElectricBolt/>
+        </Link>
         <div>
           <a href="#the-problem" onClick={handleLinkClick} className="underline appears">The problem</a>
           <a href="#the-solution" onClick={handleLinkClick} className="underline appears">The solution</a>
         </div>
       </nav>
-      <AppMenu3/>
+      <AppMenu/>
     </header>
   )
 }

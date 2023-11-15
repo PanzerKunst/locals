@@ -5,9 +5,9 @@ import { useState } from "react"
 
 import { MenuToggle } from "./MenuToggle.tsx"
 
-import "./AppMenu3.scss"
+import "./AppMenu.scss"
 
-export function AppMenu3() {
+export function AppMenu() {
   const [isOpen, setIsOpen] = useState(false)
 
   const toggleDrawer = (inOpen: boolean) => (event: KeyboardEvent | MouseEvent) => {

@@ -1,0 +1,29 @@
+@import "/src/UI/_GlobalStyles/mixins";
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+
+  padding: 10px 15px;
+
+  @include vw(md) {
+    padding: 10px 40px;
+  }
+
+  > nav {
+    flex-grow: 1;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    > div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+  }
+}

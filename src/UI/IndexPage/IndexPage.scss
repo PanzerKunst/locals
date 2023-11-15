@@ -2,6 +2,8 @@
 @import "/src/UI/_GlobalStyles/mixins";
 
 #index-page {
+  margin-top: 0;
+
   > section {
     h2 {
       margin-bottom: 30px;
