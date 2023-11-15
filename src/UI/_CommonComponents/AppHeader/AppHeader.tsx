@@ -12,7 +12,8 @@ import s from "/src/UI/_GlobalStyles/_exports.module.scss"
 import "./AppHeader.scss"
 
 let lastScrollY = window.scrollY
-let isRequestAnimationFrameTicking = false
+let isHeaderAnimating = false // Required for iOS
+// let isRequestAnimationFrameTicking = false
 
 const motionVariants = {
   hidden: {
@@ -31,15 +32,16 @@ export function AppHeader() {
   const isLoggedIn = !!spotifyApiAccessToken
   const homeUrl = isLoggedIn ? "/home" : "/"
 
-  /* Doesn't work on iOS
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY
 
-      if (currentScrollY > lastScrollY) {
-        animationControls.start("hidden")
-      } else {
-        animationControls.start("visible")
+      if (!isHeaderAnimating) {
+        if (currentScrollY > lastScrollY) {
+          animationControls.start("hidden")
+        } else {
+          animationControls.start("visible")
+        }
       }
 
       lastScrollY = currentScrollY
@@ -48,14 +50,14 @@ export function AppHeader() {
     window.addEventListener("scroll", handleScroll, { passive: true })
 
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [animationControls]) */
+  }, [animationControls])
 
-  useEffect(() => {
+  /* useEffect(() => {
     const handleScroll = () => {
       if (!isRequestAnimationFrameTicking) {
-        /* Since scroll events can fire at a high rate, the event handler shouldn't execute computationally expensive
-        operations such as DOM modifications. Instead, it is recommended to throttle the event using
-        requestAnimationFrame() */
+        // Since scroll events can fire at a high rate, the event handler shouldn't execute computationally expensive
+        // operations such as DOM modifications. Instead, it is recommended to throttle the event using
+        // requestAnimationFrame()
         window.requestAnimationFrame(() => {
           const currentScrollY = window.scrollY
 
@@ -76,7 +78,7 @@ export function AppHeader() {
     window.addEventListener("scroll", handleScroll)
 
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [animationControls])
+  }, [animationControls]) */
 
   const handleLinkClick = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault()
@@ -101,6 +103,8 @@ export function AppHeader() {
       animate={animationControls}
       variants={motionVariants}
       transition={{ duration: s.animationDurationShort, ease: "easeOut"}}
+      onAnimationStart={() => isHeaderAnimating = true}
+      onAnimationComplete={() => isHeaderAnimating = false}
       className="app-header"
     >
       <nav>
