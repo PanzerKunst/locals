@@ -3,7 +3,7 @@ import { motion } from "framer-motion"
 
 import { Navigation } from "./Navigation.tsx"
 import { useViewportSize } from "../../../../Util/BrowserUtils.ts"
-import { MenuToggle } from "../../AppMenu3/MenuToggle.tsx"
+import { MenuToggle } from "../../AppHeader/MenuToggle.tsx"
 
 import "./AppMenu2.scss"
 
