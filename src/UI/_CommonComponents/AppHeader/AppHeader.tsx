@@ -16,17 +16,12 @@ let lastScrollY = window.scrollY
 const motionVariants = {
   hidden: {
     y: -60, // header height
-    backgroundColor: s.colorTransparentBlack
+    opacity: 0
   },
   visible: {
     y: 0,
-    backgroundColor: s.colorAppBg
+    opacity: 1
   }
-}
-
-const motionTransitions = {
-  y: { duration: s.animationDurationShort, ease: "easeOut"},
-  backgroundColor: { duration: s.animationDurationShort, ease: "easeIn"}
 }
 
 export function AppHeader() {
@@ -75,7 +70,7 @@ export function AppHeader() {
       initial="visible"
       animate={animationControls}
       variants={motionVariants}
-      transition={motionTransitions}
+      transition={{ duration: s.animationDurationShort, ease: "easeOut"}}
       className="app-header"
     >
       <nav>
