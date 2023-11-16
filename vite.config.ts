@@ -3,6 +3,7 @@ import { defineConfig } from "vite"
 import checker from "vite-plugin-checker"
 
 // https://vitejs.dev/config/
+// eslint-disable-next-line no-restricted-syntax
 export default defineConfig(({ mode }) => ({
   plugins: [
     react(),

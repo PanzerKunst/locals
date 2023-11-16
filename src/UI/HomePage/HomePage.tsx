@@ -11,18 +11,6 @@ import { SpotifyArtist } from "../../Data/SpotifyModels/SpotifyArtist.ts"
 import { SpotifyMedia } from "../../Data/SpotifyModels/SpotifyMedia.ts"
 import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 
-/* const spotifyAccessTokenSignal = signal<string | undefined>()
-function setSpotifyAccessToken(value: string) { spotifyAccessTokenSignal.value = value }
-const spotifyAccessToken = spotifyAccessTokenSignal.value
-
-const isLoadingSignal = signal(false)
-function setIsLoading(value: boolean) { isLoadingSignal.value = value }
-const isLoading = isLoadingSignal.value
-
-const isApiErrorSignal = signal(false)
-function setIsApiError(value: boolean) { isApiErrorSignal.value = value }
-const isApiError = isApiErrorSignal.value */
-
 export function HomePage() {
   const appContext = useAppContext()
   const { spotifyApiAccessToken } = appContext
@@ -57,6 +45,8 @@ export function HomePage() {
       enabled: !spotifyApiAccessToken && !!spotifyApiCodeFromUrl
     }
   )
+
+  // TODO: only fetch profile if user not yet stored in DB
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const spotifyProfileQuery = useQuery(
@@ -130,9 +120,11 @@ export function HomePage() {
   const spotifyProfile = spotifyProfileQuery.data!
   const spotifyProfileImage = getSpotifyProfileImage()
 
+  const favouriteArtists = [...topArtists, ...followedArtists]
+
   console.log("spotifyProfile", spotifyProfile)
-  console.log("topArtists", topArtists)
-  console.log("total artists", topArtists.length)
+  console.log("favouriteArtists", favouriteArtists)
+  console.log("total artists", favouriteArtists.length)
 
   return renderContents(
     <>
