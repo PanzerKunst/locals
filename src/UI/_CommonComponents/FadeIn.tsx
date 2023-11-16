@@ -16,7 +16,7 @@ export function FadeIn({ children, className = "" }: Props) {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
-      transition={{ duration: s.animationDurationShort }}
+      transition={{ duration: s.animationDurationShort, delay: 0.1 }}
       className={classNames("scroll-to-visible", className)}
     >
       {children}

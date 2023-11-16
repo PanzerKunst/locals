@@ -2,15 +2,17 @@ import { motion, stagger, useAnimate } from "framer-motion"
 import { useEffect } from "react"
 import { Link } from "react-router-dom"
 
+import s from "/src/UI/_GlobalStyles/_exports.module.scss"
+
 const motionVariants = {
   initial: {
     opacity: 0,
-    scale: 0.3,
+    y: 50,
     filter: "blur(20px)"
   },
   animate: {
     opacity: 1,
-    scale: 1,
+    y: 0,
     filter: "blur(0px)"
   }
 }
@@ -23,7 +25,7 @@ export function MenuLinks() {
       "li",
       motionVariants.animate,
       {
-        duration: 0.2,
+        duration: Number(s.animationDurationShort),
         delay: stagger(0.1, { startDelay: 0.2 })
       }
     )

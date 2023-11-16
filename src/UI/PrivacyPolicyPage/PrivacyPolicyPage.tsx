@@ -10,9 +10,8 @@ export function PrivacyPolicyPage() {
           <h1>We are commited to protecting your privacy</h1>
         </FadeIn>
         <FadeIn>
-          <p>We employ cookies and similar tracking technology to ensure the smooth functioning of our website. Some of these cookies are essential -
-            they&apos;re necessary for the site to function. These are the good kind of cookies, ones that keep everything running smoothly for
-            you.</p>
+          <p>We employ cookies and similar tracking technology to ensure the smooth functioning of our website. Some of these cookies are necessary
+            for the site to function. These are the good kind of cookies, ones that keep everything running smoothly for you.</p>
         </FadeIn>
         <FadeIn>
           <p>In addition to essential cookies, we also use analytics cookies, such as Google Analytics. These are used to understand how you use the

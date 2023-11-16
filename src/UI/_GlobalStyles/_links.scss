@@ -7,41 +7,30 @@ a:not(.button) {
   text-decoration: none;
 
   &.underline {
-    position: relative; // Absolutely-positioned ::after
+    padding-block: max(0.08em, 2px);
 
-    $line-thickness: max(0.1em, 2px);
+    @include to-right-red-gradient;
+    background-position: center bottom;
+    background-repeat: no-repeat;
 
-    padding-block: $line-thickness;
+    transition: background-size #{$animation-duration-short}s ease;
 
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      height: $line-thickness;
-      @include to-right-red-gradient;
-      transition: width #{$animation-duration-short}s ease;
-      pointer-events: none; // ensures that the pseudo-element doesn't interfere with the link's interactivity
-    }
+    $background-size-hidden: 0 0;
+    $background-size-visible: 100% max(5%, 2px);
 
     &.appears {
-      &::after {
-        left: 0;
-        width: 0;
-      }
+      background-size: $background-size-hidden;
 
-      &:hover::after {
-        width: 100%;
+      &:hover {
+        background-size: $background-size-visible;
       }
     }
 
     &.disappears {
-      &::after {
-        right: 0;
-        width: 100%;
-      }
+      background-size: $background-size-visible;
 
-      &:hover::after {
-        width: 0;
+      &:hover {
+        background-size: $background-size-hidden;
       }
     }
   }
