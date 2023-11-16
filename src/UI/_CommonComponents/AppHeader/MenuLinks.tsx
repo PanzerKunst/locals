@@ -24,7 +24,7 @@ export function MenuLinks() {
       motionVariants.animate,
       {
         duration: 0.2,
-        delay: stagger(0.1, { startDelay: 0.15 })
+        delay: stagger(0.1, { startDelay: 0.2 })
       }
     )
   }, [animate, scope])
