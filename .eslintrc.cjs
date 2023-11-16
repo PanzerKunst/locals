@@ -29,6 +29,10 @@ module.exports = {
     "semi": ["error", "never"],
     "max-len": ["warn", {"code": 150}],
     "no-unused-vars": "error",
+    "no-restricted-syntax": ["error", {
+      selector: "ExportDefaultDeclaration",
+      message: "Prefer named exports."
+    }],
     "react/react-in-jsx-scope": "off",
     "react/jsx-max-props-per-line": ["error", {"maximum": 3}],
     "react/jsx-no-constructed-context-values": "error",

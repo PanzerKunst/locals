@@ -3,9 +3,8 @@ import React from "react"
 import ReactDOM from "react-dom/client"
 import { QueryClient, QueryClientProvider } from "react-query"
 
-import App from "./UI/App"
-
 import "dayjs/locale/sv"
+import { App } from "./UI/App.tsx"
 
 import "./main.scss"
 
