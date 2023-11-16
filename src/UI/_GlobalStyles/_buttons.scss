@@ -16,6 +16,12 @@ a.button {
 
   min-height: $min-button-size;
   min-width: $min-button-size;
+
+  transition: opacity #{$animation-duration-short}s ease;
+
+  &:hover {
+    opacity: 0.9;
+  }
 }
 
 button:not(.icon-only),
@@ -27,7 +33,7 @@ a.button:not(.icon-only) {
   background-position: center center;
   background-repeat: no-repeat;
 
-  transition: background-size #{$animation-duration-short}s ease;
+  transition: background-size #{$animation-duration-short}s ease, opacity #{$animation-duration-short}s ease;
 
   &.filling {
     background-size: 100% 100%;
