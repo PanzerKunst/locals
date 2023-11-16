@@ -10,13 +10,12 @@
   top: 0;
   z-index: $z-index-header;
 
+  background-color: $color-app-bg;
   @include drop-shadow;
 
-  background-color: $color-app-bg;
-  padding: 10px 15px;
-
+  padding: $header-padding-block $header-padding-inline;
   @include vw(md) {
-    padding: 10px 40px;
+    padding: $header-padding-block-vw-md $header-padding-inline-vw-md;
   }
 
   > nav {

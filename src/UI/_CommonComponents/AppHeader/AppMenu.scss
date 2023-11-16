@@ -1,4 +1,6 @@
 @import "src/UI/_GlobalStyles/colors";
+@import "src/UI/_GlobalStyles/numbers";
+@import "src/UI/_GlobalStyles/mixins";
 
 .app-menu > button.icon-only {
   position: relative;
@@ -12,4 +14,13 @@
 .app-menu-modal .MuiModalDialog-root {
   background-color: $color-app-bg;
   color: $color-body-text;
+
+  align-items: flex-end;
+
+  padding-block: $header-padding-block + 1;
+  padding-inline: calc(#{$header-padding-inline} + var(--scrollbar-width) - 1px);
+  @include vw(md) {
+    padding-block: $header-padding-block-vw-md + 1;
+    padding-inline: calc(#{$header-padding-inline-vw-md} + var(--scrollbar-width) - 1px);
+  }
 }

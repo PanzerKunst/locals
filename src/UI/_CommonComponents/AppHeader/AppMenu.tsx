@@ -4,6 +4,8 @@ import { useState } from "react"
 
 import { MenuToggle } from "./MenuToggle.tsx"
 
+import { Link } from "react-router-dom"
+
 import s from "/src/UI/_GlobalStyles/_exports.module.scss"
 import "./AppMenu.scss"
 
@@ -32,19 +34,13 @@ export function AppMenu() {
                 <MenuToggle onToggle={() => setIsOpen(!isOpen)}/>
 
                 <nav>
-                  <ul>
-                    {["Inbox", "Starred", "Send email", "Drafts"].map((text) => (
-                      <li key={text}>
-                        {text}
-                      </li>
-                    ))}
-                  </ul>
-                  <ul>
-                    {["All mail", "Trash", "Spam"].map((text) => (
-                      <li key={text}>
-                        {text}
-                      </li>
-                    ))}
+                  <ul className="styleless">
+                    <li>
+                      <Link to="/profile" className="underline appears">My Profile</Link>
+                    </li>
+                    <li>
+                      <Link to="/?action=signOut" className="underline appears">Sign out</Link>
+                    </li>
                   </ul>
                 </nav>
               </ModalDialog>
