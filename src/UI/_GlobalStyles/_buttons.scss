@@ -20,7 +20,7 @@ a.button {
 
 button:not(.icon-only),
 a.button:not(.icon-only) {
-  font-weight: 600;
+  font-weight: 400;
 
   @include to-right-red-gradient;
   background-size: 0 100%;
