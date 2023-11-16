@@ -63,17 +63,19 @@ a.button:not(.icon-only) {
   }
 
   &.lg {
-    $button-size-lg: 60px;
-    height: $button-size-lg;
+    @include vw(md) {
+      $button-size-lg: 60px;
+      height: $button-size-lg;
 
-    padding-inline: 25px;
+      padding-inline: 25px;
 
-    &.rounded {
-      border-radius: $button-size-lg / 2;
-    }
+      &.rounded {
+        border-radius: $button-size-lg / 2;
+      }
 
-    > span {
-      font-size: 30px;
+      > span {
+        font-size: 30px;
+      }
     }
   }
 

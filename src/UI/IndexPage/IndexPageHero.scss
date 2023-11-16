@@ -47,8 +47,10 @@
     }
 
     .button img {
-      @include svg-size(40px);
-      margin-right: 15px;
+      @include vw(md) {
+        @include svg-size(40px);
+        margin-right: 15px;
+      }
     }
   }
 }
