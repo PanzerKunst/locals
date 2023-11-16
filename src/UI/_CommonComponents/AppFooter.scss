@@ -9,7 +9,7 @@
 
   padding-block: 5vh;
 
-  @include header-footer-text-size;
+  @include header-footer-text;
 
   @include vw(md) {
     flex-direction: row;

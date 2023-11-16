@@ -39,9 +39,12 @@
   background-image: linear-gradient(to right, $color-btn-bg-primary-gradient-start, $color-btn-bg-primary-gradient-end);
 }
 
-@mixin header-footer-text-size {
-  @include vw(md) {
-    font-size: 20px;
-    line-height: 20px; // Vertical centering
-  }
+@mixin header-footer-text {
+  text-transform: uppercase;
+
+  $size: max(1vw, 14px);
+
+  font-size: $size;
+  line-height: $size; // Vertical centering
+  font-weight: 300;
 }

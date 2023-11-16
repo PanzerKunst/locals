@@ -55,3 +55,10 @@
   font-weight: 600; /* 600 is typically semi-bold */
   font-style: normal;
 }
+
+@font-face {
+  font-family: "Source Sans Pro";
+  src: url("/fonts/SourceSansPro/SourceSansPro-Light.otf") format('opentype');
+  font-weight: 300; /* 600 is typically light */
+  font-style: normal;
+}
