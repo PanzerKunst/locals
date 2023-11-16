@@ -59,7 +59,7 @@ a.button:not(.icon-only) {
 
   > span { // stylelint-disable-line no-duplicate-selectors
     font-size: 20px;
-    padding-bottom: 3px;
+    padding-bottom: 1px;
   }
 
   &.lg {
@@ -75,6 +75,7 @@ a.button:not(.icon-only) {
 
       > span {
         font-size: 30px;
+        padding-bottom: 3px;
       }
     }
   }
