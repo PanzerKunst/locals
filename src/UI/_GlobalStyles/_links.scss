@@ -8,13 +8,16 @@ a:not(.button) {
 
   &.underline {
     position: relative; // Absolutely-positioned ::after
-    padding-block: 2px;
+
+    $line-thickness: max(0.1em, 2px);
+
+    padding-block: $line-thickness;
 
     &::after {
       content: "";
       position: absolute;
       bottom: 0;
-      height: 2px;
+      height: $line-thickness;
       @include to-right-red-gradient;
       transition: width #{$animation-duration-short}s ease;
       pointer-events: none; // ensures that the pseudo-element doesn't interfere with the link's interactivity

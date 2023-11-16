@@ -16,7 +16,7 @@
     letter-spacing: -0.03em;
     text-align: center;
     font-size: clamp(40px, 8vw, 140px);
-    margin-top: max(150px, 15vw);
+    margin-top: max(15vw, 150px);
 
     @include vw(xl) {
       text-align: right;
