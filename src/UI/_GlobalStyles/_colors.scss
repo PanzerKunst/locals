@@ -16,6 +16,7 @@ $color-blue-neon: rgb(136 226 248); // #88E2F8
 $color-red: rgb(192 24 18); // #C01812
 $color-orange: rgb(205 64 30); // #CD401E
 $color-red-orange: rgb(199 49 25); // #C73119
+$color-green-spotify: rgb(30 215 96); // #1ed760
 
 // Functional colors, to use in the rest of the app
 $color-app-bg: $color-greyscale-1;
@@ -26,6 +27,7 @@ $color-offset-text: $color-greyscale-5;
 $color-btn-text: $color-white;
 $color-btn-bg-primary-gradient-start: $color-red;
 $color-btn-bg-primary-gradient-end: $color-orange;
+$color-btn-bg-spotify: $color-green-spotify;
 $color-loader: $color-purple;
 $color-link: $color-white;
 $color-link-hover: $color-orange;

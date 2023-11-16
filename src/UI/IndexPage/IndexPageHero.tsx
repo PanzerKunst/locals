@@ -47,7 +47,10 @@ export function IndexPageHero() {
         transition={{ duration: s.animationDurationShort, delay: 0.7 }}
       >
         <AnimatedButton className="filling">
-          <Link to="/home" className="button lg"><span>Get started</span></Link>
+          <Link to="/home" className="button lg rounded spotify">
+            <img src="/images/Spotify_Icon_RGB_White.png" alt="Spotify logo"/>
+            <span>Get Backstage</span>
+          </Link>
         </AnimatedButton>
       </motion.div>
     </section>

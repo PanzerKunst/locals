@@ -2,6 +2,8 @@
 @import "./numbers";
 @import "./mixins";
 
+$min-button-size: 40px;
+
 button,
 a.button {
   display: inline-flex;
@@ -12,8 +14,8 @@ a.button {
   color: $color-btn-text;
   padding: 0;
 
-  min-height: 40px;
-  min-width: 40px;
+  min-height: $min-button-size;
+  min-width: $min-button-size;
 }
 
 button:not(.icon-only),
@@ -40,25 +42,43 @@ a.button:not(.icon-only) {
     }
   }
 
+  > svg,
+  > img {
+    @include svg-size(24px);
+    margin-right: 10px;
+  }
+
 
   // Size
 
   padding-inline: 15px;
 
-  > span {
+  &.rounded {
+    border-radius: $min-button-size / 2;
+  }
+
+  > span { // stylelint-disable-line no-duplicate-selectors
     font-size: 20px;
-    padding-bottom: 2px;
+    padding-bottom: 3px;
   }
 
   &.lg {
-    height: 60px;
+    $button-size-lg: 60px;
+    height: $button-size-lg;
 
     padding-inline: 25px;
 
+    &.rounded {
+      border-radius: $button-size-lg / 2;
+    }
+
     > span {
       font-size: 30px;
-      padding-bottom: 6px;
     }
+  }
+
+  &.spotify {
+    background: $color-btn-bg-spotify;
   }
 }
 
