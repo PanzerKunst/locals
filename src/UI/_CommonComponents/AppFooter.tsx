@@ -4,7 +4,7 @@ import "./AppFooter.scss"
 
 export function AppFooter() {
   return (
-    <footer className="app-footer">
+    <footer className="app-footer container">
       <nav>
         <ul className="styleless">
           <li>

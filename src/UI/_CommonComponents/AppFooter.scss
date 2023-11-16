@@ -1,12 +1,15 @@
 @import "/src/UI/_GlobalStyles/mixins";
 
-.app-footer {
+.app-footer.container { // Added `.container` for increased specificity
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  gap: 30px;
 
-  min-height: 100px;
+  padding-block: 5vh;
+
+  @include header-footer-text-size;
 
   @include vw(md) {
     flex-direction: row;

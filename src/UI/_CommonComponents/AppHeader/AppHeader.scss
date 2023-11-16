@@ -25,18 +25,13 @@
     justify-content: space-between;
     align-items: center;
 
+    @include header-footer-text-size;
+
     > div {
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 20px;
-    }
-
-    a.underline {
-      @include vw(md) {
-        font-size: 20px;
-        line-height: 20px; // Vertical centering
-      }
     }
   }
 }
