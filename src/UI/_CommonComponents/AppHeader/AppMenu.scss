@@ -15,12 +15,40 @@
   background-color: $color-app-bg;
   color: $color-body-text;
 
-  align-items: flex-end;
+  align-items: center;
 
   padding-block: $header-padding-block + 1;
   padding-inline: calc(#{$header-padding-inline} + var(--scrollbar-width) - 1px);
   @include vw(md) {
     padding-block: $header-padding-block-vw-md + 1;
     padding-inline: calc(#{$header-padding-inline-vw-md} + var(--scrollbar-width) - 1px);
+  }
+
+  > button.icon-only {
+    align-self: flex-end;
+  }
+
+  > nav {
+    flex-grow: 1;
+
+    display: flex;
+    align-items: center;
+
+    > ul {
+      display: flex;
+      flex-direction: column;
+      gap: 5vh;
+
+      margin-top: -6vh;
+
+      font-size: 13vw;
+      text-align: center;
+
+      @include vw(md) {
+        flex-direction: row;
+        gap: 7vw;
+        font-size: 6vh;
+      }
+    }
   }
 }

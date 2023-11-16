@@ -3,8 +3,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import { useState } from "react"
 
 import { MenuToggle } from "./MenuToggle.tsx"
-
-import { Link } from "react-router-dom"
+import { MenuLinks } from "./MenuLinks.tsx"
 
 import s from "/src/UI/_GlobalStyles/_exports.module.scss"
 import "./AppMenu.scss"
@@ -34,14 +33,7 @@ export function AppMenu() {
                 <MenuToggle onToggle={() => setIsOpen(!isOpen)}/>
 
                 <nav>
-                  <ul className="styleless">
-                    <li>
-                      <Link to="/profile" className="underline appears">My Profile</Link>
-                    </li>
-                    <li>
-                      <Link to="/?action=signOut" className="underline appears">Sign out</Link>
-                    </li>
-                  </ul>
+                  <MenuLinks/>
                 </nav>
               </ModalDialog>
             </motion.div>
