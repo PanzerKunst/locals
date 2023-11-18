@@ -2,10 +2,10 @@ import _ from "lodash"
 
 import { config } from "../../config.ts"
 import { Artist } from "../BackendModels/Artist.ts"
+import { User } from "../BackendModels/User.ts"
 import { SpotifyArtist } from "../SpotifyModels/SpotifyArtist.ts"
-import { SpotifyUserProfile } from "../SpotifyModels/SpotifyUserProfile.ts"
 
-export async function storeUserFavouriteArtists(spotifyUserProfile: SpotifyUserProfile, spotifyArtists: SpotifyArtist[]): Promise<Artist[]> {
+export async function storeUserFavouriteArtists(user: User, spotifyArtists: SpotifyArtist[]): Promise<Artist[]> {
   const withoutDuplicates: SpotifyArtist[] = _.uniqBy(spotifyArtists, "id")
   const url = `${config.BACKEND_URL}/userFavouriteArtists`
 
@@ -13,7 +13,7 @@ export async function storeUserFavouriteArtists(spotifyUserProfile: SpotifyUserP
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      spotifyUserProfile,
+      user,
       artists: withoutDuplicates
     })
   })

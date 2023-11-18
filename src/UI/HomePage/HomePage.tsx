@@ -3,6 +3,7 @@ import { useQuery } from "react-query"
 
 import { useAppContext } from "../../AppContext.tsx"
 import { storeUserFavouriteArtists } from "../../Data/BackendApis/ArtistApi.ts"
+import { storeUser } from "../../Data/BackendApis/UserApi.ts"
 import { getAccessToken, redirectToAuthCodeFlow } from "../../Data/SpotifyApis/AuthApi.ts"
 import { fetchFollowedArtists } from "../../Data/SpotifyApis/FollowedArtistsApi.ts"
 import { fetchProfile } from "../../Data/SpotifyApis/ProfileApi.ts"
@@ -94,8 +95,9 @@ export function HomePage() {
   }
 
   const handleStoreUserFavouriteArtistsClick = async () => {
+    const storedUser = await storeUser(spotifyProfile)
     const artists = [...topArtists, ...followedArtists]
-    const storedArtists = await storeUserFavouriteArtists(spotifyProfile, artists)
+    const storedArtists = await storeUserFavouriteArtists(storedUser, artists)
 
     console.log("stored artists", storedArtists)
   }
