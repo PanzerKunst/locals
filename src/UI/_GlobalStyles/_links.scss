@@ -15,7 +15,7 @@ a:not(.button) {
 
     transition: background-size #{$animation-duration-short}s ease;
 
-    $background-size-hidden: 0 0;
+    $background-size-hidden: 0 max(5%, 2px);
     $background-size-visible: 100% max(5%, 2px);
 
     &.appears {

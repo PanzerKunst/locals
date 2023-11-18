@@ -1,9 +1,10 @@
+import _ from "lodash"
 import { MouseEvent, ReactNode, useState } from "react"
 import { useQuery } from "react-query"
 
 import { useAppContext } from "../../AppContext.tsx"
-import { storeUserFavouriteArtists } from "../../Data/BackendApis/ArtistApi.ts"
 import { storeUser } from "../../Data/BackendApis/UserApi.ts"
+import { storeUserFavouriteArtists } from "../../Data/BackendApis/UserFavouriteArtistsApi.ts"
 import { getAccessToken, redirectToAuthCodeFlow } from "../../Data/SpotifyApis/AuthApi.ts"
 import { fetchFollowedArtists } from "../../Data/SpotifyApis/FollowedArtistsApi.ts"
 import { fetchProfile } from "../../Data/SpotifyApis/ProfileApi.ts"
@@ -67,7 +68,7 @@ export function HomePage() {
   }
 
   function getSpotifyProfileImage(): SpotifyMedia | undefined {
-    if (!spotifyProfile || spotifyProfile.images.length === 0) {
+    if (!spotifyProfile || _.isEmpty(spotifyProfile.images)) {
       return undefined
     }
 
@@ -150,13 +151,13 @@ export function HomePage() {
         </section>
       )}
 
-      {topArtists.length > 0 && (
+      {!_.isEmpty(topArtists) && (
         <>
           <h2>Top artists</h2>
           <ul>
             {topArtists.map((artist) => (
               <li key={artist.id}>
-                {artist.images.length > 0 && <img src={artist.images[0]!.url} alt="artist-avatar"/>}
+                {!_.isEmpty(artist.images) && <img src={artist.images[0]!.url} alt="artist-avatar"/>}
                 <span>{artist.name}</span>
               </li>
             ))}
@@ -164,13 +165,13 @@ export function HomePage() {
         </>
       )}
 
-      {followedArtists.length > 0 && (
+      {!_.isEmpty(followedArtists) && (
         <>
           <h2>Followed artists</h2>
           <ul>
             {followedArtists.map((artist) => (
               <li key={artist.id}>
-                {artist.images.length > 0 && <img src={artist.images[0]!.url} alt="artist-avatar"/>}
+                {!_.isEmpty(artist.images) && <img src={artist.images[0]!.url} alt="artist-avatar"/>}
                 <span>{artist.name}</span>
               </li>
             ))}
