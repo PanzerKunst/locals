@@ -2,7 +2,7 @@ import { MouseEvent, ReactNode, useState } from "react"
 import { useQuery } from "react-query"
 
 import { useAppContext } from "../../AppContext.tsx"
-import { storeArtists } from "../../Data/BackendApis/ArtistApi.ts"
+import { storeUserFavouriteArtists } from "../../Data/BackendApis/ArtistApi.ts"
 import { getAccessToken, redirectToAuthCodeFlow } from "../../Data/SpotifyApis/AuthApi.ts"
 import { fetchFollowedArtists } from "../../Data/SpotifyApis/FollowedArtistsApi.ts"
 import { fetchProfile } from "../../Data/SpotifyApis/ProfileApi.ts"
@@ -93,9 +93,9 @@ export function HomePage() {
     ])
   }
 
-  const handleStoreArtistsClick = async () => {
+  const handleStoreUserFavouriteArtistsClick = async () => {
     const artists = [...topArtists, ...followedArtists]
-    const storedArtists = await storeArtists(artists)
+    const storedArtists = await storeUserFavouriteArtists(spotifyProfile, artists)
 
     console.log("stored artists", storedArtists)
   }
@@ -178,7 +178,7 @@ export function HomePage() {
 
       <button onClick={handleTopArtistsClick}>Fetch top artists</button>
       <button onClick={handleFollowedArtistsClick}>Fetch followed artists</button>
-      <button onClick={handleStoreArtistsClick}>Store artists</button>
+      <button onClick={handleStoreUserFavouriteArtistsClick}>Store user favourite artists</button>
     </>
   )
 

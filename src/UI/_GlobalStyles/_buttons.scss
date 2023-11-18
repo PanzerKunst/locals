@@ -60,7 +60,7 @@ a.button:not(.icon-only) {
   padding-inline: 15px;
 
   &.rounded {
-    border-radius: $min-button-size / 2;
+    border-radius: calc($min-button-size / 2);
   }
 
   > span { // stylelint-disable-line no-duplicate-selectors
@@ -76,7 +76,7 @@ a.button:not(.icon-only) {
       padding-inline: 25px;
 
       &.rounded {
-        border-radius: $button-size-lg / 2;
+        border-radius: calc($button-size-lg / 2);
       }
 
       > span {

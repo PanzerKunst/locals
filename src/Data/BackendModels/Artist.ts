@@ -1,10 +1,10 @@
 export type NewArtist = {
-  spotify_id: string;
-  name: string;
+  name: string
+  spotifyId: string
 }
 
 export type Artist = NewArtist & {
-  id: number;
-  created_at: Date;
-  updated_at?: Date;
+  id: number
+  createdAt: string
+  updatedAt?: string
 }
