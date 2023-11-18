@@ -1,5 +1,14 @@
 import { useState, useEffect } from "react"
 
+export function getUrlQueryParam(name: string): string | undefined {
+  return new URLSearchParams(window.location.search).get(name) || undefined
+}
+
+export function isTouchDevice() {
+  // @ts-ignore TS2551: Property msMaxTouchPoints does not exist on type Navigator
+  return "ontouchstart" in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0
+}
+
 export function useViewportSize() {
   const [size, setSize] = useState({ width: window.innerWidth, height: window.innerHeight })
 

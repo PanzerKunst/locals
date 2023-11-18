@@ -2,6 +2,11 @@
 @import "numbers";
 
 :export {
+  vwMd: $vw-md;
+  vwLg: $vw-lg;
+  vwXl: $vw-xl;
+  vwXxl: $vw-xxl;
+
   animationDurationShort: $animation-duration-short;
   animationDurationMedium: $animation-duration-medium;
 

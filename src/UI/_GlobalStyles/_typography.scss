@@ -1,5 +1,6 @@
 @import "/src/UI/_GlobalStyles/mixins";
 
+span,
 p,
 h1,
 h2,
@@ -8,6 +9,14 @@ h4,
 h5,
 h6 {
   margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   line-height: 1em;
 }
 
@@ -24,8 +33,18 @@ h2 {
   font-size: max(4vw, 24px);
 }
 
-p {
+p,
+span {
+  &.offset {
+    opacity: 0.7;
+  }
+}
+
+p:not(:last-child) {
+  margin-bottom: 2em;
+}
+
+.container p {
   font-size: max(1.8vw, 18px);
   line-height: 1.4em;
-  margin-bottom: 2em;
 }

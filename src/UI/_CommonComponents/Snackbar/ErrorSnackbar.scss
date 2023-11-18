@@ -1,0 +1,11 @@
+@import "/src/UI/_GlobalStyles/mixins";
+
+.app-snackbar.error {
+  span {
+    font-weight: 600;
+  }
+
+  p {
+    font-size: 16px;
+  }
+}

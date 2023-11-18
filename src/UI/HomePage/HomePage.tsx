@@ -11,6 +11,8 @@ import { fetchProfile } from "../../Data/SpotifyApis/ProfileApi.ts"
 import { fetchTopArtists } from "../../Data/SpotifyApis/TopItemsApi.ts"
 import { SpotifyArtist } from "../../Data/SpotifyModels/SpotifyArtist.ts"
 import { SpotifyMedia } from "../../Data/SpotifyModels/SpotifyMedia.ts"
+import { appUrlCode } from "../../Util/AppUrlCodes.ts"
+import { getUrlQueryParam } from "../../Util/BrowserUtils.ts"
 import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 
 export function HomePage() {
@@ -20,13 +22,14 @@ export function HomePage() {
   const [favouriteArtists, setFavouriteArtists] = useState<SpotifyArtist[]>([])
   const [isLoadingFavouriteArtists, setIsLoadingFavouriteArtists] = useState(false)
 
-  const spotifyApiCodeFromUrl = new URLSearchParams(window.location.search).get("code")
-  const spotifyApiErrorFromUrl = new URLSearchParams(window.location.search).get("error") // /spotify-callback?error=access_denied
+  const spotifyApiErrorFromUrl = getUrlQueryParam("error") // /spotify-callback?error=access_denied
 
   if (spotifyApiErrorFromUrl) {
-    document.location.replace("/?alert=spotifyAccessDenied") // TODO
+    document.location.replace(`/?${appUrlCode.SPOTIFY_CALLBACK_ERROR}=${spotifyApiErrorFromUrl}`)
     return undefined
   }
+
+  const spotifyApiCodeFromUrl = getUrlQueryParam("code")
 
   const shouldRedirectToAuth = !spotifyApiAccessToken && !spotifyApiCodeFromUrl
 

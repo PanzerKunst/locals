@@ -1,0 +1,26 @@
+@import "/src/UI/_GlobalStyles/mixins";
+
+.MuiSnackbar-root.app-snackbar {
+  /* Unfortunately declaration in _mui.scss is too low specificity
+  --Snackbar-inset: 5vh; // stylelint-disable-line */
+
+  $margin: 5vh; // Simpler than using --Snackbar-inset
+
+  &.MuiSnackbar-anchorOriginTopCenter {
+    top: $margin;
+  }
+
+  &.MuiSnackbar-anchorOriginBottomRight {
+    @include vw(md) {
+      bottom: $margin;
+      right: $margin;
+    }
+  }
+
+  @include vw(md) {
+    gap: 15px;
+  }
+
+  font-size: 18px;
+  font-weight: 400; // MUI sets a value on small res
+}

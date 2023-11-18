@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 import { AppMenu } from "./AppMenu.tsx"
 import { useAppContext } from "../../../AppContext.tsx"
 import { easeOutFast, MotionTransition } from "../../../Util/AnimationUtils.ts"
-import { isTouchDevice } from "../../../main.tsx"
+import { isTouch } from "../../../main.tsx"
 
 import s from "/src/UI/_GlobalStyles/_exports.module.scss"
 import "./AppHeader.scss"
@@ -36,7 +36,7 @@ export function AppHeader() {
   const homeUrl = isLoggedIn ? "/home" : "/"
 
   useEffect(() => {
-    if (isTouchDevice) {
+    if (isTouch) {
       return // Because animations based on scroll position are buggy on mobile, especially iOS
     }
 

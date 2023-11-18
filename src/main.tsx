@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "react-query"
 
 import "dayjs/locale/sv"
 import { App } from "./UI/App.tsx"
-import { getScrollbarWidth } from "./Util/BrowserUtils.ts"
+import { getScrollbarWidth, isTouchDevice } from "./Util/BrowserUtils.ts"
 
 import "./main.scss"
 
@@ -13,8 +13,7 @@ dayjs.locale("sv")
 
 const queryClient = new QueryClient()
 
-// @ts-ignore TS2551: Property msMaxTouchPoints does not exist on type Navigator
-export const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0
+export const isTouch = isTouchDevice()
 
 document.body.style.setProperty("--scrollbar-width", `${getScrollbarWidth()}px`)
 
