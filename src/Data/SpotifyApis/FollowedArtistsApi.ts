@@ -8,9 +8,6 @@ import { SpotifyArtist } from "../SpotifyModels/SpotifyArtist.ts"
 const pageSize = 50
 
 export async function fetchFollowedArtists(appContext: AppContextType, lastArtistId: string | undefined): Promise<SpotifyArtist[]> {
-  // TODO: remove
-  console.log("fetchFollowedArtists", lastArtistId)
-
   const { spotifyApiAccessToken } = appContext
 
   if (!spotifyApiAccessToken) {

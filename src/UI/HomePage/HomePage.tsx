@@ -17,9 +17,8 @@ export function HomePage() {
   const appContext = useAppContext()
   const { spotifyApiAccessToken } = appContext
 
-  const [topArtistsPageNb, setTopArtistsPageNb] = useState(0)
-  const [topArtists, setTopArtists] = useState<SpotifyArtist[]>([])
-  const [followedArtists, setFollowedArtists] = useState<SpotifyArtist[]>([])
+  const [favouriteArtists, setFavouriteArtists] = useState<SpotifyArtist[]>([])
+  const [isLoadingFavouriteArtists, setIsLoadingFavouriteArtists] = useState(false)
 
   const spotifyApiCodeFromUrl = new URLSearchParams(window.location.search).get("code")
   const spotifyApiErrorFromUrl = new URLSearchParams(window.location.search).get("error") // /spotify-callback?error=access_denied
@@ -75,32 +74,49 @@ export function HomePage() {
     return spotifyProfile.images.at(-1)
   }
 
-  const handleTopArtistsClick = async () => {
-    const artists = await fetchTopArtists(appContext, topArtistsPageNb)
+  async function getTopArtists(): Promise<SpotifyArtist[]> {
+    let topArtistsPageNb = 0
+    const result: SpotifyArtist[] = []
 
-    setTopArtists([
-      ...topArtists,
-      ...artists
-    ])
+    let fetchedArtists = await fetchTopArtists(appContext, topArtistsPageNb)
 
-    setTopArtistsPageNb(topArtistsPageNb + 1)
+    while(!_.isEmpty(fetchedArtists)) {
+      result.push(...fetchedArtists)
+      topArtistsPageNb += 1
+      fetchedArtists = await fetchTopArtists(appContext, topArtistsPageNb)
+    }
+
+    return result
   }
 
-  const handleFollowedArtistsClick = async () => {
-    const artists = await fetchFollowedArtists(appContext, followedArtists.at(-1)?.id)
+  async function getFollowedArtists(): Promise<SpotifyArtist[]> {
+    let idOfLastFetchedArtist: string | undefined = undefined
+    const result: SpotifyArtist[] = []
 
-    setFollowedArtists([
-      ...followedArtists,
-      ...artists
-    ])
+    let fetchedArtists = await fetchFollowedArtists(appContext, idOfLastFetchedArtist)
+
+    while(!_.isEmpty(fetchedArtists)) {
+      result.push(...fetchedArtists)
+      idOfLastFetchedArtist = fetchedArtists.at(-1)?.id
+      fetchedArtists = await fetchFollowedArtists(appContext, idOfLastFetchedArtist)
+    }
+
+    return result
   }
 
   const handleStoreUserFavouriteArtistsClick = async () => {
+    setIsLoadingFavouriteArtists(true)
+
     const storedUser = await storeUser(spotifyProfile)
-    const artists = [...topArtists, ...followedArtists]
-    const storedArtists = await storeUserFavouriteArtists(storedUser, artists)
+    const topArtists = await getTopArtists()
+    const followedArtists = await getFollowedArtists()
+    const favourites = [...topArtists, ...followedArtists]
+    const storedArtists = await storeUserFavouriteArtists(storedUser, favourites)
 
     console.log("stored artists", storedArtists)
+
+    setFavouriteArtists(favourites)
+    setIsLoadingFavouriteArtists(false)
   }
 
   const handleMouseMove = (event: MouseEvent<HTMLImageElement>) => {
@@ -123,11 +139,7 @@ export function HomePage() {
   const spotifyProfile = spotifyProfileQuery.data!
   const spotifyProfileImage = getSpotifyProfileImage()
 
-  const favouriteArtists = [...topArtists, ...followedArtists]
-
   console.log("spotifyProfile", spotifyProfile)
-  console.log("favouriteArtists", favouriteArtists)
-  console.log("total artists", favouriteArtists.length)
 
   return renderContents(
     <>
@@ -151,37 +163,23 @@ export function HomePage() {
         </section>
       )}
 
-      {!_.isEmpty(topArtists) && (
-        <>
-          <h2>Top artists</h2>
-          <ul>
-            {topArtists.map((artist) => (
-              <li key={artist.id}>
-                {!_.isEmpty(artist.images) && <img src={artist.images[0]!.url} alt="artist-avatar"/>}
-                <span>{artist.name}</span>
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
-
-      {!_.isEmpty(followedArtists) && (
-        <>
-          <h2>Followed artists</h2>
-          <ul>
-            {followedArtists.map((artist) => (
-              <li key={artist.id}>
-                {!_.isEmpty(artist.images) && <img src={artist.images[0]!.url} alt="artist-avatar"/>}
-                <span>{artist.name}</span>
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
-
-      <button onClick={handleTopArtistsClick}>Fetch top artists</button>
-      <button onClick={handleFollowedArtistsClick}>Fetch followed artists</button>
       <button onClick={handleStoreUserFavouriteArtistsClick}>Store user favourite artists</button>
+
+      {isLoadingFavouriteArtists && <CircularLoader/>}
+
+      {!isLoadingFavouriteArtists && !_.isEmpty(favouriteArtists) && (
+        <>
+          <h2>Favourite artists</h2>
+          <ul>
+            {favouriteArtists.map((artist) => (
+              <li key={artist.id}>
+                {!_.isEmpty(artist.images) && <img src={artist.images[0]!.url} alt="artist-avatar"/>}
+                <span>{artist.name}</span>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
     </>
   )
 

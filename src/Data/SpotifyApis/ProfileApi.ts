@@ -4,9 +4,6 @@ import { httpStatusCode } from "../../Util/HttpUtils.ts"
 import { SpotifyUserProfile } from "../SpotifyModels/SpotifyUserProfile.ts"
 
 export async function fetchProfile(appContext: AppContextType, shouldRetry = true): Promise<SpotifyUserProfile> {
-  // TODO: remove
-  console.log("fetchProfile")
-
   const { spotifyApiAccessToken } = appContext
 
   if (!spotifyApiAccessToken) {
