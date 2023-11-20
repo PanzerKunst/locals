@@ -1,0 +1,58 @@
+@import "/src/UI/_GlobalStyles/colors";
+@import "/src/UI/_GlobalStyles/mixins";
+
+.favourite-artists.styleless {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  $border-width: 10px;
+  gap: $border-width;
+  padding: $border-width;
+
+  background-color: $color-black;
+
+  @include vw(md) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  @include vw(lg) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @include vw(xl) {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  > li {
+    position: relative;
+
+    &::after {
+      content: "";
+
+      position: absolute;
+      top: 10px;
+      left: 10px;
+
+      background-image: url("/images/Spotify_Icon_RGB_White.png");
+      background-repeat: no-repeat;
+      @include svg-size(18px);
+    }
+
+    > img {
+      aspect-ratio: 1;
+      object-fit: cover;
+    }
+
+    > span {
+      position: absolute;
+      bottom: 15px;
+      left: 15px;
+      max-width: 150px;
+
+      color: $color-text-negative;
+      font-size: 20px;
+      font-weight: 700;
+      @include text-shadow;
+    }
+  }
+}

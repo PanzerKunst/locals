@@ -13,6 +13,7 @@ a.button {
   cursor: pointer;
   color: $color-btn-text;
   padding: 0;
+  border: 0;
 
   min-height: $min-button-size;
   min-width: $min-button-size;
@@ -33,10 +34,13 @@ a.button:not(.icon-only) {
   background-position: left center;
   background-repeat: no-repeat;
 
-  transition: background-size #{$animation-duration-sm}s ease, opacity #{$animation-duration-sm}s ease;
+  transition: all #{$animation-duration-sm}s ease; // background-size color opacity
+
+  color: $color-btn-text-pre-filled;
 
   &.filling {
     background-size: 100% 100%;
+    color: $color-btn-text;
   }
 
   &.skewed {

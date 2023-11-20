@@ -32,7 +32,17 @@
 }
 
 @mixin drop-shadow {
-  box-shadow: 0 2px 8px $color-drop-shadow; // offset-x, offset-y, blur-radius, color
+  $offset-x: 0;
+  $offset-y: 0.125em;
+  $blur-radius: 0.5em;
+  box-shadow: $offset-x $offset-y $blur-radius $color-drop-shadow;
+}
+
+@mixin text-shadow {
+  $offset-x: 0;
+  $offset-y: 0;
+  $blur-radius: 0.125em;
+  text-shadow: $offset-x $offset-y $blur-radius $color-text-shadow;
 }
 
 @mixin to-right-red-gradient {

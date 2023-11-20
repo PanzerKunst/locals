@@ -1,7 +1,8 @@
-import { isEmpty as _isEmpty } from "lodash"
-import { MouseEvent, ReactNode, useState } from "react"
+import { isEmpty as _isEmpty, uniqBy as _uniqBy } from "lodash"
+import { ReactNode, useState } from "react"
 import { useQuery } from "react-query"
 
+import { FavouriteArtists } from "./FavouriteArtists.tsx"
 import { useAppContext } from "../../AppContext.tsx"
 import { storeUser } from "../../Data/BackendApis/UserApi.ts"
 import { storeUserFavouriteArtists } from "../../Data/BackendApis/UserFavouriteArtistsApi.ts"
@@ -10,9 +11,9 @@ import { fetchFollowedArtists } from "../../Data/SpotifyApis/FollowedArtistsApi.
 import { fetchProfile } from "../../Data/SpotifyApis/ProfileApi.ts"
 import { fetchTopArtists } from "../../Data/SpotifyApis/TopItemsApi.ts"
 import { SpotifyArtist } from "../../Data/SpotifyModels/SpotifyArtist.ts"
-import { SpotifyMedia } from "../../Data/SpotifyModels/SpotifyMedia.ts"
 import { appUrlCode } from "../../Util/AppUrlCodes.ts"
 import { getUrlQueryParam } from "../../Util/BrowserUtils.ts"
+import { AnimatedButton } from "../_CommonComponents/AnimatedButton.tsx"
 import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 
 export function HomePage() {
@@ -69,21 +70,13 @@ export function HomePage() {
     return renderContents(<span>Error fetching data</span>)
   }
 
-  function getSpotifyProfileImage(): SpotifyMedia | undefined {
-    if (!spotifyProfile || _isEmpty(spotifyProfile.images)) {
-      return undefined
-    }
-
-    return spotifyProfile.images.at(-1)
-  }
-
   async function getTopArtists(): Promise<SpotifyArtist[]> {
     let topArtistsPageNb = 0
     const result: SpotifyArtist[] = []
 
     let fetchedArtists = await fetchTopArtists(appContext, topArtistsPageNb)
 
-    while(!_isEmpty(fetchedArtists)) {
+    while (!_isEmpty(fetchedArtists)) {
       result.push(...fetchedArtists)
       topArtistsPageNb += 1
       fetchedArtists = await fetchTopArtists(appContext, topArtistsPageNb)
@@ -98,7 +91,7 @@ export function HomePage() {
 
     let fetchedArtists = await fetchFollowedArtists(appContext, idOfLastFetchedArtist)
 
-    while(!_isEmpty(fetchedArtists)) {
+    while (!_isEmpty(fetchedArtists)) {
       result.push(...fetchedArtists)
       idOfLastFetchedArtist = fetchedArtists.at(-1)?.id
       fetchedArtists = await fetchFollowedArtists(appContext, idOfLastFetchedArtist)
@@ -113,7 +106,7 @@ export function HomePage() {
     const storedUser = await storeUser(spotifyProfile)
     const topArtists = await getTopArtists()
     const followedArtists = await getFollowedArtists()
-    const favourites = [...topArtists, ...followedArtists]
+    const favourites = _uniqBy([...topArtists, ...followedArtists], "id")
     const storedArtists = await storeUserFavouriteArtists(storedUser, favourites)
 
     console.log("stored artists", storedArtists)
@@ -122,65 +115,24 @@ export function HomePage() {
     setIsLoadingFavouriteArtists(false)
   }
 
-  const handleMouseMove = (event: MouseEvent<HTMLImageElement>) => {
-    const img = event.currentTarget
-
-    const { width, height, left, top } = img.getBoundingClientRect()
-    const mouseX = event.clientX - (left + width / 2)
-    const mouseY = event.clientY - (top + height / 2)
-    const rotateX = -(mouseY / height) * 30 // tilt factor
-    const rotateY = (mouseX / width) * 30 // tilt factor
-
-    img.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
-  }
-
-  const handleMouseLeave = (event: MouseEvent<HTMLImageElement>) => {
-    const img = event.currentTarget
-    img.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg)"
-  }
-
   const spotifyProfile = spotifyProfileQuery.data!
-  const spotifyProfileImage = getSpotifyProfileImage()
 
   console.log("spotifyProfile", spotifyProfile)
 
   return renderContents(
     <>
-      {spotifyProfile && (
-        <section>
-          <h1>Logged in as {spotifyProfile.display_name}</h1>
-          {spotifyProfileImage && ( // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
-            <img
-              src={spotifyProfileImage.url}
-              alt="user-avatar"
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
-            />
-          )}
-          <ul>
-            <li>User ID: {spotifyProfile.id}</li>
-            <li>Email: {spotifyProfile.email}</li>
-            <li>Spotify URI: <a href={spotifyProfile.external_urls.spotify}>{spotifyProfile.external_urls.spotify}</a></li>
-            <li>Link: <a href={spotifyProfile.href}>{spotifyProfile.href}</a></li>
-          </ul>
-        </section>
-      )}
-
-      <button onClick={handleStoreUserFavouriteArtistsClick}>Store user favourite artists</button>
+      <AnimatedButton className="filling">
+        <button onClick={handleStoreUserFavouriteArtistsClick}>
+          <span>Fetch my favourite artists</span>
+        </button>
+      </AnimatedButton>
 
       {isLoadingFavouriteArtists && <CircularLoader/>}
 
       {!isLoadingFavouriteArtists && !_isEmpty(favouriteArtists) && (
         <>
-          <h2>Favourite artists</h2>
-          <ul>
-            {favouriteArtists.map((artist) => (
-              <li key={artist.id}>
-                {!_isEmpty(artist.images) && <img src={artist.images[0]!.url} alt="artist-avatar"/>}
-                <span>{artist.name}</span>
-              </li>
-            ))}
-          </ul>
+          <h2>1. Select your favourite artists</h2>
+          <FavouriteArtists spotifyArtists={favouriteArtists}/>
         </>
       )}
     </>

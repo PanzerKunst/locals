@@ -11,8 +11,6 @@
   z-index: $z-index-header;
 
   background-color: $color-app-bg;
-  @include drop-shadow;
-
   padding: $header-padding-block $header-padding-inline;
 
   > nav {
