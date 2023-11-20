@@ -27,7 +27,7 @@ export function AppMenu() {
               initial={modalMotionVariants.initial}
               animate={modalMotionVariants.animate}
               exit={modalMotionVariants.initial}
-              transition={{ duration: Number(s.animationDurationShort) }}
+              transition={{ duration: Number(s.animationDurationSm) }}
             >
               <ModalDialog layout="fullscreen">
                 <MenuToggle onToggle={() => setIsOpen(!isOpen)}/>

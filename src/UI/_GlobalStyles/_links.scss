@@ -13,7 +13,7 @@ a:not(.button) {
     background-position: left bottom;
     background-repeat: no-repeat;
 
-    transition: background-size #{$animation-duration-short}s ease;
+    transition: background-size #{$animation-duration-sm}s ease;
 
     $background-size-hidden: 0 max(5%, 2px);
     $background-size-visible: 100% max(5%, 2px);
@@ -36,7 +36,7 @@ a:not(.button) {
   }
 
   /* &.text-color {
-    transition: color #{$animation-duration-short}s ease;
+    transition: color #{$animation-duration-sm}s ease;
 
     &:hover {
       color: $color-link-hover;

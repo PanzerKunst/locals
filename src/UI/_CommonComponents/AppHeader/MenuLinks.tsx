@@ -25,7 +25,7 @@ export function MenuLinks() {
       "li",
       motionVariants.animate,
       {
-        duration: Number(s.animationDurationShort),
+        duration: Number(s.animationDurationSm),
         delay: stagger(0.1, { startDelay: 0.2 })
       }
     )

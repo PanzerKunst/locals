@@ -13,7 +13,7 @@ import "./AppHeader.scss"
 
 let lastScrollY = window.scrollY
 
-/* const motionVariants = {
+const motionVariants = {
   hidden: {
     y: -60, // header height
     // opacity: 0 doesn't look good enough
@@ -22,13 +22,10 @@ let lastScrollY = window.scrollY
     y: 0,
     // opacity: 1 doesn't look good enough
   }
-} */
-
-let posY = 0
-let lastCallTime = 0
+}
 
 const motionTransition: MotionTransition = {
-  duration: Number(s.animationDurationShort),
+  duration: Number(s.animationDurationSm),
   ease: "easeOut"
 }
 
@@ -40,34 +37,16 @@ export function AppHeader() {
 
   useEffect(() => {
     if (isTouch) {
-      // TODO return // Because animations based on scroll position are buggy on mobile, especially iOS
+      return // Because animations based on scroll position are buggy on mobile, especially iOS
     }
 
-    const handleScroll = async () => {
-      const currentTime = performance.now()
-
-      if (lastCallTime !== 0) {
-        const timeDifference = currentTime - lastCallTime
-
-        if (timeDifference < Number(s.animationDurationShort) * 1000) {
-          return
-        }
-      }
-
-      lastCallTime = currentTime
-
+    const handleScroll = () => {
       const currentScrollY = window.scrollY
-      const delta = currentScrollY - lastScrollY
-
-      // TODO: remove
-      console.log("handleScroll", delta)
 
       if (currentScrollY > lastScrollY) {
-        posY = Math.max(posY - delta, -60) // header height
-        animate(scope.current, { y: posY }, motionTransition)
+        animate(scope.current, motionVariants.hidden, motionTransition)
       } else {
-        posY = Math.min(posY - delta, 0)
-        animate(scope.current, { y: posY }, motionTransition)
+        animate(scope.current, motionVariants.visible, motionTransition)
       }
 
       lastScrollY = currentScrollY
@@ -89,7 +68,7 @@ export function AppHeader() {
 
       animate(window.scrollY, top, {
         onUpdate: (value) => window.scrollTo(0, value),
-        duration: Number(s.animationDurationMedium),
+        duration: Number(s.animationDurationMd),
         ease: easeOutFast
       })
     }

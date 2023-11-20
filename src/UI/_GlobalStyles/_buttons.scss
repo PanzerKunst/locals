@@ -17,7 +17,7 @@ a.button {
   min-height: $min-button-size;
   min-width: $min-button-size;
 
-  transition: opacity #{$animation-duration-short}s ease;
+  transition: opacity #{$animation-duration-sm}s ease;
 
   &:hover {
     opacity: 0.9;
@@ -33,7 +33,7 @@ a.button:not(.icon-only) {
   background-position: left center;
   background-repeat: no-repeat;
 
-  transition: background-size #{$animation-duration-short}s ease, opacity #{$animation-duration-short}s ease;
+  transition: background-size #{$animation-duration-sm}s ease, opacity #{$animation-duration-sm}s ease;
 
   &.filling {
     background-size: 100% 100%;
@@ -106,7 +106,7 @@ a.button.icon-only {
   svg {
     /* @include svg-size(40px);
 
-    transition: all #{$animation-duration-short}s ease-in-out; // Smooth transition for transform
+    transition: all #{$animation-duration-sm}s ease-in-out; // Smooth transition for transform
     transform: scale(1); // Default scale */
   }
 

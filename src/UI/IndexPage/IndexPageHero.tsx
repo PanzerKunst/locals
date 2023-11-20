@@ -15,7 +15,7 @@ const motionVariants = {
 }
 
 const motionTransition = {
-  duration: s.animationDurationMedium,
+  duration: s.animationDurationMd,
   ease: easeOutFast
 }
 
@@ -44,7 +44,7 @@ export function IndexPageHero() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: s.animationDurationShort, delay: 0.7 }}
+        transition={{ duration: s.animationDurationSm, delay: 0.7 }}
       >
         <AnimatedButton className="filling">
           <Link to="/home" className="button lg rounded spotify">
