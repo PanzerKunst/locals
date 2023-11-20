@@ -1,4 +1,4 @@
-import _ from "lodash"
+import { isEmpty as _isEmpty } from "lodash"
 import { MouseEvent, ReactNode, useState } from "react"
 import { useQuery } from "react-query"
 
@@ -70,7 +70,7 @@ export function HomePage() {
   }
 
   function getSpotifyProfileImage(): SpotifyMedia | undefined {
-    if (!spotifyProfile || _.isEmpty(spotifyProfile.images)) {
+    if (!spotifyProfile || _isEmpty(spotifyProfile.images)) {
       return undefined
     }
 
@@ -83,7 +83,7 @@ export function HomePage() {
 
     let fetchedArtists = await fetchTopArtists(appContext, topArtistsPageNb)
 
-    while(!_.isEmpty(fetchedArtists)) {
+    while(!_isEmpty(fetchedArtists)) {
       result.push(...fetchedArtists)
       topArtistsPageNb += 1
       fetchedArtists = await fetchTopArtists(appContext, topArtistsPageNb)
@@ -98,7 +98,7 @@ export function HomePage() {
 
     let fetchedArtists = await fetchFollowedArtists(appContext, idOfLastFetchedArtist)
 
-    while(!_.isEmpty(fetchedArtists)) {
+    while(!_isEmpty(fetchedArtists)) {
       result.push(...fetchedArtists)
       idOfLastFetchedArtist = fetchedArtists.at(-1)?.id
       fetchedArtists = await fetchFollowedArtists(appContext, idOfLastFetchedArtist)
@@ -170,13 +170,13 @@ export function HomePage() {
 
       {isLoadingFavouriteArtists && <CircularLoader/>}
 
-      {!isLoadingFavouriteArtists && !_.isEmpty(favouriteArtists) && (
+      {!isLoadingFavouriteArtists && !_isEmpty(favouriteArtists) && (
         <>
           <h2>Favourite artists</h2>
           <ul>
             {favouriteArtists.map((artist) => (
               <li key={artist.id}>
-                {!_.isEmpty(artist.images) && <img src={artist.images[0]!.url} alt="artist-avatar"/>}
+                {!_isEmpty(artist.images) && <img src={artist.images[0]!.url} alt="artist-avatar"/>}
                 <span>{artist.name}</span>
               </li>
             ))}

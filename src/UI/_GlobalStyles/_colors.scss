@@ -19,17 +19,16 @@ $color-red-orange: rgb(199 49 25); // #C73119
 $color-green-spotify: rgb(30 215 96); // #1ed760
 
 // Functional colors, to use in the rest of the app
-$color-app-bg: $color-greyscale-1;
+$color-app-bg: $color-greyscale-9;
 $color-app-alt-bg-1: $color-pink-2;
 $color-app-alt-bg-2: $color-purple-2;
-$color-body-text: $color-greyscale-9;
+$color-body-text: $color-greyscale-1;
 $color-btn-text: $color-white;
 $color-btn-bg-primary-gradient-start: $color-red;
 $color-btn-bg-primary-gradient-end: $color-orange;
 $color-btn-bg-spotify: $color-green-spotify;
 $color-loader: $color-purple;
-$color-link: $color-white;
-$color-link-hover: $color-orange;
-$color-icon: $color-white;
+$color-link: $color-greyscale-1;
+$color-icon: $color-greyscale-1;
 $color-icon-hover: $color-orange;
 $color-drop-shadow: $color-greyscale-1-opacity-50pc;

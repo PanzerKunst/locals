@@ -13,7 +13,7 @@ import "./AppHeader.scss"
 
 let lastScrollY = window.scrollY
 
-const motionVariants = {
+/* const motionVariants = {
   hidden: {
     y: -60, // header height
     // opacity: 0 doesn't look good enough
@@ -22,7 +22,10 @@ const motionVariants = {
     y: 0,
     // opacity: 1 doesn't look good enough
   }
-}
+} */
+
+let posY = 0
+let lastCallTime = 0
 
 const motionTransition: MotionTransition = {
   duration: Number(s.animationDurationShort),
@@ -37,16 +40,34 @@ export function AppHeader() {
 
   useEffect(() => {
     if (isTouch) {
-      return // Because animations based on scroll position are buggy on mobile, especially iOS
+      // TODO return // Because animations based on scroll position are buggy on mobile, especially iOS
     }
 
-    const handleScroll = () => {
+    const handleScroll = async () => {
+      const currentTime = performance.now()
+
+      if (lastCallTime !== 0) {
+        const timeDifference = currentTime - lastCallTime
+
+        if (timeDifference < Number(s.animationDurationShort) * 1000) {
+          return
+        }
+      }
+
+      lastCallTime = currentTime
+
       const currentScrollY = window.scrollY
+      const delta = currentScrollY - lastScrollY
+
+      // TODO: remove
+      console.log("handleScroll", delta)
 
       if (currentScrollY > lastScrollY) {
-        animate(scope.current, motionVariants.hidden, motionTransition)
+        posY = Math.max(posY - delta, -60) // header height
+        animate(scope.current, { y: posY }, motionTransition)
       } else {
-        animate(scope.current, motionVariants.visible, motionTransition)
+        posY = Math.min(posY - delta, 0)
+        animate(scope.current, { y: posY }, motionTransition)
       }
 
       lastScrollY = currentScrollY

@@ -14,9 +14,6 @@
   @include drop-shadow;
 
   padding: $header-padding-block $header-padding-inline;
-  @include vw(md) {
-    padding: $header-padding-block-vw-md $header-padding-inline-vw-md;
-  }
 
   > nav {
     flex-grow: 1;

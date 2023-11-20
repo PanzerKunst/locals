@@ -52,7 +52,7 @@ export function IndexPage() {
 
           <FadeIn className="centered-contents">
             <AnimatedButton className="filling">
-              <Link to="/home" className="button"><span>Get started</span></Link>
+              <Link to="/home" className="button"><span>Register for Free</span></Link>
             </AnimatedButton>
           </FadeIn>
         </div>

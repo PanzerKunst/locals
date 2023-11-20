@@ -35,11 +35,11 @@ a:not(.button) {
     }
   }
 
-  &.text-color {
+  /* &.text-color {
     transition: color #{$animation-duration-short}s ease;
 
     &:hover {
       color: $color-link-hover;
     }
-  }
+  } */
 }

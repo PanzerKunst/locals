@@ -40,11 +40,8 @@ span {
   }
 }
 
-p:not(:last-child) {
-  margin-bottom: 2em;
-}
-
 .container p {
   font-size: max(1.8vw, 18px);
   line-height: 1.4em;
+  margin-bottom: 2em;
 }
