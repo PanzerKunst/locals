@@ -1,11 +1,14 @@
 import dayjs from "dayjs"
 import React, { createContext, ReactNode, useCallback, useContext, useMemo, useState } from "react"
 
+import { User } from "./Data/BackendModels/User.ts"
 import {
+  getLoggedInUserFromLocalStorage,
   getSpotifyApiAccessTokenFromLocalStorage,
   getSpotifyApiRefreshTokenFromLocalStorage,
   getSpotifyApiTokenExpirationDateFromLocalStorage,
   getSpotifyApiVerifierFromLocalStorage,
+  saveLoggedInUserInLocalStorage,
   saveSpotifyApiAccessTokenInLocalStorage,
   saveSpotifyApiRefreshTokenInLocalStorage,
   saveSpotifyApiTokenExpirationDateInLocalStorage,
@@ -20,12 +23,15 @@ export type AppContextType = {
   spotifyApiRefreshToken?: string;
   setSpotifyApiRefreshToken: (token: string | undefined) => void; // eslint-disable-line no-unused-vars
   spotifyApiTokenExpirationDate?: Date;
+  loggedInUser?: User;
+  setLoggedInUser: (user: User | undefined) => void; // eslint-disable-line no-unused-vars
 }
 
 const AppContext = createContext<AppContextType>({
   setSpotifyApiVerifier: () => {},
   setSpotifyApiAccessToken: () => {},
-  setSpotifyApiRefreshToken: () => {}
+  setSpotifyApiRefreshToken: () => {},
+  setLoggedInUser: () => {}
 })
 
 type Props = {
@@ -37,6 +43,7 @@ export function AppContextProvider({ children }: Props) {
   const [spotifyApiAccessToken, setSpotifyApiAccessToken] = useState(getSpotifyApiAccessTokenFromLocalStorage())
   const [spotifyApiRefreshToken, setSpotifyApiRefreshToken] = useState(getSpotifyApiRefreshTokenFromLocalStorage())
   const [spotifyApiTokenExpirationDate, setSpotifyApiTokenExpirationDateState] = useState(getSpotifyApiTokenExpirationDateFromLocalStorage())
+  const [loggedInUser, setLoggedInUser] = useState<User | undefined>(getLoggedInUserFromLocalStorage())
 
   const setSpotifyApiTokenExpirationDate = useCallback((date: Date) => {
     if (!dayjs(spotifyApiTokenExpirationDate).isSame(dayjs(date), "second")) {
@@ -78,11 +85,17 @@ export function AppContextProvider({ children }: Props) {
       setSpotifyApiRefreshToken(token)
     },
 
-    spotifyApiTokenExpirationDate
-  }), [setSpotifyApiAccessToken,
-    setSpotifyApiRefreshToken,
+    spotifyApiTokenExpirationDate,
+
+    loggedInUser,
+
+    setLoggedInUser: (user: User | undefined) => {
+      saveLoggedInUserInLocalStorage(user)
+      setLoggedInUser(user)
+    }
+  }), [
+    loggedInUser,
     setSpotifyApiTokenExpirationDate,
-    setSpotifyApiVerifier,
     spotifyApiAccessToken,
     spotifyApiRefreshToken,
     spotifyApiTokenExpirationDate,

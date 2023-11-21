@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 
 import { IndexPageHero } from "./IndexPageHero.tsx"
-import { appUrlCode } from "../../Util/AppUrlCodes.ts"
+import { appUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
 import { getUrlQueryParam } from "../../Util/BrowserUtils.ts"
 import { AnimatedButton } from "../_CommonComponents/AnimatedButton.tsx"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
@@ -10,11 +10,13 @@ import { ErrorSnackbar } from "../_CommonComponents/Snackbar/ErrorSnackbar.tsx"
 import "./IndexPage.scss"
 
 export function IndexPage() {
-  const spotifyCallbackErrorFromUrl = getUrlQueryParam(appUrlCode.SPOTIFY_CALLBACK_ERROR)
+  const spotifyCallbackErrorFromUrl = getUrlQueryParam(appUrlQueryParam.SPOTIFY_CALLBACK_ERROR)
+  const spotifyProfileErrorFromUrl = getUrlQueryParam(appUrlQueryParam.SPOTIFY_PROFILE_ERROR)
 
   return (
     <div className="page index">
       {spotifyCallbackErrorFromUrl && <ErrorSnackbar message={`Spotify API error: "${spotifyCallbackErrorFromUrl}"`}/>}
+      {spotifyProfileErrorFromUrl && <ErrorSnackbar message={`Spotify profile error: "${spotifyProfileErrorFromUrl}"`}/>}
 
       <IndexPageHero/>
 

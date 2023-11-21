@@ -1,19 +1,58 @@
+import qs from "qs"
+
+import { AppContextType } from "../../AppContext.tsx"
+import { httpStatusCode } from "../../Util/HttpUtils.ts"
 import { config } from "../../config.ts"
 import { User } from "../BackendModels/User.ts"
 import { SpotifyUserProfile } from "../SpotifyModels/SpotifyUserProfile.ts"
 
-export async function storeUser(sporifyUserProfile: SpotifyUserProfile): Promise<User> {
+export async function fetchUser(appContext: AppContextType, spotifyUserProfile: SpotifyUserProfile): Promise<User | undefined> {
+  const { setLoggedInUser } = appContext
+  const queryParams = { spotify_id: spotifyUserProfile.id }
+  const queryString = `?${qs.stringify(queryParams)}`
+  const url = `${config.BACKEND_URL}/user${queryString}`
+
+  const result = await fetch(url, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  })
+
+  if (!result.ok) {
+    throw new Error("Error while fetching user")
+  }
+
+  const user = result.status === httpStatusCode.NO_CONTENT
+    ? undefined
+    : await result.json() as User
+
+  setLoggedInUser(user)
+
+  return user
+}
+
+export async function storeUser(appContext: AppContextType, spotifyUserProfile: SpotifyUserProfile): Promise<User> {
+  const existingUser = await fetchUser(appContext, spotifyUserProfile)
+
+  if (existingUser) {
+    return existingUser
+  }
+
+  const { setLoggedInUser } = appContext
   const url = `${config.BACKEND_URL}/user`
 
   const result = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(sporifyUserProfile)
+    body: JSON.stringify(spotifyUserProfile)
   })
 
   if (!result.ok) {
     throw new Error("Error while storing user")
   }
 
-  return await result.json() as User
+  const user = await result.json() as User
+
+  setLoggedInUser(user)
+
+  return user
 }
