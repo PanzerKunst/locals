@@ -9,7 +9,6 @@ import { fetchProfile } from "../../Data/SpotifyApis/ProfileApi.ts"
 import { SpotifyUserProfile } from "../../Data/SpotifyModels/SpotifyUserProfile.ts"
 import { appUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
 import { getUrlQueryParam } from "../../Util/BrowserUtils.ts"
-import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 
 export function HomePage() {
@@ -76,10 +75,6 @@ export function HomePage() {
     // Omitting `appContext` in the dependencies avoids an infinite loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [spotifyProfileQuery.data])
-
-  if (spotifyAccessTokenQuery.isLoading || spotifyProfileQuery.isLoading) {
-    return renderContents(<CircularLoader/>)
-  }
 
   if (spotifyAccessTokenQuery.isError || spotifyProfileQuery.isError) {
     return renderContents(<span>Error fetching data</span>)

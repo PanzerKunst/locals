@@ -91,6 +91,7 @@ a.button:not(.icon-only) {
   }
 
   &.spotify {
+    color: $color-btn-text;
     background: $color-btn-bg-spotify;
   }
 }

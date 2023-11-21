@@ -33,7 +33,7 @@ export function AppMenu() {
                 <MenuToggle onToggle={() => setIsOpen(!isOpen)}/>
 
                 <nav>
-                  <MenuLinks/>
+                  <MenuLinks closeMenu={() => setIsOpen(false)}/>
                 </nav>
               </ModalDialog>
             </motion.div>

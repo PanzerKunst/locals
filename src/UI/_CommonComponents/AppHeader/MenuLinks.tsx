@@ -6,6 +6,10 @@ import { actionsFromAppUrl, appUrlQueryParam } from "../../../Util/AppUrlQueryPa
 
 import s from "/src/UI/_GlobalStyles/_exports.module.scss"
 
+type Props = {
+  closeMenu: () => void;
+}
+
 const motionVariants = {
   initial: {
     opacity: 0,
@@ -19,7 +23,7 @@ const motionVariants = {
   }
 }
 
-export function MenuLinks() {
+export function MenuLinks({ closeMenu }: Props) {
   const [scope, animate] = useAnimate()
 
   useEffect(() => {
@@ -36,10 +40,10 @@ export function MenuLinks() {
   return (
     <ul ref={scope} className="styleless">
       <motion.li initial={motionVariants.initial}>
-        <Link to="/profile" className="underline appears">My Profile</Link>
+        <Link to="/profile" className="underline appears" onClick={closeMenu}>My Profile</Link>
       </motion.li>
       <motion.li initial={motionVariants.initial}>
-        <Link to={`/?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.SIGN_OUT}`} className="underline appears">Sign out</Link>
+        <Link to={`/?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.SIGN_OUT}`} className="underline appears" onClick={closeMenu}>Sign out</Link>
       </motion.li>
     </ul>
   )

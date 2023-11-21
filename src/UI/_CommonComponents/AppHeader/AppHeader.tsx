@@ -58,7 +58,7 @@ export function AppHeader() {
   }, [animate, scope])
 
   const handleLinkClick = (event: MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault()
+    event.preventDefault() // TODO: only if already on index page
 
     const href = event.currentTarget.getAttribute("href")!
     const sectionElement = document.getElementById(href.replace("#", ""))
@@ -81,8 +81,8 @@ export function AppHeader() {
           <ElectricBolt/>
         </Link>
         <div>
-          <a href="#the-problem" onClick={handleLinkClick} className="underline appears">The problem</a>
-          <a href="#the-solution" onClick={handleLinkClick} className="underline appears">The solution</a>
+          <a href="/#the-problem" onClick={handleLinkClick} className="underline appears">The problem</a>
+          <a href="/#the-solution" onClick={handleLinkClick} className="underline appears">The solution</a>
         </div>
       </nav>
       <AppMenu/>
