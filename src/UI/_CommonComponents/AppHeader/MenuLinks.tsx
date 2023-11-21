@@ -2,6 +2,8 @@ import { motion, stagger, useAnimate } from "framer-motion"
 import { useEffect } from "react"
 import { Link } from "react-router-dom"
 
+import { actionsFromAppUrl, appUrlQueryParam } from "../../../Util/AppUrlQueryParams.ts"
+
 import s from "/src/UI/_GlobalStyles/_exports.module.scss"
 
 const motionVariants = {
@@ -37,7 +39,7 @@ export function MenuLinks() {
         <Link to="/profile" className="underline appears">My Profile</Link>
       </motion.li>
       <motion.li initial={motionVariants.initial}>
-        <Link to="/?action=signOut" className="underline appears">Sign out</Link>
+        <Link to={`/?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.SIGN_OUT}`} className="underline appears">Sign out</Link>
       </motion.li>
     </ul>
   )

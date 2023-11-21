@@ -1,7 +1,9 @@
+import { useEffect } from "react"
 import { Link } from "react-router-dom"
 
 import { IndexPageHero } from "./IndexPageHero.tsx"
-import { appUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
+import { useAppContext } from "../../AppContext.tsx"
+import { actionsFromAppUrl, appUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
 import { getUrlQueryParam } from "../../Util/BrowserUtils.ts"
 import { AnimatedButton } from "../_CommonComponents/AnimatedButton.tsx"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
@@ -10,6 +12,17 @@ import { ErrorSnackbar } from "../_CommonComponents/Snackbar/ErrorSnackbar.tsx"
 import "./IndexPage.scss"
 
 export function IndexPage() {
+  const { setSpotifyApiAccessToken, setSpotifyApiRefreshToken, setLoggedInUser } = useAppContext()
+  const actionFromUrl = getUrlQueryParam(appUrlQueryParam.ACTION)
+
+  useEffect(() => {
+    if (actionFromUrl === actionsFromAppUrl.SIGN_OUT) {
+      setSpotifyApiAccessToken(undefined)
+      setSpotifyApiRefreshToken(undefined)
+      setLoggedInUser(undefined)
+    }
+  }, [actionFromUrl, setLoggedInUser, setSpotifyApiAccessToken, setSpotifyApiRefreshToken])
+
   const spotifyCallbackErrorFromUrl = getUrlQueryParam(appUrlQueryParam.SPOTIFY_CALLBACK_ERROR)
   const spotifyProfileErrorFromUrl = getUrlQueryParam(appUrlQueryParam.SPOTIFY_PROFILE_ERROR)
 
