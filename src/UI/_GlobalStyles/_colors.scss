@@ -6,6 +6,8 @@ $color-transparent-black: color.adjust($color-black, $alpha: -1);
 $color-white: rgb(255 255 255); // #fff
 $color-greyscale-1: rgb(46 46 46); // #25272E
 $color-greyscale-5: rgb(147 147 147); // #939393
+$color-greyscale-7: rgb(193 193 193); // #C1C1C1
+$color-greyscale-8: rgb(219 219 219); // #DBDBDB
 $color-greyscale-9: rgb(242 242 242); // #f2f2f2
 $color-greyscale-1-opacity-50pc: color.adjust($color-greyscale-1, $alpha: -0.5);
 $color-pink: rgb(184 4 126); // #B8047E
@@ -36,3 +38,4 @@ $color-icon: $color-greyscale-1;
 $color-icon-hover: $color-orange;
 $color-drop-shadow: $color-greyscale-1-opacity-50pc;
 $color-text-shadow: $color-greyscale-1;
+$color-placeholder: $color-greyscale-8;

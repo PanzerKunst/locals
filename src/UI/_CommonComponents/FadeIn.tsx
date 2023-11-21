@@ -3,23 +3,23 @@ import { motion } from "framer-motion"
 import { ReactNode } from "react"
 
 import s from "/src/UI/_GlobalStyles/_exports.module.scss"
-import "./FadeIn.scss"
 
 type Props = {
   children: ReactNode;
+  delay?: number;
   className?: string;
 }
 
-export function FadeIn({ children, className = "" }: Props) {
+export function FadeIn({ children, delay = 0.1, className = "" }: Props) {
   return (
-    <motion.span
+    <motion.div
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
-      transition={{ duration: s.animationDurationSm, delay: 0.1 }}
-      className={classNames("scroll-to-visible", className)}
+      transition={{ duration: s.animationDurationSm, delay }}
+      className={classNames("fade-in", className)}
     >
       {children}
-    </motion.span>
+    </motion.div>
   )
 }

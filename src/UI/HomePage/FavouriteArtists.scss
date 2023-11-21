@@ -23,6 +23,7 @@
   > li {
     position: relative;
     container-type: inline-size;
+    aspect-ratio: 1; // To have the right height even before the images are loaded
 
     &::after {
       content: "";
@@ -36,25 +37,34 @@
       @include img-size(10%);
     }
 
-    > img {
-      aspect-ratio: 1;
-      object-fit: cover;
+    @mixin border-radius {
       border-radius: 5px;
     }
 
-    > span {
-      position: absolute;
-      bottom: 8%;
-      left: 8%;
-      max-width: 150px;
+    > .fade-in {
+      background-color: $color-placeholder;
+      @include border-radius;
 
-      color: $color-text-negative;
-      font-size: 18px;
-      font-weight: 700;
-      @include text-shadow;
+      > img {
+        aspect-ratio: 1;
+        object-fit: cover;
+        @include border-radius;
+      }
 
-      @container (min-width: 170px) {
-        font-size: 20px;
+      > span {
+        position: absolute;
+        bottom: 8%;
+        left: 8%;
+        max-width: 150px;
+
+        color: $color-text-negative;
+        font-size: 18px;
+        font-weight: 700;
+        @include text-shadow;
+
+        @container (min-width: 170px) {
+          font-size: 20px;
+        }
       }
     }
   }

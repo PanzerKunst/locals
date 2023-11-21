@@ -15,6 +15,7 @@ import { appUrlCode } from "../../Util/AppUrlCodes.ts"
 import { getUrlQueryParam } from "../../Util/BrowserUtils.ts"
 import { AnimatedButton } from "../_CommonComponents/AnimatedButton.tsx"
 import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
+import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 
 export function HomePage() {
   const appContext = useAppContext()
@@ -131,7 +132,9 @@ export function HomePage() {
 
       {!isLoadingFavouriteArtists && !_isEmpty(favouriteArtists) && (
         <>
-          <h2>1. Select your favourite artists</h2>
+          <FadeIn>
+            <h2>1. Select your favourite artists</h2>
+          </FadeIn>
           <FavouriteArtists spotifyArtists={favouriteArtists}/>
         </>
       )}
