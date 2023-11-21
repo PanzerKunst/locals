@@ -54,7 +54,7 @@ a.button:not(.icon-only) {
 
   > svg,
   > img {
-    @include svg-size(24px);
+    @include img-size(24px);
     margin-right: 10px;
   }
 

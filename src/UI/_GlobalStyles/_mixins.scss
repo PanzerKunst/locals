@@ -1,10 +1,10 @@
 @import "./colors";
 @import "./numbers";
 
-@mixin svg-size($size) {
+@mixin img-size($size) {
   width: $size;
   height: $size;
-  background-size: $size $size;
+  background-size: contain;
 }
 
 @mixin vw($size) {
