@@ -3,14 +3,13 @@ import qs from "qs"
 import { AppContextType } from "../../../AppContext.tsx"
 import { httpStatusCode } from "../../../Util/HttpUtils.ts"
 import { config } from "../../../config.ts"
-import { User } from "../Models/User.ts"
 import { SpotifyUserProfile } from "../../Spotify/Models/SpotifyUserProfile.ts"
+import { User } from "../Models/User.ts"
 
 export async function fetchUser(appContext: AppContextType, spotifyUserProfile: SpotifyUserProfile): Promise<User | undefined> {
   const queryParams = { spotify_id: spotifyUserProfile.id }
-  const queryString = `?${qs.stringify(queryParams)}`
 
-  const result = await fetch(`${config.BACKEND_URL}/user${queryString}`, {
+  const result = await fetch(`${config.BACKEND_URL}/user?${qs.stringify(queryParams)}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" }
   })

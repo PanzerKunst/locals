@@ -1,8 +1,8 @@
 type AppUrlQueryParam = {
-  ACTION: string;
-  SPOTIFY_CALLBACK_ERROR: string;
-  SPOTIFY_PROFILE: string;
-  SPOTIFY_PROFILE_ERROR: string;
+  readonly ACTION: string;
+  readonly SPOTIFY_CALLBACK_ERROR: string;
+  readonly SPOTIFY_PROFILE: string;
+  readonly SPOTIFY_PROFILE_ERROR: string;
 }
 
 export const appUrlQueryParam: AppUrlQueryParam = {
@@ -13,7 +13,7 @@ export const appUrlQueryParam: AppUrlQueryParam = {
 }
 
 type ActionsFromAppUrl = {
-  SIGN_OUT: string;
+  readonly SIGN_OUT: string;
 }
 
 export const actionsFromAppUrl: ActionsFromAppUrl = {

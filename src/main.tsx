@@ -11,15 +11,13 @@ import "./main.scss"
 
 dayjs.locale("sv")
 
-const queryClient = new QueryClient()
-
 export const isTouch = isTouchDevice()
 
 document.body.style.setProperty("--scrollbar-width", `${getScrollbarWidth()}px`)
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={new QueryClient()}>
       <App/>
     </QueryClientProvider>
   </React.StrictMode>

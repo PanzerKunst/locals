@@ -1,53 +1,22 @@
 import qs from "qs"
 
-import { AppContextType } from "../../../AppContext.tsx"
-import { httpStatusCode } from "../../../Util/HttpUtils.ts"
 import { config } from "../../../config.ts"
-import { User } from "../../Backend/Models/User.ts"
-import { SpotifyUserProfile } from "../../Spotify/Models/SpotifyUserProfile.ts"
+import { GeoapifyFeature } from "../Models/GeoapifyFeature.ts"
 
-export async function fetchLocation(search: string): Promise<User | undefined> {
-  const queryParams = { spotify_id: spotifyUserProfile.id }
-  const queryString = `?${qs.stringify(queryParams)}`
+export async function fetchLocations(search: string): Promise<GeoapifyFeature[]> {
+  const queryParams = {
+    text: search,
+    apiKey: config.GEOAPIFY_API_KEY,
+  }
 
-  const result = await fetch(`${config.BACKEND_URL}/user${queryString}`, {
+  const result = await fetch(`${config.GEOAPIFY_API_URL}/autocomplete?${qs.stringify(queryParams)}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" }
   })
 
   if (!result.ok) {
-    throw new Error("Error while fetching user")
+    throw new Error("Error while fetching locations")
   }
 
-  const user = result.status === httpStatusCode.NO_CONTENT
-    ? undefined
-    : await result.json() as User
-
-  appContext.setLoggedInUser(user)
-
-  return user
-}
-
-export async function storeUser(appContext: AppContextType, spotifyUserProfile: SpotifyUserProfile): Promise<User> {
-  const existingUser = await fetchUser(appContext, spotifyUserProfile)
-
-  if (existingUser) {
-    return existingUser
-  }
-
-  const result = await fetch(`${config.BACKEND_URL}/user`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(spotifyUserProfile)
-  })
-
-  if (!result.ok) {
-    throw new Error("Error while storing user")
-  }
-
-  const user = await result.json() as User
-
-  appContext.setLoggedInUser(user)
-
-  return user
+  return await result.json() as GeoapifyFeature[]
 }
