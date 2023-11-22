@@ -1,6 +1,6 @@
 import { motion } from "framer-motion"
 
-import s from "/src/UI/_GlobalStyles/_exports.module.scss"
+import s from "/src/UI/_CommonStyles/_exports.module.scss"
 
 type PathProps = {
   variants: {

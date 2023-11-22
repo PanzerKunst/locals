@@ -1,4 +1,4 @@
-import { SpotifyArtist } from "../../Data/SpotifyModels/SpotifyArtist.ts"
+import { SpotifyArtist } from "../../Data/Spotify/Models/SpotifyArtist.ts"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 
 import "./FavouriteArtists.scss"
@@ -35,7 +35,7 @@ export function FavouriteArtists({ spotifyArtists }: Props) {
 
         return (// eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
           <li key={spotifyArtist.id} /* onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} */>
-            <FadeIn delay={0.5}>
+            <FadeIn delay={0.3}>
               {mediumImage && <img src={mediumImage.url} alt="artist-avatar"/>}
               <span>{spotifyArtist.name}</span>
             </FadeIn>

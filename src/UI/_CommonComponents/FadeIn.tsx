@@ -2,7 +2,7 @@ import classNames from "classnames"
 import { motion } from "framer-motion"
 import { ReactNode } from "react"
 
-import s from "/src/UI/_GlobalStyles/_exports.module.scss"
+import s from "/src/UI/_CommonStyles/_exports.module.scss"
 
 type Props = {
   children: ReactNode;

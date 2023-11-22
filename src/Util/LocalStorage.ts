@@ -1,4 +1,4 @@
-import { isUserCompatible, User } from "../Data/BackendModels/User.ts"
+import { isUserCompatible, User } from "../Data/Backend/Models/User.ts"
 
 export type ContextInLocalStorage = {
   spotifyApiVerifier?: string;

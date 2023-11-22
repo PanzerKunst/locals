@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 
 import { easeOutFast } from "../../Util/AnimationUtils.ts"
 
-import s from "/src/UI/_GlobalStyles/_exports.module.scss"
+import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./IndexPageHero.scss"
 
 const motionVariants = {

@@ -4,7 +4,7 @@ import { ReactNode } from "react"
 
 import { useViewportSize } from "../../../Util/BrowserUtils.ts"
 
-import s from "/src/UI/_GlobalStyles/_exports.module.scss"
+import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./AppSnackbar.scss"
 
 type Props = {

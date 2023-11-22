@@ -1,7 +1,7 @@
 import { SpotifyExternalUrls } from "./SpotifyExternalUrls.ts"
 import { SpotifyFollowers } from "./SpotifyFollowers.ts"
 import { SpotifyMedia } from "./SpotifyMedia.ts"
-import { User } from "../BackendModels/User.ts"
+import { User } from "../../Backend/Models/User.ts"
 
 export type SpotifyUserProfile = {
   country: string;

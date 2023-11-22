@@ -3,7 +3,7 @@ import { createBrowserRouter, Outlet, RouterProvider, ScrollRestoration } from "
 import { HomePage } from "./HomePage/HomePage.tsx"
 import { IndexPage } from "./IndexPage/IndexPage.tsx"
 import { PrivacyPolicyPage } from "./PrivacyPolicyPage/PrivacyPolicyPage.tsx"
-import { RegistrationStep1 } from "./RegistrationStep1/RegistrationStep1.tsx"
+import { RegistrationPage } from "./RegistrationPage/RegistrationPage.tsx"
 import { AppFooter } from "./_CommonComponents/AppFooter.tsx"
 import { AppHeader } from "./_CommonComponents/AppHeader/AppHeader.tsx"
 import { AppContextProvider } from "../AppContext.tsx"
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
       { path: "/", element: <IndexPage /> },
       { path: "home", element: <HomePage /> },
       { path: "spotify-callback", element: <HomePage /> },
-      { path: "registration-step-1", element: <RegistrationStep1 /> },
+      { path: "registration-step-1", element: <RegistrationPage /> },
       { path: "privacy", element: <PrivacyPolicyPage /> }
     ]
   }

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 
 import { actionsFromAppUrl, appUrlQueryParam } from "../../../Util/AppUrlQueryParams.ts"
 
-import s from "/src/UI/_GlobalStyles/_exports.module.scss"
+import s from "/src/UI/_CommonStyles/_exports.module.scss"
 
 type Props = {
   closeMenu: () => void;

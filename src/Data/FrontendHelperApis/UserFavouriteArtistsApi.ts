@@ -1,9 +1,9 @@
 import { isEmpty as _isEmpty, uniqBy as _uniqBy } from "lodash"
 
 import { AppContextType } from "../../AppContext.tsx"
-import { fetchFollowedArtists } from "../SpotifyApis/FollowedArtistsApi.ts"
-import { fetchTopArtists } from "../SpotifyApis/TopItemsApi.ts"
-import { SpotifyArtist } from "../SpotifyModels/SpotifyArtist.ts"
+import { fetchFollowedArtists } from "../Spotify/Apis/FollowedArtistsApi.ts"
+import { fetchTopArtists } from "../Spotify/Apis/TopItemsApi.ts"
+import { SpotifyArtist } from "../Spotify/Models/SpotifyArtist.ts"
 
 export async function fetchFavouriteSpotifyArtists(appContext: AppContextType): Promise<SpotifyArtist[]> {
   const topArtists = await fetchTopSpotifyArtists(appContext)

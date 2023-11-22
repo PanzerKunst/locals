@@ -1,7 +1,8 @@
 import { redirectToAuthCodeFlow, refreshToken } from "./AuthApi.ts"
-import { AppContextType } from "../../AppContext.tsx"
-import { httpStatusCode } from "../../Util/HttpUtils.ts"
-import { SpotifyUserProfile } from "../SpotifyModels/SpotifyUserProfile.ts"
+import { AppContextType } from "../../../AppContext.tsx"
+import { httpStatusCode } from "../../../Util/HttpUtils.ts"
+import { config } from "../../../config.ts"
+import { SpotifyUserProfile } from "../Models/SpotifyUserProfile.ts"
 
 export async function fetchProfile(appContext: AppContextType, shouldRetry = true): Promise<SpotifyUserProfile> {
   const { spotifyApiAccessToken } = appContext
@@ -10,7 +11,7 @@ export async function fetchProfile(appContext: AppContextType, shouldRetry = tru
     throw new Error("No Spotify API access token found in app context")
   }
 
-  const result = await fetch("https://api.spotify.com/v1/me", {
+  const result = await fetch(`${config.SPOTIFY_API_URL}/me`, {
     method: "GET",
     headers: { Authorization: `Bearer ${spotifyApiAccessToken}` }
   })

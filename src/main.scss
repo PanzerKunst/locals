@@ -2,12 +2,12 @@
 @import "/node_modules/normalize.css/normalize.css";
 
 // 3rd party overrides
-@import "UI/_GlobalStyles/3rdPartyOverrides/mui";
+@import "UI/_CommonStyles/3rdPartyOverrides/mui";
 
 // App globals
-@import "UI/_GlobalStyles/buttons";
-@import "UI/_GlobalStyles/fonts";
-@import "UI/_GlobalStyles/links";
-@import "UI/_GlobalStyles/lists";
-@import "UI/_GlobalStyles/typography";
-@import "UI/_GlobalStyles/utilityClasses";
+@import "UI/_CommonStyles/buttons";
+@import "UI/_CommonStyles/fonts";
+@import "UI/_CommonStyles/links";
+@import "UI/_CommonStyles/lists";
+@import "UI/_CommonStyles/typography";
+@import "UI/_CommonStyles/utilityClasses";

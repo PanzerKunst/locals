@@ -1,7 +1,7 @@
 import dayjs from "dayjs"
 import React, { createContext, ReactNode, useCallback, useContext, useMemo, useState } from "react"
 
-import { User } from "./Data/BackendModels/User.ts"
+import { User } from "./Data/Backend/Models/User.ts"
 import {
   getLoggedInUserFromLocalStorage,
   getSpotifyApiAccessTokenFromLocalStorage,

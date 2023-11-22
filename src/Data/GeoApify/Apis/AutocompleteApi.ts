@@ -1,18 +1,16 @@
 import qs from "qs"
 
-import { AppContextType } from "../../AppContext.tsx"
-import { httpStatusCode } from "../../Util/HttpUtils.ts"
-import { config } from "../../config.ts"
-import { User } from "../BackendModels/User.ts"
-import { SpotifyUserProfile } from "../SpotifyModels/SpotifyUserProfile.ts"
+import { AppContextType } from "../../../AppContext.tsx"
+import { httpStatusCode } from "../../../Util/HttpUtils.ts"
+import { config } from "../../../config.ts"
+import { User } from "../../Backend/Models/User.ts"
+import { SpotifyUserProfile } from "../../Spotify/Models/SpotifyUserProfile.ts"
 
-export async function fetchUser(appContext: AppContextType, spotifyUserProfile: SpotifyUserProfile): Promise<User | undefined> {
-  const { setLoggedInUser } = appContext
+export async function fetchLocation(search: string): Promise<User | undefined> {
   const queryParams = { spotify_id: spotifyUserProfile.id }
   const queryString = `?${qs.stringify(queryParams)}`
-  const url = `${config.BACKEND_URL}/user${queryString}`
 
-  const result = await fetch(url, {
+  const result = await fetch(`${config.BACKEND_URL}/user${queryString}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" }
   })
@@ -25,7 +23,7 @@ export async function fetchUser(appContext: AppContextType, spotifyUserProfile: 
     ? undefined
     : await result.json() as User
 
-  setLoggedInUser(user)
+  appContext.setLoggedInUser(user)
 
   return user
 }
@@ -37,10 +35,7 @@ export async function storeUser(appContext: AppContextType, spotifyUserProfile: 
     return existingUser
   }
 
-  const { setLoggedInUser } = appContext
-  const url = `${config.BACKEND_URL}/user`
-
-  const result = await fetch(url, {
+  const result = await fetch(`${config.BACKEND_URL}/user`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(spotifyUserProfile)
@@ -52,7 +47,7 @@ export async function storeUser(appContext: AppContextType, spotifyUserProfile: 
 
   const user = await result.json() as User
 
-  setLoggedInUser(user)
+  appContext.setLoggedInUser(user)
 
   return user
 }

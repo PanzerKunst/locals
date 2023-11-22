@@ -1,7 +1,7 @@
 import qs from "qs"
 
-import { AppContextType } from "../../AppContext.tsx"
-import { config } from "../../config.ts"
+import { AppContextType } from "../../../AppContext.tsx"
+import { config } from "../../../config.ts"
 
 export async function redirectToAuthCodeFlow(appContext: AppContextType) {
   const { spotifyApiVerifier, setSpotifyApiVerifier, setSpotifyApiAccessToken, setSpotifyApiRefreshToken } = appContext

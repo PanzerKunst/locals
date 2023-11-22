@@ -8,7 +8,7 @@ import { useAppContext } from "../../../AppContext.tsx"
 import { easeOutFast, MotionTransition } from "../../../Util/AnimationUtils.ts"
 import { isTouch } from "../../../main.tsx"
 
-import s from "/src/UI/_GlobalStyles/_exports.module.scss"
+import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./AppHeader.scss"
 
 let lastScrollY = window.scrollY
@@ -61,7 +61,7 @@ export function AppHeader() {
     event.preventDefault() // TODO: only if already on index page
 
     const href = event.currentTarget.getAttribute("href")!
-    const sectionElement = document.getElementById(href.replace("#", ""))
+    const sectionElement = document.getElementById(href.replace("/#", ""))
 
     if (sectionElement) {
       const top = sectionElement.offsetTop

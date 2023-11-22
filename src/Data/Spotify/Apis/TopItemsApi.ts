@@ -1,9 +1,10 @@
 import qs from "qs"
 
 import { redirectToAuthCodeFlow } from "./AuthApi.ts"
-import { AppContextType } from "../../AppContext.tsx"
-import { httpStatusCode } from "../../Util/HttpUtils.ts"
-import { SpotifyArtist } from "../SpotifyModels/SpotifyArtist.ts"
+import { AppContextType } from "../../../AppContext.tsx"
+import { httpStatusCode } from "../../../Util/HttpUtils.ts"
+import { config } from "../../../config.ts"
+import { SpotifyArtist } from "../Models/SpotifyArtist.ts"
 
 const pageSize = 49
 
@@ -24,9 +25,7 @@ export async function fetchTopArtists(appContext: AppContextType, pageNb: number
     offset: pageSize * pageNb,
   }
 
-  const url = `https://api.spotify.com/v1/me/top/artists?${qs.stringify(queryParams)}`
-
-  const result = await fetch(url, {
+  const result = await fetch(`${config.SPOTIFY_API_URL}/me/top/artists?${qs.stringify(queryParams)}`, {
     method: "GET",
     headers: { Authorization: `Bearer ${spotifyApiAccessToken}` }
   })

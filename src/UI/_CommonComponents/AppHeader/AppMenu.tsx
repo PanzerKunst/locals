@@ -5,7 +5,7 @@ import { useState } from "react"
 import { MenuToggle } from "./MenuToggle.tsx"
 import { MenuLinks } from "./MenuLinks.tsx"
 
-import s from "/src/UI/_GlobalStyles/_exports.module.scss"
+import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./AppMenu.scss"
 
 const modalMotionVariants = {
