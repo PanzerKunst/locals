@@ -1,12 +1,10 @@
+@import "/src/UI/_CommonStyles/numbers";
+
 .page.registration {
   .wrapper-next-button {
     display: flex;
     justify-content: flex-end;
-    margin-top: 1em;
-
-    &.hidden {
-      visibility: hidden;
-    }
+    margin-top: 30px;
   }
 
   #registration-step-2 {

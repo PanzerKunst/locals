@@ -58,37 +58,17 @@ a.button:not(.icon-only) {
     margin-right: 10px;
   }
 
-  // TODO: make button size variable like body text
-
   // Size
 
-  padding-inline: 15px;
+  padding-inline: 1em;
+  font-size: $variable-font-size;
 
   &.rounded {
-    border-radius: calc($min-button-size / 2);
+    border-radius: 1.2em;
   }
 
-  > span { // stylelint-disable-line no-duplicate-selectors
-    font-size: 20px;
-    padding-bottom: 1px;
-  }
-
-  &.lg {
-    @include vw(md) {
-      $button-size-lg: 60px;
-      height: $button-size-lg;
-
-      padding-inline: 25px;
-
-      &.rounded {
-        border-radius: calc($button-size-lg / 2);
-      }
-
-      > span {
-        font-size: 30px;
-        padding-bottom: 3px;
-      }
-    }
+  > span {
+    padding-block: 0.5em 0.6em;
   }
 
   &.spotify {

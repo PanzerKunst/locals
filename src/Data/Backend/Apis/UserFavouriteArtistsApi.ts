@@ -1,24 +1,18 @@
 import { uniqBy as _uniqBy } from "lodash"
 
-import { AppContextType } from "../../../AppContext.tsx"
 import { config } from "../../../config.ts"
 import { SpotifyArtist } from "../../Spotify/Models/SpotifyArtist.ts"
 import { Artist } from "../Models/Artist.ts"
+import { User } from "../Models/User.ts"
 
-export async function storeUserFavouriteArtists(appContext: AppContextType, spotifyArtists: SpotifyArtist[]): Promise<Artist[]> {
-  const { loggedInUser } = appContext
-
-  if (!loggedInUser) {
-    throw new Error("No loggedInUser found in app context")
-  }
-
+export async function storeUserFavouriteArtists(user: User, spotifyArtists: SpotifyArtist[]): Promise<Artist[]> {
   const withoutDuplicates: SpotifyArtist[] = _uniqBy(spotifyArtists, "id")
 
   const result = await fetch(`${config.BACKEND_URL}/userFavouriteArtists`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      user: loggedInUser,
+      user,
       artists: withoutDuplicates
     })
   })

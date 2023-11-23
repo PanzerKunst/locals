@@ -47,10 +47,8 @@
     }
 
     .button img {
-      @include vw(md) {
-        @include img-size(40px);
-        margin-right: 15px;
-      }
+      @include img-size(1.5em);
+      margin-right: 0.5em;
     }
   }
 }

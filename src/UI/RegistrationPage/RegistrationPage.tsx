@@ -1,6 +1,7 @@
 import { LocationOn } from "@mui/icons-material"
 import { FormControl, FormHelperText, FormLabel, Input } from "@mui/joy"
 import classNames from "classnames"
+import { useAnimate } from "framer-motion"
 import { isEmpty as _isEmpty } from "lodash"
 import { ChangeEvent, ReactNode, useEffect, useMemo, useState } from "react"
 import { useQuery } from "react-query"
@@ -15,7 +16,7 @@ import { searchLocations } from "../../Data/Geoapify/Apis/AutocompleteApi.ts"
 import { GeoapifyFeature } from "../../Data/Geoapify/Models/GeoapifyFeature.ts"
 import { isSpotifyUserProfileCompatible, SpotifyUserProfile } from "../../Data/Spotify/Models/SpotifyUserProfile.ts"
 import { scrollIntoView } from "../../Util/AnimationUtils.ts"
-import { appUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
+import { actionsFromAppUrl, appUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
 import { getUrlQueryParam } from "../../Util/BrowserUtils.ts"
 import { Field, isEmailValid } from "../../Util/FormUtils.ts"
 import { useDebounce } from "../../Util/ReactUtils.ts"
@@ -24,6 +25,7 @@ import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 import { LocationSelectList } from "../_CommonComponents/LocationSelectList.tsx"
 
+import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./RegistrationPage.scss"
 
 const minLocationQueryLength = 3
@@ -31,6 +33,7 @@ const minLocationQueryLength = 3
 export function RegistrationPage() {
   const navigate = useNavigate()
   const appContext = useAppContext()
+  const [scope, animate] = useAnimate()
   const spotifyProfileFromUrl = getUrlQueryParam(appUrlQueryParam.SPOTIFY_PROFILE)
 
   if (!spotifyProfileFromUrl) {
@@ -52,6 +55,7 @@ export function RegistrationPage() {
   const [isSearchingLocations, setIsSearchingLocations] = useState(true)
   const [locationSearchResults, setLocationSearchResults] = useState<GeoapifyFeature[]>([])
   const [selectedLocation, setSelectedLocation] = useState<GeoapifyFeature>()
+  const [shouldStoreAndContinue, setShouldStoreAndContinue] = useState(false)
 
   const favouriteSpotifyArtistsQuery = useQuery(
     "favouriteSpotifyArtists",
@@ -75,6 +79,25 @@ export function RegistrationPage() {
 
     performLocationSearch()
   }, [debouncedLocationQuery, selectedLocation])
+
+  useEffect(() => {
+    const storeAndNavigate = async () => {
+      const user = await storeUser(appContext, {
+        ...spotifyProfile,
+        email: emailField.value
+      })
+
+      await storeUserFavouriteArtists(user, favouriteSpotifyArtistsQuery.data!)
+
+      navigate(`/home?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.REGISTRATION_SUCCESS}`)
+    }
+
+    if (!shouldStoreAndContinue) {
+      return
+    }
+
+    storeAndNavigate()
+  }, [appContext, emailField.value, favouriteSpotifyArtistsQuery.data, shouldStoreAndContinue, navigate, spotifyProfile])
 
   if (favouriteSpotifyArtistsQuery.isLoading) {
     return renderContents(<CircularLoader/>)
@@ -119,8 +142,12 @@ export function RegistrationPage() {
 
   const handleStep2Click = () => {
     setIsStep2Hidden(false)
-
+    animate(scope.current, { opacity: 0 }, { duration: Number(s.animationDurationSm) })
     const step2El = document.getElementById("registration-step-2")
+
+    // TODO: remove
+    console.log("handleStep2Click", step2El)
+
     scrollIntoView(step2El)
   }
 
@@ -155,15 +182,7 @@ export function RegistrationPage() {
   }
 
   const handleFormSubmit = async () => {
-    const isValid = isFormValid()
-    if (!isValid) return
-
-    await storeUser(appContext, {
-      ...spotifyProfile,
-      email: emailField.value,
-    })
-
-    await storeUserFavouriteArtists(appContext, favouriteSpotifyArtistsQuery.data!)
+    setShouldStoreAndContinue(isFormValid())
   }
 
   return renderContents(
@@ -175,7 +194,7 @@ export function RegistrationPage() {
 
         <FavouriteArtists spotifyArtists={favouriteSpotifyArtistsQuery.data!}/>
 
-        <FadeIn className={classNames("wrapper-next-button", { hidden: !isStep2Hidden })}>
+        <FadeIn animationScope={scope} className="wrapper-next-button">
           <AnimatedButton className="filling">
             <button onClick={handleStep2Click}><span>Continue</span></button>
           </AnimatedButton>
