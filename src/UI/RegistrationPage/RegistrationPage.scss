@@ -1,5 +1,21 @@
 .page.registration {
-  #registration-step-2.hidden {
-    display: none;
+  .wrapper-next-button {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1em;
+
+    &.hidden {
+      visibility: hidden;
+    }
+  }
+
+  #registration-step-2 {
+    &.hidden {
+      display: none;
+    }
+
+    .location-form-control {
+      position: relative; // Absolutely-positioned result list
+    }
   }
 }

@@ -12,7 +12,13 @@ $animation-duration-sm: 0.3;
 $animation-duration-md: 0.7;
 
 $z-index-default: 0;
-$z-index-header: $z-index-default + 1;
+$z-index-select-list: $z-index-default + 1;
+$z-index-header: $z-index-select-list + 1;
 
 $header-padding-block: 10px;
 $header-padding-inline: 15px;
+
+$input-border-radius: 6px;
+$input-padding-inline: max(0.5em, 18px);
+
+$variable-font-size: max(1.8vw, 18px);

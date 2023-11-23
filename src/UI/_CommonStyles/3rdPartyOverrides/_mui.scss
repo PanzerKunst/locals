@@ -1,8 +1,30 @@
+@import "../mixins";
+
 :root {
-  --joy-zIndex-modal: 1300; // stylelint-disable-line
+  --variant-solidBg: #{$color-input-bg}; // stylelint-disable-line
 }
 
 .MuiModal-root > .MuiModal-backdrop {
   backdrop-filter: none;
   -webkit-backdrop-filter: none; // stylelint-disable-line property-no-vendor-prefix
+}
+
+.MuiFormControl-root {
+  .MuiFormLabel-root {
+    font-size: $variable-font-size;
+  }
+
+  .MuiInput-root {
+    font-size: $variable-font-size;
+    border-radius: $input-border-radius;
+    padding: 0.3em $input-padding-inline;
+
+    > .MuiInput-startDecorator {
+      color: $color-input-text;
+    }
+  }
+
+  .MuiFormHelperText-root {
+    font-size: $variable-font-size;
+  }
 }

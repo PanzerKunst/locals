@@ -20,10 +20,17 @@
     grid-template-columns: repeat(5, 1fr);
   }
 
-  > li {
+  > li > .fade-in {
     position: relative;
     container-type: inline-size;
     aspect-ratio: 1; // To have the right height even before the images are loaded
+
+    @mixin border-radius {
+      border-radius: 5px;
+    }
+
+    background-color: $color-placeholder;
+    @include border-radius;
 
     &::after {
       content: "";
@@ -37,34 +44,25 @@
       @include img-size(10%);
     }
 
-    @mixin border-radius {
-      border-radius: 5px;
+    > img {
+      aspect-ratio: 1;
+      object-fit: cover;
+      @include border-radius;
     }
 
-    > .fade-in {
-      background-color: $color-placeholder;
-      @include border-radius;
+    > span {
+      position: absolute;
+      bottom: 8%;
+      left: 8%;
+      max-width: 150px;
 
-      > img {
-        aspect-ratio: 1;
-        object-fit: cover;
-        @include border-radius;
-      }
+      color: $color-text-negative;
+      font-size: 18px;
+      font-weight: 700;
+      @include text-shadow;
 
-      > span {
-        position: absolute;
-        bottom: 8%;
-        left: 8%;
-        max-width: 150px;
-
-        color: $color-text-negative;
-        font-size: 18px;
-        font-weight: 700;
-        @include text-shadow;
-
-        @container (min-width: 170px) {
-          font-size: 20px;
-        }
+      @container (min-width: 170px) {
+        font-size: 20px;
       }
     }
   }

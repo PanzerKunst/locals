@@ -3,9 +3,10 @@ import qs from "qs"
 import { config } from "../../../config.ts"
 import { GeoapifyFeature } from "../Models/GeoapifyFeature.ts"
 
-export async function fetchLocations(search: string): Promise<GeoapifyFeature[]> {
+export async function searchLocations(search: string): Promise<GeoapifyFeature[]> {
   const queryParams = {
     text: search,
+    format: "json",
     apiKey: config.GEOAPIFY_API_KEY,
   }
 
@@ -18,5 +19,6 @@ export async function fetchLocations(search: string): Promise<GeoapifyFeature[]>
     throw new Error("Error while fetching locations")
   }
 
-  return await result.json() as GeoapifyFeature[]
+  const json = await result.json()
+  return json.results as GeoapifyFeature[]
 }

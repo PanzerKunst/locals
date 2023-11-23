@@ -21,6 +21,8 @@ function Layout() {
   )
 }
 
+// TODO: add page transitions https://codesandbox.io/s/framer-motion-react-router-6-page-transitions-2f2olf?from-embed=&file=/src/template/Gallery.tsx
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -29,7 +31,7 @@ const router = createBrowserRouter([
       { path: "/", element: <IndexPage /> },
       { path: "home", element: <HomePage /> },
       { path: "spotify-callback", element: <HomePage /> },
-      { path: "registration-step-1", element: <RegistrationPage /> },
+      { path: "registration", element: <RegistrationPage /> },
       { path: "privacy", element: <PrivacyPolicyPage /> }
     ]
   }

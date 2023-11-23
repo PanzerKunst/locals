@@ -58,6 +58,7 @@ a.button:not(.icon-only) {
     margin-right: 10px;
   }
 
+  // TODO: make button size variable like body text
 
   // Size
 
@@ -93,6 +94,11 @@ a.button:not(.icon-only) {
   &.spotify {
     color: $color-btn-text;
     background: $color-btn-bg-spotify;
+  }
+
+  &[disabled] {
+    cursor: default;
+    opacity: 0.3;
   }
 }
 

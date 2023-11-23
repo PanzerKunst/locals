@@ -2,13 +2,8 @@
 @import "src/UI/_CommonStyles/numbers";
 @import "src/UI/_CommonStyles/mixins";
 
-.app-menu > button.icon-only {
-  position: relative;
-  z-index: calc(var(--joy-zIndex-modal) + 1); // stylelint-disable-line
-
-  > svg {
-    margin-top: 2px; // To center icon
-  }
+.app-menu svg {
+  margin-top: 2px; // To center icon
 }
 
 .app-menu-modal .MuiModalDialog-root {

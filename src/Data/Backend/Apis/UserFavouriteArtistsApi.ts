@@ -2,8 +2,8 @@ import { uniqBy as _uniqBy } from "lodash"
 
 import { AppContextType } from "../../../AppContext.tsx"
 import { config } from "../../../config.ts"
-import { Artist } from "../Models/Artist.ts"
 import { SpotifyArtist } from "../../Spotify/Models/SpotifyArtist.ts"
+import { Artist } from "../Models/Artist.ts"
 
 export async function storeUserFavouriteArtists(appContext: AppContextType, spotifyArtists: SpotifyArtist[]): Promise<Artist[]> {
   const { loggedInUser } = appContext

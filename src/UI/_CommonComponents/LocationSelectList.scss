@@ -1,0 +1,33 @@
+@import "/src/UI/_CommonStyles/numbers";
+@import "/src/UI/_CommonStyles/colors";
+@import "/src/UI/_CommonStyles/mixins";
+
+ul.styleless.select {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  z-index: $z-index-select-list;
+
+  margin-top: 0.3em;
+
+  border-radius: $input-border-radius;
+  background-color: $color-input-bg;
+  @include joy-dropdown-shadow;
+
+  color: $color-input-text;
+  font-size: $variable-font-size;
+  line-height: max(2em, 40px);
+
+  > li {
+    padding-inline: $input-padding-inline;
+
+    &:not(:has(> .circular-loader)) {
+      cursor: pointer;
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+}

@@ -41,7 +41,7 @@ span {
 }
 
 .container p {
-  font-size: max(1.8vw, 18px);
+  font-size: $variable-font-size;
   line-height: 1.4em;
   margin-bottom: 2em;
 }

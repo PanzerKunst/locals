@@ -31,12 +31,12 @@ export function FavouriteArtists({ spotifyArtists }: Props) {
   return (
     <ul className="styleless favourite-artists">
       {top50artists.map((spotifyArtist) => {
-        const mediumImage = spotifyArtist.images[1]
+        const largeImage = spotifyArtist.images[0]
 
         return (// eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
           <li key={spotifyArtist.id} /* onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} */>
-            <FadeIn delay={0.3}>
-              {mediumImage && <img src={mediumImage.url} alt="artist-avatar"/>}
+            <FadeIn>
+              {largeImage && <img src={largeImage.url} alt="artist-avatar"/>}
               <span>{spotifyArtist.name}</span>
             </FadeIn>
           </li>

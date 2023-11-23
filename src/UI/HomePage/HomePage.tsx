@@ -60,10 +60,10 @@ export function HomePage() {
 
       if (!fetchedUser) {
         // TODO: remove
-        console.log("HomePage > redirecting to /registration-step-1")
+        console.log("HomePage > redirecting to /registration")
 
         const spotifyProfileUrlParam = encodeURIComponent(JSON.stringify(spotifyProfile))
-        navigate(`/registration-step-1?${appUrlQueryParam.SPOTIFY_PROFILE}=${spotifyProfileUrlParam}`, { replace: true })
+        navigate(`/registration?${appUrlQueryParam.SPOTIFY_PROFILE}=${spotifyProfileUrlParam}`, { replace: true })
       }
     }
 
@@ -91,7 +91,7 @@ export function HomePage() {
 
   function renderContents(children: ReactNode) {
     return (
-      <div className="page registration-step-1">
+      <div className="page home">
         <main className="container">
           {children}
         </main>
