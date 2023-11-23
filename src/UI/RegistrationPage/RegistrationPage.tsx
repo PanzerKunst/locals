@@ -14,6 +14,7 @@ import { fetchFavouriteSpotifyArtists } from "../../Data/FrontendHelperApis/User
 import { searchLocations } from "../../Data/Geoapify/Apis/AutocompleteApi.ts"
 import { GeoapifyFeature } from "../../Data/Geoapify/Models/GeoapifyFeature.ts"
 import { isSpotifyUserProfileCompatible, SpotifyUserProfile } from "../../Data/Spotify/Models/SpotifyUserProfile.ts"
+import { scrollIntoView } from "../../Util/AnimationUtils.ts"
 import { appUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
 import { getUrlQueryParam } from "../../Util/BrowserUtils.ts"
 import { Field, isEmailValid } from "../../Util/FormUtils.ts"
@@ -52,27 +53,10 @@ export function RegistrationPage() {
   const [locationSearchResults, setLocationSearchResults] = useState<GeoapifyFeature[]>([])
   const [selectedLocation, setSelectedLocation] = useState<GeoapifyFeature>()
 
-  useEffect(() => {
-    storeUser(appContext, spotifyProfile)
-    // Omitting `appContext` in the dependencies avoids an infinite loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [spotifyProfile])
-
   const favouriteSpotifyArtistsQuery = useQuery(
     "favouriteSpotifyArtists",
     () => fetchFavouriteSpotifyArtists(appContext)
   )
-
-  useEffect(() => {
-    const favouriteArtists = favouriteSpotifyArtistsQuery.data
-
-    if (favouriteArtists) {
-      // TODO: remove
-      console.log("favouriteArtists", favouriteArtists)
-
-      storeUserFavouriteArtists(appContext, favouriteArtists)
-    }
-  }, [appContext, favouriteSpotifyArtistsQuery.data])
 
   useEffect(() => {
     const performLocationSearch = async () => {
@@ -135,7 +119,9 @@ export function RegistrationPage() {
 
   const handleStep2Click = () => {
     setIsStep2Hidden(false)
-    // TODO: scroll down to step 2
+
+    const step2El = document.getElementById("registration-step-2")
+    scrollIntoView(step2El)
   }
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -168,11 +154,16 @@ export function RegistrationPage() {
     setLocationFieldError("")
   }
 
-  const handleFormSubmit = () => {
+  const handleFormSubmit = async () => {
     const isValid = isFormValid()
     if (!isValid) return
 
-    // TODO
+    await storeUser(appContext, {
+      ...spotifyProfile,
+      email: emailField.value,
+    })
+
+    await storeUserFavouriteArtists(appContext, favouriteSpotifyArtistsQuery.data!)
   }
 
   return renderContents(

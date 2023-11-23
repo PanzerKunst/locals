@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 
 import { AppMenu } from "./AppMenu.tsx"
 import { useAppContext } from "../../../AppContext.tsx"
-import { easeOutFast, MotionTransition } from "../../../Util/AnimationUtils.ts"
+import { MotionTransition, scrollIntoView } from "../../../Util/AnimationUtils.ts"
 import { isTouch } from "../../../main.tsx"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
@@ -62,16 +62,7 @@ export function AppHeader() {
 
     const href = event.currentTarget.getAttribute("href")!
     const sectionElement = document.getElementById(href.replace("/#", ""))
-
-    if (sectionElement) {
-      const top = sectionElement.offsetTop
-
-      animate(window.scrollY, top, {
-        onUpdate: (value) => window.scrollTo(0, value),
-        duration: Number(s.animationDurationMd),
-        ease: easeOutFast
-      })
-    }
+    scrollIntoView(sectionElement)
   }
 
   return (

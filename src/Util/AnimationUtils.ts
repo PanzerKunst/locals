@@ -7,3 +7,7 @@ export type MotionTransition = {
   duration: number;
   ease: Easing | Easing[];
 }
+
+export function scrollIntoView(element: HTMLElement | null): void {
+  element?.scrollIntoView({ behavior: "smooth" })
+}
