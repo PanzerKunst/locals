@@ -12,9 +12,6 @@ type Props = {
   isLoading?: boolean;
 }
 
-// TODO: remove
-/* eslint-disable */
-
 export function LocationSelectList({ locations, onSelect, isLoading = false }: Props) {
   const [isOpen, setIsOpen] = useState(true)
   const dropdownRef = useRef<HTMLUListElement>(null)
@@ -23,29 +20,14 @@ export function LocationSelectList({ locations, onSelect, isLoading = false }: P
     setIsOpen(true)
   }, [locations, isLoading])
 
-  // TODO: remove
-  console.log("LocationSelectList", {
-    isLoading,
-    locations,
-    isOpen,
-  })
-
   const handleOutsideClick = (event: MouseEvent) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-
-      // TODO: remove
-      console.log("LocationSelectList > handleOutsideClick > setIsOpen(false)")
-
       setIsOpen(false)
     }
   }
 
   const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === "Escape") {
-
-      // TODO: remove
-      console.log("LocationSelectList > handleKeyDown > setIsOpen(false)")
-
       setIsOpen(false)
     }
   }
@@ -72,14 +54,21 @@ export function LocationSelectList({ locations, onSelect, isLoading = false }: P
   }
 
   return (
-    <ul ref={dropdownRef} className="styleless select">
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
+    <ul role="listbox" ref={dropdownRef} className="styleless select">
       {isLoading ? (
         <li>
           <CircularLoader />
         </li>
       ) : (
-        locations.map((geoapifyFeature) => (
-          <li key={geoapifyFeature.place_id} onClick={() => handleClick(geoapifyFeature)}>
+        locations.map((geoapifyFeature) => ( // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+          <li
+            key={geoapifyFeature.place_id}
+            onClick={() => handleClick(geoapifyFeature)}
+            // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
+            role="option"
+            aria-selected="false"
+          >
             {geoapifyFeature.formatted}
           </li>
         ))

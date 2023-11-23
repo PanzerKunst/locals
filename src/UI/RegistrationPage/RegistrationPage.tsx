@@ -165,17 +165,11 @@ export function RegistrationPage() {
   }
 
   const handleLocationChange = (event: ChangeEvent<HTMLInputElement>) => {
-    // TODO: remove
-    console.log("handleLocationChange", event.target.value)
-
     setLocationQuery(event.target.value)
     setSelectedLocation(undefined)
   }
 
   const handleLocationSelect = (location: GeoapifyFeature) => {
-    // TODO: remove
-    console.log("handleLocationSelect", location)
-
     setSelectedLocation(location)
     setLocationQuery(location.formatted)
     setLocationFieldError("")
