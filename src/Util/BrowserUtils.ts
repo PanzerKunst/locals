@@ -13,7 +13,7 @@ export function useViewportSize() {
   const [size, setSize] = useState({ width: window.innerWidth, height: window.innerHeight })
 
   useEffect(() => {
-    const handleResize = () => {
+    function handleResize() {
       setSize({ width: window.innerWidth, height: window.innerHeight })
     }
 

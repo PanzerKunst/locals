@@ -20,13 +20,13 @@ export function LocationSelectList({ locations, onSelect, isLoading = false }: P
     setIsOpen(true)
   }, [locations, isLoading])
 
-  const handleOutsideClick = (event: MouseEvent) => {
+  function handleOutsideClick(event: MouseEvent) {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
       setIsOpen(false)
     }
   }
 
-  const handleKeyDown = (event: KeyboardEvent) => {
+  function handleKeyDown(event: KeyboardEvent) {
     if (event.key === "Escape") {
       setIsOpen(false)
     }

@@ -40,7 +40,7 @@ export function AppHeader() {
       return // Because animations based on scroll position are buggy on mobile, especially iOS
     }
 
-    const handleScroll = () => {
+    function handleScroll() {
       const currentScrollY = window.scrollY
 
       if (currentScrollY > lastScrollY) {

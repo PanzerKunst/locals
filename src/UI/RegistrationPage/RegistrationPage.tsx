@@ -63,7 +63,7 @@ export function RegistrationPage() {
   )
 
   useEffect(() => {
-    const performLocationSearch = async () => {
+    async function performLocationSearch() {
       setIsSearchingLocations(true)
       const searchResults = await searchLocations(debouncedLocationQuery)
       setIsSearchingLocations(false)
@@ -81,7 +81,7 @@ export function RegistrationPage() {
   }, [debouncedLocationQuery, selectedLocation])
 
   useEffect(() => {
-    const storeAndNavigate = async () => {
+    async function storeAndNavigate() {
       const user = await storeUser(appContext, {
         ...spotifyProfile,
         email: emailField.value
