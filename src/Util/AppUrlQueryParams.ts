@@ -1,9 +1,11 @@
 type AppUrlQueryParam = {
   readonly ACTION: string;
+  readonly SPOTIFY_CALLBACK_ERROR: string;
 }
 
 export const appUrlQueryParam: AppUrlQueryParam = {
   ACTION: "action",
+  SPOTIFY_CALLBACK_ERROR: "spotify_callback_error"
 }
 
 type ActionsFromAppUrl = {
