@@ -6,9 +6,6 @@ import { isEmpty as _isEmpty } from "lodash"
 import { ChangeEvent, FormEvent, ReactNode, useEffect, useState } from "react"
 import { useQuery } from "react-query"
 
-// TODO: remove
-/* eslint-disable */
-
 import { FavouriteArtists } from "./FavouriteArtists.tsx"
 import { useAppContext } from "../../AppContext.tsx"
 import { storeUser } from "../../Data/Backend/Apis/UserApi.ts"
@@ -37,9 +34,6 @@ export function RegistrationPage() {
   const appContext = useAppContext()
   const [scope, animate] = useAnimate()
   const spotifyProfile = getSpotifyProfileFromSession()
-
-  // TODO: remove
-  console.log("RegistrationPage > render")
 
   if (!spotifyProfile) {
     return renderContents(<ErrorSnackbar message="Profile is missing"/>)
@@ -165,27 +159,13 @@ export function RegistrationPage() {
       return
     }
 
-    // TODO: remove
-    console.log("handleFormSubmit")
-
     const user = await storeUser(appContext, {
       ...spotifyProfile!,
       email: emailField.value
     })
 
-    // TODO: remove
-    console.log("handleFormSubmit > user stored")
-
     await storeUserFavouriteArtists(user, favouriteSpotifyArtistsQuery.data!)
-
-    // TODO: remove
-    console.log("handleFormSubmit > favourites stored")
-
     saveSpotifyProfileInSession(undefined)
-
-    // TODO: remove
-    console.log("handleFormSubmit > redirecting to /home")
-
     document.location.href = `/home?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.REGISTRATION_SUCCESS}`
   }
 
@@ -205,7 +185,12 @@ export function RegistrationPage() {
         </FadeIn>
       </section>
 
-      <form noValidate id="registration-step-2" className={classNames({ "hidden": isStep2Hidden })} onSubmit={handleFormSubmit}>
+      <form
+        noValidate
+        id="registration-step-2"
+        className={classNames({ "hidden": isStep2Hidden })}
+        onSubmit={handleFormSubmit}
+      >
         <FadeIn>
           <h2>Your details</h2>
         </FadeIn>
