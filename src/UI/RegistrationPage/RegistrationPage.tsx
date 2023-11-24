@@ -18,7 +18,7 @@ import { scrollIntoView } from "../../Util/AnimationUtils.ts"
 import { actionsFromAppUrl, appUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
 import { Field, isEmailValid } from "../../Util/FormUtils.ts"
 import { useDebounce } from "../../Util/ReactUtils.ts"
-import { getSpotifyProfileFromSessionStorage, saveSpotifyProfileInSessionStorage } from "../../Util/SessionStorage.ts"
+import { getSpotifyProfileFromSession, saveSpotifyProfileInSession } from "../../Util/SessionStorage.ts"
 import { AnimatedButton } from "../_CommonComponents/AnimatedButton.tsx"
 import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
@@ -33,7 +33,7 @@ const minLocationQueryLength = 3
 export function RegistrationPage() {
   const appContext = useAppContext()
   const [scope, animate] = useAnimate()
-  const spotifyProfile = getSpotifyProfileFromSessionStorage()
+  const spotifyProfile = getSpotifyProfileFromSession()
 
   if (!spotifyProfile) {
     return renderContents(<ErrorSnackbar message="Profile is missing"/>)
@@ -42,8 +42,6 @@ export function RegistrationPage() {
   if (!isSpotifyUserProfileCompatible(spotifyProfile)) {
     return renderContents(<ErrorSnackbar message="Profile is incompatible"/>)
   }
-
-  saveSpotifyProfileInSessionStorage(undefined)
 
   /* eslint-disable react-hooks/rules-of-hooks */
 
@@ -169,6 +167,8 @@ export function RegistrationPage() {
     })
 
     await storeUserFavouriteArtists(user, favouriteSpotifyArtistsQuery.data!)
+
+    saveSpotifyProfileInSession(undefined)
 
     // TODO: try navigate
     document.location.href = `/home?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.REGISTRATION_SUCCESS}`

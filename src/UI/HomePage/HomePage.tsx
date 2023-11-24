@@ -7,7 +7,7 @@ import { getAccessToken, redirectToAuthCodeFlow } from "../../Data/Spotify/Apis/
 import { fetchProfile } from "../../Data/Spotify/Apis/ProfileApi.ts"
 import { SpotifyUserProfile } from "../../Data/Spotify/Models/SpotifyUserProfile.ts"
 import { getUrlQueryParam } from "../../Util/BrowserUtils.ts"
-import { saveSpotifyProfileInSessionStorage } from "../../Util/SessionStorage.ts"
+import { saveSpotifyProfileInSession } from "../../Util/SessionStorage.ts"
 import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 import { ErrorSnackbar } from "../_CommonComponents/Snackbar/ErrorSnackbar.tsx"
@@ -68,7 +68,7 @@ export function HomePage() {
       // TODO: remove
       console.log("HomePage > redirecting to /registration")
 
-      saveSpotifyProfileInSessionStorage(spotifyProfile)
+      saveSpotifyProfileInSession(spotifyProfile)
 
       // TODO: try navigate
       document.location.replace("/registration")
