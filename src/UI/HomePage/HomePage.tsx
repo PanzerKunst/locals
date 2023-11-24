@@ -5,7 +5,6 @@ import { useAppContext } from "../../AppContext.tsx"
 import { fetchUser } from "../../Data/Backend/Apis/UserApi.ts"
 import { getAccessToken, redirectToAuthCodeFlow } from "../../Data/Spotify/Apis/AuthApi.ts"
 import { fetchProfile } from "../../Data/Spotify/Apis/ProfileApi.ts"
-import { SpotifyUserProfile } from "../../Data/Spotify/Models/SpotifyUserProfile.ts"
 import { getUrlQueryParam } from "../../Util/BrowserUtils.ts"
 import { saveSpotifyProfileInSession } from "../../Util/SessionStorage.ts"
 import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
@@ -31,12 +30,12 @@ export function HomePage() {
     console.log("HomePage > redirectToAuthCodeFlow")
 
     redirectToAuthCodeFlow(appContext)
-    return
+    return renderContents(<></>)
   }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const spotifyAccessTokenQuery = useQuery(
-    ["spotifyAccessToken", spotifyApiCodeFromUrl],
+    ["spotifyAccessToken", appContext, spotifyApiCodeFromUrl],
     () => getAccessToken(appContext, spotifyApiCodeFromUrl!),
     {
       enabled: !spotifyApiAccessToken && !!spotifyApiCodeFromUrl
@@ -45,37 +44,39 @@ export function HomePage() {
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const spotifyProfileQuery = useQuery(
-    "spotifyProfile",
+    ["spotifyProfile", appContext],
     () => fetchProfile(appContext),
     {
       enabled: !!spotifyApiAccessToken
     }
   )
 
-  if (spotifyAccessTokenQuery.isLoading || spotifyProfileQuery.isLoading) {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const userQuery = useQuery(
+    ["user", appContext, spotifyProfileQuery.data],
+    () => fetchUser(appContext, spotifyProfileQuery.data!),
+    {
+      enabled: !!spotifyProfileQuery.data
+    }
+  )
+
+  if (spotifyAccessTokenQuery.isLoading || spotifyProfileQuery.isLoading || userQuery.isLoading) {
     return renderContents(<CircularLoader/>)
   }
 
-  if (spotifyAccessTokenQuery.isError || spotifyProfileQuery.isError) {
+  if (spotifyAccessTokenQuery.isError || spotifyProfileQuery.isError || userQuery.isError) {
     return renderContents(<span>Error fetching data</span>)
   }
 
-  async function checkIfAlreadyRegistered(spotifyProfile: SpotifyUserProfile): Promise<void> {
-    console.log("spotifyProfile", spotifyProfile)
-    const fetchedUser = await fetchUser(appContext, spotifyProfile)
+  if (!userQuery.data) {
+    saveSpotifyProfileInSession(spotifyProfileQuery.data!)
 
-    if (!fetchedUser) {
-      // TODO: remove
-      console.log("HomePage > redirecting to /registration")
+    // TODO: remove
+    console.log("HomePage > redirecting to /registration")
 
-      saveSpotifyProfileInSession(spotifyProfile)
-
-      // TODO: try navigate
-      document.location.replace("/registration")
-    }
+    document.location.replace("/registration")
+    return renderContents(<></>)
   }
-
-  checkIfAlreadyRegistered(spotifyProfileQuery.data!)
 
   return renderContents(
     <FadeIn>

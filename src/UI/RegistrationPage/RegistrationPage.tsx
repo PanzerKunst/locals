@@ -56,7 +56,7 @@ export function RegistrationPage() {
   const [selectedLocation, setSelectedLocation] = useState<GeoapifyFeature>()
 
   const favouriteSpotifyArtistsQuery = useQuery(
-    "favouriteSpotifyArtists",
+    ["favouriteSpotifyArtists", appContext],
     () => fetchFavouriteSpotifyArtists(appContext)
   )
 
@@ -167,10 +167,7 @@ export function RegistrationPage() {
     })
 
     await storeUserFavouriteArtists(user, favouriteSpotifyArtistsQuery.data!)
-
     saveSpotifyProfileInSession(undefined)
-
-    // TODO: try navigate
     document.location.href = `/home?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.REGISTRATION_SUCCESS}`
   }
 
