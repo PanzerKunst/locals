@@ -73,6 +73,9 @@ export function HomePage() {
     return renderContents(<></>)
   }
 
+  // TODO: remove
+  console.log("HomePage > render")
+
   return renderContents(
     <FadeIn>
       <h1>Welcome back!</h1>

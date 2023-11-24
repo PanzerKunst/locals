@@ -167,6 +167,9 @@ export function RegistrationPage() {
     document.location.href = `/home?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.REGISTRATION_SUCCESS}`
   }
 
+  // TODO: remove
+  console.log("RegistrationPage > render")
+
   return renderContents(
     <>
       <section id="registration-step-1">
