@@ -7,9 +7,6 @@ import { SpotifyUserProfile } from "../Models/SpotifyUserProfile.ts"
 export async function fetchProfile(appContext: AppContextType, shouldRetry = true): Promise<SpotifyUserProfile> {
   const { spotifyApiAccessToken } = appContext
 
-  // TODO: remove
-  console.log("fetchProfile")
-
   if (!spotifyApiAccessToken) {
     throw new Error("No Spotify API access token found in app context")
   }

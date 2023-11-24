@@ -17,13 +17,7 @@ export function HomePage() {
 
   const spotifyApiErrorFromUrl = getUrlQueryParam("error") // /spotify-callback?error=access_denied
 
-  // TODO: remove
-  console.log("HomePage > render")
-
   if (spotifyApiErrorFromUrl) {
-    // TODO: remove
-    console.log("HomePage2 > document.location.replace(`/?${appUrlQueryParam.SPOTIFY_CALLBACK_ERROR}=${spotifyApiErrorFromUrl}`)")
-
     document.location.replace(`/?${appUrlQueryParam.SPOTIFY_CALLBACK_ERROR}=${spotifyApiErrorFromUrl}`)
     return
   }

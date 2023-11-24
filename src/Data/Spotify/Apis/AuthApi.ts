@@ -8,9 +8,6 @@ export async function redirectToAuthCodeFlow(appContext: AppContextType) {
   const verifier = spotifyApiVerifier || generateCodeVerifier(128)
   const challenge = await generateCodeChallenge(verifier)
 
-  // TODO: remove
-  console.log("redirectToAuthCodeFlow")
-
   setSpotifyApiAccessToken(undefined)
   setSpotifyApiRefreshToken(undefined)
   setSpotifyApiVerifier(verifier)
@@ -29,9 +26,6 @@ export async function redirectToAuthCodeFlow(appContext: AppContextType) {
 
 export async function getAccessToken(appContext: AppContextType, code: string): Promise<string> {
   const { spotifyApiVerifier, setSpotifyApiAccessToken, setSpotifyApiRefreshToken } = appContext
-
-  // TODO: remove
-  console.log("getAccessToken")
 
   const queryParams = {
     client_id: config.SPOTIFY_CLIENT_ID,
@@ -56,9 +50,6 @@ export async function getAccessToken(appContext: AppContextType, code: string): 
 
 export async function refreshToken(appContext: AppContextType) {
   const { spotifyApiRefreshToken, setSpotifyApiAccessToken, setSpotifyApiRefreshToken } = appContext
-
-  // TODO: remove
-  console.log("refreshToken")
 
   if (!spotifyApiRefreshToken) {
     // TODO: remove

@@ -29,21 +29,12 @@ import "./RegistrationPage.scss"
 
 const minLocationQueryLength = 3
 
-// TODO: remove
-/* eslint-disable react-hooks/rules-of-hooks */
-
 export function RegistrationPage() {
   const appContext = useAppContext()
   const [scope, animate] = useAnimate()
   const spotifyProfileFromUrl = getUrlQueryParam(appUrlQueryParam.SPOTIFY_PROFILE) // TODO: use session storage instead
 
-  // TODO: remove
-  console.log("RegistrationPage2 > render")
-
   if (!spotifyProfileFromUrl) {
-    // TODO: remove
-    console.log("RegistrationPage2 > document.location.replace(`/?${appUrlQueryParam.SPOTIFY_PROFILE_ERROR}=Profile is missing`)")
-
     document.location.replace(`/?${appUrlQueryParam.SPOTIFY_PROFILE_ERROR}=Profile is missing`)
     return
   }
@@ -51,9 +42,6 @@ export function RegistrationPage() {
   const spotifyProfile: SpotifyUserProfile | undefined = JSON.parse(spotifyProfileFromUrl)
 
   if (!isSpotifyUserProfileCompatible(spotifyProfile)) {
-    // TODO: remove
-    console.log("RegistrationPage2 > document.location.replace(`/?${appUrlQueryParam.SPOTIFY_PROFILE_ERROR}=Profile is incompatible`)")
-
     document.location.replace(`/?${appUrlQueryParam.SPOTIFY_PROFILE_ERROR}=Profile is incompatible`)
     return
   }
@@ -172,18 +160,12 @@ export function RegistrationPage() {
       return
     }
 
-    // TODO: remove
-    console.log("handleFormSubmit")
-
     const user = await storeUser(appContext, {
       ...spotifyProfile!,
       email: emailField.value
     })
 
     await storeUserFavouriteArtists(user, favouriteSpotifyArtistsQuery.data!)
-
-    // TODO: remove
-    console.log("handleFormSubmit > document.location.href = `/home?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.REGISTRATION_SUCCESS}`")
 
     document.location.href = `/home?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.REGISTRATION_SUCCESS}`
   }

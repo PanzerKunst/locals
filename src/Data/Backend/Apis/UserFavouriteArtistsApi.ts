@@ -8,9 +8,6 @@ import { User } from "../Models/User.ts"
 export async function storeUserFavouriteArtists(user: User, spotifyArtists: SpotifyArtist[]): Promise<Artist[]> {
   const withoutDuplicates: SpotifyArtist[] = _uniqBy(spotifyArtists, "id")
 
-  // TODO: remove
-  console.log("storeUserFavouriteArtists")
-
   const result = await fetch(`${config.BACKEND_URL}/userFavouriteArtists`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
