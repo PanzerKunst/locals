@@ -1,4 +1,5 @@
 import dayjs from "dayjs"
+import { isEqual as _isEqual } from "lodash"
 import React, { createContext, ReactNode, useCallback, useContext, useMemo, useState } from "react"
 
 import { User } from "./Data/Backend/Models/User.ts"
@@ -43,13 +44,21 @@ export function AppContextProvider({ children }: Props) {
   const [spotifyApiAccessToken, setSpotifyApiAccessToken] = useState(getSpotifyApiAccessTokenFromLocalStorage())
   const [spotifyApiRefreshToken, setSpotifyApiRefreshToken] = useState(getSpotifyApiRefreshTokenFromLocalStorage())
   const [spotifyApiTokenExpirationDate, setSpotifyApiTokenExpirationDateState] = useState(getSpotifyApiTokenExpirationDateFromLocalStorage())
-  const [loggedInUser, setLoggedInUser] = useState<User | undefined>(getLoggedInUserFromLocalStorage())
+  const [loggedInUser, setLoggedInUserState] = useState(getLoggedInUserFromLocalStorage())
+
+  // Any context varible which isn't of a primitite type (string, number, boolean) should be wrapped in a useCallback to avoid infinite loops
 
   const setSpotifyApiTokenExpirationDate = useCallback((date: Date) => {
     if (!dayjs(spotifyApiTokenExpirationDate).isSame(dayjs(date), "second")) {
       setSpotifyApiTokenExpirationDateState(date)
     }
   }, [spotifyApiTokenExpirationDate])
+
+  const setLoggedInUser = useCallback((user: User | undefined) => {
+    if (!_isEqual(loggedInUser, user)) {
+      setLoggedInUserState(user)
+    }
+  }, [loggedInUser])
 
   const contextValue = useMemo(() => ({
     spotifyApiVerifier,
@@ -95,6 +104,7 @@ export function AppContextProvider({ children }: Props) {
     }
   }), [
     loggedInUser,
+    setLoggedInUser,
     setSpotifyApiTokenExpirationDate,
     spotifyApiAccessToken,
     spotifyApiRefreshToken,

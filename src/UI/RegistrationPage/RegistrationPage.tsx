@@ -3,9 +3,8 @@ import { FormControl, FormHelperText, FormLabel, Input } from "@mui/joy"
 import classNames from "classnames"
 import { useAnimate } from "framer-motion"
 import { isEmpty as _isEmpty } from "lodash"
-import { ChangeEvent, ReactNode, useEffect, useMemo, useState } from "react"
+import { ChangeEvent, ReactNode, useEffect, useState } from "react"
 import { useQuery } from "react-query"
-import { useNavigate } from "react-router-dom"
 
 import { FavouriteArtists } from "./FavouriteArtists.tsx"
 import { useAppContext } from "../../AppContext.tsx"
@@ -30,24 +29,37 @@ import "./RegistrationPage.scss"
 
 const minLocationQueryLength = 3
 
+// TODO: remove
+/* eslint-disable react-hooks/rules-of-hooks */
+
 export function RegistrationPage() {
-  const navigate = useNavigate()
   const appContext = useAppContext()
   const [scope, animate] = useAnimate()
-  const spotifyProfileFromUrl = getUrlQueryParam(appUrlQueryParam.SPOTIFY_PROFILE)
+  const spotifyProfileFromUrl = getUrlQueryParam(appUrlQueryParam.SPOTIFY_PROFILE) // TODO: use session storage instead
+
+  // TODO: remove
+  console.log("RegistrationPage2 > render")
 
   if (!spotifyProfileFromUrl) {
-    navigate(`/?${appUrlQueryParam.SPOTIFY_PROFILE_ERROR}=Profile is missing`, { replace: true })
+    // TODO: remove
+    console.log("RegistrationPage2 > document.location.replace(`/?${appUrlQueryParam.SPOTIFY_PROFILE_ERROR}=Profile is missing`)")
+
+    document.location.replace(`/?${appUrlQueryParam.SPOTIFY_PROFILE_ERROR}=Profile is missing`)
+    return
   }
 
-  const spotifyProfile: SpotifyUserProfile = useMemo(() => JSON.parse(spotifyProfileFromUrl!), [spotifyProfileFromUrl])
+  const spotifyProfile: SpotifyUserProfile | undefined = JSON.parse(spotifyProfileFromUrl)
 
   if (!isSpotifyUserProfileCompatible(spotifyProfile)) {
-    navigate(`/?${appUrlQueryParam.SPOTIFY_PROFILE_ERROR}=Profile is incompatible`, { replace: true })
+    // TODO: remove
+    console.log("RegistrationPage2 > document.location.replace(`/?${appUrlQueryParam.SPOTIFY_PROFILE_ERROR}=Profile is incompatible`)")
+
+    document.location.replace(`/?${appUrlQueryParam.SPOTIFY_PROFILE_ERROR}=Profile is incompatible`)
+    return
   }
 
   const [isStep2Hidden, setIsStep2Hidden] = useState(true)
-  const [emailField, setEmailField] = useState<Field>({ value: spotifyProfile.email, error: "" })
+  const [emailField, setEmailField] = useState<Field>({ value: spotifyProfile?.email || "", error: "" })
 
   const [locationQuery, setLocationQuery] = useState("")
   const debouncedLocationQuery = useDebounce(locationQuery, 300)
@@ -55,7 +67,6 @@ export function RegistrationPage() {
   const [isSearchingLocations, setIsSearchingLocations] = useState(true)
   const [locationSearchResults, setLocationSearchResults] = useState<GeoapifyFeature[]>([])
   const [selectedLocation, setSelectedLocation] = useState<GeoapifyFeature>()
-  const [shouldStoreAndContinue, setShouldStoreAndContinue] = useState(false)
 
   const favouriteSpotifyArtistsQuery = useQuery(
     "favouriteSpotifyArtists",
@@ -79,25 +90,6 @@ export function RegistrationPage() {
 
     performLocationSearch()
   }, [debouncedLocationQuery, selectedLocation])
-
-  useEffect(() => {
-    async function storeAndNavigate() {
-      const user = await storeUser(appContext, {
-        ...spotifyProfile,
-        email: emailField.value
-      })
-
-      await storeUserFavouriteArtists(user, favouriteSpotifyArtistsQuery.data!)
-
-      navigate(`/home?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.REGISTRATION_SUCCESS}`)
-    }
-
-    if (!shouldStoreAndContinue) {
-      return
-    }
-
-    storeAndNavigate()
-  }, [appContext, emailField.value, favouriteSpotifyArtistsQuery.data, shouldStoreAndContinue, navigate, spotifyProfile])
 
   if (favouriteSpotifyArtistsQuery.isLoading) {
     return renderContents(<CircularLoader/>)
@@ -176,7 +168,24 @@ export function RegistrationPage() {
   }
 
   const handleFormSubmit = async () => {
-    setShouldStoreAndContinue(isFormValid())
+    if (!isFormValid()) {
+      return
+    }
+
+    // TODO: remove
+    console.log("handleFormSubmit")
+
+    const user = await storeUser(appContext, {
+      ...spotifyProfile!,
+      email: emailField.value
+    })
+
+    await storeUserFavouriteArtists(user, favouriteSpotifyArtistsQuery.data!)
+
+    // TODO: remove
+    console.log("handleFormSubmit > document.location.href = `/home?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.REGISTRATION_SUCCESS}`")
+
+    document.location.href = `/home?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.REGISTRATION_SUCCESS}`
   }
 
   return renderContents(

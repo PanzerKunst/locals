@@ -1,6 +1,5 @@
-import { ReactNode, useEffect } from "react"
+import { ReactNode } from "react"
 import { useQuery } from "react-query"
-import { useNavigate } from "react-router-dom"
 
 import { useAppContext } from "../../AppContext.tsx"
 import { fetchUser } from "../../Data/Backend/Apis/UserApi.ts"
@@ -9,17 +8,24 @@ import { fetchProfile } from "../../Data/Spotify/Apis/ProfileApi.ts"
 import { SpotifyUserProfile } from "../../Data/Spotify/Models/SpotifyUserProfile.ts"
 import { appUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
 import { getUrlQueryParam } from "../../Util/BrowserUtils.ts"
+import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 
 export function HomePage() {
-  const navigate = useNavigate()
   const appContext = useAppContext()
   const { spotifyApiAccessToken } = appContext
 
   const spotifyApiErrorFromUrl = getUrlQueryParam("error") // /spotify-callback?error=access_denied
 
+  // TODO: remove
+  console.log("HomePage > render")
+
   if (spotifyApiErrorFromUrl) {
-    navigate(`/?${appUrlQueryParam.SPOTIFY_CALLBACK_ERROR}=${spotifyApiErrorFromUrl}`, { replace: true })
+    // TODO: remove
+    console.log("HomePage2 > document.location.replace(`/?${appUrlQueryParam.SPOTIFY_CALLBACK_ERROR}=${spotifyApiErrorFromUrl}`)")
+
+    document.location.replace(`/?${appUrlQueryParam.SPOTIFY_CALLBACK_ERROR}=${spotifyApiErrorFromUrl}`)
+    return
   }
 
   const spotifyApiCodeFromUrl = getUrlQueryParam("code")
@@ -31,7 +37,7 @@ export function HomePage() {
     console.log("HomePage > redirectToAuthCodeFlow")
 
     redirectToAuthCodeFlow(appContext)
-    return undefined
+    return
   }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -52,36 +58,28 @@ export function HomePage() {
     }
   )
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  useEffect(() => {
-    async function checkIfAlreadyRegistered(spotifyProfile: SpotifyUserProfile): Promise<void> {
-      console.log("spotifyProfile", spotifyProfile)
-      const fetchedUser = await fetchUser(appContext, spotifyProfile)
-
-      if (!fetchedUser) {
-        // TODO: remove
-        console.log("HomePage > redirecting to /registration")
-
-        const spotifyProfileUrlParam = encodeURIComponent(JSON.stringify(spotifyProfile))
-        navigate(`/registration?${appUrlQueryParam.SPOTIFY_PROFILE}=${spotifyProfileUrlParam}`, { replace: true })
-      }
-    }
-
-    console.log("Homepage > useEffect")
-
-    if (spotifyProfileQuery.data) {
-      checkIfAlreadyRegistered(spotifyProfileQuery.data)
-    }
-    // Omitting `appContext` in the dependencies avoids an infinite loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [spotifyProfileQuery.data])
+  if (spotifyAccessTokenQuery.isLoading || spotifyProfileQuery.isLoading) {
+    return renderContents(<CircularLoader/>)
+  }
 
   if (spotifyAccessTokenQuery.isError || spotifyProfileQuery.isError) {
     return renderContents(<span>Error fetching data</span>)
   }
 
-  // TODO: remove
-  console.log("HomePage > render")
+  async function checkIfAlreadyRegistered(spotifyProfile: SpotifyUserProfile): Promise<void> {
+    console.log("spotifyProfile", spotifyProfile)
+    const fetchedUser = await fetchUser(appContext, spotifyProfile)
+
+    if (!fetchedUser) {
+      // TODO: remove
+      console.log("HomePage > redirecting to /registration")
+
+      const spotifyProfileUrlParam = encodeURIComponent(JSON.stringify(spotifyProfile))
+      document.location.replace(`/registration?${appUrlQueryParam.SPOTIFY_PROFILE}=${spotifyProfileUrlParam}`)
+    }
+  }
+
+  checkIfAlreadyRegistered(spotifyProfileQuery.data!)
 
   return renderContents(
     <FadeIn>

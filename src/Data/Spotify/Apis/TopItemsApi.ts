@@ -15,6 +15,9 @@ const pageSize = 49
 export async function fetchTopArtists(appContext: AppContextType, pageNb: number): Promise<SpotifyArtist[]> {
   const { spotifyApiAccessToken } = appContext
 
+  // TODO: remove
+  console.log("fetchTopArtists")
+
   if (!spotifyApiAccessToken) {
     throw new Error("No Spotify API access token found in app context")
   }

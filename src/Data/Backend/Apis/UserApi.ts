@@ -9,6 +9,9 @@ import { User } from "../Models/User.ts"
 export async function fetchUser(appContext: AppContextType, spotifyUserProfile: SpotifyUserProfile): Promise<User | undefined> {
   const queryParams = { spotify_id: spotifyUserProfile.id }
 
+  // TODO: remove
+  console.log("fetchUser")
+
   const result = await fetch(`${config.BACKEND_URL}/user?${qs.stringify(queryParams)}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" }
@@ -29,6 +32,9 @@ export async function fetchUser(appContext: AppContextType, spotifyUserProfile: 
 
 export async function storeUser(appContext: AppContextType, spotifyUserProfile: SpotifyUserProfile): Promise<User> {
   const existingUser = await fetchUser(appContext, spotifyUserProfile)
+
+  // TODO: remove
+  console.log("storeUser")
 
   if (existingUser) {
     return existingUser
