@@ -13,16 +13,17 @@ import { storeUserFavouriteArtists } from "../../Data/Backend/Apis/UserFavourite
 import { fetchFavouriteSpotifyArtists } from "../../Data/FrontendHelperApis/UserFavouriteArtistsApi.ts"
 import { searchLocations } from "../../Data/Geoapify/Apis/AutocompleteApi.ts"
 import { GeoapifyFeature } from "../../Data/Geoapify/Models/GeoapifyFeature.ts"
-import { isSpotifyUserProfileCompatible, SpotifyUserProfile } from "../../Data/Spotify/Models/SpotifyUserProfile.ts"
+import { isSpotifyUserProfileCompatible } from "../../Data/Spotify/Models/SpotifyUserProfile.ts"
 import { scrollIntoView } from "../../Util/AnimationUtils.ts"
 import { actionsFromAppUrl, appUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
-import { getUrlQueryParam } from "../../Util/BrowserUtils.ts"
 import { Field, isEmailValid } from "../../Util/FormUtils.ts"
 import { useDebounce } from "../../Util/ReactUtils.ts"
+import { getSpotifyProfileFromSessionStorage, saveSpotifyProfileInSessionStorage } from "../../Util/SessionStorage.ts"
 import { AnimatedButton } from "../_CommonComponents/AnimatedButton.tsx"
 import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 import { LocationSelectList } from "../_CommonComponents/LocationSelectList.tsx"
+import { ErrorSnackbar } from "../_CommonComponents/Snackbar/ErrorSnackbar.tsx"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./RegistrationPage.scss"
@@ -32,22 +33,22 @@ const minLocationQueryLength = 3
 export function RegistrationPage() {
   const appContext = useAppContext()
   const [scope, animate] = useAnimate()
-  const spotifyProfileFromUrl = getUrlQueryParam(appUrlQueryParam.SPOTIFY_PROFILE) // TODO: use session storage instead
+  const spotifyProfile = getSpotifyProfileFromSessionStorage()
 
-  if (!spotifyProfileFromUrl) {
-    document.location.replace(`/?${appUrlQueryParam.SPOTIFY_PROFILE_ERROR}=Profile is missing`)
-    return
+  if (!spotifyProfile) {
+    return renderContents(<ErrorSnackbar message="Profile is missing"/>)
   }
-
-  const spotifyProfile: SpotifyUserProfile | undefined = JSON.parse(spotifyProfileFromUrl)
 
   if (!isSpotifyUserProfileCompatible(spotifyProfile)) {
-    document.location.replace(`/?${appUrlQueryParam.SPOTIFY_PROFILE_ERROR}=Profile is incompatible`)
-    return
+    return renderContents(<ErrorSnackbar message="Profile is incompatible"/>)
   }
 
+  saveSpotifyProfileInSessionStorage(undefined)
+
+  /* eslint-disable react-hooks/rules-of-hooks */
+
   const [isStep2Hidden, setIsStep2Hidden] = useState(true)
-  const [emailField, setEmailField] = useState<Field>({ value: spotifyProfile?.email || "", error: "" })
+  const [emailField, setEmailField] = useState<Field>({ value: spotifyProfile.email || "", error: "" })
 
   const [locationQuery, setLocationQuery] = useState("")
   const debouncedLocationQuery = useDebounce(locationQuery, 300)
@@ -78,6 +79,8 @@ export function RegistrationPage() {
 
     performLocationSearch()
   }, [debouncedLocationQuery, selectedLocation])
+
+  /* eslint-enable react-hooks/rules-of-hooks */
 
   if (favouriteSpotifyArtistsQuery.isLoading) {
     return renderContents(<CircularLoader/>)
@@ -167,6 +170,7 @@ export function RegistrationPage() {
 
     await storeUserFavouriteArtists(user, favouriteSpotifyArtistsQuery.data!)
 
+    // TODO: try navigate
     document.location.href = `/home?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.REGISTRATION_SUCCESS}`
   }
 

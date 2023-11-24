@@ -7,7 +7,6 @@ import { actionsFromAppUrl, appUrlQueryParam } from "../../Util/AppUrlQueryParam
 import { getUrlQueryParam } from "../../Util/BrowserUtils.ts"
 import { AnimatedButton } from "../_CommonComponents/AnimatedButton.tsx"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
-import { ErrorSnackbar } from "../_CommonComponents/Snackbar/ErrorSnackbar.tsx"
 
 import "./IndexPage.scss"
 
@@ -23,14 +22,8 @@ export function IndexPage() {
     }
   }, [actionFromUrl, setLoggedInUser, setSpotifyApiAccessToken, setSpotifyApiRefreshToken])
 
-  const spotifyCallbackErrorFromUrl = getUrlQueryParam(appUrlQueryParam.SPOTIFY_CALLBACK_ERROR)
-  const spotifyProfileErrorFromUrl = getUrlQueryParam(appUrlQueryParam.SPOTIFY_PROFILE_ERROR)
-
   return (
     <div className="page index">
-      {spotifyCallbackErrorFromUrl && <ErrorSnackbar message={`Spotify API error: "${spotifyCallbackErrorFromUrl}"`}/>}
-      {spotifyProfileErrorFromUrl && <ErrorSnackbar message={`Spotify profile error: "${spotifyProfileErrorFromUrl}"`}/>}
-
       <IndexPageHero/>
 
       <section id="the-problem">

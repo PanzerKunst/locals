@@ -6,10 +6,11 @@ import { fetchUser } from "../../Data/Backend/Apis/UserApi.ts"
 import { getAccessToken, redirectToAuthCodeFlow } from "../../Data/Spotify/Apis/AuthApi.ts"
 import { fetchProfile } from "../../Data/Spotify/Apis/ProfileApi.ts"
 import { SpotifyUserProfile } from "../../Data/Spotify/Models/SpotifyUserProfile.ts"
-import { appUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
 import { getUrlQueryParam } from "../../Util/BrowserUtils.ts"
+import { saveSpotifyProfileInSessionStorage } from "../../Util/SessionStorage.ts"
 import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
+import { ErrorSnackbar } from "../_CommonComponents/Snackbar/ErrorSnackbar.tsx"
 
 export function HomePage() {
   const appContext = useAppContext()
@@ -18,8 +19,7 @@ export function HomePage() {
   const spotifyApiErrorFromUrl = getUrlQueryParam("error") // /spotify-callback?error=access_denied
 
   if (spotifyApiErrorFromUrl) {
-    document.location.replace(`/?${appUrlQueryParam.SPOTIFY_CALLBACK_ERROR}=${spotifyApiErrorFromUrl}`)
-    return
+    return renderContents(<ErrorSnackbar message={`Spotify API error: "${spotifyApiErrorFromUrl}"`}/>)
   }
 
   const spotifyApiCodeFromUrl = getUrlQueryParam("code")
@@ -68,8 +68,10 @@ export function HomePage() {
       // TODO: remove
       console.log("HomePage > redirecting to /registration")
 
-      const spotifyProfileUrlParam = encodeURIComponent(JSON.stringify(spotifyProfile))
-      document.location.replace(`/registration?${appUrlQueryParam.SPOTIFY_PROFILE}=${spotifyProfileUrlParam}`)
+      saveSpotifyProfileInSessionStorage(spotifyProfile)
+
+      // TODO: try navigate
+      document.location.replace("/registration")
     }
   }
 
