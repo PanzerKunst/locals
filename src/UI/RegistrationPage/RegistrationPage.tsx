@@ -56,7 +56,7 @@ export function RegistrationPage() {
   const [selectedLocation, setSelectedLocation] = useState<GeoapifyFeature>()
 
   const favouriteSpotifyArtistsQuery = useQuery(
-    ["favouriteSpotifyArtists", appContext],
+    "favouriteSpotifyArtists",
     () => fetchFavouriteSpotifyArtists(appContext)
   )
 
@@ -125,11 +125,7 @@ export function RegistrationPage() {
     setIsStep2Hidden(false)
     animate(scope.current, { opacity: 0 }, { duration: Number(s.animationDurationSm) })
     const step2El = document.getElementById("registration-step-2")
-
-    // TODO: remove
-    console.log("handleStep2Click", step2El)
-
-    scrollIntoView(step2El)
+    scrollIntoView(step2El) // TODO: check why it doesn't work
   }
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {

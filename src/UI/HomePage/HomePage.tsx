@@ -36,7 +36,7 @@ export function HomePage() {
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const spotifyAccessTokenQuery = useQuery(
-    ["spotifyAccessToken", appContext, spotifyApiCodeFromUrl],
+    ["spotifyAccessToken", spotifyApiCodeFromUrl],
     () => getAccessToken(appContext, spotifyApiCodeFromUrl!),
     {
       enabled: !spotifyApiAccessToken && !!spotifyApiCodeFromUrl
@@ -45,7 +45,7 @@ export function HomePage() {
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const spotifyProfileQuery = useQuery(
-    ["spotifyProfile", appContext],
+    "spotifyProfile",
     () => fetchProfile(appContext),
     {
       enabled: !!spotifyApiAccessToken
@@ -54,7 +54,7 @@ export function HomePage() {
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const userQuery = useQuery(
-    ["user", appContext, spotifyProfileQuery.data],
+    ["user", spotifyProfileQuery.data],
     () => fetchUser(appContext, spotifyProfileQuery.data!),
     {
       enabled: !!spotifyProfileQuery.data
