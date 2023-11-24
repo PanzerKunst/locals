@@ -3,7 +3,7 @@ import { FormControl, FormHelperText, FormLabel, Input } from "@mui/joy"
 import classNames from "classnames"
 import { useAnimate } from "framer-motion"
 import { isEmpty as _isEmpty } from "lodash"
-import { ChangeEvent, ReactNode, useEffect, useState } from "react"
+import { ChangeEvent, FormEvent, ReactNode, useEffect, useState } from "react"
 import { useQuery } from "react-query"
 
 // TODO: remove
@@ -158,7 +158,9 @@ export function RegistrationPage() {
     setLocationFieldError("")
   }
 
-  const handleFormSubmit = async () => {
+  const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
     if (!isFormValid()) {
       return
     }
@@ -203,9 +205,7 @@ export function RegistrationPage() {
         </FadeIn>
       </section>
 
-      <form noValidate id="registration-step-2" className={classNames({ "hidden": isStep2Hidden })} onSubmit={() => {
-        console.log("form submitted")
-      }}>
+      <form noValidate id="registration-step-2" className={classNames({ "hidden": isStep2Hidden })} onSubmit={handleFormSubmit}>
         <FadeIn>
           <h2>Your details</h2>
         </FadeIn>
@@ -247,11 +247,7 @@ export function RegistrationPage() {
 
         <FadeIn className="wrapper-next-button">
           <AnimatedButton className="filling">
-            <button
-              type="button"
-              onClick={handleFormSubmit}
-              disabled={emailField.error !== "" || locationFieldError !== ""}
-            >
+            <button disabled={emailField.error !== "" || locationFieldError !== ""}>
               <span>Finish registration</span>
             </button>
           </AnimatedButton>
