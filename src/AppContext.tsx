@@ -46,7 +46,7 @@ export function AppContextProvider({ children }: Props) {
   const [spotifyApiTokenExpirationDate, setSpotifyApiTokenExpirationDateState] = useState(getSpotifyApiTokenExpirationDateFromLocalStorage())
   const [loggedInUser, setLoggedInUserState] = useState(getLoggedInUserFromLocalStorage())
 
-  // Any context varible which isn't of a primitite type (string, number, boolean) should be wrapped in a useCallback to avoid infinite loops
+  // Any context variable which isn't of a primitite type (string, number, boolean) should be wrapped in a useCallback to avoid infinite loops
 
   const setSpotifyApiTokenExpirationDate = useCallback((date: Date) => {
     if (!dayjs(spotifyApiTokenExpirationDate).isSame(dayjs(date), "second")) {
