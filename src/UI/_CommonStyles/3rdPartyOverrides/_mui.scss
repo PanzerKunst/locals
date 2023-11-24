@@ -1,7 +1,7 @@
 @import "../mixins";
 
 :root {
-  --variant-solidBg: #{$color-input-bg}; // stylelint-disable-line
+  // TODO --variant-solidBg: #{$color-input-bg}; // stylelint-disable-line
 }
 
 .MuiModal-root > .MuiModal-backdrop {
@@ -18,6 +18,7 @@
     font-size: $variable-font-size;
     border-radius: $input-border-radius;
     padding: 0.3em $input-padding-inline;
+    background-color: $color-input-bg;
 
     > .MuiInput-startDecorator {
       color: $color-input-text;
