@@ -36,29 +36,23 @@ export function HomePage() {
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const spotifyAccessTokenQuery = useQuery(
-    ["spotifyAccessToken", spotifyApiCodeFromUrl],
+    "spotifyAccessToken",
     () => getAccessToken(appContext, spotifyApiCodeFromUrl!),
-    {
-      enabled: !spotifyApiAccessToken && !!spotifyApiCodeFromUrl
-    }
+    { enabled: !spotifyApiAccessToken && !!spotifyApiCodeFromUrl }
   )
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const spotifyProfileQuery = useQuery(
     "spotifyProfile",
     () => fetchProfile(appContext),
-    {
-      enabled: !!spotifyApiAccessToken
-    }
+    { enabled: !!spotifyApiAccessToken }
   )
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const userQuery = useQuery(
-    ["user", spotifyProfileQuery.data],
+    "user",
     () => fetchUser(appContext, spotifyProfileQuery.data!),
-    {
-      enabled: !!spotifyProfileQuery.data
-    }
+    { enabled: !!spotifyProfileQuery.data }
   )
 
   if (spotifyAccessTokenQuery.isLoading || spotifyProfileQuery.isLoading || userQuery.isLoading) {
