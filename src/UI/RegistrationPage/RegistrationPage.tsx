@@ -226,7 +226,6 @@ export function RegistrationPage() {
                 )}
               </div>
               {locationFieldError !== "" && <FormHelperText>{locationFieldError}</FormHelperText>}
-
             </FormControl>
           </FadeIn>
 
