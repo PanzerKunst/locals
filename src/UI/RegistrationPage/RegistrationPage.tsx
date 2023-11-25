@@ -15,7 +15,7 @@ import { fetchFavouriteSpotifyArtists } from "../../Data/FrontendHelperApis/User
 import { searchLocations } from "../../Data/Geoapify/Apis/AutocompleteApi.ts"
 import { GeoapifyFeature } from "../../Data/Geoapify/Models/GeoapifyFeature.ts"
 import { isSpotifyUserProfileCompatible } from "../../Data/Spotify/Models/SpotifyUserProfile.ts"
-import { scrollIntoView } from "../../Util/AnimationUtils.ts"
+import { defaultFadeInDelay, scrollIntoView } from "../../Util/AnimationUtils.ts"
 import { actionsFromAppUrl, appUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
 import { Field, isEmailValid } from "../../Util/FormUtils.ts"
 import { useDebounce } from "../../Util/ReactUtils.ts"
@@ -127,7 +127,7 @@ export function RegistrationPage() {
     setIsStep2Hidden(false)
     animate(scope.current, { opacity: 0 }, { duration: Number(s.animationDurationSm) })
     const step2El = document.getElementById("registration-step-2")
-    scrollIntoView(step2El) // TODO: check why it doesn't work
+    scrollIntoView(step2El, defaultFadeInDelay)
   }
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -187,59 +187,58 @@ export function RegistrationPage() {
         </FadeIn>
       </section>
 
-      <form
-        noValidate
-        id="registration-step-2"
-        className={classNames({ "hidden": isStep2Hidden })}
-        onSubmit={handleFormSubmit}
-      >
+      <section id="registration-step-2" className={classNames({ "hidden": isStep2Hidden })}>
         <FadeIn>
           <h2>Your details</h2>
         </FadeIn>
 
-        <FadeIn>
-          <FormControl error={emailField.error !== ""}>
-            <FormLabel>E-mail</FormLabel>
-            <Input
-              variant="solid"
-              size="lg"
-              placeholder="chris@hello.net"
-              value={emailField.value}
-              onChange={handleEmailChange}
-              onBlur={handleEmailBlur}
-            />
-            {emailField.error !== "" && <FormHelperText>{emailField.error}</FormHelperText>}
-          </FormControl>
-        </FadeIn>
+        <form noValidate onSubmit={handleFormSubmit}>
+          <FadeIn>
+            <FormControl error={emailField.error !== ""}>
+              <FormLabel>E-mail</FormLabel>
+              <Input
+                variant="solid"
+                size="lg"
+                placeholder="chris@hello.net"
+                value={emailField.value}
+                onChange={handleEmailChange}
+                onBlur={handleEmailBlur}
+              />
+              {emailField.error !== "" && <FormHelperText>{emailField.error}</FormHelperText>}
+            </FormControl>
+          </FadeIn>
 
-        <FadeIn>
-          <FormControl error={locationFieldError !== ""} className="location-form-control">
-            <FormLabel>Location</FormLabel>
-            <Input
-              variant="solid"
-              size="lg"
-              placeholder="Paris, France"
-              value={locationQuery}
-              autoComplete="off"
-              onChange={handleLocationChange}
-              startDecorator={<LocationOn/>}
-            />
-            {locationFieldError !== "" && <FormHelperText>{locationFieldError}</FormHelperText>}
+          <FadeIn>
+            <FormControl error={locationFieldError !== ""}>
+              <FormLabel>Location</FormLabel>
+              <div className="location-input-and-dropdown">
+                <Input
+                  variant="solid"
+                  size="lg"
+                  placeholder="Paris, France"
+                  value={locationQuery}
+                  autoComplete="off"
+                  onChange={handleLocationChange}
+                  startDecorator={<LocationOn/>}
+                />
+                {(isSearchingLocations || !_isEmpty(locationSearchResults)) && (
+                  <LocationSelectList locations={locationSearchResults} onSelect={handleLocationSelect} isLoading={isSearchingLocations}/>
+                )}
+              </div>
+              {locationFieldError !== "" && <FormHelperText>{locationFieldError}</FormHelperText>}
 
-            {(isSearchingLocations || !_isEmpty(locationSearchResults)) && (
-              <LocationSelectList locations={locationSearchResults} onSelect={handleLocationSelect} isLoading={isSearchingLocations}/>
-            )}
-          </FormControl>
-        </FadeIn>
+            </FormControl>
+          </FadeIn>
 
-        <FadeIn className="wrapper-next-button">
-          <AnimatedButton className="filling">
-            <button disabled={emailField.error !== "" || locationFieldError !== ""}>
-              <span>Finish registration</span>
-            </button>
-          </AnimatedButton>
-        </FadeIn>
-      </form>
+          <FadeIn className="wrapper-next-button">
+            <AnimatedButton className="filling">
+              <button disabled={emailField.error !== "" || locationFieldError !== ""}>
+                <span>Finish registration</span>
+              </button>
+            </AnimatedButton>
+          </FadeIn>
+        </form>
+      </section>
     </>
   )
 
