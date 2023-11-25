@@ -5,6 +5,7 @@ import { useAnimate } from "framer-motion"
 import { isEmpty as _isEmpty } from "lodash"
 import { ChangeEvent, FormEvent, ReactNode, useEffect, useState } from "react"
 import { useQuery } from "react-query"
+import { useNavigate } from "react-router-dom"
 
 import { FavouriteArtists } from "./FavouriteArtists.tsx"
 import { useAppContext } from "../../AppContext.tsx"
@@ -31,6 +32,7 @@ import "./RegistrationPage.scss"
 const minLocationQueryLength = 3
 
 export function RegistrationPage() {
+  const navigate = useNavigate()
   const appContext = useAppContext()
   const [scope, animate] = useAnimate()
   const spotifyProfile = getSpotifyProfileFromSession()
@@ -166,7 +168,7 @@ export function RegistrationPage() {
 
     await storeUserFavouriteArtists(user, favouriteSpotifyArtistsQuery.data!)
     saveSpotifyProfileInSession(undefined)
-    document.location.href = `/home?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.REGISTRATION_SUCCESS}`
+    navigate(`/home?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.REGISTRATION_SUCCESS}`)
   }
 
   return renderContents(

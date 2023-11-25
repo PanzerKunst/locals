@@ -70,6 +70,18 @@ export function IndexPage() {
           </FadeIn>
         </div>
       </section>
+
+      <section>
+        <div className="container">
+          <FadeIn>
+            <h2>For artists</h2>
+          </FadeIn>
+
+          <FadeIn>
+            <p>The content platform for artists whose audience is primarily on Spotify</p>
+          </FadeIn>
+        </div>
+      </section>
     </div>
   )
 }

@@ -22,7 +22,7 @@ export async function fetchUser(appContext: AppContextType, spotifyUserProfile: 
     ? undefined
     : await result.json() as User
 
-  // TODO appContext.setLoggedInUser(user)
+  appContext.setLoggedInUser(user)
 
   return user
 }
@@ -46,7 +46,7 @@ export async function storeUser(appContext: AppContextType, spotifyUserProfile: 
 
   const user = await result.json() as User
 
-  // TODO appContext.setLoggedInUser(user)
+  appContext.setLoggedInUser(user)
 
   return user
 }

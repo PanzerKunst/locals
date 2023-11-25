@@ -1,5 +1,6 @@
 import { ReactNode } from "react"
 import { useQuery } from "react-query"
+import { useNavigate } from "react-router-dom"
 
 import { useAppContext } from "../../AppContext.tsx"
 import { fetchUser } from "../../Data/Backend/Apis/UserApi.ts"
@@ -12,13 +13,14 @@ import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 
 export function HomePage() {
+  const navigate = useNavigate()
   const appContext = useAppContext()
   const { spotifyApiAccessToken } = appContext
 
   const spotifyApiErrorFromUrl = getUrlQueryParam("error") // /spotify-callback?error=access_denied
 
   if (spotifyApiErrorFromUrl) {
-    document.location.replace(`/?${appUrlQueryParam.SPOTIFY_CALLBACK_ERROR}=${spotifyApiErrorFromUrl}`)
+    navigate(`/?${appUrlQueryParam.SPOTIFY_CALLBACK_ERROR}=${spotifyApiErrorFromUrl}`, { replace: true })
     return renderContents(<></>)
   }
 
@@ -69,7 +71,7 @@ export function HomePage() {
     // TODO: remove
     console.log("HomePage > redirecting to /registration")
 
-    document.location.replace("/registration")
+    navigate("/registration", { replace: true })
     return renderContents(<></>)
   }
 
