@@ -1,53 +1,55 @@
 import { ElectricBolt } from "@mui/icons-material"
-import { useAnimate } from "framer-motion"
-import { MouseEvent, useEffect } from "react"
+import { MouseEvent, useEffect, useRef } from "react"
 import { Link } from "react-router-dom"
 
 import { AppMenu } from "./AppMenu.tsx"
 import { useAppContext } from "../../../AppContext.tsx"
-import { MotionTransition, scrollIntoView } from "../../../Util/AnimationUtils.ts"
-import { isTouch } from "../../../main.tsx"
+import { scrollIntoView } from "../../../Util/AnimationUtils.ts"
 
-import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./AppHeader.scss"
 
+const headerHeight = 60
 let lastScrollY = window.scrollY
-
-const motionVariants = {
-  hidden: {
-    y: -60, // header height
-    // opacity: 0 doesn't look good enough
-  },
-  visible: {
-    y: 0,
-    // opacity: 1 doesn't look good enough
-  }
-}
-
-const motionTransition: MotionTransition = {
-  duration: Number(s.animationDurationSm),
-  ease: "easeOut"
-}
 
 export function AppHeader() {
   const { spotifyApiAccessToken } = useAppContext()
-  const [scope, animate] = useAnimate()
+  const headerRef = useRef<HTMLHeadingElement>(null)
   const isLoggedIn = !!spotifyApiAccessToken
   const homeUrl = isLoggedIn ? "/home" : "/"
 
   useEffect(() => {
-    if (isTouch) {
-      return // Because animations based on scroll position are buggy on mobile, especially iOS
+    const header = headerRef.current
+
+    if (!header) {
+      return
     }
 
     function handleScroll() {
       const currentScrollY = window.scrollY
+      const delta = currentScrollY - lastScrollY
+      const headerTopPos = parseInt(header!.style.top)
 
-      if (currentScrollY > lastScrollY) {
-        animate(scope.current, motionVariants.hidden, motionTransition)
-      } else {
-        animate(scope.current, motionVariants.visible, motionTransition)
+      // Header always shown when scrolled near the top
+      let newTopPos = 0
+
+      if (currentScrollY > 100) {
+        if (currentScrollY > lastScrollY) { // Scrolling down
+          const isHeaderFullyHidden = headerTopPos === -headerHeight
+
+          newTopPos = isHeaderFullyHidden
+            ? -headerHeight
+            : Math.max(headerTopPos - delta, -headerHeight)
+
+        } else { // Scrolling up
+          const isHeaderFullyVisible = headerTopPos === 0
+
+          newTopPos = isHeaderFullyVisible
+            ? 0
+            : Math.min(headerTopPos - delta, 0)
+        }
       }
+
+      header!.style.top = `${newTopPos}px`
 
       lastScrollY = currentScrollY
     }
@@ -55,7 +57,7 @@ export function AppHeader() {
     window.addEventListener("scroll", handleScroll, { passive: true })
 
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [animate, scope])
+  }, [])
 
   const handleLinkClick = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault() // TODO: only if already on index page
@@ -66,7 +68,7 @@ export function AppHeader() {
   }
 
   return (
-    <header ref={scope} className="app-header">
+    <header ref={headerRef} className="app-header" style={{ top: 0 }}>
       <nav>
         <Link to={homeUrl} className="button icon-only">
           <ElectricBolt/>

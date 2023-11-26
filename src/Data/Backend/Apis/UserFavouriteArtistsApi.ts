@@ -1,4 +1,4 @@
-import { uniqBy as _uniqBy } from "lodash"
+import _uniqBy from "lodash/uniqBy"
 
 import { config } from "../../../config.ts"
 import { SpotifyArtist } from "../../Spotify/Models/SpotifyArtist.ts"

@@ -1,9 +1,12 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
+import _isEmpty from "lodash/isEmpty"
 
 import { CircularLoader } from "./CircularLoader.tsx"
 import { GeoapifyFeature } from "../../Data/Geoapify/Models/GeoapifyFeature.ts"
 
+import { motion, stagger, useAnimate } from "framer-motion"
 
+import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./LocationSelectList.scss"
 
 type Props = {
@@ -12,16 +15,44 @@ type Props = {
   isLoading?: boolean;
 }
 
+const motionVariants = {
+  initial: {
+    opacity: 0,
+    y: 25,
+    filter: "blur(0.5em)"
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0)"
+  }
+}
+
 export function LocationSelectList({ locations, onSelect, isLoading = false }: Props) {
   const [isOpen, setIsOpen] = useState(true)
-  const dropdownRef = useRef<HTMLUListElement>(null)
+  const [scope, animate] = useAnimate()
 
   useEffect(() => {
     setIsOpen(true)
   }, [locations, isLoading])
 
+  useEffect(() => {
+    if (_isEmpty(locations)) {
+      return
+    }
+
+    animate(
+      "li",
+      motionVariants.animate,
+      {
+        duration: Number(s.animationDurationSm),
+        delay: stagger(Number(s.animationDurationXs), { startDelay: 0.2 })
+      }
+    )
+  }, [animate, scope, locations])
+
   function handleOutsideClick(event: MouseEvent) {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+    if (scope.current && !scope.current.contains(event.target as Node)) {
       setIsOpen(false)
     }
   }
@@ -40,14 +71,12 @@ export function LocationSelectList({ locations, onSelect, isLoading = false }: P
       document.removeEventListener("mousedown", handleOutsideClick)
       document.removeEventListener("keydown", handleKeyDown)
     }
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleClick = (geoapifyFeature: GeoapifyFeature) => {
     onSelect(geoapifyFeature)
     setIsOpen(true)
   }
-
-  // TODO: add stagger animnation https://www.framer.com/motion/stagger/
 
   if (!isOpen) {
     return undefined
@@ -55,14 +84,14 @@ export function LocationSelectList({ locations, onSelect, isLoading = false }: P
 
   return (
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
-    <ul role="listbox" ref={dropdownRef} className="styleless select">
+    <ul ref={scope} role="listbox" className="styleless select">
       {isLoading ? (
         <li>
           <CircularLoader />
         </li>
       ) : (
         locations.map((geoapifyFeature) => ( // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-          <li
+          <motion.li initial={motionVariants.initial}
             key={geoapifyFeature.place_id}
             onClick={() => handleClick(geoapifyFeature)}
             // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
@@ -70,7 +99,7 @@ export function LocationSelectList({ locations, onSelect, isLoading = false }: P
             aria-selected="false"
           >
             {geoapifyFeature.formatted}
-          </li>
+          </motion.li>
         ))
       )}
     </ul>

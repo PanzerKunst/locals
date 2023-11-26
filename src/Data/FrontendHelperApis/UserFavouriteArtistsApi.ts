@@ -1,4 +1,5 @@
-import { isEmpty as _isEmpty, uniqBy as _uniqBy } from "lodash"
+import _isEmpty from "lodash/isEmpty"
+import _uniqBy from "lodash/uniqBy"
 
 import { AppContextType } from "../../AppContext.tsx"
 import { fetchFollowedArtists } from "../Spotify/Apis/FollowedArtistsApi.ts"

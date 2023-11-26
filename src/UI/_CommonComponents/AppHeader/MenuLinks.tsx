@@ -14,12 +14,12 @@ const motionVariants = {
   initial: {
     opacity: 0,
     y: 50,
-    filter: "blur(20px)"
+    filter: "blur(0.5em)"
   },
   animate: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)"
+    filter: "blur(0)"
   }
 }
 
@@ -32,7 +32,7 @@ export function MenuLinks({ closeMenu }: Props) {
       motionVariants.animate,
       {
         duration: Number(s.animationDurationSm),
-        delay: stagger(0.1, { startDelay: 0.2 })
+        delay: stagger(Number(s.animationDurationXs), { startDelay: 0.2 })
       }
     )
   }, [animate, scope])

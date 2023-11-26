@@ -1,5 +1,5 @@
 import dayjs from "dayjs"
-import { isEqual as _isEqual } from "lodash"
+import _isEqual from "lodash/isEqual"
 import React, { createContext, ReactNode, useCallback, useContext, useMemo, useState } from "react"
 
 import { User } from "./Data/Backend/Models/User.ts"
