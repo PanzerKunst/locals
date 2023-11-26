@@ -56,7 +56,7 @@ export function IndexPage() {
 
       <section id="for-fans">
         <div className="container">
-          <FadeIn>
+          <FadeIn className="centered-contents">
             <h2>For fans</h2>
           </FadeIn>
 
