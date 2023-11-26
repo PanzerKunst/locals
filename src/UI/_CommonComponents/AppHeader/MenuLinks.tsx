@@ -11,16 +11,8 @@ type Props = {
 }
 
 const motionVariants = {
-  initial: {
-    opacity: 0,
-    y: 50,
-    filter: "blur(0.5em)"
-  },
-  animate: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0)"
-  }
+  initial: { opacity: 0, y: 50, filter: "blur(0.5em)" },
+  animate: { opacity: 1, y: 0, filter: "blur(0)" }
 }
 
 export function MenuLinks({ closeMenu }: Props) {

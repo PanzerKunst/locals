@@ -14,10 +14,7 @@ const motionVariants = {
   animate: { x: 0, opacity: 1 }
 }
 
-const motionTransition = {
-  duration: s.animationDurationMd,
-  ease: easeOutFast
-}
+const motionTransition = { duration: s.animationDurationMd, ease: easeOutFast }
 
 export function IndexPageHero() {
   return (
