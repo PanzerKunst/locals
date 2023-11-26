@@ -5,7 +5,7 @@ import { IndexPage } from "./IndexPage/IndexPage.tsx"
 import { PrivacyPolicyPage } from "./PrivacyPolicyPage/PrivacyPolicyPage.tsx"
 import { RegistrationPage } from "./RegistrationPage/RegistrationPage.tsx"
 import { AppFooter } from "./_CommonComponents/AppFooter.tsx"
-import { AppHeader } from "./_CommonComponents/AppHeader/AppHeader.tsx"
+import { AppHeader2 } from "./_CommonComponents/AppHeader/AppHeader2.tsx"
 import { AppContextProvider } from "../AppContext.tsx"
 
 import "./App.scss"
@@ -13,7 +13,7 @@ import "./App.scss"
 function Layout() {
   return (
     <>
-      <AppHeader/>
+      <AppHeader2/>
       <Outlet />
       <AppFooter/>
       <ScrollRestoration />

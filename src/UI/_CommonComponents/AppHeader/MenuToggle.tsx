@@ -43,7 +43,7 @@ export function MenuToggle({ onToggle }: Props) {
             closed: { opacity: 1 },
             open: { opacity: 0 }
           }}
-          transition={{ duration: 0.1 }}
+          transition={{ duration: Number(s.animationDurationXs) }}
         />
         <Path
           variants={{

@@ -17,7 +17,7 @@ type Props = {
 
 export function AppSnackbar({ children, color, anchorOrigin, open, className = "" }: Props) {
   const viewportWidth = useViewportSize().width
-  const viewportWidthMd = parseInt(s.vwMd || "", 10)
+  const viewportWidthMd = parseInt(s.vwMd || "")
 
   return (
     <Snackbar
