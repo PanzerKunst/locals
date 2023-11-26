@@ -29,6 +29,7 @@ export function AppHeader2() {
       const delta = currentScrollY - lastScrollY
       const headerTopPos = parseInt(header!.style.top)
 
+      // Header always shown when scrolled near the top
       let newTopPos = 0
 
       if (currentScrollY > 100) {
