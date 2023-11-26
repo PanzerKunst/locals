@@ -6,8 +6,7 @@
   align-items: center;
   gap: 20px;
 
-  position: fixed;
-  width: 100%;
+  position: sticky;
   z-index: $z-index-header;
   transition: top #{$animation-duration-xs}s;
 

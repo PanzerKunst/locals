@@ -1,23 +1,27 @@
 @import "/src/UI/_CommonStyles/mixins";
 
-.app-footer.container { // Added `.container` for increased specificity
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  gap: 30px;
+.app-footer {
+  background-color: $color-offset-bg;
 
-  padding-block: 15vh;
+  > .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
 
-  @include header-footer-text;
+    padding-block: 15vh;
 
-  @include vw(md) {
-    flex-direction: row;
-  }
+    @include header-footer-text;
 
-  > span {
     @include vw(md) {
-      order: -1;
+      flex-direction: row;
+    }
+
+    > span {
+      @include vw(md) {
+        order: -1;
+      }
     }
   }
 }

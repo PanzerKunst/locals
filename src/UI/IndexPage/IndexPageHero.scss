@@ -2,17 +2,19 @@
 @import "/src/UI/_CommonStyles/mixins";
 
 #hero {
-  overflow-x: hidden; // To hide scrollbar of heading outside the viewport
-  background-color: $color-black; // TODO
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  overflow-x: hidden; // To hide scrollbar of heading outside the viewport
+  background-color: $color-black; // TODO
+  margin-top: -$header-height; // To be visible under the header
 
   height: clamp(450px, 50vw, 800px);
 
   > h1 {
     font-weight: 400;
+    color: $color-text-negative;
     letter-spacing: -0.03em;
     text-align: center;
     font-size: clamp(40px, 8vw, 140px);

@@ -29,3 +29,18 @@
     font-size: $variable-font-size;
   }
 }
+
+.MuiTabs-root.MuiTabs-colorNeutral {
+  > .MuiTabList-root {
+    font-size: $variable-font-size;
+
+    > .MuiTab-root {
+      color: $color-body-text;
+    }
+  }
+
+  > .MuiTabPanel-root {
+    background-color: $color-app-bg;
+    padding-inline: 0;
+  }
+}

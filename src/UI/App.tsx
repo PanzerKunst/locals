@@ -21,8 +21,6 @@ function Layout() {
   )
 }
 
-// TODO: add page transitions https://codesandbox.io/s/framer-motion-react-router-6-page-transitions-2f2olf?from-embed=&file=/src/template/Gallery.tsx
-
 const router = createBrowserRouter([
   {
     path: "/",

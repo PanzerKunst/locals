@@ -6,9 +6,10 @@ import { AppMenu } from "./AppMenu.tsx"
 import { useAppContext } from "../../../AppContext.tsx"
 import { scrollIntoView } from "../../../Util/AnimationUtils.ts"
 
+import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./AppHeader.scss"
 
-const headerHeight = 60
+const headerHeight = Number(s.headerHeight)
 let lastScrollY = window.scrollY
 
 export function AppHeader() {

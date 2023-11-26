@@ -4,8 +4,8 @@
 
 $min-button-size: 40px;
 
-button,
-a.button {
+button:not([role="tab"]),
+a.button:not([role="tab"]) {
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -25,8 +25,8 @@ a.button {
   }
 }
 
-button:not(.icon-only),
-a.button:not(.icon-only) {
+button:not([role="tab"], .icon-only),
+a.button:not([role="tab"], .icon-only) {
   font-weight: 400;
 
   @include to-right-red-gradient;

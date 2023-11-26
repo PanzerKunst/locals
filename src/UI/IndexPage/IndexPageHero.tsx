@@ -29,7 +29,7 @@ export function IndexPageHero() {
           variants={motionVariants}
           transition={motionTransition}
         >
-          Connect with your
+          Connecting musicians
         </motion.span>
         <motion.span
           initial="initial"
@@ -37,7 +37,7 @@ export function IndexPageHero() {
           variants={motionVariants}
           transition={{...motionTransition, delay: 0.3 }}
         >
-          favourite artists
+          with their fans
         </motion.span>
       </h1>
 
