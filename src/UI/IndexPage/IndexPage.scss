@@ -1,7 +1,13 @@
+@import "/src/UI/_CommonStyles/colors";
+
 .page.index {
   > section {
+    &:nth-of-type(even) {
+      background-color: $color-offset-bg;
+    }
+
     &:not(:first-of-type) {
-      margin-top: 10vh;
+      padding-top: 10vh;
     }
 
     h2 {

@@ -9,7 +9,7 @@ import { scrollIntoView } from "../../../Util/AnimationUtils.ts"
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./AppHeader.scss"
 
-const headerHeight = Number(s.headerHeight)
+const headerHeight = parseInt(s.headerHeight!)
 let lastScrollY = window.scrollY
 
 export function AppHeader() {
@@ -75,8 +75,8 @@ export function AppHeader() {
           <ElectricBolt/>
         </Link>
         <div>
-          <a href="/#the-problem" onClick={handleLinkClick} className="underline appears">The problem</a>
-          <a href="/#the-solution" onClick={handleLinkClick} className="underline appears">The solution</a>
+          <a href="/#for-artists" onClick={handleLinkClick} className="underline appears">For artists</a>
+          <a href="/#for-fans" onClick={handleLinkClick} className="underline appears">For fans</a>
         </div>
       </nav>
       <AppMenu/>
