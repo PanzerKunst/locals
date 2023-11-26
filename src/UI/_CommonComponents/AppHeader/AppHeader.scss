@@ -9,6 +9,7 @@
   position: fixed;
   width: 100%;
   z-index: $z-index-header;
+  transition: top #{$animation-duration-xs}s;
 
   background-color: $color-app-bg;
   padding: $header-padding-block $header-padding-inline;

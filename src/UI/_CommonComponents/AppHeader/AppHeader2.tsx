@@ -29,23 +29,26 @@ export function AppHeader2() {
       const delta = currentScrollY - lastScrollY
       const headerTopPos = parseInt(header!.style.top)
 
-      if (currentScrollY > lastScrollY) { // Scrolling down
-        const isHeaderFullyHidden = headerTopPos === -headerHeight
+      let newTopPos = 0
 
-        const newTopPos = isHeaderFullyHidden
-          ? -headerHeight
-          : Math.max(headerTopPos - delta, -headerHeight)
+      if (currentScrollY > 100) {
+        if (currentScrollY > lastScrollY) { // Scrolling down
+          const isHeaderFullyHidden = headerTopPos === -headerHeight
 
-        header!.style.top = `${newTopPos}px`
-      } else { // Scrolling up
-        const isHeaderFullyVisible = headerTopPos === 0
+          newTopPos = isHeaderFullyHidden
+            ? -headerHeight
+            : Math.max(headerTopPos - delta, -headerHeight)
 
-        const newTopPos = isHeaderFullyVisible
-          ? 0
-          : Math.min(headerTopPos - delta, 0)
+        } else { // Scrolling up
+          const isHeaderFullyVisible = headerTopPos === 0
 
-        header!.style.top = `${newTopPos}px`
+          newTopPos = isHeaderFullyVisible
+            ? 0
+            : Math.min(headerTopPos - delta, 0)
+        }
       }
+
+      header!.style.top = `${newTopPos}px`
 
       lastScrollY = currentScrollY
     }
