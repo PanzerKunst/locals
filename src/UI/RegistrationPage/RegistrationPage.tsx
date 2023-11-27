@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom"
 
 import { FavouriteArtists } from "./FavouriteArtists.tsx"
 import { useAppContext } from "../../AppContext.tsx"
-import { storeUser } from "../../Data/Backend/Apis/UserApi.ts"
+import { checkUsernameAvailability, storeUser } from "../../Data/Backend/Apis/UserApi.ts"
 import { storeUserFavouriteArtists } from "../../Data/Backend/Apis/UserFavouriteArtistsApi.ts"
 import { fetchFavouriteSpotifyArtists } from "../../Data/FrontendHelperApis/UserFavouriteArtistsApi.ts"
 import { searchLocations } from "../../Data/Geoapify/Apis/AutocompleteApi.ts"
@@ -17,7 +17,7 @@ import { GeoapifyFeature } from "../../Data/Geoapify/Models/GeoapifyFeature.ts"
 import { isSpotifyUserProfileCompatible } from "../../Data/Spotify/Models/SpotifyUserProfile.ts"
 import { defaultFadeInDelay, scrollIntoView } from "../../Util/AnimationUtils.ts"
 import { actionsFromAppUrl, appUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
-import { Field, isEmailValid } from "../../Util/FormUtils.ts"
+import { Field, isEmailValid, isUsernameValid } from "../../Util/FormUtils.ts"
 import { useDebounce } from "../../Util/ReactUtils.ts"
 import { getSpotifyProfileFromSession, saveSpotifyProfileInSession } from "../../Util/SessionStorage.ts"
 import { AnimatedButton } from "../_CommonComponents/AnimatedButton.tsx"
@@ -48,12 +48,17 @@ export function RegistrationPage() {
   /* eslint-disable react-hooks/rules-of-hooks */
 
   const [isStep2Hidden, setIsStep2Hidden] = useState(true)
-  const [emailField, setEmailField] = useState<Field>({ value: spotifyProfile.email || "", error: "" })
+  const [emailField, setEmailField] = useState<Field>({ value: spotifyProfile.email, error: "" })
+
+  const [username, setUsername] = useState(spotifyProfile.id)
+  const debouncedUsername = useDebounce(username, 300)
+  const [usernameFieldError, setUsernameFieldError] = useState("")
+  const [isCheckingUsernameAvailability, setIsCheckingUsernameAvailability] = useState(false)
 
   const [locationQuery, setLocationQuery] = useState("")
   const debouncedLocationQuery = useDebounce(locationQuery, 300)
   const [locationFieldError, setLocationFieldError] = useState("")
-  const [isSearchingLocations, setIsSearchingLocations] = useState(true)
+  const [isSearchingLocations, setIsSearchingLocations] = useState(false)
   const [locationSearchResults, setLocationSearchResults] = useState<GeoapifyFeature[]>([])
   const [selectedLocation, setSelectedLocation] = useState<GeoapifyFeature>()
 
@@ -79,6 +84,19 @@ export function RegistrationPage() {
 
     performLocationSearch()
   }, [debouncedLocationQuery, selectedLocation])
+
+  useEffect(() => {
+    async function performUsernameAvailabilityCheck() {
+      setIsCheckingUsernameAvailability(true)
+      const isAvailable = await checkUsernameAvailability(debouncedUsername)
+      setIsCheckingUsernameAvailability(false)
+      setUsernameFieldError(isAvailable ? "" : "Username is not available")
+    }
+
+    setUsernameFieldError("")
+
+    performUsernameAvailabilityCheck()
+  }, [debouncedUsername])
 
   /* eslint-enable react-hooks/rules-of-hooks */
 
@@ -106,6 +124,21 @@ export function RegistrationPage() {
     return true
   }
 
+  function isUsernameInputValid(): boolean {
+    if (debouncedUsername === "") {
+      setUsernameFieldError("Cannot be empty")
+      return false
+    }
+
+
+    if (!isUsernameValid(debouncedUsername)) {
+      setUsernameFieldError("A combination of letters, numbers, -, _, .")
+      return false
+    }
+
+    return true
+  }
+
   function isLocationInputValid(): boolean {
     if (!selectedLocation) {
       setLocationFieldError("Please select a location")
@@ -117,6 +150,10 @@ export function RegistrationPage() {
 
   function isFormValid(): boolean {
     if (!isEmailInputValid()) {
+      return false
+    }
+
+    if (!isUsernameInputValid()) {
       return false
     }
 
@@ -143,6 +180,15 @@ export function RegistrationPage() {
     return isEmailInputValid()
   }
 
+  const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setUsername(event.target.value)
+    // Error reset done in `useEffect`
+  }
+
+  const handleUsernameBlur = () => {
+    return isUsernameInputValid()
+  }
+
   const handleLocationChange = (event: ChangeEvent<HTMLInputElement>) => {
     setLocationQuery(event.target.value)
     setSelectedLocation(undefined)
@@ -164,7 +210,7 @@ export function RegistrationPage() {
     const user = await storeUser(appContext, {
       ...spotifyProfile!,
       email: emailField.value
-    })
+    }, debouncedUsername)
 
     await storeUserFavouriteArtists(user, favouriteSpotifyArtistsQuery.data!)
     saveSpotifyProfileInSession(undefined)
@@ -205,6 +251,22 @@ export function RegistrationPage() {
                 onBlur={handleEmailBlur}
               />
               {emailField.error !== "" && <FormHelperText>{emailField.error}</FormHelperText>}
+            </FormControl>
+          </FadeIn>
+
+          <FadeIn>
+            <FormControl error={usernameFieldError !== ""}>
+              <FormLabel>Username</FormLabel>
+              <Input
+                variant="solid"
+                size="lg"
+                placeholder="MusicLover96"
+                value={username}
+                onChange={handleUsernameChange}
+                onBlur={handleUsernameBlur}
+                endDecorator={isCheckingUsernameAvailability && <CircularLoader/>}
+              />
+              {usernameFieldError !== "" && <FormHelperText>{usernameFieldError}</FormHelperText>}
             </FormControl>
           </FadeIn>
 

@@ -29,5 +29,9 @@ ul.styleless.select {
         opacity: 0.9;
       }
     }
+
+    > .circular-loader {
+      padding-block: 0.4em;
+    }
   }
 }

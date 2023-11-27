@@ -1,13 +1,14 @@
 export type NewUser = {
-  name: string,
   spotifyId: string,
+  name: string,
+  username: string,
   email: string
 }
 
 export type User = NewUser & {
-  id: number
-  createdAt: string
-  updatedAt?: string
+  id: number,
+  createdAt: string,
+  updatedAt: string
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -19,7 +20,7 @@ export function isUserCompatible(obj: any): obj is User {
 
   // Get all keys of the object
   const keys = Object.keys(obj)
-  const allowedKeys = ["name", "spotifyId", "email", "id", "createdAt", "updatedAt"]
+  const allowedKeys = ["spotifyId", "name", "username", "email", "id", "createdAt", "updatedAt"]
 
   // Check for no additional keys
   if (keys.some(key => !allowedKeys.includes(key))) {
@@ -27,12 +28,16 @@ export function isUserCompatible(obj: any): obj is User {
   }
 
   // Check for the existence and type of optional properties
+  if (typeof obj.spotifyId !== "string") {
+    console.log("User incompatible: 'typeof obj.spotifyId !== \"string\"'")
+    return false
+  }
   if (typeof obj.name !== "string") {
     console.log("User incompatible: 'typeof obj.name !== \"string\"'")
     return false
   }
-  if (typeof obj.spotifyId !== "string") {
-    console.log("User incompatible: 'typeof obj.spotifyId !== \"string\"'")
+  if (typeof obj.username !== "string") {
+    console.log("User incompatible: 'typeof obj.username !== \"string\"'")
     return false
   }
   if (typeof obj.email !== "string") {
@@ -47,8 +52,8 @@ export function isUserCompatible(obj: any): obj is User {
     console.log("User incompatible: 'typeof obj.createdAt !== \"string\"'")
     return false
   }
-  if (obj.updatedAt && typeof obj.updatedAt !== "string") {
-    console.log("User incompatible: 'obj.updatedAt && typeof obj.updatedAt !== \"string\"'")
+  if (typeof obj.updatedAt !== "string") {
+    console.log("User incompatible: 'typeof obj.updatedAt !== \"string\"'")
     return false
   }
 

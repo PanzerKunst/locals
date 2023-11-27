@@ -1,7 +1,6 @@
 import { SpotifyExternalUrls } from "./SpotifyExternalUrls.ts"
 import { SpotifyFollowers } from "./SpotifyFollowers.ts"
 import { SpotifyMedia } from "./SpotifyMedia.ts"
-import { User } from "../../Backend/Models/User.ts"
 
 export type SpotifyUserProfile = {
   country: string;
@@ -22,7 +21,7 @@ export type SpotifyUserProfile = {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function isSpotifyUserProfileCompatible(obj: any): obj is User {
+export function isSpotifyUserProfileCompatible(obj: any): obj is SpotifyUserProfile {
   // Check if the object is not null and is an object
   if (typeof obj !== "object" || !obj) {
     return false
