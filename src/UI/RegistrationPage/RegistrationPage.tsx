@@ -15,6 +15,7 @@ import { storeUserFavouriteArtists } from "../../Data/Backend/Apis/UserFavourite
 import { fetchFavouriteSpotifyArtists } from "../../Data/FrontendHelperApis/UserFavouriteArtistsApi.ts"
 import { searchLocations } from "../../Data/Geoapify/Apis/AutocompleteApi.ts"
 import { GeoapifyFeature } from "../../Data/Geoapify/Models/GeoapifyFeature.ts"
+import { SpotifyArtist } from "../../Data/Spotify/Models/SpotifyArtist.ts"
 import { isSpotifyUserProfileCompatible } from "../../Data/Spotify/Models/SpotifyUserProfile.ts"
 import { defaultFadeInDelay, scrollIntoView } from "../../Util/AnimationUtils.ts"
 import { actionsFromAppUrl, appUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
@@ -26,7 +27,6 @@ import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 import { LocationSelectList } from "../_CommonComponents/LocationSelectList.tsx"
 import { ErrorSnackbar } from "../_CommonComponents/Snackbar/ErrorSnackbar.tsx"
-import { SpotifyArtist } from "../../Data/Spotify/Models/SpotifyArtist.ts"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./RegistrationPage.scss"
@@ -181,16 +181,17 @@ export function RegistrationPage() {
   const handleToggleFollowing = (spotifyArtist: SpotifyArtist) => {
     const isAlreadyInList = followedArtists.some(artist => artist.id === spotifyArtist.id)
 
+    // TODO: remove
+    console.log("handleToggleFollowing", {
+      artistName: spotifyArtist.name,
+      isAlreadyInList,
+    })
+
     const updatedArtists = isAlreadyInList
       ? followedArtists.filter(artist => artist.id !== spotifyArtist.id)
       : [...followedArtists, spotifyArtist]
 
     setFollowedArtists(updatedArtists)
-
-    // TODO: remove
-    setTimeout(() => {
-      console.log(followedArtists)
-    }, 1000)
   }
 
   const handleStep2Click = () => {
