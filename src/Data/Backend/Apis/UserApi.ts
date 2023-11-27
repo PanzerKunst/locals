@@ -56,6 +56,9 @@ export async function storeUser(
     email: spotifyUserProfile.email
   }
 
+  // TODO: remove
+  console.log("storeUser > geoapifyFeature", geoapifyFeature)
+
   const result = await fetch(`${config.BACKEND_URL}/user`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

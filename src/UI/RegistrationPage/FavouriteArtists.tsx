@@ -31,6 +31,8 @@ export function FavouriteArtists({ spotifyArtists, onToggle }: Props) {
   const artistsByPopularity = spotifyArtists.sort((a, b) => b.popularity - a.popularity)
   const top50artists = artistsByPopularity.slice(0, 50)
 
+  // TODO: toggle by clicking on the image instead of the checkbox
+
   return (
     <ul className="styleless favourite-artists">
       {top50artists.map((spotifyArtist) => {
