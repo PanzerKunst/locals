@@ -3,6 +3,7 @@ import { FormControl, FormHelperText, FormLabel, Input } from "@mui/joy"
 import classNames from "classnames"
 import { useAnimate } from "framer-motion"
 import _isEmpty from "lodash/isEmpty"
+import _uniqBy from "lodash/uniqBy"
 import { ChangeEvent, FormEvent, ReactNode, useEffect, useState } from "react"
 import { useQuery } from "react-query"
 import { useNavigate } from "react-router-dom"
@@ -25,6 +26,7 @@ import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 import { LocationSelectList } from "../_CommonComponents/LocationSelectList.tsx"
 import { ErrorSnackbar } from "../_CommonComponents/Snackbar/ErrorSnackbar.tsx"
+import { SpotifyArtist } from "../../Data/Spotify/Models/SpotifyArtist.ts"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./RegistrationPage.scss"
@@ -62,9 +64,20 @@ export function RegistrationPage() {
   const [locationSearchResults, setLocationSearchResults] = useState<GeoapifyFeature[]>([])
   const [selectedLocation, setSelectedLocation] = useState<GeoapifyFeature>()
 
+  const [favouriteArtists, setFavouriteArtists] = useState<SpotifyArtist[]>([])
+  const [followedArtists, setFollowedArtists] = useState<SpotifyArtist[]>([])
+
   const favouriteSpotifyArtistsQuery = useQuery(
     "favouriteSpotifyArtists",
     () => fetchFavouriteSpotifyArtists(appContext)
+  )
+
+  useEffect(() => {
+    const favourites = _uniqBy(favouriteSpotifyArtistsQuery.data || [], "id")
+    setFavouriteArtists(favourites)
+    setFollowedArtists(favourites)
+  },
+  [favouriteSpotifyArtistsQuery.data]
   )
 
   useEffect(() => {
@@ -165,6 +178,21 @@ export function RegistrationPage() {
     return isLocationInputValid()
   }
 
+  const handleToggleFollowing = (spotifyArtist: SpotifyArtist) => {
+    const isAlreadyInList = followedArtists.some(artist => artist.id === spotifyArtist.id)
+
+    const updatedArtists = isAlreadyInList
+      ? followedArtists.filter(artist => artist.id !== spotifyArtist.id)
+      : [...followedArtists, spotifyArtist]
+
+    setFollowedArtists(updatedArtists)
+
+    // TODO: remove
+    setTimeout(() => {
+      console.log(followedArtists)
+    }, 1000)
+  }
+
   const handleStep2Click = () => {
     setIsStep2Hidden(false)
     animate(scope.current, { opacity: 0 }, { duration: Number(s.animationDurationSm) })
@@ -217,7 +245,7 @@ export function RegistrationPage() {
       email: emailField.value
     }, debouncedUsername)
 
-    await storeUserFavouriteArtists(user, favouriteSpotifyArtistsQuery.data!)
+    await storeUserFavouriteArtists(user, favouriteArtists, followedArtists)
     saveSpotifyProfileInSession(undefined)
     navigate(`/home?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.REGISTRATION_SUCCESS}`)
   }
@@ -229,7 +257,7 @@ export function RegistrationPage() {
           <h2>Who to follow?</h2>
         </FadeIn>
 
-        <FavouriteArtists spotifyArtists={favouriteSpotifyArtistsQuery.data!}/>
+        <FavouriteArtists spotifyArtists={favouriteArtists} onToggle={handleToggleFollowing}/>
 
         <FadeIn animationScope={scope} className="wrapper-next-button">
           <AnimatedButton className="filling">

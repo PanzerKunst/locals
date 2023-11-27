@@ -1,3 +1,5 @@
+import { Checkbox } from "@mui/joy"
+
 import { SpotifyArtist } from "../../Data/Spotify/Models/SpotifyArtist.ts"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 
@@ -5,9 +7,10 @@ import "./FavouriteArtists.scss"
 
 type Props = {
   spotifyArtists: SpotifyArtist[];
+  onToggle: (spotifyArtist: SpotifyArtist) => void; // eslint-disable-line no-unused-vars
 }
 
-export function FavouriteArtists({ spotifyArtists }: Props) {
+export function FavouriteArtists({ spotifyArtists, onToggle }: Props) {
   /* const handleMouseMove = (event: MouseEvent<HTMLLIElement>) => {
     const li = event.currentTarget
 
@@ -37,7 +40,8 @@ export function FavouriteArtists({ spotifyArtists }: Props) {
           <li key={spotifyArtist.id} /* onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} */>
             <FadeIn>
               {largeImage && <img src={largeImage.url} alt="artist-avatar"/>}
-              <span>{spotifyArtist.name}</span>
+              <span className="artist-name">{spotifyArtist.name}</span>
+              <Checkbox size="lg" defaultChecked onChange={() => onToggle(spotifyArtist)} />
             </FadeIn>
           </li>
         )

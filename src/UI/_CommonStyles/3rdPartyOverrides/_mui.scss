@@ -45,3 +45,9 @@
     padding-inline: 0;
   }
 }
+
+.MuiCheckbox-root {
+  > .MuiCheckbox-checkbox.Mui-checked {
+    background-color: $color-checkbox-bg;
+  }
+}

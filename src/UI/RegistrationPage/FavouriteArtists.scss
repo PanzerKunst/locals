@@ -53,11 +53,14 @@
       @include border-radius;
     }
 
-    > span {
+    > .artist-name {
       position: absolute;
       bottom: 8%;
       left: 8%;
-      max-width: 150px;
+
+      $padding-right: 32px; // Space for checkbox
+      padding-right: $padding-right;
+      max-width: 150px + $padding-right;
 
       color: $color-text-negative;
       font-size: 18px;
@@ -67,6 +70,12 @@
       @container (min-width: 170px) {
         font-size: 20px;
       }
+    }
+
+    > .MuiCheckbox-root {
+      position: absolute;
+      bottom: 8%;
+      right: 6%;
     }
   }
 }
