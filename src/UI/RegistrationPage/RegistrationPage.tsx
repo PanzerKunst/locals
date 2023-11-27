@@ -248,7 +248,7 @@ export function RegistrationPage() {
             <FormControl error={emailField.error !== ""}>
               <FormLabel>E-mail</FormLabel>
               <Input
-                variant="solid"
+                variant="soft"
                 size="lg"
                 placeholder="chris@hello.net"
                 value={emailField.value}
@@ -263,7 +263,7 @@ export function RegistrationPage() {
             <FormControl error={usernameFieldError !== ""}>
               <FormLabel>Username</FormLabel>
               <Input
-                variant="solid"
+                variant="soft"
                 size="lg"
                 placeholder="MusicLover96"
                 value={username}
@@ -280,11 +280,12 @@ export function RegistrationPage() {
               <FormLabel>Location</FormLabel>
               <div className="location-input-and-dropdown">
                 <Input
-                  variant="solid"
+                  type="text"
+                  variant="soft"
                   size="lg"
                   placeholder="Paris, France"
                   value={locationQuery}
-                  autoComplete="off"
+                  autoComplete="search"
                   onChange={handleLocationChange}
                   startDecorator={<LocationOn/>}
                 />

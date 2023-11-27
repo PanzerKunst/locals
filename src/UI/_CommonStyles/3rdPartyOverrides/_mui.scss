@@ -19,6 +19,7 @@
     border-radius: $input-border-radius;
     padding: 0.3em $input-padding-inline;
     background-color: $color-input-bg;
+    color: $color-input-text;
 
     > .MuiInput-startDecorator {
       color: $color-input-text;

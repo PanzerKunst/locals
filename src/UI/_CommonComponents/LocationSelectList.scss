@@ -15,7 +15,7 @@ ul.styleless.select {
   background-color: $color-input-bg;
   @include joy-dropdown-shadow;
 
-  color: $color-input-text;
+  color: $color-list-item;
   font-size: $variable-font-size;
   line-height: max(2em, 40px);
 
@@ -26,7 +26,7 @@ ul.styleless.select {
       cursor: pointer;
 
       &:hover {
-        opacity: 0.9;
+        color: $color-list-item-hover;
       }
     }
 
