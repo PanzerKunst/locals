@@ -62,3 +62,33 @@
   line-height: $size; // Vertical centering
   font-weight: 300;
 }
+
+@mixin underlined {
+  padding-block: max(0.08em, 2px);
+
+  @include to-right-red-gradient;
+  background-repeat: no-repeat;
+
+  transition: background-size #{$animation-duration-sm}s ease;
+
+  $background-size-hidden: 0 max(5%, 2px);
+  $background-size-visible: 100% max(5%, 2px);
+
+  &.appears {
+    background-position: left bottom;
+    background-size: $background-size-hidden;
+
+    &:hover {
+      background-size: $background-size-visible;
+    }
+  }
+
+  &.disappears {
+    background-position: right bottom;
+    background-size: $background-size-visible;
+
+    &:hover {
+      background-size: $background-size-hidden;
+    }
+  }
+}

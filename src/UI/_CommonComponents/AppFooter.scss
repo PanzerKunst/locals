@@ -8,7 +8,7 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    gap: 30px;
+    gap: 3em;
 
     padding-block: 15vh;
 
@@ -16,6 +16,17 @@
 
     @include vw(md) {
       flex-direction: row;
+    }
+
+    ul {
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+      align-items: center;
+
+      @include vw(md) {
+        align-items: flex-end;
+      }
     }
 
     > span {

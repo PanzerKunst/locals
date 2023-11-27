@@ -7,32 +7,7 @@ a:not(.button) {
   text-decoration: none;
 
   &.underline {
-    padding-block: max(0.08em, 2px);
-
-    @include to-right-red-gradient;
-    background-position: left bottom;
-    background-repeat: no-repeat;
-
-    transition: background-size #{$animation-duration-sm}s ease;
-
-    $background-size-hidden: 0 max(5%, 2px);
-    $background-size-visible: 100% max(5%, 2px);
-
-    &.appears {
-      background-size: $background-size-hidden;
-
-      &:hover {
-        background-size: $background-size-visible;
-      }
-    }
-
-    &.disappears {
-      background-size: $background-size-visible;
-
-      &:hover {
-        background-size: $background-size-hidden;
-      }
-    }
+    @include underlined
   }
 
   /* &.text-color {

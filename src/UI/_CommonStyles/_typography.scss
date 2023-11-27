@@ -45,3 +45,7 @@ span {
   line-height: 1.4em;
   margin-bottom: 2em;
 }
+
+span.underline {
+  @include underlined
+}

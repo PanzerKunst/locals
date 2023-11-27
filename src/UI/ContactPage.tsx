@@ -1,7 +1,5 @@
 import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
 
-import "./PrivacyPolicyPage.scss"
-
 export function ContactPage() {
   return (
     <div className="page simple contact">
@@ -10,14 +8,12 @@ export function ContactPage() {
           <h1>Contact us!</h1>
         </FadeIn>
         <FadeIn>
-          <p>We employ cookies and similar tracking technology to ensure the smooth functioning of our website. Some of these cookies are necessary
-            for the site to function. These are the good kind of cookies, ones that keep everything running smoothly for you.</p>
+          <p>We&apos;re always eager to hear from you! Your feedback helps us improve the Backstage Pass platform, ensuring we&apos;re always hitting
+            the right note. Don&apos;t hesitate to drop us a line at <span className="underline disappears">hello@backstagepass.com</span>.</p>
         </FadeIn>
         <FadeIn>
-          <p>In addition to essential cookies, we also use analytics cookies, such as Google Analytics. These are used to understand how you use the
-            site: to see what works, what doesn’t, and how we can improve your experience. The best part? All of this data is anonymous. We don’t know
-            who you are, just how you interact with our site. And remember, these analytics cookies won&apos;t be collected if you decline them in the
-            cookie popup on your first visit. You are in control.</p>
+          <p>Whether it&apos;s a rave review or a constructive critique, we&apos;re all ears and ready to listen. Let&apos;s make Backstage Pass the
+            best it can be, together!</p>
         </FadeIn>
       </main>
     </div>
