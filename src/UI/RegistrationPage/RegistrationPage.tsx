@@ -175,7 +175,7 @@ export function RegistrationPage() {
     <>
       <section id="registration-step-1">
         <FadeIn>
-          <h2>Select your favourite artists</h2>
+          <h2>Who to follow?</h2>
         </FadeIn>
 
         <FavouriteArtists spotifyArtists={favouriteSpotifyArtistsQuery.data!}/>
