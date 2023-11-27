@@ -15,7 +15,7 @@ import { saveSpotifyProfileInSession } from "../Util/SessionStorage.ts"
 export function HomePage() {
   const navigate = useNavigate()
   const appContext = useAppContext()
-  const { spotifyApiAccessToken } = appContext
+  const { spotifyApiAccessToken, loggedInUser } = appContext
 
   const spotifyApiErrorFromUrl = getUrlQueryParam("error") // /spotify-callback?error=access_denied
 
@@ -78,7 +78,7 @@ export function HomePage() {
 
   return renderContents(
     <FadeIn>
-      <h1>Welcome back!</h1>
+      <h1>Welcome back, {loggedInUser?.name}!</h1>
     </FadeIn>
   )
 

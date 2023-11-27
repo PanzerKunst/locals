@@ -71,7 +71,7 @@ export function AppHeader() {
   return (
     <header ref={headerRef} className="app-header" style={{ top: 0 }}>
       <nav>
-        <Link to={homeUrl} className="button icon-only">
+        <Link to={homeUrl} className="button icon-only" aria-label="home">
           <ElectricBolt/>
         </Link>
         <div>

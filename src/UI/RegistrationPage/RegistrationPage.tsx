@@ -181,12 +181,6 @@ export function RegistrationPage() {
   const handleToggleFollowing = (spotifyArtist: SpotifyArtist) => {
     const isAlreadyInList = followedArtists.some(artist => artist.id === spotifyArtist.id)
 
-    // TODO: remove
-    console.log("handleToggleFollowing", {
-      artistName: spotifyArtist.name,
-      isAlreadyInList,
-    })
-
     const updatedArtists = isAlreadyInList
       ? followedArtists.filter(artist => artist.id !== spotifyArtist.id)
       : [...followedArtists, spotifyArtist]
@@ -242,9 +236,9 @@ export function RegistrationPage() {
     }
 
     const user = await storeUser(appContext, {
-      ...spotifyProfile!,
+      ...spotifyProfile,
       email: emailField.value
-    }, debouncedUsername)
+    }, debouncedUsername, selectedLocation!)
 
     await storeUserFavouriteArtists(user, favouriteArtists, followedArtists)
     saveSpotifyProfileInSession(undefined)
@@ -269,7 +263,7 @@ export function RegistrationPage() {
 
       <section id="registration-step-2" className={classNames({ "hidden": isStep2Hidden })}>
         <FadeIn>
-          <h2>Your details</h2>
+          <h2>Your account</h2>
         </FadeIn>
 
         <form noValidate onSubmit={handleFormSubmit}>
