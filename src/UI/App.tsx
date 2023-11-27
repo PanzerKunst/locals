@@ -1,9 +1,9 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 
-import { ContactPage } from "./ContactPage/ContactPage.tsx"
-import { HomePage } from "./HomePage/HomePage.tsx"
+import { ContactPage } from "./ContactPage.tsx"
+import { HomePage } from "./HomePage.tsx"
 import { IndexPage } from "./IndexPage/IndexPage.tsx"
-import { PrivacyPolicyPage } from "./PrivacyPolicyPage/PrivacyPolicyPage.tsx"
+import { PrivacyPolicyPage } from "./PrivacyPolicyPage.tsx"
 import { RegistrationPage } from "./RegistrationPage/RegistrationPage.tsx"
 import { Layout } from "./_CommonComponents/Layout.tsx"
 import { AppContextProvider } from "../AppContext.tsx"
