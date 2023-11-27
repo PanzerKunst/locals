@@ -95,8 +95,13 @@ export function RegistrationPage() {
 
     setUsernameFieldError("")
 
+    if (!isUsernameInputValid()) {
+      setIsCheckingUsernameAvailability(false)
+      return
+    }
+
     performUsernameAvailabilityCheck()
-  }, [debouncedUsername])
+  }, [debouncedUsername]) // eslint-disable-line react-hooks/exhaustive-deps
 
   /* eslint-enable react-hooks/rules-of-hooks */
 
