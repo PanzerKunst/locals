@@ -10,7 +10,7 @@
   $border-width: 10px;
   gap: $border-width;
 
-  @include vw(md) {
+  /* @include vw(md) {
     grid-template-columns: 1fr 1fr 1fr;
   }
 
@@ -20,7 +20,7 @@
 
   @include vw(xl) {
     grid-template-columns: repeat(5, 1fr);
-  }
+  } */
 
   > li > .fade-in {
     position: relative;
@@ -49,6 +49,7 @@
     > img {
       aspect-ratio: 1;
       object-fit: cover;
+      height: 100%; // Otherwise portrait images make the container too tall
       @include border-radius;
     }
 

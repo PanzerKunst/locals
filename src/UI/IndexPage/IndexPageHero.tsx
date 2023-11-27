@@ -46,7 +46,7 @@ export function IndexPageHero() {
         <AnimatedButton className="filling">
           <Link to="/home" className="button lg rounded spotify">
             <img src="/images/Spotify_Icon_RGB_White.png" alt="Spotify logo"/>
-            <span>Get Backstage for Free</span>
+            <span>Join for Free</span>
           </Link>
         </AnimatedButton>
       </motion.div>
