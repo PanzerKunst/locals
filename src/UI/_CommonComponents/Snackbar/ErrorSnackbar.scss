@@ -1,15 +1,20 @@
 @import "/src/UI/_CommonStyles/mixins";
 
 .app-snackbar.error {
-  span {
-    font-weight: 600;
-  }
+  > div {
+    flex-grow: 1;
 
-  p {
-    font-size: 14px;
+    > span {
+      font-weight: 600;
+    }
 
-    @include vw(md) {
-      font-size: 16px;
+    > p {
+      font-size: 14px;
+      margin-bottom: 0;
+
+      @include vw(md) {
+        font-size: 16px;
+      }
     }
   }
 
