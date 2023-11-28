@@ -23,7 +23,14 @@ function isContextCompatible(obj: any): obj is ContextInLocalStorage {
   const keys = Object.keys(obj)
 
   // List of allowed keys in the ContextInLocalStorage type
-  const allowedKeys = ["spotifyApiVerifier", "spotifyApiAccessToken", "spotifyApiRefreshToken", "spotifyApiTokenExpirationDate", "loggedInUser"]
+  const allowedKeys = [
+    "spotifyApiVerifier",
+    "spotifyApiAccessToken",
+    "spotifyApiRefreshToken",
+    "spotifyApiTokenExpirationDate",
+    "loggedInUser",
+    "cookieConsent"
+  ]
 
   // Check for no additional keys
   if (keys.some(key => !allowedKeys.includes(key))) {
@@ -49,6 +56,10 @@ function isContextCompatible(obj: any): obj is ContextInLocalStorage {
   }
   if (obj.loggedInUser && !isUserCompatible(obj.loggedInUser)) {
     console.log("Context incompatible: 'obj.loggedInUser && !isUserCompatible(obj.loggedInUser)'")
+    return false
+  }
+  if (obj.cookieConsent && typeof obj.cookieConsent !== "string") {
+    console.log("Context incompatible: 'obj.cookieConsent && typeof obj.cookieConsent !== \"string\"'")
     return false
   }
 

@@ -33,14 +33,12 @@ export function CookieSnackbar() {
       className="cookie"
     >
       <Cookie/>
-      <span>About cookies...</span>
       <div>
-        <button className="underlined disappears" onClick={handleRejectStats}>
-          Only necessary
-        </button>
-        <button className="underlined disappears" onClick={handleAcceptStats}>
-          Accept analytics
-        </button>
+        <span>About cookies...</span>
+        <div>
+          <button className="underlined disappears" onClick={handleRejectStats}>Only necessary</button>
+          <button className="underlined disappears" onClick={handleAcceptStats}>Accept analytics</button>
+        </div>
       </div>
     </AppSnackbar>
   )
