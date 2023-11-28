@@ -18,6 +18,7 @@ $color-green-spotify: rgb(30 215 96); // #1ed760
 // Functional colors, to use in the rest of the app
 $color-app-bg: $color-white;
 $color-body-text: $color-greyscale-1;
+$color-btn-border: $color-white;
 $color-btn-bg-primary-gradient-start: $color-red;
 $color-btn-bg-primary-gradient-end: $color-orange;
 $color-btn-bg-spotify: $color-green-spotify;
@@ -27,8 +28,8 @@ $color-checkbox-bg: $color-red-orange;
 $color-drop-shadow: $color-greyscale-1-opacity-50pc;
 $color-header-bg: $color-white-opacity-50pc;
 $color-helper-text-error: $color-red;
-$color-icon: $color-greyscale-1;
-$color-icon-negative: $color-white;
+$color-icon-dark: $color-greyscale-1;
+$color-icon-light: $color-white;
 $color-icon-primary: $color-red-orange;
 $color-input-bg: $color-greyscale-8;
 $color-input-text: $color-greyscale-1;

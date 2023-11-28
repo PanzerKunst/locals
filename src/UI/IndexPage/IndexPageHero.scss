@@ -57,10 +57,5 @@
     @include vw(lg) {
       margin: 0 100px 90px 0;
     }
-
-    .button img {
-      @include img-size(1.5em);
-      margin-right: 0.5em;
-    }
   }
 }

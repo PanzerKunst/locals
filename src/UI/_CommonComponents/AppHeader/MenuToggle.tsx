@@ -16,7 +16,7 @@ function Path(props: PathProps) { // eslint-disable-line @typescript-eslint/no-e
     <motion.path
       fill="transparent"
       strokeWidth="3"
-      stroke={s.colorIcon}
+      stroke={s.colorIconDark}
       strokeLinecap="round"
       {...props}
     />

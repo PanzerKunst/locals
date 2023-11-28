@@ -1,10 +1,9 @@
 import { ElectricBolt } from "@mui/icons-material"
-import { MouseEvent, useEffect, useRef } from "react"
+import { useEffect, useRef } from "react"
 import { Link } from "react-router-dom"
 
 import { AppMenu } from "./AppMenu.tsx"
 import { useAppContext } from "../../../AppContext.tsx"
-import { scrollIntoView } from "../../../Util/AnimationUtils.ts"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./AppHeader.scss"
@@ -15,7 +14,6 @@ let lastScrollY = window.scrollY
 export function AppHeader() {
   const { loggedInUser } = useAppContext()
   const headerRef = useRef<HTMLHeadingElement>(null)
-  const homeUrl = loggedInUser ? "/home" : "/"
 
   useEffect(() => {
     const header = headerRef.current
@@ -59,26 +57,17 @@ export function AppHeader() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const handleLinkClick = (event: MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault() // TODO: only if already on index page
-
-    const href = event.currentTarget.getAttribute("href")!
-    const sectionElement = document.getElementById(href.replace("/#", ""))
-    scrollIntoView(sectionElement)
-  }
-
   return (
     <header ref={headerRef} className="app-header" style={{ top: 0 }}>
       <nav>
-        <Link to={homeUrl} className="button icon-only" aria-label="home">
+        <Link to={loggedInUser ? "/home" : "/"} className="button icon-only" aria-label="home">
           <ElectricBolt/>
         </Link>
-        <div>
-          <a href="/#for-artists" onClick={handleLinkClick} className="underline appears">For artists</a>
-          <a href="/#for-fans" onClick={handleLinkClick} className="underline appears">For fans</a>
-        </div>
       </nav>
-      <AppMenu/>
+      {loggedInUser
+        ? <AppMenu/>
+        : <Link to="/home" className="button fixed-height transparent-bordered"><span>Sign in</span></Link>
+      }
     </header>
   )
 }

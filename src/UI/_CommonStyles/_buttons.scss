@@ -27,8 +27,6 @@ a.button:not([role="tab"]) {
 
 button:not([role="tab"], .icon-only),
 a.button:not([role="tab"], .icon-only) {
-  font-weight: 400;
-
   @include to-right-red-gradient;
   background-size: 0 100%;
   background-position: left center;
@@ -36,27 +34,64 @@ a.button:not([role="tab"], .icon-only) {
 
   transition: all #{$animation-duration-sm}s ease; // background-size color opacity
 
+  font-size: $variable-font-size;
+  font-weight: 400;
   color: $color-btn-text-pre-filled;
+
+  padding-inline: 1em;
+  border-radius: 0.1em;
 
   &.filling {
     background-size: 100% 100%;
     color: $color-btn-text;
   }
 
-  &.skewed {
-    $skew: -10deg;
-    transform: skewX($skew);
+  &.transparent-bordered {
+    color: $color-btn-text;
+    background-image: none;
+    background-color: transparent;
+    border: 0.1em solid $color-btn-border;
 
-    > * {
-      transform: skewX(-$skew);
+    &:hover {
+      @include to-right-red-gradient;
+      background-size: 100% 100%;
+      border-color: transparent;
     }
   }
 
+  &.rounded {
+    border-radius: 1.2em;
+  }
+
+  &.spotify {
+    color: $color-btn-text;
+    background: $color-btn-bg-spotify;
+  }
+
+  > span {
+    padding-block: 0.5em 0.6em;
+  }
+
+  &.fixed-height {
+    font-size: 18px;
+    border-width: 2px;
+
+    > span {
+      padding-block: 0;
+    }
+  }
+
+
+  // Left icon
+
   > svg,
   > img {
-    @include img-size(24px);
-    margin-right: 10px;
+    @include img-size(1.5em);
+    margin-right: 0.5em;
   }
+
+
+  // Loader
 
   &:has(> .circular-loader) {
     position: relative;
@@ -74,25 +109,6 @@ a.button:not([role="tab"], .icon-only) {
     }
   }
 
-
-  // Size
-
-  padding-inline: 1em;
-  font-size: $variable-font-size;
-
-  &.rounded {
-    border-radius: 1.2em;
-  }
-
-  > span {
-    padding-block: 0.5em 0.6em;
-  }
-
-  &.spotify {
-    color: $color-btn-text;
-    background: $color-btn-bg-spotify;
-  }
-
   &[disabled] {
     cursor: default;
     opacity: 0.3;
@@ -108,17 +124,4 @@ a.button.icon-only {
   border: none;
   outline: none;
   background: none;
-
-  color: $color-icon;
-
-  svg {
-    /* @include svg-size(40px);
-
-    transition: all #{$animation-duration-sm}s ease-in-out; // Smooth transition for transform
-    transform: scale(1); // Default scale */
-  }
-
-  /* &:hover svg {
-    transform: scale(1.2); // Slightly larger scale on hover
-  } */
 }
