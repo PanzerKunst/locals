@@ -8,7 +8,6 @@ import { ChangeEvent, FormEvent, ReactNode, useEffect, useState } from "react"
 import { useQuery } from "react-query"
 import { useNavigate } from "react-router-dom"
 
-/* eslint-disable */
 import { FavouriteArtists } from "./FavouriteArtists.tsx"
 import { useAppContext } from "../../AppContext.tsx"
 import { checkUsernameAvailability, storeUser } from "../../Data/Backend/Apis/UserApi.ts"
@@ -28,11 +27,11 @@ import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 import { LocationSelectList } from "../_CommonComponents/LocationSelectList.tsx"
 import { ErrorSnackbar } from "../_CommonComponents/Snackbar/ErrorSnackbar.tsx"
+import { useViewportSize } from "../../Util/BrowserUtils.ts"
+import { ButtonLoader } from "../_CommonComponents/ButtonLoader.tsx"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./RegistrationPage.scss"
-import { useViewportSize } from "../../Util/BrowserUtils.ts"
-import { ButtonLoader } from "../_CommonComponents/ButtonLoader.tsx"
 
 const minLocationQueryLength = 3
 
@@ -247,14 +246,14 @@ export function RegistrationPage() {
 
     setIsSubmittingForm(true)
 
-    /* const user = await storeUser(appContext, {
+    const user = await storeUser(appContext, {
       ...spotifyProfile,
       email: emailField.value
     }, debouncedUsername, selectedLocation!)
 
     await storeUserFavouriteArtists(user, favouriteArtists, followedArtists)
     saveSpotifyProfileInSession(undefined)
-    navigate(`/home?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.REGISTRATION_SUCCESS}`) */
+    navigate(`/home?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.REGISTRATION_SUCCESS}`)
   }
 
   return renderContents(
