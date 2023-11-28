@@ -11,7 +11,7 @@ type Props = {
 }
 
 const motionVariants = {
-  initial: { opacity: 0, y: 50, filter: "blur(0.5em)" },
+  initial: { opacity: 0, y: 50, filter: "blur(0.2em)" },
   animate: { opacity: 1, y: 0, filter: "blur(0)" }
 }
 

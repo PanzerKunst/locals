@@ -1,6 +1,10 @@
 @import "/src/UI/_CommonStyles/numbers";
 
 .page.registration {
+  p.fetching-message {
+    margin-bottom: 0.5em;
+  }
+
   h2 {
     margin-bottom: 0.5em;
   }

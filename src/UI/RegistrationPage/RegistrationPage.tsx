@@ -121,7 +121,12 @@ export function RegistrationPage() {
   /* eslint-enable react-hooks/rules-of-hooks */
 
   if (favouriteSpotifyArtistsQuery.isLoading) {
-    return renderContents(<CircularLoader/>)
+    return renderContents(
+      <>
+        <p className="fetching-message centered-contents">Fetching your favourite artists</p>
+        <CircularLoader/>
+      </>
+    )
   }
 
   if (favouriteSpotifyArtistsQuery.isError) {
