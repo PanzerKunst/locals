@@ -38,11 +38,11 @@ export function IndexPage() {
           </FadeIn>
 
           <FadeIn>
-            <p>Is your primary audience on Spotify?</p>
+            <p>Do you have audience on Spotify?</p>
           </FadeIn>
 
           <FadeIn>
-            <p>Your audience is longing to discover the personalities who made these amazing tracks, yet reaching them is difficult.</p>
+            <p>Your fans are longing to discover the personalities who made these amazing tracks. Yet reaching them is difficult.</p>
           </FadeIn>
 
           <FadeIn>
