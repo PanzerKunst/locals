@@ -26,7 +26,7 @@
     transition: opacity #{$animation-duration-sm}s ease;
 
     &[aria-selected="false"] {
-      opacity: 0.5;
+      opacity: 0.3;
     }
 
     > .fade-in {
