@@ -94,6 +94,8 @@
         }
 
         > svg {
+          @include svg-shadow;
+
           @include img-size(1.2em);
           @container (min-width: $container-breakpoint) {
             @include img-size(1.4em);

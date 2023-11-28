@@ -333,7 +333,7 @@ export function RegistrationPage() {
             <AnimatedButton className="filling">
               <button disabled={emailField.error !== "" || usernameFieldError !== "" || locationFieldError !== ""}>
                 {isSubmittingForm && <CircularLoader/>}
-                <span>Finish registration</span>
+                <span>Complete registration</span>
               </button>
             </AnimatedButton>
           </FadeIn>
