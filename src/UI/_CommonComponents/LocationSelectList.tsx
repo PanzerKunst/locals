@@ -12,7 +12,7 @@ import "./LocationSelectList.scss"
 type Props = {
   locations: GeoapifyFeature[];
   onSelect: (geoapifyFeature: GeoapifyFeature) => void; // eslint-disable-line no-unused-vars
-  isLoading?: boolean;
+  loading?: boolean;
 }
 
 const motionVariants = {
@@ -20,13 +20,13 @@ const motionVariants = {
   animate: { opacity: 1, y: 0, filter: "blur(0)" }
 }
 
-export function LocationSelectList({ locations, onSelect, isLoading = false }: Props) {
+export function LocationSelectList({ locations, onSelect, loading = false }: Props) {
   const [isOpen, setIsOpen] = useState(true)
   const [scope, animate] = useAnimate()
 
   useEffect(() => {
     setIsOpen(true)
-  }, [locations, isLoading])
+  }, [locations, loading])
 
   useEffect(() => {
     if (_isEmpty(locations)) {
@@ -77,7 +77,7 @@ export function LocationSelectList({ locations, onSelect, isLoading = false }: P
   return (
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
     <ul ref={scope} role="listbox" className="styleless select">
-      {isLoading ? (
+      {loading ? (
         <li>
           <CircularLoader />
         </li>

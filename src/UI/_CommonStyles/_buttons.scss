@@ -58,6 +58,23 @@ a.button:not([role="tab"], .icon-only) {
     margin-right: 10px;
   }
 
+  &:has(> .circular-loader) {
+    position: relative;
+
+    > .circular-loader {
+      position: absolute;
+
+      > .MuiCircularProgress-root .MuiCircularProgress-progress {
+        stroke: $color-btn-text;
+      }
+    }
+
+    > span {
+      visibility: hidden;
+    }
+  }
+
+
   // Size
 
   padding-inline: 1em;

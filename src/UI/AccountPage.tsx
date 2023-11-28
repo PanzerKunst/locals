@@ -111,7 +111,7 @@ export function AccountPage() {
               startDecorator={<LocationOn/>}
             />
             {(isSearchingLocations || !_isEmpty(locationSearchResults)) && (
-              <LocationSelectList locations={locationSearchResults} onSelect={handleLocationSelect} isLoading={isSearchingLocations}/>
+              <LocationSelectList locations={locationSearchResults} onSelect={handleLocationSelect} loading={isSearchingLocations}/>
             )}
           </div>
           {locationFieldError !== "" && <FormHelperText>{locationFieldError}</FormHelperText>}

@@ -64,6 +64,8 @@ export function RegistrationPage() {
   const [locationSearchResults, setLocationSearchResults] = useState<GeoapifyFeature[]>([])
   const [selectedLocation, setSelectedLocation] = useState<GeoapifyFeature>()
 
+  const [isSubmittingForm, setIsSubmittingForm] = useState(false)
+
   const [favouriteArtists, setFavouriteArtists] = useState<SpotifyArtist[]>([])
   const [followedArtists, setFollowedArtists] = useState<SpotifyArtist[]>([])
 
@@ -235,6 +237,8 @@ export function RegistrationPage() {
       return
     }
 
+    setIsSubmittingForm(true)
+
     const user = await storeUser(appContext, {
       ...spotifyProfile,
       email: emailField.value
@@ -313,7 +317,7 @@ export function RegistrationPage() {
                   startDecorator={<LocationOn/>}
                 />
                 {(isSearchingLocations || !_isEmpty(locationSearchResults)) && (
-                  <LocationSelectList locations={locationSearchResults} onSelect={handleLocationSelect} isLoading={isSearchingLocations}/>
+                  <LocationSelectList locations={locationSearchResults} onSelect={handleLocationSelect} loading={isSearchingLocations}/>
                 )}
               </div>
               {locationFieldError !== "" && <FormHelperText>{locationFieldError}</FormHelperText>}
@@ -323,6 +327,7 @@ export function RegistrationPage() {
           <FadeIn className="wrapper-next-button">
             <AnimatedButton className="filling">
               <button disabled={emailField.error !== "" || usernameFieldError !== "" || locationFieldError !== ""}>
+                {isSubmittingForm && <CircularLoader/>}
                 <span>Finish registration</span>
               </button>
             </AnimatedButton>
