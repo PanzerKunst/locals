@@ -6,15 +6,7 @@ a:not(.button) {
   color: $color-link;
   text-decoration: none;
 
-  &.underline {
+  &.underlined {
     @include underlined
   }
-
-  /* &.text-color {
-    transition: color #{$animation-duration-sm}s ease;
-
-    &:hover {
-      color: $color-link-hover;
-    }
-  } */
 }

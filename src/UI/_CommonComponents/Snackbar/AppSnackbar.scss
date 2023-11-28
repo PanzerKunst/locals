@@ -17,6 +17,11 @@
     }
   }
 
+  &.MuiSnackbar-colorNeutral {
+    background-color: $color-app-bg;
+    color: $color-body-text;
+  }
+
   font-weight: 400; // MUI sets a value on small res
   font-size: 16px;
 

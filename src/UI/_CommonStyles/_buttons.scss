@@ -4,19 +4,25 @@
 
 $min-button-size: 40px;
 
-button:not([role="tab"]),
+@mixin button-reset {
+  cursor: pointer;
+  background-color: transparent;
+  padding: 0;
+  border: 0;
+}
+
+button.button:not([role="tab"]),
 a.button:not([role="tab"]) {
+  @include button-reset;
+
   display: inline-flex;
   justify-content: center;
   align-items: center;
 
-  cursor: pointer;
-  color: $color-btn-text;
-  padding: 0;
-  border: 0;
-
   min-height: $min-button-size;
   min-width: $min-button-size;
+
+  color: $color-btn-text;
 
   transition: opacity #{$animation-duration-sm}s ease;
 
@@ -25,8 +31,8 @@ a.button:not([role="tab"]) {
   }
 }
 
-button:not([role="tab"], .icon-only),
-a.button:not([role="tab"], .icon-only) {
+button.button:not(.icon-only),
+a.button:not(.icon-only) {
   @include to-right-red-gradient;
   background-size: 0 100%;
   background-position: left center;
@@ -49,7 +55,6 @@ a.button:not([role="tab"], .icon-only) {
   &.transparent-bordered {
     color: $color-btn-text;
     background-image: none;
-    background-color: transparent;
     border: 0.1em solid $color-btn-border;
 
     &:hover {
@@ -119,9 +124,13 @@ a.button {
   text-decoration: none;
 }
 
-button.icon-only,
-a.button.icon-only {
+.button.icon-only {
   border: none;
   outline: none;
   background: none;
+}
+
+button.underlined {
+  @include button-reset;
+  @include underlined;
 }

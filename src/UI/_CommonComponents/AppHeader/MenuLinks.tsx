@@ -34,11 +34,11 @@ export function MenuLinks({ closeMenu }: Props) {
   return (
     <ul ref={scope} className="styleless">
       <motion.li initial={motionVariants.initial}>
-        <Link to="/profile" className="underline appears" onClick={closeMenu}>My Profile</Link>
+        <Link to="/profile" className="underlined appears" onClick={closeMenu}>My Profile</Link>
       </motion.li>
       {loggedInUser && (
         <motion.li initial={motionVariants.initial}>
-          <Link to={`/?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.SIGN_OUT}`} className="underline appears" onClick={closeMenu}>Sign out</Link>
+          <Link to={`/?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.SIGN_OUT}`} className="underlined appears" onClick={closeMenu}>Sign out</Link>
         </motion.li>
       )}
     </ul>

@@ -266,7 +266,7 @@ export function RegistrationPage() {
 
         <FadeIn animationScope={scope} className="wrapper-next-button">
           <AnimatedButton className="filling">
-            <button onClick={handleStep2Click}><span>Continue</span></button>
+            <button className="button" onClick={handleStep2Click}><span>Continue</span></button>
           </AnimatedButton>
         </FadeIn>
       </section>
@@ -332,7 +332,7 @@ export function RegistrationPage() {
 
           <FadeIn className="wrapper-next-button">
             <AnimatedButton className="filling">
-              <button disabled={emailField.error !== "" || usernameFieldError !== "" || locationFieldError !== ""}>
+              <button className="button" disabled={emailField.error !== "" || usernameFieldError !== "" || locationFieldError !== ""}>
                 {isSubmittingForm && <ButtonLoader/>}
                 <span>Complete registration</span>
               </button>

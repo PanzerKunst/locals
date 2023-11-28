@@ -29,7 +29,7 @@ type Props = {
 
 export function MenuToggle({ onToggle }: Props) {
   return (
-    <button className="icon-only" aria-label="menu" onClick={onToggle}>
+    <button className="button icon-only" aria-label="menu" onClick={onToggle}>
       <svg width="23" height="23" viewBox="0 0 23 23">
         <Path
           variants={{

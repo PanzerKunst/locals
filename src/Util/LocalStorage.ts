@@ -6,7 +6,10 @@ export type ContextInLocalStorage = {
   spotifyApiRefreshToken?: string;
   spotifyApiTokenExpirationDate?: string;
   loggedInUser?: User;
+  cookieConsent?: CookieConsent;
 }
+
+type CookieConsent = "necessary" | "all"
 
 // Generated at https://chat.openai.com/c/59314a97-9171-4dd4-bbdb-9ec32b9e9c1f
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -150,6 +153,22 @@ export function saveLoggedInUserInLocalStorage(loggedInUser: User | undefined): 
   const updatedContext: ContextInLocalStorage = {
     ...getContextFromLocalStorage(),
     loggedInUser,
+  }
+
+  window.localStorage.setItem(localStorageKey, JSON.stringify(updatedContext))
+}
+
+
+// Cookie consent
+
+export function getCookieConsentFromLocalStorage(): CookieConsent | undefined {
+  return getContextFromLocalStorage().cookieConsent
+}
+
+export function saveCookieConsentInLocalStorage(cookieConsent: CookieConsent | undefined): void {
+  const updatedContext: ContextInLocalStorage = {
+    ...getContextFromLocalStorage(),
+    cookieConsent,
   }
 
   window.localStorage.setItem(localStorageKey, JSON.stringify(updatedContext))

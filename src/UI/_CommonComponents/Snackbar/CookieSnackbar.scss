@@ -1,0 +1,8 @@
+@import "/src/UI/_CommonStyles/mixins";
+
+.app-snackbar.cookie {
+  > span {
+    font-weight: 600;
+    flex-grow: 1;
+  }
+}
