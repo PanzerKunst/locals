@@ -259,7 +259,7 @@ export function RegistrationPage() {
     <>
       <section id="registration-step-1">
         <FadeIn>
-          <h2>Who to follow?</h2>
+          <h2>Whom to follow?</h2>
         </FadeIn>
 
         <FavouriteArtists favouriteArtists={favouriteArtists} followedArtists={followedArtists} onToggle={handleToggleFollowing}/>

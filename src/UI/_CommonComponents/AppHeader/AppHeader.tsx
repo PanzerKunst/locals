@@ -13,10 +13,9 @@ const headerHeight = parseInt(s.headerHeight!)
 let lastScrollY = window.scrollY
 
 export function AppHeader() {
-  const { spotifyApiAccessToken } = useAppContext()
+  const { loggedInUser } = useAppContext()
   const headerRef = useRef<HTMLHeadingElement>(null)
-  const isLoggedIn = !!spotifyApiAccessToken
-  const homeUrl = isLoggedIn ? "/home" : "/"
+  const homeUrl = loggedInUser ? "/home" : "/"
 
   useEffect(() => {
     const header = headerRef.current
