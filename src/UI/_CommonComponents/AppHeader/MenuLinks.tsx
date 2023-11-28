@@ -24,7 +24,7 @@ export function MenuLinks({ closeMenu }: Props) {
       motionVariants.animate,
       {
         duration: Number(s.animationDurationSm),
-        delay: stagger(Number(s.animationDurationXs), { startDelay: 0.2 })
+        delay: stagger(Number(s.animationDurationXs))
       }
     )
   }, [animate, scope])

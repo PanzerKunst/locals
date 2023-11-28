@@ -38,7 +38,7 @@ export function LocationSelectList({ locations, onSelect, loading = false }: Pro
       motionVariants.animate,
       {
         duration: Number(s.animationDurationSm),
-        delay: stagger(Number(s.animationDurationXs), { startDelay: 0.2 })
+        delay: stagger(Number(s.animationDurationXs))
       }
     )
   }, [animate, scope, locations])

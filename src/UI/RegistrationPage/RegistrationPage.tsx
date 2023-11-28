@@ -261,7 +261,7 @@ export function RegistrationPage() {
           <h2>Who to follow?</h2>
         </FadeIn>
 
-        <FavouriteArtists spotifyArtists={favouriteArtists} onToggle={handleToggleFollowing}/>
+        <FavouriteArtists favouriteArtists={favouriteArtists} followedArtists={followedArtists} onToggle={handleToggleFollowing}/>
 
         <FadeIn animationScope={scope} className="wrapper-next-button">
           <AnimatedButton className="filling">

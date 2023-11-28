@@ -22,69 +22,83 @@
     grid-template-columns: repeat(5, 1fr);
   }
 
-  > li > .fade-in {
-    position: relative;
-    container-type: inline-size;
-    aspect-ratio: 1; // To have the right height even before the images are loaded
+  > li {
+    transition: opacity #{$animation-duration-sm}s ease;
 
-    cursor: pointer;
-
-    @mixin border-radius {
-      border-radius: 5px;
+    &[aria-selected="false"] {
+      opacity: 0.5;
     }
 
-    background-color: $color-placeholder;
-    @include border-radius;
+    > .fade-in {
+      position: relative;
+      container-type: inline-size;
+      aspect-ratio: 1; // To have the right height even before the images are loaded
 
-    &::after {
-      content: "";
+      cursor: pointer;
 
-      position: absolute;
-      top: 6%;
-      left: 6%;
-
-      background-image: url("/images/Spotify_Icon_RGB_White.png");
-      background-repeat: no-repeat;
-      @include img-size(10%);
-    }
-
-    > img {
-      aspect-ratio: 1;
-      object-fit: cover;
-      height: 100%; // Otherwise portrait images make the container too tall
-      @include border-radius;
-    }
-
-    > .artist-name {
-      position: absolute;
-      bottom: 8%;
-      left: 8%;
-
-      $padding-right: 32px; // Space for checkbox
-      padding-right: $padding-right;
-      max-width: 150px + $padding-right;
-
-      color: $color-text-negative;
-      font-size: 18px;
-      font-weight: 700;
-      @include text-shadow;
-
-      @container (min-width: 170px) {
-        font-size: 20px;
+      @mixin border-radius {
+        border-radius: 5px;
       }
-    }
 
-    > svg {
-      color: $color-icon-action;
-      position: absolute;
-      right: 6%;
+      background-color: $color-placeholder;
+      @include border-radius;
 
-      bottom: 7%;
-      @include img-size(1.2em);
+      &::after {
+        content: "";
 
-      @container (min-width: 170px) {
-        bottom: 6%;
-        @include img-size(1.4em);
+        position: absolute;
+        top: 6%;
+        left: 6%;
+
+        background-image: url("/images/Spotify_Icon_RGB_White.png");
+        background-repeat: no-repeat;
+        @include img-size(10%);
+      }
+
+      > img {
+        aspect-ratio: 1;
+        object-fit: cover;
+        height: 100%; // Otherwise portrait images make the container too tall
+        @include border-radius;
+      }
+
+      $container-breakpoint: 170px;
+
+      > .artist-name {
+        position: absolute;
+        bottom: 8%;
+        left: 8%;
+
+        $padding-right: 32px; // Space for checkbox
+        padding-right: $padding-right;
+        max-width: 150px + $padding-right;
+
+        color: $color-text-negative;
+        font-size: 18px;
+        font-weight: 700;
+        @include text-shadow;
+
+        @container (min-width: $container-breakpoint) {
+          font-size: 20px;
+        }
+      }
+
+      > .check-icon-wrapper {
+        color: $color-icon-action;
+        position: absolute;
+        right: 6%;
+
+        bottom: 7%;
+        @container (min-width: $container-breakpoint) {
+          bottom: 6%;
+        }
+
+        > svg {
+          @include img-size(1.2em);
+          @container (min-width: $container-breakpoint) {
+            @include img-size(1.4em);
+          }
+        }
       }
     }
   }
