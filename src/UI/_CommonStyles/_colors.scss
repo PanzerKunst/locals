@@ -4,6 +4,7 @@
 $color-black: rgb(0 0 0); // #000
 $color-transparent-black: color.adjust($color-black, $alpha: -1);
 $color-white: rgb(255 255 255); // #fff
+$color-white-opacity-50pc: color.adjust($color-white, $alpha: -0.5);
 $color-greyscale-1: rgb(64 64 64); // #404040
 $color-greyscale-5: rgb(128 128 128); // #808080
 $color-greyscale-8: rgb(238 238 238); // #EEEEEE
@@ -16,26 +17,27 @@ $color-green-spotify: rgb(30 215 96); // #1ed760
 
 // Functional colors, to use in the rest of the app
 $color-app-bg: $color-white;
-$color-offset-bg: $color-greyscale-9;
 $color-body-text: $color-greyscale-1;
-$color-text-offset: $color-greyscale-5;
-$color-text-negative: $color-white;
-$color-btn-text: $color-white;
-$color-btn-text-pre-filled: $color-greyscale-1;
 $color-btn-bg-primary-gradient-start: $color-red;
 $color-btn-bg-primary-gradient-end: $color-orange;
 $color-btn-bg-spotify: $color-green-spotify;
-$color-loader: $color-red-orange;
-$color-link: $color-greyscale-1;
-$color-icon: $color-greyscale-1;
-$color-icon-negative: $color-white;
-$color-icon-action: $color-red-orange;
-$color-input-bg: $color-greyscale-8;
-$color-input-text: $color-greyscale-1;
-$color-list-item: $color-greyscale-1;
-$color-list-item-hover: $color-black;
+$color-btn-text: $color-white;
+$color-btn-text-pre-filled: $color-greyscale-1;
 $color-checkbox-bg: $color-red-orange;
 $color-drop-shadow: $color-greyscale-1-opacity-50pc;
+$color-header-bg: $color-white-opacity-50pc;
+$color-helper-text-error: $color-red;
+$color-icon: $color-greyscale-1;
+$color-icon-negative: $color-white;
+$color-icon-primary: $color-red-orange;
+$color-input-bg: $color-greyscale-8;
+$color-input-text: $color-greyscale-1;
+$color-link: $color-greyscale-1;
+$color-list-item: $color-greyscale-1;
+$color-list-item-hover: $color-black;
+$color-loader: $color-red-orange;
+$color-offset-bg: $color-greyscale-9;
+$color-text-negative: $color-white;
+$color-text-offset: $color-greyscale-5;
 $color-text-shadow: $color-greyscale-1;
 $color-placeholder: $color-greyscale-8;
-$color-helper-text-error: $color-red;

@@ -42,7 +42,11 @@ export function IndexPage() {
           </FadeIn>
 
           <FadeIn>
-            <p>Social media leads to short form, superficial content, read in a few seconds before being scrolled away. This system prevents you from
+            <p>Your audience is longing to discover the personalities who made these amazing tracks, yet reaching them is difficult.</p>
+          </FadeIn>
+
+          <FadeIn>
+            <p>Social media leads to short form content, read in a few seconds before being scrolled away. It prevents you from
               providing your fans with high quality, deeper content.</p>
           </FadeIn>
 
@@ -70,7 +74,7 @@ export function IndexPage() {
           </FadeIn>
 
           <FadeIn>
-            <p>It&apos;s about creating a deeper connection with the artists who create the soundtrack to our daily life.</p>
+            <p>Join the community to create a deeper connection with the artists who create the soundtrack to your daily life!</p>
           </FadeIn>
 
           <FadeIn className="centered-contents">

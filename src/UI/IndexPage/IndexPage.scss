@@ -2,12 +2,12 @@
 
 .page.index {
   > section {
-    &:nth-of-type(even) {
-      background-color: $color-offset-bg;
+    &:not(#hero) {
+      padding-block: 10vh;
     }
 
-    &:not(:first-of-type) {
-      padding-top: 10vh;
+    &:nth-of-type(even) {
+      background-color: $color-offset-bg;
     }
 
     h2 {

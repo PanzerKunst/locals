@@ -10,7 +10,7 @@
   z-index: $z-index-header;
   transition: top #{$animation-duration-xs}s linear;
 
-  background-color: $color-app-bg;
+  background-color: $color-header-bg;
   padding: $header-padding-block $header-padding-inline;
 
   > nav {
@@ -21,6 +21,10 @@
     align-items: center;
 
     @include header-footer-text;
+
+    > a.icon-only > svg {
+      color: $color-icon-primary;
+    }
 
     > div {
       display: flex;
