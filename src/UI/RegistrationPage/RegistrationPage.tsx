@@ -27,7 +27,6 @@ import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 import { LocationSelectList } from "../_CommonComponents/LocationSelectList.tsx"
 import { ErrorSnackbar } from "../_CommonComponents/Snackbar/ErrorSnackbar.tsx"
-import { useViewportSize } from "../../Util/BrowserUtils.ts"
 import { ButtonLoader } from "../_CommonComponents/ButtonLoader.tsx"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
