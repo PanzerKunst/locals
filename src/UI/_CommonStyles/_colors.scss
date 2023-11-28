@@ -2,9 +2,9 @@
 
 // Base colors, only used in this file
 $color-black: rgb(0 0 0); // #000
-$color-transparent-black: color.adjust($color-black, $alpha: -1);
+$color-black-transparent: color.adjust($color-black, $alpha: -1);
+$color-black-opacity-15pc: color.adjust($color-black, $alpha: -0.85);
 $color-white: rgb(255 255 255); // #fff
-$color-white-opacity-50pc: color.adjust($color-white, $alpha: -0.5);
 $color-greyscale-1: rgb(64 64 64); // #404040
 $color-greyscale-5: rgb(128 128 128); // #808080
 $color-greyscale-8: rgb(238 238 238); // #EEEEEE
@@ -18,15 +18,15 @@ $color-green-spotify: rgb(30 215 96); // #1ed760
 // Functional colors, to use in the rest of the app
 $color-app-bg: $color-white;
 $color-body-text: $color-greyscale-1;
-$color-btn-border: $color-white;
+$color-btn-border: $color-red-orange;
 $color-btn-bg-primary-gradient-start: $color-red;
 $color-btn-bg-primary-gradient-end: $color-orange;
 $color-btn-bg-spotify: $color-green-spotify;
 $color-btn-text: $color-white;
-$color-btn-text-pre-filled: $color-greyscale-1;
+$color-btn-text-pre-filled: $color-red-orange;
 $color-checkbox-bg: $color-red-orange;
 $color-drop-shadow: $color-greyscale-1-opacity-50pc;
-$color-header-bg: $color-white-opacity-50pc;
+$color-header-bg: $color-black-opacity-15pc;
 $color-helper-text-error: $color-red;
 $color-icon-dark: $color-greyscale-1;
 $color-icon-light: $color-white;

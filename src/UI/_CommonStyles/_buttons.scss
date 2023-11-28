@@ -45,7 +45,7 @@ a.button:not(.icon-only) {
   color: $color-btn-text-pre-filled;
 
   padding-inline: 1em;
-  border-radius: 0.1em;
+  border-radius: max(0.1em, 3px);
 
   &.filling {
     background-size: 100% 100%;
@@ -53,11 +53,12 @@ a.button:not(.icon-only) {
   }
 
   &.transparent-bordered {
-    color: $color-btn-text;
+    color: $color-btn-text-pre-filled;
     background-image: none;
     border: 0.1em solid $color-btn-border;
 
     &:hover {
+      color: $color-btn-text;
       @include to-right-red-gradient;
       background-size: 100% 100%;
       border-color: transparent;

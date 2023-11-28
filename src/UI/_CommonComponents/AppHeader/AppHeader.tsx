@@ -1,19 +1,28 @@
 import { ElectricBolt } from "@mui/icons-material"
-import { useEffect, useRef } from "react"
-import { Link } from "react-router-dom"
+import { useEffect, useMemo, useRef, useState } from "react"
+import { Link, useLocation } from "react-router-dom"
 
 import { AppMenu } from "./AppMenu.tsx"
 import { useAppContext } from "../../../AppContext.tsx"
+
+import classNames from "classnames"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./AppHeader.scss"
 
 const headerHeight = parseInt(s.headerHeight!)
+const heroPictureMinHeight = parseInt(s.heroPictureMinHeight!)
 let lastScrollY = window.scrollY
 
 export function AppHeader() {
   const { loggedInUser } = useAppContext()
+  const location = useLocation()
   const headerRef = useRef<HTMLHeadingElement>(null)
+  const [isDarkBg, setIsDarkBg] = useState(false)
+
+  const isHeroPicture = useMemo(() => {
+    return location.pathname === "/"
+  }, [location.pathname])
 
   useEffect(() => {
     const header = headerRef.current
@@ -49,13 +58,17 @@ export function AppHeader() {
 
       header!.style.top = `${newTopPos}px`
 
+      if (isHeroPicture) {
+        setIsDarkBg(currentScrollY < heroPictureMinHeight)
+      }
+
       lastScrollY = currentScrollY
     }
 
     window.addEventListener("scroll", handleScroll, { passive: true })
 
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+  }, [isHeroPicture])
 
   return (
     <header ref={headerRef} className="app-header" style={{ top: 0 }}>
@@ -66,7 +79,7 @@ export function AppHeader() {
       </nav>
       {loggedInUser
         ? <AppMenu/>
-        : <Link to="/home" className="button fixed-height transparent-bordered"><span>Sign in</span></Link>
+        : <Link to="/home" className={classNames("button fixed-height transparent-bordered", { dark: isDarkBg })}><span>Sign in</span></Link>
       }
     </header>
   )

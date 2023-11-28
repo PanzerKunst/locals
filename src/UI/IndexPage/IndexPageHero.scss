@@ -18,7 +18,7 @@
   }
 
 
-  height: max(45vw, 450px);
+  height: max(45vw, $hero-picture-min-height);
 
   > h1 {
     font-weight: 400;
