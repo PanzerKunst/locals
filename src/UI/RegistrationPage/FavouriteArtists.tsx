@@ -1,4 +1,5 @@
-import { Checkbox } from "@mui/joy"
+import { Check } from "@mui/icons-material"
+import { motion } from "framer-motion"
 
 import { SpotifyArtist } from "../../Data/Spotify/Models/SpotifyArtist.ts"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
@@ -31,21 +32,26 @@ export function FavouriteArtists({ spotifyArtists, onToggle }: Props) {
   const artistsByPopularity = spotifyArtists.sort((a, b) => b.popularity - a.popularity)
   const top50artists = artistsByPopularity.slice(0, 50)
 
-  // TODO: toggle by clicking on the image instead of the checkbox
-
   return (
     <ul className="styleless favourite-artists">
       {top50artists.map((spotifyArtist) => {
         const largeImage = spotifyArtist.images[0]
 
-        return (// eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
-          <li key={spotifyArtist.id} /* onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} */>
+        return (
+          <motion.li whileTap={{ scale: 0.97 }}
+            key={spotifyArtist.id}
+            /* onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} */
+            onClick={() => onToggle(spotifyArtist)}
+            // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
+            role="option"
+            aria-selected="false"
+          >
             <FadeIn>
               {largeImage && <img src={largeImage.url} alt="artist-avatar"/>}
               <span className="artist-name">{spotifyArtist.name}</span>
-              <Checkbox size="lg" defaultChecked onChange={() => onToggle(spotifyArtist)} />
+              <Check/>
             </FadeIn>
-          </li>
+          </motion.li>
         )
       })}
     </ul>

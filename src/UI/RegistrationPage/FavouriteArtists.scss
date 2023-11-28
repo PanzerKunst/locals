@@ -27,6 +27,8 @@
     container-type: inline-size;
     aspect-ratio: 1; // To have the right height even before the images are loaded
 
+    cursor: pointer;
+
     @mixin border-radius {
       border-radius: 5px;
     }
@@ -72,10 +74,18 @@
       }
     }
 
-    > .MuiCheckbox-root {
+    > svg {
+      color: $color-icon-action;
       position: absolute;
-      bottom: 8%;
       right: 6%;
+
+      bottom: 7%;
+      @include img-size(1.2em);
+
+      @container (min-width: 170px) {
+        bottom: 6%;
+        @include img-size(1.4em);
+      }
     }
   }
 }
