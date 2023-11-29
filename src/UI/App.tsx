@@ -6,7 +6,7 @@ import { ContactPage } from "./ContactPage.tsx"
 import { HomePage } from "./HomePage.tsx"
 import { IndexPage } from "./IndexPage/IndexPage.tsx"
 import { PrivacyPolicyPage } from "./PrivacyPolicyPage.tsx"
-import { RegistrationPage } from "./RegistrationPage/RegistrationPage.tsx"
+import { RegisterPage } from "./RegistrationPage/RegisterPage.tsx"
 import { Layout } from "./_CommonComponents/Layout.tsx"
 import { AppContextProvider } from "../AppContext.tsx"
 
@@ -20,7 +20,7 @@ const router = createBrowserRouter([
       { path: "/", element: <IndexPage /> },
       { path: "home", element: <HomePage /> },
       { path: "spotify-callback", element: <HomePage /> },
-      { path: "register", element: <RegistrationPage /> },
+      { path: "register", element: <RegisterPage /> },
       { path: "account", element: <AccountPage /> },
       { path: "compose", element: <ComposePage /> },
       { path: "contact", element: <ContactPage /> },

@@ -30,11 +30,11 @@ import { ErrorSnackbar } from "../_CommonComponents/Snackbar/ErrorSnackbar.tsx"
 import { ButtonLoader } from "../_CommonComponents/ButtonLoader.tsx"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
-import "./RegistrationPage.scss"
+import "./RegisterPage.scss"
 
 const minLocationQueryLength = 3
 
-export function RegistrationPage() {
+export function RegisterPage() {
   const navigate = useNavigate()
   const appContext = useAppContext()
   const [scope, animate] = useAnimate()
