@@ -70,9 +70,9 @@ export function HomePage() {
     saveSpotifyProfileInSession(spotifyProfileQuery.data!)
 
     // TODO: remove
-    console.log("HomePage > redirecting to /registration")
+    console.log("HomePage > redirecting to /register")
 
-    navigate("/registration", { replace: true })
+    navigate("/register", { replace: true })
     return renderContents(<></>)
   }
 

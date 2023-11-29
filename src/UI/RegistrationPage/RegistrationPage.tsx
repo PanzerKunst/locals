@@ -190,7 +190,7 @@ export function RegistrationPage() {
   const handleStep2Click = () => {
     setIsStep2Hidden(false)
     animate(scope.current, { opacity: 0 }, { duration: Number(s.animationDurationSm) })
-    const step2El = document.querySelector("#registration-step-2")
+    const step2El = document.querySelector("#register-step-2")
     scrollIntoView(step2El, defaultFadeInDelay)
   }
 
@@ -248,7 +248,7 @@ export function RegistrationPage() {
 
   return renderContents(
     <>
-      <section id="registration-step-1">
+      <section id="register-step-1">
         <FadeIn>
           <h2>Whom to follow?</h2>
         </FadeIn>
@@ -262,7 +262,7 @@ export function RegistrationPage() {
         </FadeIn>
       </section>
 
-      <section id="registration-step-2" className={classNames({ "hidden": isStep2Hidden })}>
+      <section id="register-step-2" className={classNames({ "hidden": isStep2Hidden })}>
         <FadeIn>
           <h2>Your account</h2>
         </FadeIn>
@@ -336,7 +336,7 @@ export function RegistrationPage() {
 
   function renderContents(children: ReactNode) {
     return (
-      <div className="page registration">
+      <div className="page register">
         <main className="container">
           {children}
         </main>

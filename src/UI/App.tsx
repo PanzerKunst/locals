@@ -20,7 +20,7 @@ const router = createBrowserRouter([
       { path: "/", element: <IndexPage /> },
       { path: "home", element: <HomePage /> },
       { path: "spotify-callback", element: <HomePage /> },
-      { path: "registration", element: <RegistrationPage /> },
+      { path: "register", element: <RegistrationPage /> },
       { path: "account", element: <AccountPage /> },
       { path: "compose", element: <ComposePage /> },
       { path: "contact", element: <ContactPage /> },

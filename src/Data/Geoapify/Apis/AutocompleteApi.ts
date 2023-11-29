@@ -3,9 +3,9 @@ import qs from "qs"
 import { config } from "../../../config.ts"
 import { GeoapifyFeature } from "../Models/GeoapifyFeature.ts"
 
-export async function searchLocations(search: string): Promise<GeoapifyFeature[]> {
+export async function searchLocations(text: string): Promise<GeoapifyFeature[]> {
   const queryParams = {
-    text: search,
+    text,
     format: "json",
     apiKey: config.GEOAPIFY_API_KEY,
   }

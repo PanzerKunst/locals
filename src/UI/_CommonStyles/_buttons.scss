@@ -26,6 +26,7 @@ a.button:not([role="tab"]) {
 
   transition: opacity #{$animation-duration-sm}s ease;
 
+  // TODO: instead, move the button slightly up, like on the Figma homepage
   &:hover {
     opacity: 0.9;
   }
