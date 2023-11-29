@@ -12,7 +12,7 @@ import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
 import { Field } from "../Util/FormUtils.ts"
 
 import "./ComposePage.scss"
-import { LocationSelectList } from "./_CommonComponents/LocationSelectList.tsx"
+import { SelectList } from "./_CommonComponents/SelectList.tsx"
 
 // Only necessary to avoid double-mount in dev mode
 let hasMounted = false

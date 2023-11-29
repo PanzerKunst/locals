@@ -25,7 +25,7 @@ import { getSpotifyProfileFromSession, saveSpotifyProfileInSession } from "../..
 import { AnimatedButton } from "../_CommonComponents/AnimatedButton.tsx"
 import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
-import { LocationSelectList } from "../_CommonComponents/LocationSelectList.tsx"
+import { SelectList } from "../_CommonComponents/SelectList.tsx"
 import { ErrorSnackbar } from "../_CommonComponents/Snackbar/ErrorSnackbar.tsx"
 import { ButtonLoader } from "../_CommonComponents/ButtonLoader.tsx"
 
@@ -314,7 +314,12 @@ export function RegisterPage() {
                   startDecorator={<LocationOn/>}
                 />
                 {(isSearchingLocations || !_isEmpty(locationSearchResults)) && (
-                  <LocationSelectList locations={locationSearchResults} onSelect={handleLocationSelect} loading={isSearchingLocations}/>
+                  <SelectList
+                    items={locationSearchResults}
+                    renderItem={(item) => item.formatted}
+                    onSelect={handleLocationSelect}
+                    loading={isSearchingLocations}
+                  />
                 )}
               </div>
               {locationFieldError !== "" && <FormHelperText>{locationFieldError}</FormHelperText>}

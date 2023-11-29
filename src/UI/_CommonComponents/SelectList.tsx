@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react"
+import { ReactNode, useEffect, useState } from "react"
 import _isEmpty from "lodash/isEmpty"
 
 import { CircularLoader } from "./CircularLoader.tsx"
-import { GeoapifyFeature } from "../../Data/Geoapify/Models/GeoapifyFeature.ts"
 
 import { motion, stagger, useAnimate } from "framer-motion"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
-import "./LocationSelectList.scss"
+import "./SelectList.scss"
 
-type Props = {
-  locations: GeoapifyFeature[];
-  onSelect: (geoapifyFeature: GeoapifyFeature) => void; // eslint-disable-line no-unused-vars
+type Props<T> = {
+  items: T[];
+  renderItem: (item: T) => ReactNode; // eslint-disable-line no-unused-vars
+  onSelect: (item: T) => void; // eslint-disable-line no-unused-vars
   loading?: boolean;
 }
 
@@ -20,16 +20,16 @@ const motionVariants = {
   animate: { opacity: 1, y: 0, filter: "blur(0)" }
 }
 
-export function LocationSelectList({ locations, onSelect, loading = false }: Props) {
+export function SelectList<T>({ items, renderItem, onSelect, loading = false }: Props<T>) {
   const [isOpen, setIsOpen] = useState(true)
   const [scope, animate] = useAnimate()
 
   useEffect(() => {
     setIsOpen(true)
-  }, [locations, loading])
+  }, [items, loading])
 
   useEffect(() => {
-    if (_isEmpty(locations)) {
+    if (_isEmpty(items)) {
       return
     }
 
@@ -41,7 +41,7 @@ export function LocationSelectList({ locations, onSelect, loading = false }: Pro
         delay: stagger(Number(s.animationDurationXs))
       }
     )
-  }, [animate, scope, locations])
+  }, [animate, scope, items])
 
   function handleOutsideClick(event: MouseEvent) {
     if (scope.current && !scope.current.contains(event.target as Node)) {
@@ -65,8 +65,8 @@ export function LocationSelectList({ locations, onSelect, loading = false }: Pro
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleClick = (geoapifyFeature: GeoapifyFeature) => {
-    onSelect(geoapifyFeature)
+  const handleClick = (item: T) => {
+    onSelect(item)
     setIsOpen(true)
   }
 
@@ -82,15 +82,15 @@ export function LocationSelectList({ locations, onSelect, loading = false }: Pro
           <CircularLoader />
         </li>
       ) : (
-        locations.map((geoapifyFeature) => ( // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+        items.map((item) => ( // eslint-disable-next-line jsx-a11y/click-events-have-key-events
           <motion.li initial={motionVariants.initial}
-            key={geoapifyFeature.place_id}
-            onClick={() => handleClick(geoapifyFeature)}
+            key={JSON.stringify(item)}
+            onClick={() => handleClick(item)}
             // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
             role="option"
             aria-selected="false"
           >
-            {geoapifyFeature.formatted}
+            {renderItem(item)}
           </motion.li>
         ))
       )}
