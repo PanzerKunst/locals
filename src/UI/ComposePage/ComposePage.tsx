@@ -59,11 +59,14 @@ export function ComposePage() {
     new Quill(editorRef.current, {
       theme: "snow",
       placeholder: "Compose an epic...",
+      formats: ["header", "bold", "italic", "strike", "blockquote", "link", "image", "video"],
       modules: {
         toolbar: [
           [{ "header": [2, 3, false] }],
-          ["bold", "italic"],
-          ["link", "image"]
+          ["bold", "italic", "strike"],
+          ["link", "image", "video"],
+          ["blockquote"],
+          ["clean"]
         ]
       }
     })
