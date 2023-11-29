@@ -156,7 +156,6 @@ export function RegistrationPage() {
       return false
     }
 
-
     if (!isUsernameValid(debouncedUsername)) {
       setUsernameFieldError("A combination of letters, numbers, -, _, .")
       return false
@@ -199,7 +198,7 @@ export function RegistrationPage() {
   const handleStep2Click = () => {
     setIsStep2Hidden(false)
     animate(scope.current, { opacity: 0 }, { duration: Number(s.animationDurationSm) })
-    const step2El = document.getElementById("registration-step-2")
+    const step2El = document.querySelector("#registration-step-2")
     scrollIntoView(step2El, defaultFadeInDelay)
   }
 

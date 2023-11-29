@@ -7,6 +7,8 @@ $color-black-opacity-15pc: color.adjust($color-black, $alpha: -0.85);
 $color-white: rgb(255 255 255); // #fff
 $color-greyscale-1: rgb(64 64 64); // #404040
 $color-greyscale-5: rgb(128 128 128); // #808080
+$color-greyscale-6: rgb(165 165 165); // #A5A5A5
+$color-greyscale-7: rgb(202 202 202); // #CACACA
 $color-greyscale-8: rgb(238 238 238); // #EEEEEE
 $color-greyscale-9: rgb(247 247 247); // #F7F7F7
 $color-greyscale-1-opacity-50pc: color.adjust($color-greyscale-1, $alpha: -0.5);
@@ -33,12 +35,12 @@ $color-icon-light: $color-white;
 $color-icon-primary: $color-red-orange;
 $color-input-bg: $color-greyscale-8;
 $color-input-text: $color-greyscale-1;
+$color-input-placeholder: $color-greyscale-6;
 $color-link: $color-greyscale-1;
 $color-list-item: $color-greyscale-1;
 $color-list-item-hover: $color-black;
 $color-loader: $color-red-orange;
 $color-offset-bg: $color-greyscale-9;
 $color-text-negative: $color-white;
-$color-text-offset: $color-greyscale-5;
 $color-text-shadow: $color-greyscale-1;
 $color-placeholder: $color-greyscale-8;

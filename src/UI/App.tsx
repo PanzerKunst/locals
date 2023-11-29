@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 
 import { AccountPage } from "./AccountPage.tsx"
+import { ComposePage } from "./ComposePage/ComposePage.tsx"
 import { ContactPage } from "./ContactPage.tsx"
 import { HomePage } from "./HomePage.tsx"
 import { IndexPage } from "./IndexPage/IndexPage.tsx"
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
       { path: "spotify-callback", element: <HomePage /> },
       { path: "registration", element: <RegistrationPage /> },
       { path: "account", element: <AccountPage /> },
+      { path: "compose", element: <ComposePage /> },
       { path: "contact", element: <ContactPage /> },
       { path: "privacy", element: <PrivacyPolicyPage /> }
     ]

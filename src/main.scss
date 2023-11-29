@@ -1,8 +1,10 @@
 // 3rd-party, MUI excluded
 @import "/node_modules/normalize.css/normalize.css";
+@import "/node_modules/quill/dist/quill.snow.css";
 
 // 3rd party overrides
 @import "UI/_CommonStyles/3rdPartyOverrides/mui";
+@import "UI/_CommonStyles/3rdPartyOverrides/quill";
 
 // App globals
 @import "UI/_CommonStyles/buttons";

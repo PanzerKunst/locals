@@ -10,7 +10,7 @@ export type MotionTransition = {
   ease: Easing | Easing[];
 }
 
-export function scrollIntoView(element: HTMLElement | null, delaySeconds: number | undefined = 0): void {
+export function scrollIntoView(element: Element | null, delaySeconds: number | undefined = 0): void {
   // TODO: remove
   console.log(element)
 

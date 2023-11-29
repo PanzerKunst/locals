@@ -1,0 +1,37 @@
+@import "/src/UI/_CommonStyles/colors";
+@import "/src/UI/_CommonStyles/numbers";
+
+.ql-toolbar.ql-snow,
+.ql-container.ql-snow {
+  border: none;
+  font-family: inherit;
+}
+
+.ql-toolbar.ql-snow {
+  display: flex;
+  justify-content: center;
+}
+
+.ql-container.ql-snow {
+  > .ql-editor {
+    h2,
+    h3 {
+      line-height: 1em;
+      font-weight: 600;
+      margin-bottom: 0.5em;
+    }
+
+    h2 {
+      font-size: $variable-h2-size;
+    }
+
+    h3 {
+      font-size: $variable-h3-size;
+    }
+
+    &.ql-blank::before { // Placeholder
+      font-size: $variable-font-size;
+      color: $color-input-placeholder;
+    }
+  }
+}

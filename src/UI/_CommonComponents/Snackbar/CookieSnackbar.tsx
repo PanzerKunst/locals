@@ -1,8 +1,10 @@
 import { Cookie } from "@mui/icons-material"
 import { useState } from "react"
+import { Link } from "react-router-dom"
 
 import { AppSnackbar } from "./AppSnackbar.tsx"
 import { getCookieConsentFromLocalStorage, saveCookieConsentInLocalStorage } from "../../../Util/LocalStorage.ts"
+
 
 import "./CookieSnackbar.scss"
 
@@ -15,14 +17,14 @@ export function CookieSnackbar() {
     return undefined
   }
 
-  const handleRejectStats = () => {
-    setIsOpen(false)
-    saveCookieConsentInLocalStorage("necessary")
-  }
-
-  const handleAcceptStats = () => {
+  const handleAllowAll = () => {
     setIsOpen(false)
     saveCookieConsentInLocalStorage("all")
+  }
+
+  const handleRejectNonEssential = () => {
+    setIsOpen(false)
+    saveCookieConsentInLocalStorage("necessary")
   }
 
   return (
@@ -34,10 +36,11 @@ export function CookieSnackbar() {
     >
       <Cookie/>
       <div>
-        <span>About cookies...</span>
+        <p>We use cookies for analytics.<br/>
+          Learn more on our <Link to="/privacy" className="underlined disappears">privacy policy</Link>.</p>
         <div>
-          <button className="underlined disappears" onClick={handleRejectStats}>Only necessary</button>
-          <button className="underlined disappears" onClick={handleAcceptStats}>Accept analytics</button>
+          <button className="fixed-height transparent-bordered" onClick={handleRejectNonEssential}>No, thanks</button>
+          <button className="fixed-height filling" onClick={handleAllowAll}>It&apos;s okay</button>
         </div>
       </div>
     </AppSnackbar>
