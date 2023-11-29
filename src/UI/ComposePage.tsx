@@ -1,10 +1,11 @@
-import { FormControl, FormHelperText } from "@mui/joy"
+import { FormControl, FormHelperText, Input } from "@mui/joy"
 import Quill from "quill"
-import { FormEvent, useEffect, useRef, useState } from "react"
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react"
 
-import { AnimatedButton } from "../_CommonComponents/AnimatedButton.tsx"
-import { ButtonLoader } from "../_CommonComponents/ButtonLoader.tsx"
-import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
+import { AnimatedButton } from "./_CommonComponents/AnimatedButton.tsx"
+import { ButtonLoader } from "./_CommonComponents/ButtonLoader.tsx"
+import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
+import { Field } from "../Util/FormUtils.ts"
 
 import "./ComposePage.scss"
 
@@ -13,11 +14,23 @@ let hasMounted = false
 
 export function ComposePage() {
   const editorRef = useRef<HTMLDivElement>(null)
+  const [titleField, setTitleField] = useState<Field>({ value: "", error: "" })
   const [editorFieldError, setEditorFieldError] = useState("")
   const [isSubmittingForm, setIsSubmittingForm] = useState(false)
 
   function getContent(): string {
     return editorRef.current!.querySelector(".ql-editor")!.innerHTML
+  }
+
+  function isTitleValid(): boolean {
+    const { value } = titleField
+
+    if (value === "") {
+      setTitleField({ value, error: "Cannot be empty" })
+      return false
+    }
+
+    return true
   }
 
   function isEditorValid(): boolean {
@@ -32,7 +45,20 @@ export function ComposePage() {
   }
 
   function isFormValid(): boolean {
-    return isEditorValid()
+    return isTitleValid() && isEditorValid()
+  }
+
+  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target
+
+    setTitleField({
+      value,
+      error: "" // We reset any eventual errors
+    })
+  }
+
+  const handleTitleBlur = () => {
+    return isTitleValid()
   }
 
   const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -78,6 +104,20 @@ export function ComposePage() {
     <div className="page compose">
       <main className="container">
         <form noValidate onSubmit={handleFormSubmit}>
+          <FadeIn>
+            <FormControl error={titleField.error !== ""} className="form-control title">
+              <Input
+                variant="soft"
+                size="lg"
+                placeholder="Post title"
+                value={titleField.value}
+                onChange={handleTitleChange}
+                onBlur={handleTitleBlur}
+              />
+              {titleField.error !== "" && <FormHelperText>{titleField.error}</FormHelperText>}
+            </FormControl>
+          </FadeIn>
+
           <FadeIn>
             <FormControl error={editorFieldError !== ""}>
               <div ref={editorRef}/>

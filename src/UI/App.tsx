@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 
 import { AccountPage } from "./AccountPage.tsx"
-import { ComposePage } from "./ComposePage/ComposePage.tsx"
+import { ComposePage } from "./ComposePage.tsx"
 import { ContactPage } from "./ContactPage.tsx"
 import { HomePage } from "./HomePage.tsx"
 import { IndexPage } from "./IndexPage/IndexPage.tsx"

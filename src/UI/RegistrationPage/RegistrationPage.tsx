@@ -174,15 +174,7 @@ export function RegistrationPage() {
   }
 
   function isFormValid(): boolean {
-    if (!isEmailInputValid()) {
-      return false
-    }
-
-    if (!isUsernameInputValid()) {
-      return false
-    }
-
-    return isLocationInputValid()
+    return isEmailInputValid() && isUsernameInputValid() && isLocationInputValid()
   }
 
   const handleToggleFollowing = (spotifyArtist: SpotifyArtist) => {
