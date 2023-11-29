@@ -204,7 +204,7 @@ export function RegisterPage() {
   }
 
   const handleEmailBlur = () => {
-    return isEmailInputValid()
+    isEmailInputValid()
   }
 
   const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -213,7 +213,7 @@ export function RegisterPage() {
   }
 
   const handleUsernameBlur = () => {
-    return isUsernameInputValid()
+    isUsernameInputValid()
   }
 
   const handleLocationChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -316,7 +316,7 @@ export function RegisterPage() {
                 {(isSearchingLocations || !_isEmpty(locationSearchResults)) && (
                   <SelectList
                     items={locationSearchResults}
-                    renderItem={(item) => item.formatted}
+                    renderItem={(location) => location.formatted}
                     onSelect={handleLocationSelect}
                     loading={isSearchingLocations}
                   />

@@ -11,9 +11,6 @@ export type MotionTransition = {
 }
 
 export function scrollIntoView(element: Element | null, delaySeconds: number | undefined = 0): void {
-  // TODO: remove
-  console.log(element)
-
   setTimeout(() => {
     element?.scrollIntoView({ behavior: "smooth" })
   }, delaySeconds * 1000)

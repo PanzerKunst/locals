@@ -3,4 +3,9 @@
   .fade-in:not(:last-of-type) {
     margin-bottom: 5vh;
   }
+
+  .fade-in:last-of-type {
+    display: flex;
+    justify-content: flex-end;
+  }
 }

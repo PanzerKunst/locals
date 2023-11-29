@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import { Search } from "@mui/icons-material"
 import { FormControl, FormHelperText, Input } from "@mui/joy"
 import _isEmpty from "lodash/isEmpty"
@@ -9,29 +7,103 @@ import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react"
 import { AnimatedButton } from "./_CommonComponents/AnimatedButton.tsx"
 import { ButtonLoader } from "./_CommonComponents/ButtonLoader.tsx"
 import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
-import { Field } from "../Util/FormUtils.ts"
+import { SelectList } from "./_CommonComponents/SelectList.tsx"
+import { useAppContext } from "../AppContext.tsx"
+import { searchArtists } from "../Data/Spotify/Apis/SearchApi.ts"
+import { SpotifyArtist } from "../Data/Spotify/Models/SpotifyArtist.ts"
+import { doesHtmlHaveText, Field } from "../Util/FormUtils.ts"
+import { useDebounce } from "../Util/ReactUtils.ts"
 
 import "./ComposePage.scss"
-import { SelectList } from "./_CommonComponents/SelectList.tsx"
 
 // Only necessary to avoid double-mount in dev mode
 let hasMounted = false
 
 export function ComposePage() {
+  const appContext = useAppContext()
+
+  const [artistQuery, setArtistQuery] = useState("")
+  const debouncedArtistQuery = useDebounce(artistQuery, 300)
+  const [artistFieldError, setArtistFieldError] = useState("")
+  const [isSearchingArtists, setIsSearchingArtists] = useState(false)
+  const [artistSearchResults, setArtistSearchResults] = useState<SpotifyArtist[]>([])
+  const [selectedSpotifyArtist, setSelectedSpotifyArtist] = useState<SpotifyArtist>()
+
   const editorRef = useRef<HTMLDivElement>(null)
   const [titleField, setTitleField] = useState<Field>({ value: "", error: "" })
-  const [editorFieldError, setEditorFieldError] = useState("")
+  const [editorField, setEditorField] = useState<Field>({ value: "", error: "" })
   const [isSubmittingForm, setIsSubmittingForm] = useState(false)
 
-  function getContent(): string {
-    return editorRef.current!.querySelector(".ql-editor")!.innerHTML
+  useEffect(() => {
+    if (hasMounted || !editorRef.current) {
+      return
+    }
+
+    const editor = new Quill(editorRef.current, {
+      theme: "snow",
+      placeholder: "Compose an epic...",
+      formats: ["header", "bold", "italic", "strike", "link", "image", "video", "align", "blockquote"],
+      modules: {
+        toolbar: [
+          [{ "header": [2, 3, false] }],
+          ["bold", "italic", "strike"],
+          ["link", "image", "video"],
+          [{ "align": [] }, "blockquote"],
+          ["clean"]
+        ]
+      }
+    })
+
+    function handleTextChange() {
+      setEditorField({
+        value: editorRef.current!.querySelector(".ql-editor")!.innerHTML,
+        error: "" // We reset any eventual errors
+      })
+    }
+
+    // Register handler
+    editor.on("text-change", handleTextChange)
+
+    hasMounted = true
+
+    // Cleanup
+    return () => {
+      editor.off("text-change", handleTextChange)
+    }
+  }, [])
+
+  useEffect(() => {
+    async function performArtistSearch() {
+      setIsSearchingArtists(true)
+      const searchResults = await searchArtists(appContext, debouncedArtistQuery)
+      setIsSearchingArtists(false)
+      setArtistSearchResults(searchResults)
+    }
+
+    setArtistSearchResults([])
+
+    if (_isEmpty(debouncedArtistQuery) || selectedSpotifyArtist) {
+      setIsSearchingArtists(false)
+      return
+    }
+
+    performArtistSearch()
+  }, [appContext, debouncedArtistQuery, selectedSpotifyArtist])
+
+  function isArtistInputValid(): boolean {
+    if (!selectedSpotifyArtist) {
+      setArtistFieldError("Who are you writing about?")
+      return false
+    }
+
+    return true
   }
 
   function isTitleValid(): boolean {
     const { value } = titleField
 
     if (value === "") {
-      setTitleField({ value, error: "Cannot be empty" })
+      setTitleField({ value, error: "Your post needs a title" })
       return false
     }
 
@@ -39,10 +111,10 @@ export function ComposePage() {
   }
 
   function isEditorValid(): boolean {
-    const content = getContent()
+    const { value } = editorField
 
-    if (content === "<p><br></p>") {
-      setEditorFieldError("Cannot be empty")
+    if (!doesHtmlHaveText(value)) {
+      setEditorField({ value, error: "Your post needs some content" })
       return false
     }
 
@@ -50,7 +122,22 @@ export function ComposePage() {
   }
 
   function isFormValid(): boolean {
-    return isTitleValid() && isEditorValid()
+    return isArtistInputValid() && isTitleValid() && isEditorValid()
+  }
+
+  const handleArtistChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setArtistQuery(event.target.value)
+    setSelectedSpotifyArtist(undefined)
+  }
+
+  const handleArtistBlur = () => {
+    isArtistInputValid()
+  }
+
+  const handleArtistSelect = (spotifyArtist: SpotifyArtist) => {
+    setSelectedSpotifyArtist(spotifyArtist)
+    setArtistQuery(spotifyArtist.name)
+    setArtistFieldError("")
   }
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -77,39 +164,16 @@ export function ComposePage() {
 
     // Handle the submission of the content
     // For example, sending it to the backend
-    console.log("Submitting content:", getContent())
+    console.log("Submitting content:", editorField.value)
 
     setIsSubmittingForm(false)
   }
-
-  useEffect(() => {
-    if (hasMounted || !editorRef.current) {
-      return
-    }
-
-    new Quill(editorRef.current, {
-      theme: "snow",
-      placeholder: "Compose an epic...",
-      formats: ["header", "bold", "italic", "strike", "link", "image", "video", "align", "blockquote"],
-      modules: {
-        toolbar: [
-          [{ "header": [2, 3, false] }],
-          ["bold", "italic", "strike"],
-          ["link", "image", "video"],
-          [{ "align": [] }, "blockquote"],
-          ["clean"]
-        ]
-      }
-    })
-
-    hasMounted = true
-  }, [])
 
   return (
     <div className="page compose">
       <main className="container">
         <form noValidate onSubmit={handleFormSubmit}>
-          {/* <FadeIn>
+          <FadeIn>
             <FormControl error={artistFieldError !== ""}>
               <div className="artist-input-and-dropdown">
                 <Input
@@ -120,15 +184,21 @@ export function ComposePage() {
                   value={artistQuery}
                   autoComplete="search"
                   onChange={handleArtistChange}
+                  onBlur={handleArtistBlur}
                   startDecorator={<Search/>}
                 />
-                {(isSearchingLocations || !_isEmpty(locationSearchResults)) && (
-                  <LocationSelectList locations={locationSearchResults} onSelect={handleLocationSelect} loading={isSearchingLocations}/>
+                {(isSearchingArtists || !_isEmpty(artistSearchResults)) && (
+                  <SelectList
+                    items={artistSearchResults.slice(0, 5)}
+                    renderItem={(artist) => artist.name}
+                    onSelect={handleArtistSelect}
+                    loading={isSearchingArtists}
+                  />
                 )}
               </div>
-              {locationFieldError !== "" && <FormHelperText>{locationFieldError}</FormHelperText>}
+              {artistFieldError !== "" && <FormHelperText>{artistFieldError}</FormHelperText>}
             </FormControl>
-          </FadeIn> */}
+          </FadeIn>
 
           <FadeIn>
             <FormControl error={titleField.error !== ""}>
@@ -136,6 +206,7 @@ export function ComposePage() {
                 variant="soft"
                 size="lg"
                 placeholder="Post title"
+                autoComplete="off"
                 value={titleField.value}
                 onChange={handleTitleChange}
                 onBlur={handleTitleBlur}
@@ -145,15 +216,15 @@ export function ComposePage() {
           </FadeIn>
 
           <FadeIn>
-            <FormControl error={editorFieldError !== ""}>
+            <FormControl error={editorField.error !== ""}>
               <div ref={editorRef}/>
-              {editorFieldError !== "" && <FormHelperText>{editorFieldError}</FormHelperText>}
+              {editorField.error !== "" && <FormHelperText>{editorField.error}</FormHelperText>}
             </FormControl>
           </FadeIn>
 
           <FadeIn>
             <AnimatedButton className="filling">
-              <button className="button" disabled={titleField.error !== "" || editorFieldError !== ""}>
+              <button className="button" disabled={titleField.error !== "" || editorField.error !== ""}>
                 {isSubmittingForm && <ButtonLoader/>}
                 <span>Save changes</span>
               </button>

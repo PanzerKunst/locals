@@ -25,11 +25,21 @@ export function SelectList<T>({ items, renderItem, onSelect, loading = false }: 
   const [scope, animate] = useAnimate()
 
   useEffect(() => {
+    // TODO: Remove
+    console.log("useEffect 1", scope.current, items)
+
+    if (!scope.current) {
+      return
+    }
+
     setIsOpen(true)
-  }, [items, loading])
+  }, [items, loading, scope])
 
   useEffect(() => {
-    if (_isEmpty(items)) {
+    // TODO: Remove
+    console.log("useEffect 2", scope.current, items)
+
+    if (!scope.current || _isEmpty(items)) {
       return
     }
 
