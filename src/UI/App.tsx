@@ -6,7 +6,7 @@ import { ContactPage } from "./ContactPage.tsx"
 import { HomePage } from "./HomePage.tsx"
 import { IndexPage } from "./IndexPage/IndexPage.tsx"
 import { PrivacyPolicyPage } from "./PrivacyPolicyPage.tsx"
-import { RegisterPage } from "./RegistrationPage/RegisterPage.tsx"
+import { RegisterPage } from "./RegisterPage/RegisterPage.tsx"
 import { Layout } from "./_CommonComponents/Layout.tsx"
 import { AppContextProvider } from "../AppContext.tsx"
 
