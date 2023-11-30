@@ -25,18 +25,18 @@
     color: $color-text-negative;
     letter-spacing: -0.03em;
     text-align: center;
-    font-size: max(6vw, 40px);
+    font-size: max(7vw, 40px);
     @include text-shadow;
 
     margin-top: max(15vw, 150px);
 
     @include vw(xl) {
       text-align: right;
-      width: 75%;
+      width: 55%;
     }
 
     @include vw(xxl) {
-      width: 65%;
+      width: 45%;
     }
 
     > span {

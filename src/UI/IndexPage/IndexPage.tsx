@@ -34,7 +34,7 @@ export function IndexPage() {
       <section id="for-artists">
         <div className="container">
           <FadeIn className="centered-contents">
-            <h2>For artists</h2>
+            <h2>The community for musicians and fans</h2>
           </FadeIn>
 
           <FadeIn>

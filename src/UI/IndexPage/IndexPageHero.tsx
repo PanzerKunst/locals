@@ -26,7 +26,7 @@ export function IndexPageHero() {
           variants={motionVariants}
           transition={motionTransition}
         >
-          The home for fans and
+          The home for
         </motion.span>
         <motion.span
           initial="initial"
@@ -34,7 +34,7 @@ export function IndexPageHero() {
           variants={motionVariants}
           transition={{...motionTransition, delay: 0.3 }}
         >
-          their favourite musicians
+          all music fans
         </motion.span>
       </h1>
 
