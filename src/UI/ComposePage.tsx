@@ -225,7 +225,10 @@ export function ComposePage() {
 
           <FadeIn>
             <AnimatedButton className="filling">
-              <button className={classNames("button", { loading: isSubmittingForm })} disabled={titleField.error !== "" || editorField.error !== ""}>
+              <button
+                className={classNames("button", { "filling loading": isSubmittingForm })}
+                disabled={titleField.error !== "" || editorField.error !== ""}
+              >
                 {isSubmittingForm && <ButtonLoader/>}
                 <span>Save changes</span>
               </button>
