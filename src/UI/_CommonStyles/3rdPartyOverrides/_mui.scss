@@ -51,3 +51,15 @@
     background-color: $color-checkbox-bg;
   }
 }
+
+.MuiLinearProgress-root.MuiLinearProgress-colorPrimary.MuiLinearProgress-variantPlain {
+  color: $color-loader;
+
+  $block-size: 0.15em;
+
+  min-block-size: $block-size;
+
+  &::before {
+    block-size: $block-size;
+  }
+}

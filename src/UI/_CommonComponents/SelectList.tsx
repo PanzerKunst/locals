@@ -1,9 +1,7 @@
+import { motion, stagger, useAnimate } from "framer-motion"
 import _isEmpty from "lodash/isEmpty"
 import { ReactNode, useEffect, useState } from "react"
-
-import { CircularLoader } from "./CircularLoader.tsx"
-
-import { motion, stagger, useAnimate } from "framer-motion"
+import { LinearProgress } from "@mui/joy"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./SelectList.scss"
@@ -87,9 +85,9 @@ export function SelectList<T>({ items, renderItem, onSelect, loading = false }: 
   return (
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
     <ul ref={scope} role="listbox" className="styleless select">
-      {loading ? (
+      {!loading ? (
         <li className="loading">
-          <CircularLoader/>
+          <LinearProgress variant="plain" />
         </li>
       ) : (
         items.map((item) => ( // eslint-disable-next-line jsx-a11y/click-events-have-key-events

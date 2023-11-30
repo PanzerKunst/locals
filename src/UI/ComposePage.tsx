@@ -176,7 +176,7 @@ export function ComposePage() {
         <form noValidate onSubmit={handleFormSubmit}>
           <FadeIn>
             <FormControl error={artistFieldError !== ""}>
-              <div className="artist-input-and-dropdown">
+              <div className="input-and-select-list-wrapper">
                 <Input
                   type="text"
                   variant="soft"

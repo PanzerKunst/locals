@@ -305,7 +305,7 @@ export function RegisterPage() {
           <FadeIn>
             <FormControl error={locationFieldError !== ""}>
               <FormLabel>Location</FormLabel>
-              <div className="location-input-and-dropdown">
+              <div className="input-and-select-list-wrapper">
                 <Input
                   type="text"
                   variant="soft"

@@ -6,8 +6,6 @@ import { fetchFollowedArtists } from "../Spotify/Apis/FollowedArtistsApi.ts"
 import { fetchTopArtists } from "../Spotify/Apis/TopItemsApi.ts"
 import { SpotifyArtist } from "../Spotify/Models/SpotifyArtist.ts"
 
-/* eslint-disable */
-
 export async function fetchFavouriteSpotifyArtists(appContext: AppContextType): Promise<SpotifyArtist[]> {
   const topArtists = await fetchTopSpotifyArtists(appContext)
   const followedArtists = await fetchFollowedSpotifyArtists(appContext)
