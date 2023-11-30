@@ -331,7 +331,10 @@ export function RegisterPage() {
 
           <FadeIn className="wrapper-next-button">
             <AnimatedButton className="filling">
-              <button className="button" disabled={emailField.error !== "" || usernameFieldError !== "" || locationFieldError !== ""}>
+              <button
+                className={classNames("button", { loading: isSubmittingForm })}
+                disabled={emailField.error !== "" || usernameFieldError !== "" || locationFieldError !== ""}
+              >
                 {isSubmittingForm && <ButtonLoader/>}
                 <span>Complete registration</span>
               </button>

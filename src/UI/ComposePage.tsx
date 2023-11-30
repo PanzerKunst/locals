@@ -1,5 +1,6 @@
 import { Search } from "@mui/icons-material"
 import { FormControl, FormHelperText, Input } from "@mui/joy"
+import classNames from "classnames"
 import _isEmpty from "lodash/isEmpty"
 import Quill from "quill"
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react"
@@ -224,7 +225,7 @@ export function ComposePage() {
 
           <FadeIn>
             <AnimatedButton className="filling">
-              <button className="button" disabled={titleField.error !== "" || editorField.error !== ""}>
+              <button className={classNames("button", { loading: isSubmittingForm })} disabled={titleField.error !== "" || editorField.error !== ""}>
                 {isSubmittingForm && <ButtonLoader/>}
                 <span>Save changes</span>
               </button>

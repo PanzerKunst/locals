@@ -1,5 +1,5 @@
-import { ReactNode, useEffect, useState } from "react"
 import _isEmpty from "lodash/isEmpty"
+import { ReactNode, useEffect, useState } from "react"
 
 import { CircularLoader } from "./CircularLoader.tsx"
 
@@ -88,8 +88,8 @@ export function SelectList<T>({ items, renderItem, onSelect, loading = false }: 
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
     <ul ref={scope} role="listbox" className="styleless select">
       {loading ? (
-        <li>
-          <CircularLoader />
+        <li className="loading">
+          <CircularLoader/>
         </li>
       ) : (
         items.map((item) => ( // eslint-disable-next-line jsx-a11y/click-events-have-key-events

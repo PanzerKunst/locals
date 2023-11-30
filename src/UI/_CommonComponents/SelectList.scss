@@ -22,7 +22,7 @@ ul.styleless.select {
   > li {
     padding-inline: $input-padding-inline;
 
-    &:not(:has(> .circular-loader)) {
+    &:not(.loading) { // Because `&:not(:has(> .circular-loader))` isn't supported on Firefox
       cursor: pointer;
 
       &:hover {

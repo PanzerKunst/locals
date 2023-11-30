@@ -100,7 +100,7 @@ a.button:not(.icon-only) {
 
   // Loader
 
-  &:has(> .circular-loader) {
+  &.loading { // Because `&:has(> .circular-loader) {` isn't supported on Firefox
     position: relative;
 
     > .circular-loader {
