@@ -188,14 +188,12 @@ export function ComposePage() {
                   onBlur={handleArtistBlur}
                   startDecorator={<Search/>}
                 />
-                {(isSearchingArtists || !_isEmpty(artistSearchResults)) && (
-                  <SelectList
-                    items={artistSearchResults.slice(0, 5)}
-                    renderItem={(artist) => artist.name}
-                    onSelect={handleArtistSelect}
-                    loading={isSearchingArtists}
-                  />
-                )}
+                <SelectList
+                  items={artistSearchResults.slice(0, 5)}
+                  renderItem={(artist) => artist.name}
+                  onSelect={handleArtistSelect}
+                  loading={isSearchingArtists}
+                />
               </div>
               {artistFieldError !== "" && <FormHelperText>{artistFieldError}</FormHelperText>}
             </FormControl>

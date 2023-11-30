@@ -12,21 +12,27 @@ ul.styleless.select {
   margin-top: 0.3em;
 
   border-radius: $input-border-radius;
-  background-color: $color-input-bg;
+  background-color: $color-list-item-bg;
   @include joy-dropdown-shadow;
 
-  color: $color-list-item;
   font-size: $variable-font-size;
   line-height: max(2em, 40px);
 
+  &:empty,
+  &.closed {
+    display: none;
+  }
+
   > li {
+    transition: background-color #{$animation-duration-sm}s ease;
+
     padding-inline: $input-padding-inline;
 
     &:not(.loading) { // Because `&:not(:has(> .circular-loader))` isn't supported on Firefox
       cursor: pointer;
 
       &:hover {
-        color: $color-list-item-hover;
+        background-color: $color-list-item-bg-hover;
       }
     }
 

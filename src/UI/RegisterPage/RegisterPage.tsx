@@ -2,7 +2,6 @@ import { LocationOn } from "@mui/icons-material"
 import { FormControl, FormHelperText, FormLabel, Input } from "@mui/joy"
 import classNames from "classnames"
 import { useAnimate } from "framer-motion"
-import _isEmpty from "lodash/isEmpty"
 import _uniqBy from "lodash/uniqBy"
 import { ChangeEvent, FormEvent, ReactNode, useEffect, useState } from "react"
 import { useQuery } from "react-query"
@@ -316,14 +315,12 @@ export function RegisterPage() {
                   onChange={handleLocationChange}
                   startDecorator={<LocationOn/>}
                 />
-                {(isSearchingLocations || !_isEmpty(locationSearchResults)) && (
-                  <SelectList
-                    items={locationSearchResults}
-                    renderItem={(location) => location.formatted}
-                    onSelect={handleLocationSelect}
-                    loading={isSearchingLocations}
-                  />
-                )}
+                <SelectList
+                  items={locationSearchResults}
+                  renderItem={(location) => location.formatted}
+                  onSelect={handleLocationSelect}
+                  loading={isSearchingLocations}
+                />
               </div>
               {locationFieldError !== "" && <FormHelperText>{locationFieldError}</FormHelperText>}
             </FormControl>

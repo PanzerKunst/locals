@@ -1,7 +1,8 @@
-import { motion, stagger, useAnimate } from "framer-motion"
-import _isEmpty from "lodash/isEmpty"
-import { ReactNode, useEffect, useState } from "react"
 import { LinearProgress } from "@mui/joy"
+import classNames from "classnames"
+import { motion, stagger, useAnimate } from "framer-motion"
+import { ReactNode, useEffect, useState } from "react"
+import _isEmpty from "lodash/isEmpty"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./SelectList.scss"
@@ -23,21 +24,11 @@ export function SelectList<T>({ items, renderItem, onSelect, loading = false }: 
   const [scope, animate] = useAnimate()
 
   useEffect(() => {
-    // TODO: Remove
-    console.log("useEffect 1", scope.current, items)
-
-    if (!scope.current) {
-      return
-    }
-
     setIsOpen(true)
-  }, [items, loading, scope])
+  }, [items, loading])
 
   useEffect(() => {
-    // TODO: Remove
-    console.log("useEffect 2", scope.current, items)
-
-    if (!scope.current || _isEmpty(items)) {
+    if (_isEmpty(items)) {
       return
     }
 
@@ -52,7 +43,7 @@ export function SelectList<T>({ items, renderItem, onSelect, loading = false }: 
   }, [animate, scope, items])
 
   function handleOutsideClick(event: MouseEvent) {
-    if (scope.current && !scope.current.contains(event.target as Node)) {
+    if (!scope.current.contains(event.target as Node)) {
       setIsOpen(false)
     }
   }
@@ -78,16 +69,12 @@ export function SelectList<T>({ items, renderItem, onSelect, loading = false }: 
     setIsOpen(true)
   }
 
-  if (!isOpen) {
-    return undefined
-  }
-
   return (
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
-    <ul ref={scope} role="listbox" className="styleless select">
+    <ul ref={scope} role="listbox" className={classNames("styleless select", { closed: !isOpen })}>
       {loading ? (
         <li className="loading">
-          <LinearProgress variant="plain" />
+          <LinearProgress variant="plain"/>
         </li>
       ) : (
         items.map((item) => ( // eslint-disable-next-line jsx-a11y/click-events-have-key-events
