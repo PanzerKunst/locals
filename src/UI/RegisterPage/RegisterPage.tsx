@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom"
 
 import { FavouriteArtists } from "./FavouriteArtists.tsx"
 import { useAppContext } from "../../AppContext.tsx"
-import { checkUsernameAvailability, storeUser } from "../../Data/Backend/Apis/UserApi.ts"
 import { storeUserFavouriteArtists } from "../../Data/Backend/Apis/UserFavouriteArtistsApi.ts"
 import { fetchFavouriteSpotifyArtists } from "../../Data/FrontendHelperApis/UserFavouriteArtistsApi.ts"
 import { searchLocations } from "../../Data/Geoapify/Apis/AutocompleteApi.ts"
@@ -23,11 +22,13 @@ import { Field, isEmailValid, isUsernameValid } from "../../Util/FormUtils.ts"
 import { useDebounce } from "../../Util/ReactUtils.ts"
 import { getSpotifyProfileFromSession, saveSpotifyProfileInSession } from "../../Util/SessionStorage.ts"
 import { AnimatedButton } from "../_CommonComponents/AnimatedButton.tsx"
+import { ButtonLoader } from "../_CommonComponents/ButtonLoader.tsx"
 import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 import { SelectList } from "../_CommonComponents/SelectList.tsx"
 import { ErrorSnackbar } from "../_CommonComponents/Snackbar/ErrorSnackbar.tsx"
-import { ButtonLoader } from "../_CommonComponents/ButtonLoader.tsx"
+import { checkUsernameAvailability, storeUser } from "../../Data/Backend/Apis/UsersApi.ts"
+import { storeArtists } from "../../Data/Backend/Apis/ArtistsApi.ts"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./RegisterPage.scss"
@@ -241,7 +242,9 @@ export function RegisterPage() {
       email: emailField.value
     }, debouncedUsername, selectedLocation!)
 
-    await storeUserFavouriteArtists(user, favouriteArtists, followedArtists)
+    const storedArtistsWithGenres = await storeArtists(favouriteArtists)
+    const storedArtists = storedArtistsWithGenres.map((artistWithGenres) => artistWithGenres.artist)
+    await storeUserFavouriteArtists(user, storedArtists, followedArtists)
     saveSpotifyProfileInSession(undefined)
     navigate(`/home?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.REGISTRATION_SUCCESS}`)
   }
