@@ -9,7 +9,7 @@ ul.chips {
     transition: opacity #{$animation-duration-sm}s ease;
 
     &[aria-selected="false"] {
-      opacity: 0.3;
+      opacity: 0.3 !important;
     }
 
     font-size: $variable-font-size;
