@@ -104,6 +104,19 @@ export function ComposePage() {
     performArtistSearch()
   }, [appContext, debouncedArtistQuery, taggedSpotifyArtists])
 
+  useEffect(() => {
+    setGenreSearchResults([])
+
+    if (genreQuery !== "") {
+      const matchingGenres = allMusicGenres.filter((genre) => genre.name.toLowerCase().includes(genreQuery.toLowerCase()))
+
+      // TODO: remove
+      console.log("useEffect", genreQuery, matchingGenres)
+
+      setGenreSearchResults(matchingGenres)
+    }
+  }, [genreQuery])
+
   function areTagsValid(): boolean {
     if (_isEmpty(taggedSpotifyArtists) && _isEmpty(genreHashtags)) {
       setTagsError("Artist or genre tags are required")
@@ -157,12 +170,7 @@ export function ComposePage() {
   }
 
   const handleGenreChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target
-
-    setGenreQuery(value)
-
-    const matchingGenres = allMusicGenres.filter((genre) => genre.name.toLowerCase().includes(value.toLowerCase()))
-    setGenreSearchResults(matchingGenres)
+    setGenreQuery(event.target.value)
   }
 
   const handleGenreSelect = (musicGenre: MusicGenre) => {
@@ -230,20 +238,20 @@ export function ComposePage() {
                   onSelect={handleArtistSelect}
                   loading={isSearchingArtists}
                 />
-                <ul className="styleless">
-                  {taggedSpotifyArtists.map((artist) => (
-                    <li key={artist.id}>
-                      <Chip
-                        size="lg"
-                        variant="soft"
-                        endDecorator={<ChipDelete onDelete={() => handleDeleteArtistTag(artist)} />}
-                      >
-                        {asTagName(artist.name, "@")}
-                      </Chip>
-                    </li>
-                  ))}
-                </ul>
               </div>
+              <ul className="styleless tags">
+                {taggedSpotifyArtists.map((artist) => (
+                  <li key={artist.id}>
+                    <Chip
+                      size="lg"
+                      variant="soft"
+                      endDecorator={<ChipDelete onDelete={() => handleDeleteArtistTag(artist)} />}
+                    >
+                      {asTagName(artist.name, "@")}
+                    </Chip>
+                  </li>
+                ))}
+              </ul>
             </FormControl>
 
             <FormControl>
@@ -259,24 +267,24 @@ export function ComposePage() {
                   disabled={genreHashtags.length === maxGenreHashtags}
                 />
                 <SelectList
-                  items={genreSearchResults.slice(0, 3)}
+                  items={genreSearchResults.slice(0, 5)}
                   renderItem={(musicGenre) => asTagName(musicGenre.name, "#")}
                   onSelect={handleGenreSelect}
                 />
-                <ul className="styleless">
-                  {genreHashtags.map((musicGenre) => (
-                    <li key={musicGenre.id}>
-                      <Chip
-                        size="lg"
-                        variant="soft"
-                        endDecorator={<ChipDelete onDelete={() => handleDeleteGenreTag(musicGenre)} />}
-                      >
-                        {asTagName(musicGenre.name, "#")}
-                      </Chip>
-                    </li>
-                  ))}
-                </ul>
               </div>
+              <ul className="styleless tags">
+                {genreHashtags.map((musicGenre) => (
+                  <li key={musicGenre.id}>
+                    <Chip
+                      size="lg"
+                      variant="soft"
+                      endDecorator={<ChipDelete onDelete={() => handleDeleteGenreTag(musicGenre)} />}
+                    >
+                      {asTagName(musicGenre.name, "#")}
+                    </Chip>
+                  </li>
+                ))}
+              </ul>
             </FormControl>
 
             {tagsError !== "" && <FormHelperText>{tagsError}</FormHelperText>}

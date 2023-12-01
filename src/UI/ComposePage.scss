@@ -12,5 +12,11 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 3vw;
+
+    ul.tags {
+      margin-top: 1vh;
+      display: flex;
+      gap: 1vw;
+    }
   }
 }
