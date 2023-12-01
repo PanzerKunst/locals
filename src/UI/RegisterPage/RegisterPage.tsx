@@ -152,12 +152,12 @@ export function RegisterPage() {
     const email = emailField.value
 
     if (email === "") {
-      setEmailField({ value: email, error: "Cannot be empty" })
+      setEmailField({ value: email, error: "Please input your email" })
       return false
     }
 
     if (!isEmailValid(email)) {
-      setEmailField({ value: email, error: "Invalid email" })
+      setEmailField({ value: email, error: "Invalid email, sorry" })
       return false
     }
 
@@ -166,7 +166,7 @@ export function RegisterPage() {
 
   function isUsernameInputValid(): boolean {
     if (debouncedUsername === "") {
-      setUsernameFieldError("Cannot be empty")
+      setUsernameFieldError("Please input your username")
       return false
     }
 
