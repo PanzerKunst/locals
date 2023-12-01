@@ -119,7 +119,7 @@ export function ComposePage() {
 
   function areTagsValid(): boolean {
     if (_isEmpty(taggedSpotifyArtists) && _isEmpty(genreHashtags)) {
-      setTagsError("Artist or genre tags are required")
+      setTagsError("Add at least 1 artist or genre tag")
       return false
     }
 
@@ -287,7 +287,11 @@ export function ComposePage() {
               </ul>
             </FormControl>
 
-            {tagsError !== "" && <FormHelperText>{tagsError}</FormHelperText>}
+            {tagsError !== "" && (
+              <FormControl error>
+                <FormHelperText>{tagsError}</FormHelperText>
+              </FormControl>
+            )}
           </FadeIn>
 
           <FadeIn>

@@ -12,10 +12,12 @@
 
   .tag-fields {
     display: grid;
-    gap: 3vw;
+    row-gap: 0.5em;
 
     @include vw(lg) {
       grid-template-columns: 1fr 1fr;
+      row-gap: 0;
+      column-gap: 1em;
     }
 
     ul.tags {
