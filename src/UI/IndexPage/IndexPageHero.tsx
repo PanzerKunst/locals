@@ -26,7 +26,7 @@ export function IndexPageHero() {
           variants={motionVariants}
           transition={motionTransition}
         >
-          The home for
+          <em><strong>The</strong></em> place for
         </motion.span>
         <motion.span
           initial="initial"

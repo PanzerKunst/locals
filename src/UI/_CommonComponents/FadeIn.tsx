@@ -1,5 +1,5 @@
 import classNames from "classnames"
-import { AnimationScope, motion } from "framer-motion"
+import { motion } from "framer-motion"
 import { ReactNode } from "react"
 
 import { defaultFadeInDelay } from "../../Util/AnimationUtils.ts"
@@ -10,13 +10,11 @@ type Props = {
   children: ReactNode;
   delay?: number;
   className?: string;
-  animationScope?: AnimationScope;
 }
 
-export function FadeIn({ children, delay = defaultFadeInDelay, className = "", animationScope }: Props) {
+export function FadeIn({ children, delay = defaultFadeInDelay, className = "" }: Props) {
   return (
     <motion.div
-      ref={animationScope}
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}

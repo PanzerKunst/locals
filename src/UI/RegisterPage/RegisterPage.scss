@@ -1,35 +1,31 @@
-@import "/src/UI/_CommonStyles/numbers";
-
 .page.register {
   p.fetching-message {
     margin-bottom: 0.5em;
   }
 
-  h2 {
-    margin-bottom: 0.5em;
-  }
-
-  .wrapper-next-button {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 2vh;
-  }
-
-  #register-step-2 {
-    padding-top: 1em;
+  section {
+    &:not(:first-of-type) {
+      padding-top: 1em;
+    }
 
     &.hidden {
       display: none;
+    }
+
+    h2 {
+      margin-bottom: 0.5em;
     }
 
     > form {
       display: flex;
       flex-direction: column;
       gap: 3vh;
+    }
 
-      .location-input-and-dropdown {
-        position: relative; // Absolutely-positioned result list
-      }
+    .wrapper-next-button {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 2vh;
     }
   }
 }

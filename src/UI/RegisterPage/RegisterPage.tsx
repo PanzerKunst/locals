@@ -1,9 +1,9 @@
 import { LocationOn } from "@mui/icons-material"
 import { FormControl, FormHelperText, FormLabel, Input } from "@mui/joy"
 import classNames from "classnames"
-import { useAnimate } from "framer-motion"
+import { animate } from "framer-motion"
 import _uniqBy from "lodash/uniqBy"
-import { ChangeEvent, FormEvent, ReactNode, useEffect, useState } from "react"
+import { ChangeEvent, FormEvent, MouseEvent, ReactNode, useEffect, useState } from "react"
 import { useQuery } from "react-query"
 import { useNavigate } from "react-router-dom"
 
@@ -37,7 +37,6 @@ const minLocationQueryLength = 3
 export function RegisterPage() {
   const navigate = useNavigate()
   const appContext = useAppContext()
-  const [scope, animate] = useAnimate()
   const spotifyProfile = getSpotifyProfileFromSession()
 
   if (!spotifyProfile) {
@@ -50,7 +49,7 @@ export function RegisterPage() {
 
   /* eslint-disable react-hooks/rules-of-hooks */
 
-  const [isStep2Hidden, setIsStep2Hidden] = useState(true)
+  const [nbShownSteps, setNbShownSteps] = useState(1)
   const [emailField, setEmailField] = useState<Field>({ value: spotifyProfile.email, error: "" })
 
   const [username, setUsername] = useState(spotifyProfile.id)
@@ -191,7 +190,7 @@ export function RegisterPage() {
     return isEmailInputValid() && isUsernameInputValid() && isLocationInputValid()
   }
 
-  const handleToggleFollowing = (spotifyArtist: SpotifyArtist) => {
+  const handleToggleFollowingArtist = (spotifyArtist: SpotifyArtist) => {
     const isAlreadyInList = followedArtists.some(artist => artist.id === spotifyArtist.id)
 
     const updatedArtists = isAlreadyInList
@@ -201,11 +200,12 @@ export function RegisterPage() {
     setFollowedArtists(updatedArtists)
   }
 
-  const handleStep2Click = () => {
-    setIsStep2Hidden(false)
-    animate(scope.current, { opacity: 0 }, { duration: Number(s.animationDurationSm) })
-    const step2El = document.querySelector("#register-step-2")
-    scrollIntoView(step2El, defaultFadeInDelay)
+  const handleNextStepClick = (event: MouseEvent<HTMLButtonElement>) => {
+    const nextStep = nbShownSteps + 1
+    setNbShownSteps(nextStep)
+    animate(event.currentTarget, { opacity: 0 }, { duration: Number(s.animationDurationSm) })
+    const nextStepEl = document.querySelector(`section[data-step="${nextStep}"]`)
+    scrollIntoView(nextStepEl, defaultFadeInDelay)
   }
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -264,21 +264,35 @@ export function RegisterPage() {
 
   return renderContents(
     <>
-      <section id="register-step-1">
+      <section data-step={1}>
         <FadeIn>
           <h2>Whom to follow?</h2>
         </FadeIn>
 
-        <FavouriteArtists favouriteArtists={favouriteArtists} followedArtists={followedArtists} onToggle={handleToggleFollowing}/>
+        <FavouriteArtists favouriteArtists={favouriteArtists} followedArtists={followedArtists} onToggle={handleToggleFollowingArtist}/>
 
-        <FadeIn animationScope={scope} className="wrapper-next-button">
+        <FadeIn className="wrapper-next-button">
           <AnimatedButton className="filling">
-            <button className="button" onClick={handleStep2Click}><span>Continue</span></button>
+            <button className="button" onClick={handleNextStepClick}><span>Continue to Genres</span></button>
           </AnimatedButton>
         </FadeIn>
       </section>
 
-      <section id="register-step-2" className={classNames({ "hidden": isStep2Hidden })}>
+      <section data-step={2} className={classNames({ "hidden": nbShownSteps < 2 })}>
+        <FadeIn>
+          <h2>Which genres to follow?</h2>
+        </FadeIn>
+
+        {/* <FavouriteGenres favouriteGenres={favouriteGenres} followedGenres={followedGenres} onToggle={handleToggleFollowingGenre}/> */}
+
+        <FadeIn className="wrapper-next-button">
+          <AnimatedButton className="filling">
+            <button className="button" onClick={handleNextStepClick}><span>Continue to Account</span></button>
+          </AnimatedButton>
+        </FadeIn>
+      </section>
+
+      <section data-step={3} className={classNames({ "hidden":  nbShownSteps < 3 })}>
         <FadeIn>
           <h2>Your account</h2>
         </FadeIn>
