@@ -5,7 +5,6 @@ import { ReactNode } from "react"
 
 import { FadeIn } from "./FadeIn.tsx"
 
-
 import "./ChipList.scss"
 
 type Props<T> = {
@@ -34,7 +33,7 @@ export function ChipList<T>({ items, renderItem, activeItems = [], onDelete, onT
   return (
     <ul className="styleless chips">
       {items.map((item) => {
-        const isActive = activeItems.some((activeItem: T) => _isEqual(item, activeItem))
+        const isActive = !onToggle || activeItems.some((activeItem: T) => _isEqual(item, activeItem))
 
         return (
           <motion.li

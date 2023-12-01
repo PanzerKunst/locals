@@ -1,4 +1,4 @@
-import { Chip, ChipDelete, FormControl, FormHelperText, Input } from "@mui/joy"
+import { FormControl, FormHelperText, Input } from "@mui/joy"
 import classNames from "classnames"
 import _isEmpty from "lodash/isEmpty"
 import Quill from "quill"
@@ -6,6 +6,7 @@ import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react"
 
 import { AnimatedButton } from "./_CommonComponents/AnimatedButton.tsx"
 import { ButtonLoader } from "./_CommonComponents/ButtonLoader.tsx"
+import { ChipList } from "./_CommonComponents/ChipList.tsx"
 import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
 import { SelectList } from "./_CommonComponents/SelectList.tsx"
 import { useAppContext } from "../AppContext.tsx"
@@ -239,19 +240,12 @@ export function ComposePage() {
                   loading={isSearchingArtists}
                 />
               </div>
-              <ul className="styleless tags">
-                {taggedSpotifyArtists.map((artist) => (
-                  <li key={artist.id}>
-                    <Chip
-                      size="lg"
-                      variant="soft"
-                      endDecorator={<ChipDelete onDelete={() => handleDeleteArtistTag(artist)} />}
-                    >
-                      {asTagName(artist.name, "@")}
-                    </Chip>
-                  </li>
-                ))}
-              </ul>
+
+              <ChipList
+                items={taggedSpotifyArtists}
+                renderItem={(spotifyArtist) => <span>{asTagName(spotifyArtist.name, "@")}</span>}
+                onDelete={handleDeleteArtistTag}
+              />
             </FormControl>
 
             <FormControl>
@@ -272,19 +266,12 @@ export function ComposePage() {
                   onSelect={handleGenreSelect}
                 />
               </div>
-              <ul className="styleless tags">
-                {genreHashtags.map((musicGenre) => (
-                  <li key={musicGenre.id}>
-                    <Chip
-                      size="lg"
-                      variant="soft"
-                      endDecorator={<ChipDelete onDelete={() => handleDeleteGenreTag(musicGenre)} />}
-                    >
-                      {asTagName(musicGenre.name, "#")}
-                    </Chip>
-                  </li>
-                ))}
-              </ul>
+
+              <ChipList
+                items={genreHashtags}
+                renderItem={(musicGenre) => <span>{asTagName(musicGenre.name, "#")}</span>}
+                onDelete={handleDeleteGenreTag}
+              />
             </FormControl>
 
             {tagsError !== "" && (
