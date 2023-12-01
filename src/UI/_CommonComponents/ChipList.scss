@@ -14,20 +14,18 @@ ul.chips {
 
     font-size: $variable-font-size;
 
-    > .fade-in {
-      display: flex;
-      align-items: center;
-      gap: 0.5em;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
 
-      cursor: pointer;
-      padding: 0.3em 0.7em;
-      border-radius: 1em;
-      background-color: $color-chip-bg;
+    cursor: pointer;
+    padding: 0.3em 0.7em;
+    border-radius: 1em;
+    background-color: $color-chip-bg;
 
-      > svg {
-        color: $color-icon-primary;
-        @include img-size(1.1em);
-      }
+    > svg {
+      color: $color-icon-primary;
+      @include img-size(1.1em);
     }
   }
 }
