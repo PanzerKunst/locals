@@ -8,8 +8,12 @@ import { useQuery } from "react-query"
 import { useNavigate } from "react-router-dom"
 
 import { FavouriteArtists } from "./FavouriteArtists.tsx"
+import { FavouriteGenres } from "./FavouriteGenres.tsx"
 import { useAppContext } from "../../AppContext.tsx"
+import { storeArtists } from "../../Data/Backend/Apis/ArtistsApi.ts"
 import { storeUserFavouriteArtists } from "../../Data/Backend/Apis/UserFavouriteArtistsApi.ts"
+import { checkUsernameAvailability, storeUser } from "../../Data/Backend/Apis/UsersApi.ts"
+import { getFavouriteGenresFromArtists } from "../../Data/Backend/BackendUtils.ts"
 import { fetchFavouriteSpotifyArtists } from "../../Data/FrontendHelperApis/UserFavouriteArtistsApi.ts"
 import { searchLocations } from "../../Data/Geoapify/Apis/AutocompleteApi.ts"
 import { GeoapifyFeature } from "../../Data/Geoapify/Models/GeoapifyFeature.ts"
@@ -26,10 +30,9 @@ import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 import { SelectList } from "../_CommonComponents/SelectList.tsx"
 import { ErrorSnackbar } from "../_CommonComponents/Snackbar/ErrorSnackbar.tsx"
-import { checkUsernameAvailability, storeUser } from "../../Data/Backend/Apis/UsersApi.ts"
-import { storeArtists } from "../../Data/Backend/Apis/ArtistsApi.ts"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
+
 import "./RegisterPage.scss"
 
 const minLocationQueryLength = 3
@@ -69,15 +72,22 @@ export function RegisterPage() {
   const [favouriteArtists, setFavouriteArtists] = useState<SpotifyArtist[]>([])
   const [followedArtists, setFollowedArtists] = useState<SpotifyArtist[]>([])
 
+  const [favouriteGenres, setFavouriteGenres] = useState<string[]>([])
+  const [followedGenres, setFollowedGenres] = useState<string[]>([])
+
   const favouriteSpotifyArtistsQuery = useQuery(
     "favouriteSpotifyArtists",
     () => fetchFavouriteSpotifyArtists(appContext)
   )
 
   useEffect(() => {
-    const favourites = _uniqBy(favouriteSpotifyArtistsQuery.data || [], "id")
-    setFavouriteArtists(favourites)
-    setFollowedArtists(favourites)
+    const favouriteArtists = _uniqBy(favouriteSpotifyArtistsQuery.data || [], "id")
+    setFavouriteArtists(favouriteArtists)
+    setFollowedArtists(favouriteArtists)
+
+    const favouriteGenres = getFavouriteGenresFromArtists(favouriteArtists)
+    setFavouriteGenres(favouriteGenres)
+    setFollowedGenres(favouriteGenres)
   },
   [favouriteSpotifyArtistsQuery.data]
   )
@@ -200,6 +210,16 @@ export function RegisterPage() {
     setFollowedArtists(updatedArtists)
   }
 
+  const handleToggleFollowingGenre = (genreName: string) => {
+    const isAlreadyInList = followedGenres.includes(genreName)
+
+    const updatedGenres = isAlreadyInList
+      ? followedGenres.filter(genre => genre !== genreName)
+      : [...followedGenres, genreName]
+
+    setFollowedGenres(updatedGenres)
+  }
+
   const handleNextStepClick = (event: MouseEvent<HTMLButtonElement>) => {
     const nextStep = nbShownSteps + 1
     setNbShownSteps(nextStep)
@@ -269,7 +289,7 @@ export function RegisterPage() {
           <h2>Whom to follow?</h2>
         </FadeIn>
 
-        <FavouriteArtists favouriteArtists={favouriteArtists} followedArtists={followedArtists} onToggle={handleToggleFollowingArtist}/>
+        <FavouriteArtists favourites={favouriteArtists} followed={followedArtists} onToggle={handleToggleFollowingArtist}/>
 
         <FadeIn className="wrapper-next-button">
           <AnimatedButton className="filling">
@@ -283,7 +303,7 @@ export function RegisterPage() {
           <h2>Which genres to follow?</h2>
         </FadeIn>
 
-        {/* <FavouriteGenres favouriteGenres={favouriteGenres} followedGenres={followedGenres} onToggle={handleToggleFollowingGenre}/> */}
+        <FavouriteGenres favourites={favouriteGenres} followed={followedGenres} onToggle={handleToggleFollowingGenre}/>
 
         <FadeIn className="wrapper-next-button">
           <AnimatedButton className="filling">
