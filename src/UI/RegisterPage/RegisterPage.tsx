@@ -8,7 +8,6 @@ import { useQuery } from "react-query"
 import { useNavigate } from "react-router-dom"
 
 import { FavouriteArtists } from "./FavouriteArtists.tsx"
-import { FavouriteGenres } from "./FavouriteGenres.tsx"
 import { useAppContext } from "../../AppContext.tsx"
 import { storeArtists } from "../../Data/Backend/Apis/ArtistsApi.ts"
 import { storeUserFavouriteArtists } from "../../Data/Backend/Apis/UserFavouriteArtistsApi.ts"
@@ -30,9 +29,9 @@ import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 import { SelectList } from "../_CommonComponents/SelectList.tsx"
 import { ErrorSnackbar } from "../_CommonComponents/Snackbar/ErrorSnackbar.tsx"
+import { ChipList } from "../_CommonComponents/ChipList.tsx"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
-
 import "./RegisterPage.scss"
 
 const minLocationQueryLength = 3
@@ -303,7 +302,12 @@ export function RegisterPage() {
           <h2>Which genres to follow?</h2>
         </FadeIn>
 
-        <FavouriteGenres favourites={favouriteGenres} followed={followedGenres} onToggle={handleToggleFollowingGenre}/>
+        <ChipList
+          items={favouriteGenres.slice(0, 10)}
+          renderItem={(genre) => <span>{genre}</span>}
+          activeItems={followedGenres}
+          onToggle={handleToggleFollowingGenre}
+        />
 
         <FadeIn className="wrapper-next-button">
           <AnimatedButton className="filling">

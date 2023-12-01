@@ -1,0 +1,33 @@
+@import "/src/UI/_CommonStyles/mixins";
+
+ul.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+
+  > li {
+    transition: opacity #{$animation-duration-sm}s ease;
+
+    &[aria-selected="false"] {
+      opacity: 0.3;
+    }
+
+    font-size: $variable-font-size;
+
+    > .fade-in {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+
+      cursor: pointer;
+      padding: 0.3em 0.7em;
+      border-radius: 1em;
+      background-color: $color-chip-bg;
+
+      > svg {
+        color: $color-icon-primary;
+        @include img-size(1.1em);
+      }
+    }
+  }
+}

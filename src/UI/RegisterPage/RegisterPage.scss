@@ -16,6 +16,11 @@
       margin-bottom: 0.5em;
     }
 
+    > .favourite-artists,
+    > .chips {
+      margin-bottom: 5vh;
+    }
+
     > form {
       display: flex;
       flex-direction: column;

@@ -7,7 +7,7 @@ import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./FavouriteArtists.scss"
 
-const modalMotionVariants = {
+const motionVariants = {
   initial: { opacity: 0 },
   animate: { opacity: 1 }
 }
@@ -26,7 +26,7 @@ export function FavouriteArtists({ favourites, followed, onToggle }: Props) {
     <ul className="styleless favourite-artists">
       {top50artists.map((spotifyArtist) => {
         const largeImage = spotifyArtist.images[0]
-        const isFollowed = followed.some((followedArtist) => followedArtist.id === spotifyArtist.id)
+        const isActive = followed.some((followedArtist) => followedArtist.id === spotifyArtist.id)
 
         return (
           <motion.li
@@ -35,17 +35,17 @@ export function FavouriteArtists({ favourites, followed, onToggle }: Props) {
             onClick={() => onToggle(spotifyArtist)}
             // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
             role="option"
-            aria-selected={isFollowed}
+            aria-selected={isActive}
           >
             <FadeIn>
               {largeImage && <img src={largeImage.url} alt="artist-avatar"/>}
               <span className="artist-name">{spotifyArtist.name}</span>
 
               <AnimatePresence>
-                {isFollowed && <motion.div
-                  initial={modalMotionVariants.initial}
-                  animate={modalMotionVariants.animate}
-                  exit={modalMotionVariants.initial}
+                {isActive && <motion.div
+                  initial={motionVariants.initial}
+                  animate={motionVariants.animate}
+                  exit={motionVariants.initial}
                   transition={{ duration: Number(s.animationDurationXs) }}
                   className="check-icon-wrapper"
                 >
