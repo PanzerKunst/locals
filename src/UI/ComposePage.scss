@@ -7,4 +7,10 @@
     display: flex;
     justify-content: flex-end;
   }
+
+  .tag-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3vw;
+  }
 }

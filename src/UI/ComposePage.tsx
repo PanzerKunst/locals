@@ -1,5 +1,4 @@
-import { Search } from "@mui/icons-material"
-import { FormControl, FormHelperText, Input } from "@mui/joy"
+import { Chip, ChipDelete, FormControl, FormHelperText, Input } from "@mui/joy"
 import classNames from "classnames"
 import _isEmpty from "lodash/isEmpty"
 import Quill from "quill"
@@ -10,25 +9,38 @@ import { ButtonLoader } from "./_CommonComponents/ButtonLoader.tsx"
 import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
 import { SelectList } from "./_CommonComponents/SelectList.tsx"
 import { useAppContext } from "../AppContext.tsx"
+import { fetchAllMusicGenres } from "../Data/Backend/Apis/MusicGenresApi.ts"
+import { MusicGenre } from "../Data/Backend/Models/MusicGenre.ts"
 import { searchArtists } from "../Data/Spotify/Apis/SearchApi.ts"
 import { SpotifyArtist } from "../Data/Spotify/Models/SpotifyArtist.ts"
 import { doesHtmlHaveText, Field } from "../Util/FormUtils.ts"
 import { useDebounce } from "../Util/ReactUtils.ts"
+import { asTagName } from "../Util/TagUtils.ts"
 
 import "./ComposePage.scss"
 
 // Only necessary to avoid double-mount in dev mode
 let hasMounted = false
 
+const maxTaggedArtists = 2
+const maxGenreHashtags = 2
+
+const allMusicGenres: MusicGenre[] = await fetchAllMusicGenres()
+
 export function ComposePage() {
   const appContext = useAppContext()
 
   const [artistQuery, setArtistQuery] = useState("")
   const debouncedArtistQuery = useDebounce(artistQuery, 300)
-  const [artistFieldError, setArtistFieldError] = useState("")
   const [isSearchingArtists, setIsSearchingArtists] = useState(false)
   const [artistSearchResults, setArtistSearchResults] = useState<SpotifyArtist[]>([])
-  const [selectedSpotifyArtist, setSelectedSpotifyArtist] = useState<SpotifyArtist>()
+  const [taggedSpotifyArtists, setTaggedSpotifyArtists] = useState<SpotifyArtist[]>([])
+
+  const [genreQuery, setGenreQuery] = useState("")
+  const [genreSearchResults, setGenreSearchResults] = useState<MusicGenre[]>([])
+  const [genreHashtags, setGenreHashtags] = useState<MusicGenre[]>([])
+
+  const [tagsError, setTagsError] = useState("")
 
   const editorRef = useRef<HTMLDivElement>(null)
   const [titleField, setTitleField] = useState<Field>({ value: "", error: "" })
@@ -76,24 +88,25 @@ export function ComposePage() {
   useEffect(() => {
     async function performArtistSearch() {
       setIsSearchingArtists(true)
-      const searchResults = await searchArtists(appContext, debouncedArtistQuery)
+      const queryWithoutAtSign = debouncedArtistQuery.replace("@", "")
+      const searchResults = await searchArtists(appContext, queryWithoutAtSign)
       setIsSearchingArtists(false)
       setArtistSearchResults(searchResults)
     }
 
     setArtistSearchResults([])
 
-    if (_isEmpty(debouncedArtistQuery) || selectedSpotifyArtist) {
+    if (debouncedArtistQuery === "") {
       setIsSearchingArtists(false)
       return
     }
 
     performArtistSearch()
-  }, [appContext, debouncedArtistQuery, selectedSpotifyArtist])
+  }, [appContext, debouncedArtistQuery, taggedSpotifyArtists])
 
-  function isArtistInputValid(): boolean {
-    if (!selectedSpotifyArtist) {
-      setArtistFieldError("Who are you writing about?")
+  function areTagsValid(): boolean {
+    if (_isEmpty(taggedSpotifyArtists) && _isEmpty(genreHashtags)) {
+      setTagsError("Artist or genre tags are required")
       return false
     }
 
@@ -123,22 +136,46 @@ export function ComposePage() {
   }
 
   function isFormValid(): boolean {
-    return isArtistInputValid() && isTitleValid() && isEditorValid()
+    return areTagsValid() && isTitleValid() && isEditorValid()
   }
 
   const handleArtistChange = (event: ChangeEvent<HTMLInputElement>) => {
     setArtistQuery(event.target.value)
-    setSelectedSpotifyArtist(undefined)
-  }
-
-  const handleArtistBlur = () => {
-    isArtistInputValid()
   }
 
   const handleArtistSelect = (spotifyArtist: SpotifyArtist) => {
-    setSelectedSpotifyArtist(spotifyArtist)
-    setArtistQuery(spotifyArtist.name)
-    setArtistFieldError("")
+    if (taggedSpotifyArtists.length < maxTaggedArtists && !taggedSpotifyArtists.some(artist => artist.id === spotifyArtist.id)) {
+      setTaggedSpotifyArtists([...taggedSpotifyArtists, spotifyArtist])
+    }
+
+    setArtistQuery("")
+    setTagsError("")
+  }
+
+  const handleDeleteArtistTag = (spotifyArtist: SpotifyArtist) => {
+    setTaggedSpotifyArtists(taggedSpotifyArtists.filter((taggedArtist) => taggedArtist.id !== spotifyArtist.id))
+  }
+
+  const handleGenreChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target
+
+    setGenreQuery(value)
+
+    const matchingGenres = allMusicGenres.filter((genre) => genre.name.toLowerCase().includes(value.toLowerCase()))
+    setGenreSearchResults(matchingGenres)
+  }
+
+  const handleGenreSelect = (musicGenre: MusicGenre) => {
+    if (genreHashtags.length < maxGenreHashtags && !genreHashtags.some(genre => genre.id === musicGenre.id)) {
+      setGenreHashtags([...genreHashtags, musicGenre])
+    }
+
+    setGenreQuery("")
+    setTagsError("")
+  }
+
+  const handleDeleteGenreTag = (musicGenre: MusicGenre) => {
+    setGenreHashtags(genreHashtags.filter((taggedGenre) => taggedGenre.id !== musicGenre.id))
   }
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -174,29 +211,75 @@ export function ComposePage() {
     <div className="page compose">
       <main className="container">
         <form noValidate onSubmit={handleFormSubmit}>
-          <FadeIn>
-            <FormControl error={artistFieldError !== ""}>
+          <FadeIn className="tag-fields">
+            <FormControl>
               <div className="input-and-select-list-wrapper">
                 <Input
                   type="text"
                   variant="soft"
                   size="lg"
-                  placeholder="Artist name"
+                  placeholder="@ArtistName"
                   value={artistQuery}
                   autoComplete="search"
                   onChange={handleArtistChange}
-                  onBlur={handleArtistBlur}
-                  startDecorator={<Search/>}
+                  disabled={taggedSpotifyArtists.length === maxTaggedArtists}
                 />
                 <SelectList
                   items={artistSearchResults.slice(0, 5)}
-                  renderItem={(artist) => artist.name}
+                  renderItem={(artist) => asTagName(artist.name, "@")}
                   onSelect={handleArtistSelect}
                   loading={isSearchingArtists}
                 />
+                <ul className="styleless">
+                  {taggedSpotifyArtists.map((artist) => (
+                    <li key={artist.id}>
+                      <Chip
+                        size="lg"
+                        variant="soft"
+                        endDecorator={<ChipDelete onDelete={() => handleDeleteArtistTag(artist)} />}
+                      >
+                        {asTagName(artist.name, "@")}
+                      </Chip>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              {artistFieldError !== "" && <FormHelperText>{artistFieldError}</FormHelperText>}
             </FormControl>
+
+            <FormControl>
+              <div className="input-and-select-list-wrapper">
+                <Input
+                  type="text"
+                  variant="soft"
+                  size="lg"
+                  placeholder="#genre"
+                  value={genreQuery}
+                  autoComplete="search"
+                  onChange={handleGenreChange}
+                  disabled={genreHashtags.length === maxGenreHashtags}
+                />
+                <SelectList
+                  items={genreSearchResults.slice(0, 3)}
+                  renderItem={(musicGenre) => asTagName(musicGenre.name, "#")}
+                  onSelect={handleGenreSelect}
+                />
+                <ul className="styleless">
+                  {genreHashtags.map((musicGenre) => (
+                    <li key={musicGenre.id}>
+                      <Chip
+                        size="lg"
+                        variant="soft"
+                        endDecorator={<ChipDelete onDelete={() => handleDeleteGenreTag(musicGenre)} />}
+                      >
+                        {asTagName(musicGenre.name, "#")}
+                      </Chip>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </FormControl>
+
+            {tagsError !== "" && <FormHelperText>{tagsError}</FormHelperText>}
           </FadeIn>
 
           <FadeIn>

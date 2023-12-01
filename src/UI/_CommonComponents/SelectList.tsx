@@ -66,7 +66,7 @@ export function SelectList<T>({ items, renderItem, onSelect, loading = false }: 
 
   const handleClick = (item: T) => {
     onSelect(item)
-    setIsOpen(true)
+    setIsOpen(false)
   }
 
   return (

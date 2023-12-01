@@ -85,15 +85,29 @@ export function RegisterPage() {
 
   useEffect(() => {
     async function performLocationSearch() {
+
+      // TODO: remove
+      console.log("performLocationSearch()")
+
       setIsSearchingLocations(true)
       const searchResults = await searchLocations(debouncedLocationQuery)
       setIsSearchingLocations(false)
       setLocationSearchResults(searchResults)
+
+      // TODO: remove
+      console.log("setLocationSearchResults(searchResults)")
     }
 
     setLocationSearchResults([])
 
+    // TODO: remove
+    console.log("setLocationSearchResults([])", debouncedLocationQuery.length, selectedLocation)
+
     if (debouncedLocationQuery.length < minLocationQueryLength || selectedLocation) {
+
+      // TODO: remove
+      console.log("debouncedLocationQuery.length < minLocationQueryLength || selectedLocation")
+
       setIsSearchingLocations(false)
       return
     }
