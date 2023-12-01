@@ -31,7 +31,7 @@ export function FavouriteArtists({ favourites, followed, onToggle }: Props) {
         return (
           <motion.li
             key={spotifyArtist.id}
-            whileTap={{ scale: 0.97 }}
+            whileTap={{ scale: 0.95 }}
             onClick={() => onToggle(spotifyArtist)}
             // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
             role="option"
