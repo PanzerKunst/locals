@@ -79,6 +79,7 @@ export async function storeUser(
   return user
 }
 
+/* TODO: remove?
 export async function updateUser(appContext: AppContextType, user: User) {
   const result = await fetch(`${config.BACKEND_URL}/user`, {
     method: "PUT",
@@ -91,4 +92,4 @@ export async function updateUser(appContext: AppContextType, user: User) {
   }
 
   appContext.setLoggedInUser(user)
-}
+} */

@@ -1,5 +1,11 @@
-.page.simple {
-  h1 {
-    margin-bottom: 1em;
+.page {
+  p.fetching-message {
+    margin-bottom: 0.5em;
+  }
+
+  &.simple {
+    h1 {
+      margin-bottom: 1em;
+    }
   }
 }

@@ -2,11 +2,13 @@ import { FormControl, FormHelperText, Input } from "@mui/joy"
 import classNames from "classnames"
 import _isEmpty from "lodash/isEmpty"
 import Quill from "quill"
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react"
+import { ChangeEvent, FormEvent, ReactNode, useEffect, useRef, useState } from "react"
+import { useQuery } from "react-query"
 
 import { AnimatedButton } from "./_CommonComponents/AnimatedButton.tsx"
 import { ButtonLoader } from "./_CommonComponents/ButtonLoader.tsx"
 import { ChipList } from "./_CommonComponents/ChipList.tsx"
+import { CircularLoader } from "./_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
 import { SelectList } from "./_CommonComponents/SelectList.tsx"
 import { useAppContext } from "../AppContext.tsx"
@@ -25,8 +27,6 @@ let hasMounted = false
 
 const maxTaggedArtists = 2
 const maxGenreHashtags = 2
-
-const allMusicGenres: MusicGenre[] = await fetchAllMusicGenres()
 
 export function ComposePage() {
   const appContext = useAppContext()
@@ -47,6 +47,11 @@ export function ComposePage() {
   const [titleField, setTitleField] = useState<Field>({ value: "", error: "" })
   const [editorField, setEditorField] = useState<Field>({ value: "", error: "" })
   const [isSubmittingForm, setIsSubmittingForm] = useState(false)
+
+  const allMusicGenresQuery = useQuery(
+    "allMusicGenres",
+    () => fetchAllMusicGenres()
+  )
 
   useEffect(() => {
     if (hasMounted || !editorRef.current) {
@@ -109,14 +114,27 @@ export function ComposePage() {
     setGenreSearchResults([])
 
     if (genreQuery !== "") {
-      const matchingGenres = allMusicGenres.filter((genre) => genre.name.toLowerCase().includes(genreQuery.toLowerCase()))
+      const matchingGenres = allMusicGenresQuery.data!.filter((genre) => genre.name.toLowerCase().includes(genreQuery.toLowerCase()))
 
       // TODO: remove
       console.log("useEffect", genreQuery, matchingGenres)
 
       setGenreSearchResults(matchingGenres)
     }
-  }, [genreQuery])
+  }, [allMusicGenresQuery.data, genreQuery])
+
+  if (allMusicGenresQuery.isLoading) {
+    return renderContents(
+      <>
+        <p className="fetching-message centered-contents">Fetching data</p>
+        <CircularLoader/>
+      </>
+    )
+  }
+
+  if (allMusicGenresQuery.isError) {
+    return renderContents(<span>Error fetching data</span>)
+  }
 
   function areTagsValid(): boolean {
     if (_isEmpty(taggedSpotifyArtists) && _isEmpty(genreHashtags)) {
@@ -216,106 +234,112 @@ export function ComposePage() {
     setIsSubmittingForm(false)
   }
 
-  return (
-    <div className="page compose">
-      <main className="container">
-        <form noValidate onSubmit={handleFormSubmit}>
-          <FadeIn className="tag-fields">
-            <FormControl>
-              <div className="input-and-select-list-wrapper">
-                <Input
-                  type="text"
-                  variant="soft"
-                  size="lg"
-                  placeholder="@ArtistName"
-                  value={artistQuery}
-                  autoComplete="search"
-                  onChange={handleArtistChange}
-                  disabled={taggedSpotifyArtists.length === maxTaggedArtists}
-                />
-                <SelectList
-                  items={artistSearchResults.slice(0, 5)}
-                  renderItem={(artist) => asTagName(artist.name, "@")}
-                  onSelect={handleArtistSelect}
-                  loading={isSearchingArtists}
-                />
-              </div>
+  return renderContents(
+    <form noValidate onSubmit={handleFormSubmit}>
+      <FadeIn className="tag-fields">
+        <FormControl>
+          <div className="input-and-select-list-wrapper">
+            <Input
+              type="text"
+              variant="soft"
+              size="lg"
+              placeholder="@ArtistName"
+              value={artistQuery}
+              autoComplete="search"
+              onChange={handleArtistChange}
+              disabled={taggedSpotifyArtists.length === maxTaggedArtists}
+            />
+            <SelectList
+              items={artistSearchResults.slice(0, 5)}
+              renderItem={(artist) => asTagName(artist.name, "@")}
+              onSelect={handleArtistSelect}
+              loading={isSearchingArtists}
+            />
+          </div>
 
-              <ChipList
-                items={taggedSpotifyArtists}
-                renderItem={(spotifyArtist) => <span>{asTagName(spotifyArtist.name, "@")}</span>}
-                onDelete={handleDeleteArtistTag}
-              />
-            </FormControl>
+          <ChipList
+            items={taggedSpotifyArtists}
+            renderItem={(spotifyArtist) => <span>{asTagName(spotifyArtist.name, "@")}</span>}
+            onDelete={handleDeleteArtistTag}
+          />
+        </FormControl>
 
-            <FormControl>
-              <div className="input-and-select-list-wrapper">
-                <Input
-                  type="text"
-                  variant="soft"
-                  size="lg"
-                  placeholder="#genre"
-                  value={genreQuery}
-                  autoComplete="search"
-                  onChange={handleGenreChange}
-                  disabled={genreHashtags.length === maxGenreHashtags}
-                />
-                <SelectList
-                  items={genreSearchResults.slice(0, 5)}
-                  renderItem={(musicGenre) => asTagName(musicGenre.name, "#")}
-                  onSelect={handleGenreSelect}
-                />
-              </div>
+        <FormControl>
+          <div className="input-and-select-list-wrapper">
+            <Input
+              type="text"
+              variant="soft"
+              size="lg"
+              placeholder="#genre"
+              value={genreQuery}
+              autoComplete="search"
+              onChange={handleGenreChange}
+              disabled={genreHashtags.length === maxGenreHashtags}
+            />
+            <SelectList
+              items={genreSearchResults.slice(0, 5)}
+              renderItem={(musicGenre) => asTagName(musicGenre.name, "#")}
+              onSelect={handleGenreSelect}
+            />
+          </div>
 
-              <ChipList
-                items={genreHashtags}
-                renderItem={(musicGenre) => <span>{asTagName(musicGenre.name, "#")}</span>}
-                onDelete={handleDeleteGenreTag}
-              />
-            </FormControl>
+          <ChipList
+            items={genreHashtags}
+            renderItem={(musicGenre) => <span>{asTagName(musicGenre.name, "#")}</span>}
+            onDelete={handleDeleteGenreTag}
+          />
+        </FormControl>
 
-            {tagsError !== "" && (
-              <FormControl error>
-                <FormHelperText>{tagsError}</FormHelperText>
-              </FormControl>
-            )}
-          </FadeIn>
+        {tagsError !== "" && (
+          <FormControl error>
+            <FormHelperText>{tagsError}</FormHelperText>
+          </FormControl>
+        )}
+      </FadeIn>
 
-          <FadeIn>
-            <FormControl error={titleField.error !== ""}>
-              <Input
-                variant="soft"
-                size="lg"
-                placeholder="Post title"
-                autoComplete="off"
-                value={titleField.value}
-                onChange={handleTitleChange}
-                onBlur={handleTitleBlur}
-              />
-              {titleField.error !== "" && <FormHelperText>{titleField.error}</FormHelperText>}
-            </FormControl>
-          </FadeIn>
+      <FadeIn>
+        <FormControl error={titleField.error !== ""}>
+          <Input
+            variant="soft"
+            size="lg"
+            placeholder="Post title"
+            autoComplete="off"
+            value={titleField.value}
+            onChange={handleTitleChange}
+            onBlur={handleTitleBlur}
+          />
+          {titleField.error !== "" && <FormHelperText>{titleField.error}</FormHelperText>}
+        </FormControl>
+      </FadeIn>
 
-          <FadeIn>
-            <FormControl error={editorField.error !== ""}>
-              <div ref={editorRef}/>
-              {editorField.error !== "" && <FormHelperText>{editorField.error}</FormHelperText>}
-            </FormControl>
-          </FadeIn>
+      <FadeIn>
+        <FormControl error={editorField.error !== ""}>
+          <div ref={editorRef}/>
+          {editorField.error !== "" && <FormHelperText>{editorField.error}</FormHelperText>}
+        </FormControl>
+      </FadeIn>
 
-          <FadeIn>
-            <AnimatedButton className="filling">
-              <button
-                className={classNames("button", { "filling loading": isSubmittingForm })}
-                disabled={titleField.error !== "" || editorField.error !== ""}
-              >
-                {isSubmittingForm && <ButtonLoader/>}
-                <span>Save changes</span>
-              </button>
-            </AnimatedButton>
-          </FadeIn>
-        </form>
-      </main>
-    </div>
+      <FadeIn>
+        <AnimatedButton className="filling">
+          <button
+            className={classNames("button", { "filling loading": isSubmittingForm })}
+            disabled={titleField.error !== "" || editorField.error !== ""}
+          >
+            {isSubmittingForm && <ButtonLoader/>}
+            <span>Save changes</span>
+          </button>
+        </AnimatedButton>
+      </FadeIn>
+    </form>
   )
+
+  function renderContents(children: ReactNode) {
+    return (
+      <div className="page compose">
+        <main className="container">
+          {children}
+        </main>
+      </div>
+    )
+  }
 }
