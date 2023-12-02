@@ -34,12 +34,7 @@
 
       cursor: pointer;
 
-      @mixin border-radius {
-        border-radius: 5px;
-      }
-
       background-color: $color-placeholder;
-      @include border-radius;
 
       &::after {
         content: "";
@@ -57,7 +52,7 @@
         aspect-ratio: 1;
         object-fit: cover;
         height: 100%; // Otherwise portrait images make the container too tall
-        @include border-radius;
+        border-radius: 5px;
       }
 
       $container-breakpoint: 170px;

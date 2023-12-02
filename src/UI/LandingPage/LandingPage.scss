@@ -1,0 +1,17 @@
+@import "/src/UI/_CommonStyles/colors";
+
+.page.landing {
+  > section {
+    &:not(#hero) {
+      padding-block: 10vmin;
+    }
+
+    &:nth-of-type(even) {
+      background-color: $color-offset-bg;
+    }
+
+    h2 {
+      margin-bottom: 0.5em;
+    }
+  }
+}

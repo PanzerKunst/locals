@@ -1,0 +1,71 @@
+@import "/src/UI/_CommonStyles/colors";
+@import "/src/UI/_CommonStyles/mixins";
+
+#hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  position: relative; // Absolutely-positioned `> span`
+  overflow-x: hidden; // To hide scrollbar of heading outside the viewport
+  margin-top: -$header-height; // To be visible under the header
+
+  background-size: cover;
+  background-position: center;
+
+  @include darkened-image-bg("/images/evgeniy-smersh-PuqP_vEnTv0-unsplash-portrait.jpg");
+  @include vw(lg) {
+    @include darkened-image-bg("/images/evgeniy-smersh-PuqP_vEnTv0-unsplash.jpg");
+  }
+
+
+  height: max(45vw, $hero-picture-min-height);
+
+  > h1 {
+    font-weight: 400;
+    color: $color-text-negative;
+    letter-spacing: -0.03em;
+    text-align: center;
+    font-size: max(7vw, 40px);
+    @include text-shadow;
+
+    margin-top: max(15vw, 150px);
+
+    @include vw(xl) {
+      text-align: left;
+      margin-left: 10vw;
+    }
+
+    > span {
+      display: block;
+    }
+  }
+
+  > div {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+
+    @include vw(md) {
+      justify-content: flex-end;
+      margin: 0 70px 70px 0;
+    }
+
+    @include vw(lg) {
+      margin: 0 100px 90px 0;
+    }
+  }
+
+  > span {
+    position: absolute;
+    left: 4px;
+    bottom: 2px;
+
+    font-size: max(0.8vw, 12px);
+  }
+
+  > span,
+  > span > a {
+    color: $color-text-offset;
+  }
+}

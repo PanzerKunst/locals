@@ -14,19 +14,19 @@
 
     > .favourite-artists,
     > .chips {
-      margin-bottom: 5vh;
+      margin-bottom: 5vmin;
     }
 
     > form {
       display: flex;
       flex-direction: column;
-      gap: 3vh;
+      gap: 3vmin;
     }
 
     .wrapper-next-button {
       display: flex;
       justify-content: flex-end;
-      margin-top: 2vh;
+      margin-top: 2vmin;
     }
   }
 }

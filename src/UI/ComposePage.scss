@@ -2,7 +2,7 @@
 
 .page.compose {
   .fade-in:not(:last-of-type) {
-    margin-bottom: 5vh;
+    margin-bottom: 5vmin;
   }
 
   .fade-in:last-of-type {
@@ -21,7 +21,7 @@
     }
 
     ul.chips {
-      margin-top: 1vh;
+      margin-top: 1vmin;
     }
   }
 }

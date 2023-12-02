@@ -9,7 +9,7 @@ html {
 
 body {
   background-color: $color-app-bg;
-  color: $color-body-text;
+  color: $color-text;
   font-family: "Source Sans Pro", sans-serif;
 
   box-sizing: border-box; // Border-box everything by default
@@ -42,7 +42,7 @@ video {
 }
 
 main {
-  margin-top: max(10vh, 40px);
+  margin-top: 10vmin;
 }
 
 .container {

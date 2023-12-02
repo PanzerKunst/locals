@@ -23,7 +23,7 @@ import { asTagName } from "../Util/TagUtils.ts"
 import "./ComposePage.scss"
 
 // Only necessary to avoid double-mount in dev mode
-let hasMounted = false
+let isEditorInitialized = false
 
 const maxTaggedArtists = 2
 const maxGenreHashtags = 2
@@ -54,7 +54,7 @@ export function ComposePage() {
   )
 
   useEffect(() => {
-    if (hasMounted || !editorRef.current) {
+    if (isEditorInitialized || !editorRef.current || !allMusicGenresQuery.data) {
       return
     }
 
@@ -83,13 +83,13 @@ export function ComposePage() {
     // Register handler
     editor.on("text-change", handleTextChange)
 
-    hasMounted = true
+    isEditorInitialized = true
 
     // Cleanup
     return () => {
       editor.off("text-change", handleTextChange)
     }
-  }, [])
+  }, [allMusicGenresQuery.data])
 
   useEffect(() => {
     async function performArtistSearch() {
@@ -124,12 +124,7 @@ export function ComposePage() {
   }, [allMusicGenresQuery.data, genreQuery])
 
   if (allMusicGenresQuery.isLoading) {
-    return renderContents(
-      <>
-        <p className="fetching-message centered-contents">Fetching data</p>
-        <CircularLoader/>
-      </>
-    )
+    return renderContents(<CircularLoader/>)
   }
 
   if (allMusicGenresQuery.isError) {

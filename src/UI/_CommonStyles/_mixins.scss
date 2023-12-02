@@ -60,6 +60,11 @@
   background-image: linear-gradient(to right, $color-btn-bg-primary-gradient-start, $color-btn-bg-primary-gradient-end);
 }
 
+@mixin darkened-image-bg($image-url) {
+  background: linear-gradient($color-darkened-image-filter, $color-darkened-image-filter), url($image-url) center;
+  background-size: cover;
+}
+
 @mixin header-footer-text {
   text-transform: uppercase;
 
