@@ -1,3 +1,5 @@
+@import "/src/UI/_CommonStyles/numbers";
+
 .page.register {
   section {
     &:not(:first-of-type) {
@@ -12,7 +14,6 @@
       margin-bottom: 0.5em;
     }
 
-    > .favourite-artists,
     > .chips {
       margin-bottom: 5vmin;
     }
@@ -23,10 +24,16 @@
       gap: 3vmin;
     }
 
+    .wrapper-show-all-button,
     .wrapper-next-button {
       display: flex;
       justify-content: flex-end;
       margin-top: 2vmin;
+    }
+
+    .wrapper-show-all-button {
+      margin-block: 1vmin 5vmin;
+      font-size: $variable-font-size;
     }
   }
 }

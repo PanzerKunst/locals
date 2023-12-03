@@ -71,6 +71,8 @@ export function RegisterPage() {
   const [favouriteArtists, setFavouriteArtists] = useState<SpotifyArtist[]>([])
   const [followedArtists, setFollowedArtists] = useState<SpotifyArtist[]>([])
 
+  const [isShowingAllArtists, setIsShowingAllArtists] = useState(false)
+
   const [favouriteGenres, setFavouriteGenres] = useState<string[]>([])
   const [followedGenres, setFollowedGenres] = useState<string[]>([])
 
@@ -288,7 +290,18 @@ export function RegisterPage() {
           <h2>Whom to follow?</h2>
         </FadeIn>
 
-        <FavouriteArtists favourites={favouriteArtists} followed={followedArtists} onToggle={handleToggleFollowingArtist}/>
+        <FavouriteArtists
+          isShowingAll={isShowingAllArtists}
+          favourites={favouriteArtists}
+          followed={followedArtists}
+          onToggle={handleToggleFollowingArtist}
+        />
+
+        {!isShowingAllArtists && (
+          <FadeIn className="wrapper-show-all-button">
+            <button className="underlined disappears" onClick={() => setIsShowingAllArtists(true)}><span>Show all</span></button>
+          </FadeIn>
+        )}
 
         <FadeIn className="wrapper-next-button">
           <AnimatedButton className="filling">
@@ -316,7 +329,7 @@ export function RegisterPage() {
         </FadeIn>
       </section>
 
-      <section data-step={3} className={classNames({ "hidden":  nbShownSteps < 3 })}>
+      <section data-step={3} className={classNames({ "hidden": nbShownSteps < 3 })}>
         <FadeIn>
           <h2>Your account</h2>
         </FadeIn>

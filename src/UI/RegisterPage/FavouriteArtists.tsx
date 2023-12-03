@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion"
 
 import { SpotifyArtist } from "../../Data/Spotify/Models/SpotifyArtist.ts"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
+import { useViewportSize } from "../../Util/BrowserUtils.ts"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./FavouriteArtists.scss"
@@ -12,15 +13,41 @@ const motionVariants = {
   animate: { opacity: 1 }
 }
 
+function getItemCount(isShowingAll: boolean, viewportWidth: number) {
+  const viewportWidthMd = parseInt(s.vwMd || "")
+  const viewportWidthLg = parseInt(s.vwLg || "")
+  const viewportWidthXl = parseInt(s.vwXl || "")
+
+  if (isShowingAll) {
+    return 50
+  }
+
+  const rowCount = 3
+  const minColumnCount = 2
+
+  if (viewportWidth < viewportWidthMd) {
+    return rowCount * minColumnCount
+  } else if (viewportWidth < viewportWidthLg) {
+    return rowCount * (minColumnCount + 1)
+  } else if (viewportWidth < viewportWidthXl) {
+    return rowCount * (minColumnCount + 2)
+  }
+
+  return rowCount * (minColumnCount + 3)
+}
+
 type Props = {
   favourites: SpotifyArtist[];
   followed: SpotifyArtist[];
+  isShowingAll?: boolean;
   onToggle: (spotifyArtist: SpotifyArtist) => void; // eslint-disable-line no-unused-vars
 }
 
-export function FavouriteArtists({ favourites, followed, onToggle }: Props) {
+export function FavouriteArtists({ isShowingAll = false, favourites, followed, onToggle }: Props) {
+  const viewportWidth = useViewportSize().width
   const artistsByPopularity = favourites.sort((a, b) => b.popularity - a.popularity)
-  const top50artists = artistsByPopularity.slice(0, 50)
+
+  const top50artists = artistsByPopularity.slice(0, getItemCount(isShowingAll, viewportWidth))
 
   return (
     <ul className="styleless favourite-artists">
