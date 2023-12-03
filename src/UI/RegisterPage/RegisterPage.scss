@@ -14,16 +14,19 @@
       margin-bottom: 0.5em;
     }
 
-    .wrapper-show-all-button,
+    .tip-and-show-all {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      font-size: $variable-font-size;
+      margin-block: 1vmin 5vmin;
+    }
+
     .wrapper-next-button {
       display: flex;
       justify-content: flex-end;
       margin-top: 5vmin;
-    }
-
-    .wrapper-show-all-button {
-      margin-block: 1vmin 5vmin;
-      font-size: $variable-font-size;
     }
 
     > .chips {

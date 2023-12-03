@@ -34,25 +34,32 @@ export function LandingPage() {
       <section id="for-artists">
         <div className="container">
           <FadeIn className="centered-contents">
-            <h2>The community for musicians and fans</h2>
+            <h2>How it works</h2>
           </FadeIn>
 
           <FadeIn>
-            <p>Do you have audience on Spotify?</p>
+            <p>1. Sign in with your Spotify account.</p>
           </FadeIn>
 
           <FadeIn>
-            <p>Your fans are longing to discover the personalities who made these amazing tracks. Yet reaching them is difficult.</p>
+            <p>2. Select which of you favourite @artists to follow.</p>
           </FadeIn>
 
           <FadeIn>
-            <p>Social media leads to short form content, read in a few seconds before being scrolled away. It prevents you from
-              providing your fans with high quality, deeper content.</p>
+            <p>3. Select which if your favourite #genres to follow.</p>
+          </FadeIn>
+
+          <FadeIn>
+            <p>4. Confirm your account details.</p>
+          </FadeIn>
+
+          <FadeIn>
+            <p>5. You&apos;re set! 🎉 Write and share content about your favourite music!</p>
           </FadeIn>
 
           <FadeIn className="centered-contents">
             <AnimatedButton className="filling">
-              <Link to="/home" className="button"><span>Join the Community</span></Link>
+              <Link to="/home" className="button"><span>Let&apos;s go!</span></Link>
             </AnimatedButton>
           </FadeIn>
         </div>
@@ -61,21 +68,19 @@ export function LandingPage() {
       <section id="for-fans">
         <div className="container">
           <FadeIn className="centered-contents">
-            <h2>For fans</h2>
+            <h2>How it works - for artists</h2>
           </FadeIn>
 
-          <FadeIn>
-            <p>Our music taste evolves over time, as we constantly discover new music… on Spotify. Backstage Pass leverages your Spotify data to
-              follow you on your listening adventures.</p>
-          </FadeIn>
+          <p>1. Register with your private Spotify account.</p>
 
-          <FadeIn>
-            <p>We listen to a massive variety of artists over time. Manually following every one of them on social media is less than ideal.</p>
-          </FadeIn>
+          <p>2. Complete the <Link to="/" className="underlined disappears">artist representation process</Link>.</p>
 
-          <FadeIn>
-            <p>Join the community to create a deeper connection with the artists who create the soundtrack to your daily life!</p>
-          </FadeIn>
+          <p>3. Start sharing your artist journey by publishing to your <em>followers</em>. They are longing for a real, authentic connection!</p>
+
+          <p>4. Add some premium content. Premium content is only made available to your <em>subscribers</em>. Subscribers are your biggest fans:
+            they support you financially through a monthly payment.</p>
+
+          <p>You always own your content and your mailing list. Build a community. Keep 90% of the revenue from subscribers.</p>
 
           <FadeIn className="centered-contents">
             <AnimatedButton className="filling">

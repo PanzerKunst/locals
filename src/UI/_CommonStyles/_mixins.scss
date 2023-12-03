@@ -76,8 +76,6 @@
 }
 
 @mixin underlined {
-  padding-block: max(0.08em, 2px);
-
   @include to-right-red-gradient;
   background-repeat: no-repeat;
 

@@ -297,11 +297,12 @@ export function RegisterPage() {
           onToggle={handleToggleFollowingArtist}
         />
 
-        {!isShowingAllArtists && (
-          <FadeIn className="wrapper-show-all-button">
+        <FadeIn className="tip-and-show-all">
+          <span className="offset">You can always tweak this later</span>
+          {!isShowingAllArtists && (
             <button className="underlined disappears" onClick={() => setIsShowingAllArtists(true)}><span>Show all</span></button>
-          </FadeIn>
-        )}
+          )}
+        </FadeIn>
 
         <FadeIn className="wrapper-next-button">
           <AnimatedButton className="filling">

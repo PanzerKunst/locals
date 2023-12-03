@@ -6,13 +6,15 @@ $color-black-transparent: color.adjust($color-black, $alpha: -1);
 $color-black-opacity-50pc: color.adjust($color-black, $alpha: -0.5);
 $color-black-opacity-15pc: color.adjust($color-black, $alpha: -0.85);
 $color-white: rgb(255 255 255); // #fff
-$color-greyscale-1: rgb(64 64 64); // #404040
+$color-greyscale-2: rgb(32 32 32); // #202020
+$color-greyscale-3: rgb(64 64 64); // #404040
+$color-greyscale-4: rgb(96 96 96); // #606060
 $color-greyscale-5: rgb(128 128 128); // #808080
 $color-greyscale-6: rgb(165 165 165); // #A5A5A5
 $color-greyscale-7: rgb(202 202 202); // #CACACA
 $color-greyscale-8: rgb(238 238 238); // #EEEEEE
 $color-greyscale-9: rgb(247 247 247); // #F7F7F7
-$color-greyscale-1-opacity-50pc: color.adjust($color-greyscale-1, $alpha: -0.5);
+$color-greyscale-3-opacity-50pc: color.adjust($color-greyscale-3, $alpha: -0.5);
 
 /* $color-primary: rgb(199 49 25); // #C73119
 $color-primary-dark: rgb(192 24 18); // #C01812
@@ -34,21 +36,21 @@ $color-btn-text-pre-filled: $color-primary;
 $color-checkbox-bg: $color-primary;
 $color-chip-bg: $color-greyscale-8;
 $color-darkened-image-filter: $color-black-opacity-50pc;
-$color-drop-shadow: $color-greyscale-1-opacity-50pc;
+$color-drop-shadow: $color-greyscale-3-opacity-50pc;
 $color-header-bg: $color-black-opacity-15pc;
-$color-icon-dark: $color-greyscale-1;
+$color-icon-dark: $color-greyscale-3;
 $color-icon-light: $color-white;
 $color-icon-primary: $color-primary;
 $color-input-bg: $color-greyscale-8;
-$color-input-text: $color-greyscale-1;
+$color-input-text: $color-greyscale-3;
 $color-input-placeholder: $color-greyscale-6;
-$color-link: $color-greyscale-1;
+$color-link: $color-greyscale-3;
 $color-list-item-bg: $color-input-bg;
 $color-list-item-bg-hover: $color-greyscale-9;
 $color-loader: $color-primary;
 $color-offset-bg: $color-greyscale-9;
-$color-text: $color-greyscale-1;
-$color-text-offset: $color-greyscale-5;
+$color-text: $color-greyscale-3;
+$color-text-photo-caption: $color-greyscale-4;
 $color-text-negative: $color-white;
-$color-text-shadow: $color-greyscale-1;
+$color-text-shadow: $color-greyscale-3;
 $color-placeholder: $color-greyscale-8;
