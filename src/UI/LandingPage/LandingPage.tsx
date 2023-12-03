@@ -77,8 +77,8 @@ export function LandingPage() {
 
           <p>3. Start sharing your artist journey by publishing to your <em>followers</em>. They are longing for a real, authentic connection!</p>
 
-          <p>4. Add some premium content. Premium content is only made available to your <em>subscribers</em>. Subscribers are your biggest fans:
-            they support you financially through a monthly payment.</p>
+          <p>4. Add some <em>subscriber</em>-only content. Subscribers are your biggest fans: they support you financially through a monthly payment.
+          </p>
 
           <p>You always own your content and your mailing list. Build a community. Keep 90% of the revenue from subscribers.</p>
 
