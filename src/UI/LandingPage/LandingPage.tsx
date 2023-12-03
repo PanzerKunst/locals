@@ -54,7 +54,7 @@ export function LandingPage() {
           </FadeIn>
 
           <FadeIn>
-            <p>5. You&apos;re set! 🎉 Write and share content about your favourite music!</p>
+            <p>5. You&apos;re set! 🎉<br/>Write and share content about your favourite music!</p>
           </FadeIn>
 
           <FadeIn className="centered-contents">
@@ -84,7 +84,7 @@ export function LandingPage() {
 
           <FadeIn className="centered-contents">
             <AnimatedButton className="filling">
-              <Link to="/home" className="button"><span>Join the Community</span></Link>
+              <Link to="/home" className="button"><span>Get started!</span></Link>
             </AnimatedButton>
           </FadeIn>
         </div>
