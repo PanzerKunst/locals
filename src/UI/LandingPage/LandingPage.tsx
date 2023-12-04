@@ -80,7 +80,7 @@ export function LandingPage() {
           <p>4. Add some <em>subscriber</em>-only content. Subscribers are your biggest fans: they support you financially through a monthly payment.
           </p>
 
-          <p>You get paid by your subscribers directly. Keep 90% of the revenue. You always own your content and your subscriber list.</p>
+          <p>You get <em>direct payment</em> from your subscribers. Keep 90% of the revenue. You always own your content and your subscriber list.</p>
 
           <FadeIn className="centered-contents">
             <AnimatedButton className="filling">
