@@ -102,3 +102,36 @@
     }
   }
 }
+
+@mixin quill-editor {
+  padding: 0;
+
+  h2,
+  h3 {
+    line-height: 1em;
+    font-weight: 600;
+    margin-bottom: 0.5em;
+  }
+
+  h2 {
+    font-size: $variable-h2-size;
+  }
+
+  h3 {
+    font-size: $variable-h3-size;
+  }
+
+  &.ql-blank::before { // Placeholder
+    font-size: $variable-font-size;
+    color: $color-input-placeholder;
+  }
+
+  > iframe.ql-video {
+    width: 100%;
+    aspect-ratio: 16 / 9; // Default aspect ratio for YouTube videos
+  }
+
+  img {
+    margin-inline: auto;
+  }
+}

@@ -5,6 +5,7 @@ import Quill from "quill"
 import Delta from "quill-delta"
 import { ChangeEvent, FormEvent, ReactNode, useEffect, useRef, useState } from "react"
 import { useQuery } from "react-query"
+import { useNavigate } from "react-router-dom"
 
 import { AnimatedButton } from "./_CommonComponents/AnimatedButton.tsx"
 import { ButtonLoader } from "./_CommonComponents/ButtonLoader.tsx"
@@ -17,9 +18,11 @@ import { fetchAllMusicGenres } from "../Data/Backend/Apis/MusicGenresApi.ts"
 import { MusicGenre } from "../Data/Backend/Models/MusicGenre.ts"
 import { searchArtists } from "../Data/Spotify/Apis/SearchApi.ts"
 import { SpotifyArtist } from "../Data/Spotify/Models/SpotifyArtist.ts"
+import { scrollIntoView } from "../Util/AnimationUtils.ts"
 import { Field } from "../Util/FormUtils.ts"
 import { isEditorEmpty } from "../Util/QuillUtils.ts"
 import { useDebounce } from "../Util/ReactUtils.ts"
+import { getEditorContentFromSession, saveEditorContentInSession } from "../Util/SessionStorage.ts"
 import { asTagName } from "../Util/TagUtils.ts"
 
 import "./ComposePage.scss"
@@ -30,6 +33,7 @@ const maxTaggedArtists = 2
 const maxGenreHashtags = 2
 
 export function ComposePage() {
+  const navigate = useNavigate()
   const appContext = useAppContext()
 
   const [artistQuery, setArtistQuery] = useState("")
@@ -62,17 +66,23 @@ export function ComposePage() {
     quill = new Quill(editorRef.current, {
       theme: "snow",
       placeholder: "Compose an epic...",
-      formats: ["header", "bold", "italic", "strike", "link", "image", "video", "align", "blockquote"],
+      formats: ["header", "bold", "italic", "strike", "link", "image", "video", "blockquote"],
       modules: {
         toolbar: [
           [{ "header": [2, 3, false] }],
           ["bold", "italic", "strike"],
           ["link", "image", "video"],
-          [{ "align": [] }, "blockquote"],
+          ["blockquote"],
           ["clean"]
         ]
       }
     })
+
+    const editorContent = getEditorContentFromSession()
+
+    if (editorContent) {
+      quill.root.innerHTML = editorContent
+    }
 
     function handleTextChange(delta: Delta) {
       // TODO: remove
@@ -133,6 +143,9 @@ export function ComposePage() {
   function areTagsValid(): boolean {
     if (_isEmpty(taggedSpotifyArtists) && _isEmpty(genreHashtags)) {
       setTagsError("Add at least 1 artist or genre tag")
+
+      scrollIntoView(document.querySelector(".tag-fields")!)
+
       return false
     }
 
@@ -151,9 +164,6 @@ export function ComposePage() {
   }
 
   function isEditorValid(): boolean {
-    // TODO: remove
-    console.log("isEditorValid", { quill })
-
     if (isEditorEmpty(quill)) {
       setEditorError("Your post needs some content")
       return false
@@ -221,12 +231,8 @@ export function ComposePage() {
     }
 
     setIsSubmittingForm(true)
-
-    // Handle the submission of the content
-    // For example, sending it to the backend
-    console.log("Submitting content:", quill.getContents())
-
-    setIsSubmittingForm(false)
+    saveEditorContentInSession(quill.root.innerHTML)
+    navigate("/compose/preview")
   }
 
   return renderContents(
@@ -318,7 +324,7 @@ export function ComposePage() {
         <AnimatedButton className="filling">
           <button
             className={classNames("button", { "filling loading": isSubmittingForm })}
-            disabled={titleField.error !== "" || editorError !== ""}
+            disabled={tagsError !== "" || titleField.error !== "" || editorError !== ""}
           >
             {isSubmittingForm && <ButtonLoader/>}
             <span>Save & Preview</span>

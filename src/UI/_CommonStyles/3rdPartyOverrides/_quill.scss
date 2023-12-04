@@ -1,5 +1,4 @@
-@import "/src/UI/_CommonStyles/colors";
-@import "/src/UI/_CommonStyles/numbers";
+@import "/src/UI/_CommonStyles/mixins";
 
 .ql-toolbar.ql-snow,
 .ql-container.ql-snow {
@@ -12,28 +11,6 @@
   justify-content: center;
 }
 
-.ql-container.ql-snow {
-  > .ql-editor {
-    padding: 0;
-
-    h2,
-    h3 {
-      line-height: 1em;
-      font-weight: 600;
-      margin-bottom: 0.5em;
-    }
-
-    h2 {
-      font-size: $variable-h2-size;
-    }
-
-    h3 {
-      font-size: $variable-h3-size;
-    }
-
-    &.ql-blank::before { // Placeholder
-      font-size: $variable-font-size;
-      color: $color-input-placeholder;
-    }
-  }
+.ql-container.ql-snow > .ql-editor {
+  @include quill-editor;
 }

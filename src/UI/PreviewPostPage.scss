@@ -1,0 +1,7 @@
+@import "/src/UI/_CommonStyles/mixins";
+
+.page.preview-post {
+  #quill-preview {
+    @include quill-editor;
+  }
+}
