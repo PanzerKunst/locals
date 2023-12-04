@@ -29,9 +29,9 @@
     font-size: max(7vw, 40px);
     @include text-shadow;
 
-    margin-top: max(15vw, 150px);
+    margin-top: max(15vw, 200px);
 
-    @include vw(xl) {
+    @include vw(lg) {
       text-align: left;
       margin-left: 10vw;
     }
@@ -44,15 +44,14 @@
   > div {
     display: flex;
     justify-content: center;
-    margin-bottom: 50px;
 
-    @include vw(md) {
-      justify-content: flex-end;
-      margin: 0 70px 70px 0;
-    }
+    $margin: 9vh;
+
+    margin-bottom: $margin;
 
     @include vw(lg) {
-      margin: 0 100px 90px 0;
+      justify-content: flex-end;
+      margin-right: $margin;
     }
   }
 

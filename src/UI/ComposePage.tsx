@@ -58,6 +58,8 @@ export function ComposePage() {
     () => fetchAllMusicGenres()
   )
 
+  // TODO: editor disappears when navigating away, and back
+
   useEffect(() => {
     if (quill || !editorRef.current || !allMusicGenresQuery.data) {
       return
