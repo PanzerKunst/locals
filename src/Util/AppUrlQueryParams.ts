@@ -1,5 +1,3 @@
-// TODO: move to session storage
-
 type AppUrlQueryParam = {
   readonly ACTION: string;
   readonly SPOTIFY_CALLBACK_ERROR: string;

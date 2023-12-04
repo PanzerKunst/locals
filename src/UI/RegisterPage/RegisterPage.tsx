@@ -279,6 +279,7 @@ export function RegisterPage() {
     const storedArtistsWithGenres = await storeArtists(favouriteArtists)
     const storedArtists = storedArtistsWithGenres.map((artistWithGenres) => artistWithGenres.artist)
     await storeUserFavouriteArtists(user, storedArtists, followedArtists)
+
     saveSpotifyProfileInSession(undefined)
     navigate(`/home?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.REGISTRATION_SUCCESS}`)
   }
