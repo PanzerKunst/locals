@@ -14,7 +14,3 @@ const USERNAME_FORMAT_REGEXP = /^[A-Za-zÀ-ÖØ-öø-ÿ0-9-_.]+$/
 export function isUsernameValid(username: string): boolean {
   return USERNAME_FORMAT_REGEXP.test(username)
 }
-
-export function doesHtmlHaveText(htmlString: string): boolean {
-  return /\S/.test(htmlString.replace(/<[^>]*>/g, ""))
-}

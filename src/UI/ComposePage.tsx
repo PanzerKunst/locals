@@ -2,6 +2,7 @@ import { FormControl, FormHelperText, Input } from "@mui/joy"
 import classNames from "classnames"
 import _isEmpty from "lodash/isEmpty"
 import Quill from "quill"
+import Delta from "quill-delta"
 import { ChangeEvent, FormEvent, ReactNode, useEffect, useRef, useState } from "react"
 import { useQuery } from "react-query"
 
@@ -16,14 +17,14 @@ import { fetchAllMusicGenres } from "../Data/Backend/Apis/MusicGenresApi.ts"
 import { MusicGenre } from "../Data/Backend/Models/MusicGenre.ts"
 import { searchArtists } from "../Data/Spotify/Apis/SearchApi.ts"
 import { SpotifyArtist } from "../Data/Spotify/Models/SpotifyArtist.ts"
-import { doesHtmlHaveText, Field } from "../Util/FormUtils.ts"
+import { Field } from "../Util/FormUtils.ts"
+import { isEditorEmpty } from "../Util/QuillUtils.ts"
 import { useDebounce } from "../Util/ReactUtils.ts"
 import { asTagName } from "../Util/TagUtils.ts"
 
 import "./ComposePage.scss"
 
-// Only necessary to avoid double-mount in dev mode
-let isEditorInitialized = false
+let quill: Quill
 
 const maxTaggedArtists = 2
 const maxGenreHashtags = 2
@@ -45,7 +46,7 @@ export function ComposePage() {
 
   const editorRef = useRef<HTMLDivElement>(null)
   const [titleField, setTitleField] = useState<Field>({ value: "", error: "" })
-  const [editorField, setEditorField] = useState<Field>({ value: "", error: "" })
+  const [editorError, setEditorError] = useState("")
   const [isSubmittingForm, setIsSubmittingForm] = useState(false)
 
   const allMusicGenresQuery = useQuery(
@@ -54,11 +55,11 @@ export function ComposePage() {
   )
 
   useEffect(() => {
-    if (isEditorInitialized || !editorRef.current || !allMusicGenresQuery.data) {
+    if (quill || !editorRef.current || !allMusicGenresQuery.data) {
       return
     }
 
-    const editor = new Quill(editorRef.current, {
+    quill = new Quill(editorRef.current, {
       theme: "snow",
       placeholder: "Compose an epic...",
       formats: ["header", "bold", "italic", "strike", "link", "image", "video", "align", "blockquote"],
@@ -73,21 +74,19 @@ export function ComposePage() {
       }
     })
 
-    function handleTextChange() {
-      setEditorField({
-        value: editorRef.current!.querySelector(".ql-editor")!.innerHTML,
-        error: "" // We reset any eventual errors
-      })
+    function handleTextChange(delta: Delta) {
+      // TODO: remove
+      console.log("handleTextChange", delta)
+
+      setEditorError("") // We reset any eventual errors
     }
 
     // Register handler
-    editor.on("text-change", handleTextChange)
-
-    isEditorInitialized = true
+    quill.on("text-change", handleTextChange)
 
     // Cleanup
     return () => {
-      editor.off("text-change", handleTextChange)
+      quill.off("text-change", handleTextChange)
     }
   }, [allMusicGenresQuery.data])
 
@@ -152,10 +151,11 @@ export function ComposePage() {
   }
 
   function isEditorValid(): boolean {
-    const { value } = editorField
+    // TODO: remove
+    console.log("isEditorValid", { quill })
 
-    if (!doesHtmlHaveText(value)) {
-      setEditorField({ value, error: "Your post needs some content" })
+    if (isEditorEmpty(quill)) {
+      setEditorError("Your post needs some content")
       return false
     }
 
@@ -224,7 +224,7 @@ export function ComposePage() {
 
     // Handle the submission of the content
     // For example, sending it to the backend
-    console.log("Submitting content:", editorField.value)
+    console.log("Submitting content:", quill.getContents())
 
     setIsSubmittingForm(false)
   }
@@ -308,9 +308,9 @@ export function ComposePage() {
       </FadeIn>
 
       <FadeIn>
-        <FormControl error={editorField.error !== ""}>
+        <FormControl error={editorError !== ""}>
           <div ref={editorRef}/>
-          {editorField.error !== "" && <FormHelperText>{editorField.error}</FormHelperText>}
+          {editorError !== "" && <FormHelperText>{editorError}</FormHelperText>}
         </FormControl>
       </FadeIn>
 
@@ -318,10 +318,10 @@ export function ComposePage() {
         <AnimatedButton className="filling">
           <button
             className={classNames("button", { "filling loading": isSubmittingForm })}
-            disabled={titleField.error !== "" || editorField.error !== ""}
+            disabled={titleField.error !== "" || editorError !== ""}
           >
             {isSubmittingForm && <ButtonLoader/>}
-            <span>Save changes</span>
+            <span>Save & Preview</span>
           </button>
         </AnimatedButton>
       </FadeIn>
