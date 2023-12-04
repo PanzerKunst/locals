@@ -22,11 +22,41 @@
     color: $color-text;
   }
 
+  &.MuiSnackbar-colorDanger,
+  &.MuiSnackbar-colorSuccess {
+    a {
+      color: $color-text-negative;
+    }
+  }
+
   font-weight: 400; // MUI sets a value on small res
-  font-size: 16px;
+
+  // Font size on snackbar should be fixed, as the snackbar itself has fixed dimentions
+  font-size: 16px; // MUI sets it at 12px on small res
 
   @include vw(md) {
-    font-size: 18px;
+    font-size: 18px; // MUI sets it at 14px on larger res
     gap: 15px;
+  }
+
+  > div {
+    flex-grow: 1;
+
+    > span {
+      font-weight: 600;
+    }
+
+    > p {
+      font-size: 14px;
+      margin-bottom: 0;
+
+      @include vw(md) {
+        font-size: 16px;
+      }
+    }
+  }
+
+  > .icon-only {
+    color: $color-icon-light;
   }
 }

@@ -301,7 +301,7 @@ export function RegisterPage() {
         <FadeIn className="tip-and-show-all">
           <span className="offset">You can always tweak this later</span>
           {!isShowingAllArtists && (
-            <button className="underlined disappears" onClick={() => setIsShowingAllArtists(true)}><span>Show all</span></button>
+            <button className="underlined appears" onClick={() => setIsShowingAllArtists(true)}><span>Show all</span></button>
           )}
         </FadeIn>
 

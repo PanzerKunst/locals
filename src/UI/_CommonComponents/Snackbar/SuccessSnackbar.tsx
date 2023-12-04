@@ -1,26 +1,25 @@
-import { Close, ErrorOutline } from "@mui/icons-material"
-import { useState } from "react"
+import { CheckCircleOutline, Close } from "@mui/icons-material"
+import { ReactNode, useState } from "react"
 
 import { AppSnackbar } from "./AppSnackbar.tsx"
 
 type Props = {
-  message: string
+  children: ReactNode;
 }
 
-export function ErrorSnackbar({ message }: Props) {
+export function SuccessSnackbar({ children }: Props) {
   const [isOpen, setIsOpen] = useState(true)
 
   return (
     <AppSnackbar
-      leftIcon={<ErrorOutline/>}
-      color="danger"
+      leftIcon={<CheckCircleOutline/>}
+      color="success"
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
       open={isOpen}
-      className="error"
+      className="success"
     >
       <div>
-        <span>An error occured</span>
-        <p className="offset">{message}</p>
+        {children}
       </div>
       <button className="button icon-only" onClick={() => setIsOpen(false)}>
         <Close/>

@@ -29,12 +29,12 @@ export function CookieSnackbar() {
 
   return (
     <AppSnackbar
+      leftIcon={<Cookie/>}
       color="neutral"
       anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       open={isOpen}
       className="cookie"
     >
-      <Cookie/>
       <div>
         <p>We use cookies for analytics.<br/>
           Learn more on our <Link to="/privacy" className="underlined disappears">privacy policy</Link>.</p>
