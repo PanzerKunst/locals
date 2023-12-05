@@ -71,16 +71,25 @@ export function LandingPage() {
             <h2>How it works - for artists</h2>
           </FadeIn>
 
-          <p>1. Register as a normal user with your private Spotify account.</p>
+          <FadeIn>
+            <p>1. Register as a normal user with your private Spotify account.</p>
+          </FadeIn>
 
-          <p>2. Complete the <Link to="/" className="underlined disappears">artist registration process</Link>.</p>
+          <FadeIn>
+            <p>2. Complete the <Link to="/" className="underlined disappears">artist registration process</Link>.</p>
+          </FadeIn>
 
-          <p>3. Start sharing your artist journey by publishing to your followers. They are longing for a real, authentic connection!</p>
+          <FadeIn>
+            <p>3. Start sharing your artist journey by publishing to your followers. They are longing for a real, authentic connection!</p>
+          </FadeIn>
 
-          <p>4. Add some subscriber-only content. Subscribers are your biggest fans: they support you financially through a monthly payment.
-          </p>
+          <FadeIn>
+            <p>4. Add some subscriber-only content. Subscribers are your biggest fans: they support you financially through a monthly payment.</p>
+          </FadeIn>
 
-          <p>You get <em>paid directly</em> by your subscribers. Keep 90% of the revenue. You always own your content and your subscriber list.</p>
+          <FadeIn>
+            <p>You get <em>paid directly</em> by your subscribers. Keep 90% of the revenue. You always own your content and your subscriber list.</p>
+          </FadeIn>
 
           <FadeIn className="centered-contents">
             <AnimatedButton className="filling">
