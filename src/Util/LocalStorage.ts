@@ -1,5 +1,4 @@
 import { isUserCompatible, User } from "../Data/Backend/Models/User.ts"
-import { config } from "../config.ts"
 
 export type ContextInLocalStorage = {
   spotifyApiVerifier?: string;
@@ -20,24 +19,22 @@ function isContextCompatible(obj: any): obj is ContextInLocalStorage {
     return false
   }
 
-  if (!config.IS_PROD) {
-    // Get all keys of the object
-    const keys = Object.keys(obj)
+  // Get all keys of the object
+  const keys = Object.keys(obj)
 
-    // List of allowed keys in the ContextInLocalStorage type
-    const allowedKeys = [
-      "spotifyApiVerifier",
-      "spotifyApiAccessToken",
-      "spotifyApiRefreshToken",
-      "spotifyApiTokenExpirationDate",
-      "loggedInUser",
-      "cookieConsent"
-    ]
+  // List of allowed keys in the ContextInLocalStorage type
+  const allowedKeys = [
+    "spotifyApiVerifier",
+    "spotifyApiAccessToken",
+    "spotifyApiRefreshToken",
+    "spotifyApiTokenExpirationDate",
+    "loggedInUser",
+    "cookieConsent"
+  ]
 
-    // Check for no additional keys
-    if (keys.some(key => !allowedKeys.includes(key))) {
-      return false
-    }
+  // Check for no additional keys
+  if (keys.some(key => !allowedKeys.includes(key))) {
+    return false
   }
 
   // Check for the existence and type of optional properties
