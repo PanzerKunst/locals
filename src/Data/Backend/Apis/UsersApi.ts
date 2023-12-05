@@ -43,12 +43,6 @@ export async function storeUser(
   username: string,
   geoapifyFeature: GeoapifyFeature
 ): Promise<User> {
-  const existingUser = await fetchUser(appContext, spotifyUserProfile)
-
-  if (existingUser) {
-    return existingUser
-  }
-
   const newUser: NewUser = {
     spotifyId: spotifyUserProfile.id,
     name: spotifyUserProfile.display_name,

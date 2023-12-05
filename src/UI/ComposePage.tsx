@@ -15,15 +15,18 @@ import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
 import { SelectList } from "./_CommonComponents/SelectList.tsx"
 import { useAppContext } from "../AppContext.tsx"
 import { fetchAllMusicGenres } from "../Data/Backend/Apis/MusicGenresApi.ts"
+import { fetchPost, storePost, updatePost } from "../Data/Backend/Apis/PostsApi.ts"
 import { MusicGenre } from "../Data/Backend/Models/MusicGenre.ts"
+import { EmptyPost } from "../Data/Backend/Models/Posts.ts"
 import { searchArtists } from "../Data/Spotify/Apis/SearchApi.ts"
 import { SpotifyArtist } from "../Data/Spotify/Models/SpotifyArtist.ts"
 import { scrollIntoView } from "../Util/AnimationUtils.ts"
 import { Field } from "../Util/FormUtils.ts"
 import { isEditorEmpty } from "../Util/QuillUtils.ts"
 import { useDebounce } from "../Util/ReactUtils.ts"
-import { getEditorContentFromSession, saveEditorContentInSession } from "../Util/SessionStorage.ts"
+import { getEmptyPostFromSession, saveEmptyPostInSession } from "../Util/SessionStorage.ts"
 import { asTagName } from "../Util/TagUtils.ts"
+
 
 import "./ComposePage.scss"
 
@@ -58,8 +61,6 @@ export function ComposePage() {
     () => fetchAllMusicGenres()
   )
 
-  // TODO: editor disappears when navigating away, and back
-
   useEffect(() => {
     if (quill || !editorRef.current || !allMusicGenresQuery.data) {
       return
@@ -80,10 +81,20 @@ export function ComposePage() {
       }
     })
 
-    const editorContent = getEditorContentFromSession()
+    const emptyPost = getEmptyPostFromSession()
 
-    if (editorContent) {
-      quill.root.innerHTML = editorContent
+    if (emptyPost) {
+      initQuillContent(emptyPost)
+    }
+
+    async function initQuillContent(emptyPost: EmptyPost) {
+      const post = await fetchPost(emptyPost.id)
+
+      if (!post) {
+        return
+      }
+
+      quill.root.innerHTML = post.content
     }
 
     function handleTextChange(delta: Delta) {
@@ -225,7 +236,7 @@ export function ComposePage() {
     return isTitleValid()
   }
 
-  const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     if (!isFormValid()) {
@@ -233,7 +244,23 @@ export function ComposePage() {
     }
 
     setIsSubmittingForm(true)
-    saveEditorContentInSession(quill.root.innerHTML)
+
+    const emptyPost = getEmptyPostFromSession()
+
+    if (emptyPost) {
+      await updatePost(emptyPost, quill)
+    } else {
+      const storedPost = await storePost(appContext, quill)
+
+      saveEmptyPostInSession({
+        id: storedPost.id,
+        createdAt: storedPost.createdAt,
+        updatedAt: storedPost.updatedAt,
+        publishedAt: storedPost.publishedAt,
+        userId: storedPost.userId
+      })
+    }
+
     navigate("/compose/preview")
   }
 

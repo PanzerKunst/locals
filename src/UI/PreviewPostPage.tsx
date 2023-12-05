@@ -1,35 +1,49 @@
 import classNames from "classnames"
 import { ReactNode, useState } from "react"
+import { useQuery } from "react-query"
 import { useNavigate } from "react-router-dom"
 
 import { AnimatedButton } from "./_CommonComponents/AnimatedButton.tsx"
 import { ButtonLoader } from "./_CommonComponents/ButtonLoader.tsx"
+import { CircularLoader } from "./_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
-import { ErrorSnackbar } from "./_CommonComponents/Snackbar/ErrorSnackbar.tsx"
+import { fetchPost } from "../Data/Backend/Apis/PostsApi.ts"
 import { actionsFromAppUrl, appUrlQueryParam } from "../Util/AppUrlQueryParams.ts"
-import { getEditorContentFromSession, saveEditorContentInSession } from "../Util/SessionStorage.ts"
+import { getEmptyPostFromSession, saveEmptyPostInSession } from "../Util/SessionStorage.ts"
 
 import "./PreviewPostPage.scss"
 
 export function PreviewPostPage() {
   const navigate = useNavigate()
   const [isPublishing, setIsPublishing] = useState(false)
-  const editorContent = getEditorContentFromSession()
 
-  if (!editorContent) {
-    return renderContents(<ErrorSnackbar message="Content is missing"/>)
+  const emptyPost = getEmptyPostFromSession()
+
+  const currentPostQuery = useQuery(
+    "currentPost",
+    () => fetchPost(emptyPost!.id), {
+      enabled: !!emptyPost
+    }
+  )
+
+  if (currentPostQuery.isLoading) {
+    return renderContents(<CircularLoader/>)
+  }
+
+  if (currentPostQuery.isError) {
+    return renderContents(<span>Error fetching data</span>)
   }
 
   const handleClick = () => {
     setIsPublishing(true)
-    saveEditorContentInSession(undefined)
+    saveEmptyPostInSession(undefined)
     navigate(`/home?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.PUBLICATION_SUCCESS}`)
   }
 
   return (
     <div className="page preview-post">
       <main className="container">
-        <div id="quill-preview" dangerouslySetInnerHTML={{ __html: editorContent }}/>
+        <div id="quill-preview" dangerouslySetInnerHTML={{ __html: currentPostQuery.data!.content }}/>
 
         <FadeIn>
           <AnimatedButton className="filling">

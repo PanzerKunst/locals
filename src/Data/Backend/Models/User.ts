@@ -1,14 +1,17 @@
+// Taken by copy/pasting the last part of the bubble when hovering `users.$inferInsert`
 export type NewUser = {
-  spotifyId: string,
   name: string,
+  spotifyId: string,
   username: string,
-  email: string
+  email: string,
 }
 
+// Taken by copy/pasting the last part of the bubble when hovering `users.$inferSelect`
 export type User = NewUser & {
   id: number,
   createdAt: string,
-  updatedAt: string
+  updatedAt: string,
+  lastSeenAt: string,
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -20,7 +23,7 @@ export function isUserCompatible(obj: any): obj is User {
 
   // Get all keys of the object
   const keys = Object.keys(obj)
-  const allowedKeys = ["spotifyId", "name", "username", "email", "id", "createdAt", "updatedAt"]
+  const allowedKeys = ["name", "spotifyId", "username", "email", "id", "createdAt", "updatedAt", "lastSeenAt"]
 
   // Check for no additional keys
   if (keys.some(key => !allowedKeys.includes(key))) {
@@ -28,12 +31,12 @@ export function isUserCompatible(obj: any): obj is User {
   }
 
   // Check for the existence and type of optional properties
-  if (typeof obj.spotifyId !== "string") {
-    console.log("User incompatible: 'typeof obj.spotifyId !== \"string\"'")
-    return false
-  }
   if (typeof obj.name !== "string") {
     console.log("User incompatible: 'typeof obj.name !== \"string\"'")
+    return false
+  }
+  if (typeof obj.spotifyId !== "string") {
+    console.log("User incompatible: 'typeof obj.spotifyId !== \"string\"'")
     return false
   }
   if (typeof obj.username !== "string") {
@@ -54,6 +57,10 @@ export function isUserCompatible(obj: any): obj is User {
   }
   if (typeof obj.updatedAt !== "string") {
     console.log("User incompatible: 'typeof obj.updatedAt !== \"string\"'")
+    return false
+  }
+  if (typeof obj.lastSeenAt !== "string") {
+    console.log("User incompatible: 'typeof obj.lastSeenAt !== \"string\"'")
     return false
   }
 

@@ -1,10 +1,9 @@
-import _isEmpty from "lodash/isEmpty"
-
+import { isPostCompatible, EmptyPost } from "../Data/Backend/Models/Posts.ts"
 import { SpotifyUserProfile } from "../Data/Spotify/Models/SpotifyUserProfile.ts"
 
 const sessionStorageKeys = {
   spotifyProfile: "spotifyProfile",
-  editorContent: "editorContent"
+  emptyPost: "emptyPost"
 }
 
 
@@ -28,23 +27,27 @@ export function saveSpotifyProfileInSession(spotifyProfile: SpotifyUserProfile |
 }
 
 
-// editorContent
+// emptyPost
 
-// TODO: /!\ Beware /!\ This implementation is limited to a total content of 5MB, including base64 data from images!
+export function getEmptyPostFromSession(): EmptyPost | undefined {
+  const emptyPostInSession = window.sessionStorage.getItem(sessionStorageKeys.emptyPost)
 
-export function getEditorContentFromSession(): string | undefined {
-  const editorContentInSession = window.sessionStorage.getItem(sessionStorageKeys.editorContent)
+  if (!emptyPostInSession) {
+    return undefined
+  }
 
-  return _isEmpty(editorContentInSession)
-    ? undefined
-    : editorContentInSession!
+  const emptyPost = JSON.parse(emptyPostInSession)
+
+  return isPostCompatible(emptyPost, true)
+    ? emptyPost
+    : undefined
 }
 
-export function saveEditorContentInSession(editorContent: string | undefined): void {
-  if (!editorContent) {
-    window.sessionStorage.removeItem(sessionStorageKeys.editorContent)
+export function saveEmptyPostInSession(emptyPost: EmptyPost | undefined): void {
+  if (!emptyPost) {
+    window.sessionStorage.removeItem(sessionStorageKeys.emptyPost)
     return
   }
 
-  window.sessionStorage.setItem(sessionStorageKeys.editorContent, editorContent)
+  window.sessionStorage.setItem(sessionStorageKeys.emptyPost, JSON.stringify(emptyPost))
 }
