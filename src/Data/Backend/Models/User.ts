@@ -1,4 +1,6 @@
 // Taken by copy/pasting the last part of the bubble when hovering `users.$inferInsert`
+import { config } from "../../../config.ts"
+
 export type NewUser = {
   name: string,
   spotifyId: string,
@@ -21,13 +23,15 @@ export function isUserCompatible(obj: any): obj is User {
     return false
   }
 
-  // Get all keys of the object
-  const keys = Object.keys(obj)
-  const allowedKeys = ["name", "spotifyId", "username", "email", "id", "createdAt", "updatedAt", "lastSeenAt"]
+  if (!config.IS_PROD) {
+    // Get all keys of the object
+    const keys = Object.keys(obj)
+    const allowedKeys = ["name", "spotifyId", "username", "email", "id", "createdAt", "updatedAt", "lastSeenAt"]
 
-  // Check for no additional keys
-  if (keys.some(key => !allowedKeys.includes(key))) {
-    return false
+    // Check for no additional keys
+    if (keys.some(key => !allowedKeys.includes(key))) {
+      return false
+    }
   }
 
   // Check for the existence and type of optional properties

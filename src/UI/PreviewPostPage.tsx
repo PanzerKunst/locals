@@ -43,7 +43,13 @@ export function PreviewPostPage() {
   return (
     <div className="page preview-post">
       <main className="container">
-        <div id="quill-preview" dangerouslySetInnerHTML={{ __html: currentPostQuery.data!.content }}/>
+        <FadeIn>
+          <h1>{currentPostQuery.data!.title}</h1>
+        </FadeIn>
+
+        <FadeIn>
+          <div id="quill-preview" dangerouslySetInnerHTML={{ __html: currentPostQuery.data!.content }}/>
+        </FadeIn>
 
         <FadeIn>
           <AnimatedButton className="filling">

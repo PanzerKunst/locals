@@ -20,7 +20,7 @@ export async function fetchPost(id: number): Promise<Post | undefined> {
     : await result.json() as Post
 }
 
-export async function storePost(appContext: AppContextType, quill: Quill): Promise<Post> {
+export async function storePost(appContext: AppContextType, title: string, quill: Quill): Promise<Post> {
   const loggedInUser = appContext.loggedInUser
 
   if (!loggedInUser) {
@@ -33,6 +33,7 @@ export async function storePost(appContext: AppContextType, quill: Quill): Promi
     body: JSON.stringify({
       post: {
         userId: loggedInUser.id,
+        title,
         content: quill.root.innerHTML
       }
     })

@@ -250,14 +250,15 @@ export function ComposePage() {
     if (emptyPost) {
       await updatePost(emptyPost, quill)
     } else {
-      const storedPost = await storePost(appContext, quill)
+      const storedPost = await storePost(appContext, titleField.value, quill)
 
       saveEmptyPostInSession({
         id: storedPost.id,
         createdAt: storedPost.createdAt,
         updatedAt: storedPost.updatedAt,
         publishedAt: storedPost.publishedAt,
-        userId: storedPost.userId
+        userId: storedPost.userId,
+        title: storedPost.title
       })
     }
 

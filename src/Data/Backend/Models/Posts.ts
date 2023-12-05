@@ -1,6 +1,9 @@
 // Taken by copy/pasting the last part of the bubble when hovering `posts.$inferInsert`
+import { config } from "../../../config.ts"
+
 export type NewPost = {
   userId: number,
+  title: string,
   content: string,
 }
 
@@ -21,18 +24,24 @@ export function isPostCompatible(obj: any, isEmpty: boolean | undefined = false)
     return false
   }
 
-  // Get all keys of the object
-  const keys = Object.keys(obj)
-  const allowedKeys = ["userId", "content", "id", "createdAt", "updatedAt", "publishedAt"]
+  if (!config.IS_PROD) {
+    // Get all keys of the object
+    const keys = Object.keys(obj)
+    const allowedKeys = ["userId", "title", "content", "id", "createdAt", "updatedAt", "publishedAt"]
 
-  // Check for no additional keys
-  if (keys.some(key => !allowedKeys.includes(key))) {
-    return false
+    // Check for no additional keys
+    if (keys.some(key => !allowedKeys.includes(key))) {
+      return false
+    }
   }
 
   // Check for the existence and type of optional properties
   if (typeof obj.userId !== "number") {
     console.log("Post incompatible: 'typeof obj.userId !== \"number\"'")
+    return false
+  }
+  if (typeof obj.title !== "string") {
+    console.log("Post incompatible: 'typeof obj.title !== \"string\"'")
     return false
   }
   if (!isEmpty && typeof obj.content !== "string") {
