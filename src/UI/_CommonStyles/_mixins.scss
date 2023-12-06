@@ -119,9 +119,8 @@
     font-size: $variable-h3-size;
   }
 
-  &.ql-blank::before { // Placeholder
-    font-size: $variable-font-size;
-    color: $color-input-placeholder;
+  > p:last-child {
+    margin-bottom: 0;
   }
 
   > iframe.ql-video {

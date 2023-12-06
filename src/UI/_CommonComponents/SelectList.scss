@@ -26,7 +26,7 @@ ul.styleless.select {
   > li {
     transition: background-color #{$animation-duration-sm}s ease;
 
-    padding-inline: $input-padding-inline;
+    padding-inline: $input-padding;
 
     &:not(.loading) { // Because `&:not(:has(> .circular-loader))` isn't supported on Firefox
       cursor: pointer;

@@ -13,4 +13,13 @@
 
 .ql-container.ql-snow > .ql-editor {
   @include quill-editor;
+
+  background-color: $color-input-bg;
+  padding: $input-padding;
+  border-radius: $input-border-radius;
+
+  &.ql-blank::before { // Placeholder
+    font-size: $variable-font-size;
+    color: $color-input-placeholder;
+  }
 }
