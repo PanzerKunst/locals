@@ -4,34 +4,53 @@
   background-color: $color-offset-bg;
 
   > .container {
+    $elements-gap: 3em;
+
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
-    gap: 3em;
+    gap: $elements-gap;
 
-    padding-block: 15vh;
+    padding-block: 10vh;
 
     @include header-footer-text;
+    text-transform: uppercase;
 
     @include vw(md) {
       flex-direction: row;
     }
 
-    ul {
-      display: flex;
-      flex-direction: column;
-      gap: 1em;
-      align-items: center;
+    > nav {
+      margin-top: 0.5em; // To visially vertically align with the logo
 
-      @include vw(md) {
-        align-items: flex-end;
+      > ul {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        align-items: center;
+
+        @include vw(md) {
+          align-items: flex-end;
+        }
       }
     }
 
-    > span {
+    > div {
       @include vw(md) {
         order: -1;
+      }
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      > img {
+        width: 4em;
+        margin: 0 auto 1em;
+      }
+
+      > span:last-of-type {
+        margin-top: $elements-gap;
       }
     }
   }

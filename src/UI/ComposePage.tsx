@@ -63,8 +63,14 @@ export function ComposePage() {
 
   useEffect(() => {
     if (quill || !editorRef.current || !allMusicGenresQuery.data) {
+      // TODO: remove
+      console.log("useEffect, returning early")
+
       return
     }
+
+    // TODO: remove
+    console.log("useEffect, initalizing Quill")
 
     quill = new Quill(editorRef.current, {
       theme: "snow",

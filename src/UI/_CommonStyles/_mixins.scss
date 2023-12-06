@@ -66,8 +66,6 @@
 }
 
 @mixin header-footer-text {
-  text-transform: uppercase;
-
   $size: max(1vw, 14px);
 
   font-size: $size;

@@ -17,7 +17,11 @@ export function AppFooter() {
           </ul>
         </nav>
 
-        <span>&copy; 8b Services</span>
+        <div>
+          <img src="/images/icon.svg" alt="logo"/>
+          <span>Backstage Pass</span>
+          <span>&copy; 8b Services</span>
+        </div>
       </div>
     </footer>
   )

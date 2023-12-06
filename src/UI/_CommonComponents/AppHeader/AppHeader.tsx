@@ -1,4 +1,3 @@
-import { ElectricBolt } from "@mui/icons-material"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { Link, useLocation } from "react-router-dom"
 
@@ -71,15 +70,12 @@ export function AppHeader() {
   }, [isHeroPicture])
 
   return (
-    <header ref={headerRef} className="app-header" style={{ top: 0 }}>
-      <nav>
-        <Link to={loggedInUser ? "/home" : "/"} className="button icon-only" aria-label="home">
-          <ElectricBolt/>
-        </Link>
-      </nav>
-      {loggedInUser
-        ? <AppMenu/>
-        : <Link to="/home" className={classNames("button fixed-height transparent-bordered", { dark: isDarkBg })}><span>Sign in</span></Link>
+    <header ref={headerRef} className={classNames("app-header", { dark: isDarkBg })} style={{ top: 0 }}>
+      <Link to={loggedInUser ? "/home" : "/"} className="button icon-only" aria-label="home">
+        <img src="/images/icon.svg" alt="logo"/>
+      </Link>
+      {loggedInUser ? <AppMenu/> :
+        <Link to="/home" className="underlined appears"><span>Sign in</span></Link>
       }
     </header>
   )

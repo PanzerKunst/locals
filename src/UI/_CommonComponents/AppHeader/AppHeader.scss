@@ -8,22 +8,26 @@
 
   position: sticky;
   z-index: $z-index-header;
-  transition: top #{$animation-duration-xs}s linear;
-
   background-color: $color-header-bg;
+  transition: top #{$animation-duration-xs}s linear, background-color #{$animation-duration-md}s ease;
+
   padding: $header-padding-block $header-padding-inline;
 
-  > nav {
+  > a.button.icon-only  {
     flex-grow: 1;
+    justify-content: flex-start;
+  }
 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
+  > a.underlined {
     @include header-footer-text;
+  }
 
-    > a.icon-only > svg {
-      color: $color-icon-primary;
+  &.dark {
+    background-color: $color-header-bg-dark;
+
+    > a.underlined {
+      transition: all #{$animation-duration-sm}s ease; // Same duration as in `@mixin underlined`
+      color: $color-text-negative;
     }
   }
 }
