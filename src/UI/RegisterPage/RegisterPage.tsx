@@ -299,7 +299,7 @@ export function RegisterPage() {
         />
 
         <FadeIn className="tip-and-show-all">
-          <span className="offset">You can always tweak this later</span>
+          <span className="offset">You can always change this later</span>
           {!isShowingAllArtists && (
             <button className="underlined appears" onClick={() => setIsShowingAllArtists(true)}><span>Show all</span></button>
           )}
@@ -323,6 +323,10 @@ export function RegisterPage() {
           activeItems={followedGenres}
           onToggle={handleToggleFollowingGenre}
         />
+
+        <FadeIn className="tip-and-show-all">
+          <span className="offset">You can always change this later</span>
+        </FadeIn>
 
         <FadeIn className="wrapper-next-button">
           <AnimatedButton className="filling">

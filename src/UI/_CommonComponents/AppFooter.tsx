@@ -1,3 +1,4 @@
+import dayjs from "dayjs"
 import { Link } from "react-router-dom"
 
 import "./AppFooter.scss"
@@ -19,8 +20,7 @@ export function AppFooter() {
 
         <div>
           <img src="/images/icon.svg" alt="logo"/>
-          <span>Backstage Pass</span>
-          <span>&copy; 8b Services</span>
+          <span>&copy; {dayjs().year()}<br/>Backstage Pass</span>
         </div>
       </div>
     </footer>

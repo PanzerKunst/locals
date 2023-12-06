@@ -49,8 +49,9 @@
         margin: 0 auto 1em;
       }
 
-      > span:last-of-type {
-        margin-top: $elements-gap;
+      > span {
+        text-align: center;
+        line-height: 1.5em;
       }
     }
   }

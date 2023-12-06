@@ -1,6 +1,7 @@
 import { FormControl, FormHelperText, Input } from "@mui/joy"
 import classNames from "classnames"
 import _isEmpty from "lodash/isEmpty"
+import _sample from "lodash/sample"
 import Quill from "quill"
 import Delta from "quill-delta"
 import { ChangeEvent, FormEvent, ReactNode, useEffect, useRef, useState } from "react"
@@ -32,6 +33,11 @@ import "./ComposePage.scss"
 
 const maxTaggedArtists = 2
 const maxGenreHashtags = 2
+
+const editorPlaceholders = [
+  "Compose an epic...",
+  "Always be authentic...",
+]
 
 export function ComposePage() {
   const navigate = useNavigate()
@@ -67,7 +73,7 @@ export function ComposePage() {
 
     const quillEditor = new Quill(editorRef.current, {
       theme: "snow",
-      placeholder: "Compose an epic...",
+      placeholder: _sample(editorPlaceholders),
       formats: ["header", "bold", "italic", "strike", "link", "image", "video", "blockquote"],
       modules: {
         toolbar: [

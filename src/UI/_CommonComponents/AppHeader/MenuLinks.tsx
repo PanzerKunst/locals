@@ -39,7 +39,7 @@ export function MenuLinks({ closeMenu }: Props) {
             <Link to="/profile" className="underlined appears" onClick={closeMenu}>My Profile</Link>
           </motion.li>
           <motion.li initial={motionVariants.initial}>
-            <Link to="/compose" className="underlined appears" onClick={closeMenu}>Write a post</Link>
+            <Link to="/compose" className="underlined appears" onClick={closeMenu}>Compose</Link>
           </motion.li>
           <motion.li initial={motionVariants.initial}>
             <Link to={`/?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.SIGN_OUT}`} className="underlined appears" onClick={closeMenu}>Sign out</Link>
