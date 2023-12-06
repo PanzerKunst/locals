@@ -28,7 +28,8 @@ export function isSpotifyUserProfileCompatible(obj: any): obj is SpotifyUserProf
   }
 
   // Get all keys of the object
-  /* const keys = Object.keys(obj)
+  /* Commented out simply because it's too much work to define all keys
+  const keys = Object.keys(obj)
   const allowedKeys = ["id"]
 
   // Check for no additional keys
