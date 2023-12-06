@@ -15,19 +15,19 @@ import { CircularLoader } from "./_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
 import { SelectList } from "./_CommonComponents/SelectList.tsx"
 import { useAppContext } from "../AppContext.tsx"
+import { storeArtists } from "../Data/Backend/Apis/ArtistsApi.ts"
 import { fetchAllMusicGenres } from "../Data/Backend/Apis/MusicGenresApi.ts"
 import { fetchPost, storePost, updatePost } from "../Data/Backend/Apis/PostsApi.ts"
+import { ArtistWithGenres } from "../Data/Backend/Models/ArtistWithGenres.ts"
 import { MusicGenre } from "../Data/Backend/Models/MusicGenre.ts"
-import { EmptyPost } from "../Data/Backend/Models/Posts.ts"
+import { EmptyPost } from "../Data/Backend/Models/Post.ts"
 import { searchArtists } from "../Data/Spotify/Apis/SearchApi.ts"
-import { SpotifyArtist } from "../Data/Spotify/Models/SpotifyArtist.ts"
 import { scrollIntoView } from "../Util/AnimationUtils.ts"
 import { Field } from "../Util/FormUtils.ts"
 import { isEditorEmpty } from "../Util/QuillUtils.ts"
 import { useDebounce } from "../Util/ReactUtils.ts"
-import { getEmptyPostFromSession, saveEmptyPostInSession } from "../Util/SessionStorage.ts"
+import { getEmptyPostWithTagsFromSession, saveEmptyPostWithTagsInSession } from "../Util/SessionStorage.ts"
 import { asTagName } from "../Util/TagUtils.ts"
-
 
 import "./ComposePage.scss"
 
@@ -36,7 +36,7 @@ const maxGenreHashtags = 2
 
 const editorPlaceholders = [
   "Compose an epic...",
-  "Always be authentic...",
+  "Always be authentic..."
 ]
 
 export function ComposePage() {
@@ -46,12 +46,12 @@ export function ComposePage() {
   const [artistQuery, setArtistQuery] = useState("")
   const debouncedArtistQuery = useDebounce(artistQuery, 300)
   const [isSearchingArtists, setIsSearchingArtists] = useState(false)
-  const [artistSearchResults, setArtistSearchResults] = useState<SpotifyArtist[]>([])
-  const [taggedSpotifyArtists, setTaggedSpotifyArtists] = useState<SpotifyArtist[]>([])
+  const [artistSearchResults, setArtistSearchResults] = useState<ArtistWithGenres[]>([])
+  const [taggedArtists, setTaggedArtists] = useState<ArtistWithGenres[]>([])
 
   const [genreQuery, setGenreQuery] = useState("")
   const [genreSearchResults, setGenreSearchResults] = useState<MusicGenre[]>([])
-  const [genreHashtags, setGenreHashtags] = useState<MusicGenre[]>([])
+  const [taggedGenres, setTaggedGenres] = useState<MusicGenre[]>([])
 
   const [tagsError, setTagsError] = useState("")
 
@@ -88,10 +88,10 @@ export function ComposePage() {
 
     setQuill(quillEditor)
 
-    const emptyPost = getEmptyPostFromSession()
+    const emptyPostWithTags = getEmptyPostWithTagsFromSession()
 
-    if (emptyPost) {
-      initQuillContent(emptyPost)
+    if (emptyPostWithTags) {
+      initQuillContent(emptyPostWithTags.post)
     }
 
     async function initQuillContent(emptyPost: EmptyPost) {
@@ -125,8 +125,9 @@ export function ComposePage() {
       setIsSearchingArtists(true)
       const queryWithoutAtSign = debouncedArtistQuery.replace("@", "")
       const searchResults = await searchArtists(appContext, queryWithoutAtSign)
+      const matchingArtistsWithGenres = await storeArtists(searchResults)
       setIsSearchingArtists(false)
-      setArtistSearchResults(searchResults)
+      setArtistSearchResults(matchingArtistsWithGenres)
     }
 
     setArtistSearchResults([])
@@ -137,7 +138,7 @@ export function ComposePage() {
     }
 
     performArtistSearch()
-  }, [appContext, debouncedArtistQuery, taggedSpotifyArtists])
+  }, [appContext, debouncedArtistQuery, taggedArtists])
 
   useEffect(() => {
     setGenreSearchResults([])
@@ -161,7 +162,7 @@ export function ComposePage() {
   }
 
   function areTagsValid(): boolean {
-    if (_isEmpty(taggedSpotifyArtists) && _isEmpty(genreHashtags)) {
+    if (_isEmpty(taggedArtists) && _isEmpty(taggedGenres)) {
       setTagsError("Add at least 1 artist or genre tag")
 
       scrollIntoView(document.querySelector(".tag-fields")!)
@@ -200,17 +201,18 @@ export function ComposePage() {
     setArtistQuery(event.target.value)
   }
 
-  const handleArtistSelect = (spotifyArtist: SpotifyArtist) => {
-    if (taggedSpotifyArtists.length < maxTaggedArtists && !taggedSpotifyArtists.some(artist => artist.id === spotifyArtist.id)) {
-      setTaggedSpotifyArtists([...taggedSpotifyArtists, spotifyArtist])
+  const handleArtistSelect = (artistWithGenres: ArtistWithGenres) => {
+    if (taggedArtists.length < maxTaggedArtists &&
+      !taggedArtists.some(taggedArtistWithGenres => taggedArtistWithGenres.artist.id === artistWithGenres.artist.id)) {
+      setTaggedArtists([...taggedArtists, artistWithGenres])
     }
 
     setArtistQuery("")
     setTagsError("")
   }
 
-  const handleDeleteArtistTag = (spotifyArtist: SpotifyArtist) => {
-    setTaggedSpotifyArtists(taggedSpotifyArtists.filter((taggedArtist) => taggedArtist.id !== spotifyArtist.id))
+  const handleDeleteArtistTag = (artistWithGenres: ArtistWithGenres) => {
+    setTaggedArtists(taggedArtists.filter((taggedArtistWithGenres) => taggedArtistWithGenres.artist.id !== artistWithGenres.artist.id))
   }
 
   const handleGenreChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -218,8 +220,8 @@ export function ComposePage() {
   }
 
   const handleGenreSelect = (musicGenre: MusicGenre) => {
-    if (genreHashtags.length < maxGenreHashtags && !genreHashtags.some(genre => genre.id === musicGenre.id)) {
-      setGenreHashtags([...genreHashtags, musicGenre])
+    if (taggedGenres.length < maxGenreHashtags && !taggedGenres.some(genre => genre.id === musicGenre.id)) {
+      setTaggedGenres([...taggedGenres, musicGenre])
     }
 
     setGenreQuery("")
@@ -227,7 +229,7 @@ export function ComposePage() {
   }
 
   const handleDeleteGenreTag = (musicGenre: MusicGenre) => {
-    setGenreHashtags(genreHashtags.filter((taggedGenre) => taggedGenre.id !== musicGenre.id))
+    setTaggedGenres(taggedGenres.filter((taggedGenre) => taggedGenre.id !== musicGenre.id))
   }
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -252,21 +254,13 @@ export function ComposePage() {
 
     setIsSubmittingForm(true)
 
-    const emptyPost = getEmptyPostFromSession()
+    const emptyPostWithTags = getEmptyPostWithTagsFromSession()
 
-    if (emptyPost) {
-      await updatePost(emptyPost, quill!)
+    if (emptyPostWithTags) {
+      await updatePost(emptyPostWithTags, quill!)
     } else {
-      const storedPost = await storePost(appContext, titleField.value, quill!)
-
-      saveEmptyPostInSession({
-        id: storedPost.id,
-        createdAt: storedPost.createdAt,
-        updatedAt: storedPost.updatedAt,
-        publishedAt: storedPost.publishedAt,
-        userId: storedPost.userId,
-        title: storedPost.title
-      })
+      const storedEmptyPostWithTags = await storePost(appContext, titleField.value, taggedArtists, taggedGenres, quill!)
+      saveEmptyPostWithTagsInSession(storedEmptyPostWithTags)
     }
 
     navigate("/compose/preview")
@@ -285,19 +279,19 @@ export function ComposePage() {
               value={artistQuery}
               autoComplete="search"
               onChange={handleArtistChange}
-              disabled={taggedSpotifyArtists.length === maxTaggedArtists}
+              disabled={taggedArtists.length === maxTaggedArtists}
             />
             <SelectList
               items={artistSearchResults.slice(0, 5)}
-              renderItem={(artist) => asTagName(artist.name, "@")}
+              renderItem={(artistWithGenres: ArtistWithGenres) => asTagName(artistWithGenres.artist.name, "@")}
               onSelect={handleArtistSelect}
               loading={isSearchingArtists}
             />
           </div>
 
           <ChipList
-            items={taggedSpotifyArtists}
-            renderItem={(spotifyArtist) => <span>{asTagName(spotifyArtist.name, "@")}</span>}
+            items={taggedArtists}
+            renderItem={(artistWithGenres: ArtistWithGenres) => <span>{asTagName(artistWithGenres.artist.name, "@")}</span>}
             onDelete={handleDeleteArtistTag}
           />
         </FormControl>
@@ -312,7 +306,7 @@ export function ComposePage() {
               value={genreQuery}
               autoComplete="search"
               onChange={handleGenreChange}
-              disabled={genreHashtags.length === maxGenreHashtags}
+              disabled={taggedGenres.length === maxGenreHashtags}
             />
             <SelectList
               items={genreSearchResults.slice(0, 5)}
@@ -322,7 +316,7 @@ export function ComposePage() {
           </div>
 
           <ChipList
-            items={genreHashtags}
+            items={taggedGenres}
             renderItem={(musicGenre) => <span>{asTagName(musicGenre.name, "#")}</span>}
             onDelete={handleDeleteGenreTag}
           />

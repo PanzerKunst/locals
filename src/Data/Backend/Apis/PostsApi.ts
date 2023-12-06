@@ -3,7 +3,10 @@ import Quill from "quill"
 import { AppContextType } from "../../../AppContext.tsx"
 import { httpStatusCode } from "../../../Util/HttpUtils.ts"
 import { config } from "../../../config.ts"
-import { Post, EmptyPost } from "../Models/Posts.ts"
+import { ArtistWithGenres } from "../Models/ArtistWithGenres.ts"
+import { MusicGenre } from "../Models/MusicGenre.ts"
+import { Post } from "../Models/Post.ts"
+import { EmptyPostWithTags } from "../Models/PostWithTags.ts"
 
 export async function fetchPost(id: number): Promise<Post | undefined> {
   const result = await fetch(`${config.BACKEND_URL}/post/${id}`, {
@@ -20,7 +23,13 @@ export async function fetchPost(id: number): Promise<Post | undefined> {
     : await result.json() as Post
 }
 
-export async function storePost(appContext: AppContextType, title: string, quill: Quill): Promise<Post> {
+export async function storePost(
+  appContext: AppContextType,
+  title: string,
+  taggedArtistsWithGenres: ArtistWithGenres[],
+  taggedGenres: MusicGenre[],
+  quill: Quill
+): Promise<EmptyPostWithTags> {
   const loggedInUser = appContext.loggedInUser
 
   if (!loggedInUser) {
@@ -35,7 +44,9 @@ export async function storePost(appContext: AppContextType, title: string, quill
         userId: loggedInUser.id,
         title,
         content: quill.root.innerHTML
-      }
+      },
+      taggedArtists: taggedArtistsWithGenres.map((artistWithGenres) => artistWithGenres.artist),
+      taggedGenres
     })
   })
 
@@ -43,24 +54,26 @@ export async function storePost(appContext: AppContextType, title: string, quill
     throw new Error(`Error while storing post for user ID ${loggedInUser.id}`)
   }
 
-  return await result.json() as Post
+  return await result.json() as EmptyPostWithTags
 }
 
-export async function updatePost(emptyPost: EmptyPost, quill: Quill): Promise<Post> {
+export async function updatePost(emptyPostWithTags: EmptyPostWithTags, quill: Quill): Promise<EmptyPostWithTags> {
   const result = await fetch(`${config.BACKEND_URL}/post`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       post: {
-        ...emptyPost,
+        ...emptyPostWithTags.post,
         content: quill.root.innerHTML
-      }
+      },
+      taggedArtists: emptyPostWithTags.taggedArtists,
+      taggedGenres: emptyPostWithTags.taggedGenres
     })
   })
 
   if (!result.ok) {
-    throw new Error(`Error while updating post ${JSON.stringify(emptyPost)}`)
+    throw new Error(`Error while updating post ${JSON.stringify(emptyPostWithTags)}`)
   }
 
-  return await result.json() as Post
+  return await result.json() as EmptyPostWithTags
 }

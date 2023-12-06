@@ -9,7 +9,7 @@ import { CircularLoader } from "./_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
 import { fetchPost } from "../Data/Backend/Apis/PostsApi.ts"
 import { actionsFromAppUrl, appUrlQueryParam } from "../Util/AppUrlQueryParams.ts"
-import { getEmptyPostFromSession, saveEmptyPostInSession } from "../Util/SessionStorage.ts"
+import { getEmptyPostWithTagsFromSession, saveEmptyPostWithTagsInSession } from "../Util/SessionStorage.ts"
 
 import "./PreviewPostPage.scss"
 
@@ -17,7 +17,7 @@ export function PreviewPostPage() {
   const navigate = useNavigate()
   const [isPublishing, setIsPublishing] = useState(false)
 
-  const emptyPost = getEmptyPostFromSession()
+  const emptyPost = getEmptyPostWithTagsFromSession()
 
   const currentPostQuery = useQuery(
     "currentPost",
@@ -36,7 +36,7 @@ export function PreviewPostPage() {
 
   const handleClick = () => {
     setIsPublishing(true)
-    saveEmptyPostInSession(undefined)
+    saveEmptyPostWithTagsInSession(undefined)
     navigate(`/home?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.PUBLICATION_SUCCESS}`)
   }
 

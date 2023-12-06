@@ -11,3 +11,8 @@ export function withoutNullish<T>(arr: (T | null | undefined)[] | null | undefin
     return res
   }, [] as T[])
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function isArrayOfStrings(arr: any) {
+  return Array.isArray(arr) && arr.every(item => typeof item === "string")
+}
