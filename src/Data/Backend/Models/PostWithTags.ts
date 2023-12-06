@@ -1,6 +1,6 @@
 import { Artist, isArtistCompatible } from "./Artist.ts"
 import { isGenreCompatible, MusicGenre } from "./MusicGenre.ts"
-import { EmptyPost, isPostCompatible } from "./Post.ts"
+import { EmptyPost, isPostCompatible, Post } from "./Post.ts"
 import { config } from "../../../config.ts"
 
 export type EmptyPostWithTags = {
@@ -13,13 +13,13 @@ export type EmptyPostWithTags = {
   post: NewPost;
   taggedArtists: Artist[];
   taggedGenres: MusicGenre[];
-}
+} */
 
 export type PostWithTags = {
   post: Post;
   taggedArtists: Artist[];
   taggedGenres: MusicGenre[];
-} */
+}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isPostWithTagsCompatible(obj: any, isEmpty: boolean | undefined = false): boolean {

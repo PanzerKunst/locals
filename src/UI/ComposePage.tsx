@@ -18,9 +18,10 @@ import { useAppContext } from "../AppContext.tsx"
 import { storeArtists } from "../Data/Backend/Apis/ArtistsApi.ts"
 import { fetchAllMusicGenres } from "../Data/Backend/Apis/MusicGenresApi.ts"
 import { fetchPost, storePost, updatePost } from "../Data/Backend/Apis/PostsApi.ts"
-import { ArtistWithGenres } from "../Data/Backend/Models/ArtistWithGenres.ts"
+import { Artist } from "../Data/Backend/Models/Artist.ts"
 import { MusicGenre } from "../Data/Backend/Models/MusicGenre.ts"
 import { EmptyPost } from "../Data/Backend/Models/Post.ts"
+import { EmptyPostWithTags } from "../Data/Backend/Models/PostWithTags.ts"
 import { searchArtists } from "../Data/Spotify/Apis/SearchApi.ts"
 import { scrollIntoView } from "../Util/AnimationUtils.ts"
 import { Field } from "../Util/FormUtils.ts"
@@ -46,8 +47,8 @@ export function ComposePage() {
   const [artistQuery, setArtistQuery] = useState("")
   const debouncedArtistQuery = useDebounce(artistQuery, 300)
   const [isSearchingArtists, setIsSearchingArtists] = useState(false)
-  const [artistSearchResults, setArtistSearchResults] = useState<ArtistWithGenres[]>([])
-  const [taggedArtists, setTaggedArtists] = useState<ArtistWithGenres[]>([])
+  const [artistSearchResults, setArtistSearchResults] = useState<Artist[]>([])
+  const [taggedArtists, setTaggedArtists] = useState<Artist[]>([])
 
   const [genreQuery, setGenreQuery] = useState("")
   const [genreSearchResults, setGenreSearchResults] = useState<MusicGenre[]>([])
@@ -88,20 +89,34 @@ export function ComposePage() {
 
     setQuill(quillEditor)
 
+    // TODO: remove
+    console.log("ComposePage > initializing quillEditor & form data")
+
     const emptyPostWithTags = getEmptyPostWithTagsFromSession()
 
     if (emptyPostWithTags) {
+      initPostTitleAndTags(emptyPostWithTags)
       initQuillContent(emptyPostWithTags.post)
     }
 
-    async function initQuillContent(emptyPost: EmptyPost) {
-      const post = await fetchPost(emptyPost.id)
+    function initPostTitleAndTags(emptyPostWithTags: EmptyPostWithTags) {
+      setTitleField({
+        value: emptyPostWithTags.post.title,
+        error: "" // We reset any eventual errors
+      })
 
-      if (!post) {
+      setTaggedArtists(emptyPostWithTags.taggedArtists)
+      setTaggedGenres(emptyPostWithTags.taggedGenres)
+    }
+
+    async function initQuillContent(emptyPost: EmptyPost) {
+      const postWithTags = await fetchPost(emptyPost.id)
+
+      if (!postWithTags) {
         return
       }
 
-      quillEditor.root.innerHTML = post.content
+      quillEditor.root.innerHTML = postWithTags.post.content
     }
 
     function handleTextChange(delta: Delta) {
@@ -127,7 +142,7 @@ export function ComposePage() {
       const searchResults = await searchArtists(appContext, queryWithoutAtSign)
       const matchingArtistsWithGenres = await storeArtists(searchResults)
       setIsSearchingArtists(false)
-      setArtistSearchResults(matchingArtistsWithGenres)
+      setArtistSearchResults(matchingArtistsWithGenres.map((artistWithGenres) => artistWithGenres.artist))
     }
 
     setArtistSearchResults([])
@@ -201,18 +216,18 @@ export function ComposePage() {
     setArtistQuery(event.target.value)
   }
 
-  const handleArtistSelect = (artistWithGenres: ArtistWithGenres) => {
+  const handleArtistSelect = (artist: Artist) => {
     if (taggedArtists.length < maxTaggedArtists &&
-      !taggedArtists.some(taggedArtistWithGenres => taggedArtistWithGenres.artist.id === artistWithGenres.artist.id)) {
-      setTaggedArtists([...taggedArtists, artistWithGenres])
+      !taggedArtists.some(taggedArtist => taggedArtist.id === artist.id)) {
+      setTaggedArtists([...taggedArtists, artist])
     }
 
     setArtistQuery("")
     setTagsError("")
   }
 
-  const handleDeleteArtistTag = (artistWithGenres: ArtistWithGenres) => {
-    setTaggedArtists(taggedArtists.filter((taggedArtistWithGenres) => taggedArtistWithGenres.artist.id !== artistWithGenres.artist.id))
+  const handleDeleteArtistTag = (artist: Artist) => {
+    setTaggedArtists(taggedArtists.filter((taggedArtist) => taggedArtist.id !== artist.id))
   }
 
   const handleGenreChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -256,12 +271,11 @@ export function ComposePage() {
 
     const emptyPostWithTags = getEmptyPostWithTagsFromSession()
 
-    if (emptyPostWithTags) {
-      await updatePost(emptyPostWithTags, quill!)
-    } else {
-      const storedEmptyPostWithTags = await storePost(appContext, titleField.value, taggedArtists, taggedGenres, quill!)
-      saveEmptyPostWithTagsInSession(storedEmptyPostWithTags)
-    }
+    const storedEmptyPostWithTags = emptyPostWithTags
+      ? await updatePost(emptyPostWithTags.post, titleField.value, taggedArtists, taggedGenres, quill!)
+      : await storePost(appContext, titleField.value, taggedArtists, taggedGenres, quill!)
+
+    saveEmptyPostWithTagsInSession(storedEmptyPostWithTags)
 
     navigate("/compose/preview")
   }
@@ -283,7 +297,7 @@ export function ComposePage() {
             />
             <SelectList
               items={artistSearchResults.slice(0, 5)}
-              renderItem={(artistWithGenres: ArtistWithGenres) => asTagName(artistWithGenres.artist.name, "@")}
+              renderItem={(artist: Artist) => asTagName(artist.name, "@")}
               onSelect={handleArtistSelect}
               loading={isSearchingArtists}
             />
@@ -291,7 +305,7 @@ export function ComposePage() {
 
           <ChipList
             items={taggedArtists}
-            renderItem={(artistWithGenres: ArtistWithGenres) => <span>{asTagName(artistWithGenres.artist.name, "@")}</span>}
+            renderItem={(artist: Artist) => <span>{asTagName(artist.name, "@")}</span>}
             onDelete={handleDeleteArtistTag}
           />
         </FormControl>

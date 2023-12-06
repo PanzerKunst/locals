@@ -17,12 +17,12 @@ export function PreviewPostPage() {
   const navigate = useNavigate()
   const [isPublishing, setIsPublishing] = useState(false)
 
-  const emptyPost = getEmptyPostWithTagsFromSession()
+  const emptyPostWithTags = getEmptyPostWithTagsFromSession()
 
   const currentPostQuery = useQuery(
     "currentPost",
-    () => fetchPost(emptyPost!.id), {
-      enabled: !!emptyPost
+    () => fetchPost(emptyPostWithTags!.post.id), {
+      enabled: !!emptyPostWithTags
     }
   )
 
@@ -44,11 +44,11 @@ export function PreviewPostPage() {
     <div className="page preview-post">
       <main className="container">
         <FadeIn>
-          <h1>{currentPostQuery.data!.title}</h1>
+          <h1>{currentPostQuery.data!.post.title}</h1>
         </FadeIn>
 
         <FadeIn>
-          <div id="quill-preview" dangerouslySetInnerHTML={{ __html: currentPostQuery.data!.content }}/>
+          <div id="quill-preview" dangerouslySetInnerHTML={{ __html: currentPostQuery.data!.post.content }}/>
         </FadeIn>
 
         <FadeIn>

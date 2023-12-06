@@ -3,12 +3,12 @@ import Quill from "quill"
 import { AppContextType } from "../../../AppContext.tsx"
 import { httpStatusCode } from "../../../Util/HttpUtils.ts"
 import { config } from "../../../config.ts"
-import { ArtistWithGenres } from "../Models/ArtistWithGenres.ts"
+import { Artist } from "../Models/Artist.ts"
 import { MusicGenre } from "../Models/MusicGenre.ts"
-import { Post } from "../Models/Post.ts"
-import { EmptyPostWithTags } from "../Models/PostWithTags.ts"
+import { EmptyPost } from "../Models/Post.ts"
+import { EmptyPostWithTags, PostWithTags } from "../Models/PostWithTags.ts"
 
-export async function fetchPost(id: number): Promise<Post | undefined> {
+export async function fetchPost(id: number): Promise<PostWithTags | undefined> {
   const result = await fetch(`${config.BACKEND_URL}/post/${id}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" }
@@ -20,13 +20,13 @@ export async function fetchPost(id: number): Promise<Post | undefined> {
 
   return result.status === httpStatusCode.NO_CONTENT
     ? undefined
-    : await result.json() as Post
+    : await result.json() as PostWithTags
 }
 
 export async function storePost(
   appContext: AppContextType,
   title: string,
-  taggedArtistsWithGenres: ArtistWithGenres[],
+  taggedArtists: Artist[],
   taggedGenres: MusicGenre[],
   quill: Quill
 ): Promise<EmptyPostWithTags> {
@@ -45,7 +45,7 @@ export async function storePost(
         title,
         content: quill.root.innerHTML
       },
-      taggedArtists: taggedArtistsWithGenres.map((artistWithGenres) => artistWithGenres.artist),
+      taggedArtists,
       taggedGenres
     })
   })
@@ -57,22 +57,29 @@ export async function storePost(
   return await result.json() as EmptyPostWithTags
 }
 
-export async function updatePost(emptyPostWithTags: EmptyPostWithTags, quill: Quill): Promise<EmptyPostWithTags> {
+export async function updatePost(
+  emptyPost: EmptyPost,
+  title: string,
+  taggedArtists: Artist[],
+  taggedGenres: MusicGenre[],
+  quill: Quill
+): Promise<EmptyPostWithTags> {
   const result = await fetch(`${config.BACKEND_URL}/post`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       post: {
-        ...emptyPostWithTags.post,
+        ...emptyPost,
+        title,
         content: quill.root.innerHTML
       },
-      taggedArtists: emptyPostWithTags.taggedArtists,
-      taggedGenres: emptyPostWithTags.taggedGenres
+      taggedArtists,
+      taggedGenres
     })
   })
 
   if (!result.ok) {
-    throw new Error(`Error while updating post ${JSON.stringify(emptyPostWithTags)}`)
+    throw new Error(`Error while updating post ${JSON.stringify(emptyPost)}`)
   }
 
   return await result.json() as EmptyPostWithTags
