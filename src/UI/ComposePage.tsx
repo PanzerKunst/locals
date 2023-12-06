@@ -30,8 +30,6 @@ import { asTagName } from "../Util/TagUtils.ts"
 
 import "./ComposePage.scss"
 
-let quill: Quill
-
 const maxTaggedArtists = 2
 const maxGenreHashtags = 2
 
@@ -51,8 +49,9 @@ export function ComposePage() {
 
   const [tagsError, setTagsError] = useState("")
 
-  const editorRef = useRef<HTMLDivElement>(null)
   const [titleField, setTitleField] = useState<Field>({ value: "", error: "" })
+  const editorRef = useRef<HTMLDivElement>(null)
+  const [quill, setQuill] = useState<Quill>()
   const [editorError, setEditorError] = useState("")
   const [isSubmittingForm, setIsSubmittingForm] = useState(false)
 
@@ -64,15 +63,23 @@ export function ComposePage() {
   useEffect(() => {
     if (quill || !editorRef.current || !allMusicGenresQuery.data) {
       // TODO: remove
-      console.log("useEffect, returning early")
+      console.log("useEffect, returning early", {
+        quill,
+        editorRef: editorRef.current,
+        allMusicGenresQueryData: allMusicGenresQuery.data
+      })
 
       return
     }
 
     // TODO: remove
-    console.log("useEffect, initalizing Quill")
+    console.log("useEffect, initalizing Quill", {
+      quill,
+      editorRef: editorRef.current,
+      allMusicGenresQueryData: allMusicGenresQuery.data
+    })
 
-    quill = new Quill(editorRef.current, {
+    const quillEditor = new Quill(editorRef.current, {
       theme: "snow",
       placeholder: "Compose an epic...",
       formats: ["header", "bold", "italic", "strike", "link", "image", "video", "blockquote"],
@@ -87,6 +94,8 @@ export function ComposePage() {
       }
     })
 
+    setQuill(quillEditor)
+
     const emptyPost = getEmptyPostFromSession()
 
     if (emptyPost) {
@@ -100,7 +109,7 @@ export function ComposePage() {
         return
       }
 
-      quill.root.innerHTML = post.content
+      quillEditor.root.innerHTML = post.content
     }
 
     function handleTextChange(delta: Delta) {
@@ -111,13 +120,13 @@ export function ComposePage() {
     }
 
     // Register handler
-    quill.on("text-change", handleTextChange)
+    quillEditor.on("text-change", handleTextChange)
 
     // Cleanup
     return () => {
-      quill.off("text-change", handleTextChange)
+      quillEditor.off("text-change", handleTextChange)
     }
-  }, [allMusicGenresQuery.data])
+  }, [allMusicGenresQuery.data, quill])
 
   useEffect(() => {
     async function performArtistSearch() {
@@ -254,9 +263,9 @@ export function ComposePage() {
     const emptyPost = getEmptyPostFromSession()
 
     if (emptyPost) {
-      await updatePost(emptyPost, quill)
+      await updatePost(emptyPost, quill!)
     } else {
-      const storedPost = await storePost(appContext, titleField.value, quill)
+      const storedPost = await storePost(appContext, titleField.value, quill!)
 
       saveEmptyPostInSession({
         id: storedPost.id,
