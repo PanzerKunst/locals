@@ -9,9 +9,3 @@ export type MotionTransition = {
   duration: number;
   ease: Easing | Easing[];
 }
-
-export function scrollIntoView(element: Element | null, delaySeconds: number | undefined = 0): void {
-  setTimeout(() => {
-    element?.scrollIntoView({ behavior: "smooth" })
-  }, delaySeconds * 1000)
-}

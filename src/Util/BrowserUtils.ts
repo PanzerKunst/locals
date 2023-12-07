@@ -47,3 +47,24 @@ export function getScrollbarWidth() {
 
   return scrollbarWidth
 }
+
+export function scrollIntoView(element: Element | null, delaySeconds: number | undefined = 0): void {
+  if (!element || isInViewport(element)) {
+    return
+  }
+
+  setTimeout(() => {
+    element.scrollIntoView({ behavior: "smooth" })
+  }, delaySeconds * 1000)
+}
+
+export function isInViewport(element: Element): boolean {
+  const rect = element.getBoundingClientRect()
+
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+  )
+}

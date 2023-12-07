@@ -22,7 +22,7 @@ import { Artist } from "../Data/Backend/Models/Artist.ts"
 import { MusicGenre } from "../Data/Backend/Models/MusicGenre.ts"
 import { EmptyPostWithTags } from "../Data/Backend/Models/PostWithTags.ts"
 import { searchArtists } from "../Data/Spotify/Apis/SearchApi.ts"
-import { scrollIntoView } from "../Util/AnimationUtils.ts"
+import { scrollIntoView } from "../Util/BrowserUtils.ts"
 import { isEditorEmpty } from "../Util/QuillUtils.ts"
 import { useDebounce } from "../Util/ReactUtils.ts"
 import { getEmptyPostWithTagsFromSession, saveEmptyPostWithTagsInSession } from "../Util/SessionStorage.ts"
@@ -89,9 +89,6 @@ export function ComposePage() {
 
     setQuill(quillEditor)
 
-    // TODO: remove
-    console.log("ComposePage > initializing quillEditor & form data")
-
     const emptyPostWithTags = getEmptyPostWithTagsFromSession()
 
     if (emptyPostWithTags) {
@@ -131,8 +128,14 @@ export function ComposePage() {
 
       quillEditor.root.innerHTML = postWithTags.post.content
     }
+  }, [allMusicGenresQuery.data, postId, quill])
 
-    /* TODO: doesn't work
+  /* TODO: currently unused
+  useEffect(() => {
+    if (!quill) {
+      return
+    }
+
     function handleTextChange(delta: Delta) {
       // TODO: remove
       console.log("handleTextChange", delta)
@@ -141,13 +144,13 @@ export function ComposePage() {
     }
 
     // Register handler
-    quillEditor.on("text-change", handleTextChange)
+    quill.on("text-change", handleTextChange)
 
     // Cleanup
     return () => {
-      quillEditor.off("text-change", handleTextChange)
-    } */
-  }, [allMusicGenresQuery.data, postId, quill])
+      quill.off("text-change", handleTextChange)
+    }
+  }, [quill]) */
 
   useEffect(() => {
     async function performArtistSearch() {
@@ -193,9 +196,7 @@ export function ComposePage() {
   function areTagsValid(): boolean {
     if (_isEmpty(taggedArtists) && _isEmpty(taggedGenres)) {
       setTagsError("Add at least 1 artist or genre tag")
-
       scrollIntoView(document.querySelector(".tag-fields")!)
-
       return false
     }
 
@@ -207,6 +208,7 @@ export function ComposePage() {
 
     if (value === "") {
       setTitleField({ value, error: "Your post needs a title" })
+      scrollIntoView(document.querySelector("#post-title")!)
       return false
     }
 
@@ -216,6 +218,7 @@ export function ComposePage() {
   function isEditorValid(): boolean {
     if (isEditorEmpty(quill)) {
       setEditorError("Your post needs some content")
+      scrollIntoView(editorRef.current)
       return false
     }
 
@@ -362,7 +365,7 @@ export function ComposePage() {
       </FadeIn>
 
       <FadeIn>
-        <FormControl error={titleField.error !== ""}>
+        <FormControl error={titleField.error !== ""} id="post-title">
           <Input
             variant="soft"
             size="lg"

@@ -18,10 +18,11 @@ import { searchLocations } from "../../Data/Geoapify/Apis/AutocompleteApi.ts"
 import { GeoapifyFeature } from "../../Data/Geoapify/Models/GeoapifyFeature.ts"
 import { SpotifyArtist } from "../../Data/Spotify/Models/SpotifyArtist.ts"
 import { isSpotifyUserProfileCompatible } from "../../Data/Spotify/Models/SpotifyUserProfile.ts"
-import { defaultFadeInDelay, scrollIntoView } from "../../Util/AnimationUtils.ts"
+import { defaultFadeInDelay } from "../../Util/AnimationUtils.ts"
 import { actionsFromAppUrl, appUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
 import { useDebounce } from "../../Util/ReactUtils.ts"
 import { getSpotifyProfileFromSession, saveSpotifyProfileInSession } from "../../Util/SessionStorage.ts"
+import { Field, isEmailValid, isUsernameValid } from "../../Util/ValidationUtils.ts"
 import { AnimatedButton } from "../_CommonComponents/AnimatedButton.tsx"
 import { ButtonLoader } from "../_CommonComponents/ButtonLoader.tsx"
 import { ChipList } from "../_CommonComponents/ChipList.tsx"
@@ -29,7 +30,7 @@ import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 import { SelectList } from "../_CommonComponents/SelectList.tsx"
 import { ErrorSnackbar } from "../_CommonComponents/Snackbar/ErrorSnackbar.tsx"
-import { Field, isEmailValid, isUsernameValid } from "../../Util/ValidationUtils.ts"
+import { scrollIntoView } from "../../Util/BrowserUtils.ts"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./RegisterPage.scss"
@@ -59,12 +60,12 @@ export function RegisterPage() {
   const [usernameFieldError, setUsernameFieldError] = useState("")
   const [isCheckingUsernameAvailability, setIsCheckingUsernameAvailability] = useState(false)
 
-  const [locationQuery, setLocationQuery] = useState("")
-  const debouncedLocationQuery = useDebounce(locationQuery, 300)
-  const [locationFieldError, setLocationFieldError] = useState("")
+  const [geolocationQuery, setGeolocationQuery] = useState("")
+  const debouncedGeolocationQuery = useDebounce(geolocationQuery, 300)
+  const [geolocationFieldError, setGeolocationFieldError] = useState("")
   const [isSearchingLocations, setIsSearchingLocations] = useState(false)
   const [locationSearchResults, setLocationSearchResults] = useState<GeoapifyFeature[]>([])
-  const [selectedLocation, setSelectedLocation] = useState<GeoapifyFeature>()
+  const [selectedGeolocation, setSelectedGeolocation] = useState<GeoapifyFeature>()
 
   const [isSubmittingForm, setIsSubmittingForm] = useState(false)
 
@@ -100,30 +101,20 @@ export function RegisterPage() {
       console.log("performLocationSearch()")
 
       setIsSearchingLocations(true)
-      const searchResults = await searchLocations(debouncedLocationQuery)
+      const searchResults = await searchLocations(debouncedGeolocationQuery)
       setIsSearchingLocations(false)
       setLocationSearchResults(searchResults)
-
-      // TODO: remove
-      console.log("setLocationSearchResults(searchResults)")
     }
 
     setLocationSearchResults([])
 
-    // TODO: remove
-    console.log("setLocationSearchResults([])", debouncedLocationQuery.length, selectedLocation)
-
-    if (debouncedLocationQuery.length < minLocationQueryLength || selectedLocation) {
-
-      // TODO: remove
-      console.log("debouncedLocationQuery.length < minLocationQueryLength || selectedLocation")
-
+    if (debouncedGeolocationQuery.length < minLocationQueryLength || selectedGeolocation) {
       setIsSearchingLocations(false)
       return
     }
 
     performLocationSearch()
-  }, [debouncedLocationQuery, selectedLocation])
+  }, [debouncedGeolocationQuery, selectedGeolocation])
 
   useEffect(() => {
     async function performUsernameAvailabilityCheck() {
@@ -163,11 +154,13 @@ export function RegisterPage() {
 
     if (email === "") {
       setEmailField({ value: email, error: "Please input your email" })
+      scrollIntoView(document.querySelector("#email")!)
       return false
     }
 
     if (!isEmailValid(email)) {
       setEmailField({ value: email, error: "Invalid email, sorry" })
+      scrollIntoView(document.querySelector("#email")!)
       return false
     }
 
@@ -177,11 +170,13 @@ export function RegisterPage() {
   function isUsernameInputValid(): boolean {
     if (debouncedUsername === "") {
       setUsernameFieldError("Please input your username")
+      scrollIntoView(document.querySelector("#username")!)
       return false
     }
 
     if (!isUsernameValid(debouncedUsername)) {
       setUsernameFieldError("A combination of letters, numbers, -, _, .")
+      scrollIntoView(document.querySelector("#username")!)
       return false
     }
 
@@ -189,8 +184,9 @@ export function RegisterPage() {
   }
 
   function isLocationInputValid(): boolean {
-    if (!selectedLocation) {
-      setLocationFieldError("Please select a location")
+    if (!selectedGeolocation) {
+      setGeolocationFieldError("Please select a location")
+      scrollIntoView(document.querySelector("#geolocation")!)
       return false
     }
 
@@ -252,14 +248,14 @@ export function RegisterPage() {
   }
 
   const handleLocationChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setLocationQuery(event.target.value)
-    setSelectedLocation(undefined)
+    setGeolocationQuery(event.target.value)
+    setSelectedGeolocation(undefined)
   }
 
   const handleLocationSelect = (location: GeoapifyFeature) => {
-    setSelectedLocation(location)
-    setLocationQuery(location.formatted)
-    setLocationFieldError("")
+    setSelectedGeolocation(location)
+    setGeolocationQuery(location.formatted)
+    setGeolocationFieldError("")
   }
 
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -274,7 +270,7 @@ export function RegisterPage() {
     const user = await storeUser(appContext, {
       ...spotifyProfile,
       email: emailField.value
-    }, debouncedUsername, selectedLocation!)
+    }, debouncedUsername, selectedGeolocation!)
 
     const storedArtistsWithGenres = await storeArtists(favouriteArtists)
     const storedArtists = storedArtistsWithGenres.map((artistWithGenres) => artistWithGenres.artist)
@@ -342,7 +338,7 @@ export function RegisterPage() {
 
         <form noValidate onSubmit={handleFormSubmit}>
           <FadeIn>
-            <FormControl error={emailField.error !== ""}>
+            <FormControl error={emailField.error !== ""} id="email">
               <FormLabel>E-mail</FormLabel>
               <Input
                 variant="soft"
@@ -357,7 +353,7 @@ export function RegisterPage() {
           </FadeIn>
 
           <FadeIn>
-            <FormControl error={usernameFieldError !== ""}>
+            <FormControl error={usernameFieldError !== ""} id="username">
               <FormLabel>Username</FormLabel>
               <Input
                 variant="soft"
@@ -373,7 +369,7 @@ export function RegisterPage() {
           </FadeIn>
 
           <FadeIn>
-            <FormControl error={locationFieldError !== ""}>
+            <FormControl error={geolocationFieldError !== ""} id="geolocation">
               <FormLabel>Location</FormLabel>
               <div className="input-and-select-list-wrapper">
                 <Input
@@ -381,7 +377,7 @@ export function RegisterPage() {
                   variant="soft"
                   size="lg"
                   placeholder="Paris, France"
-                  value={locationQuery}
+                  value={geolocationQuery}
                   autoComplete="search"
                   onChange={handleLocationChange}
                   startDecorator={<LocationOn/>}
@@ -393,7 +389,7 @@ export function RegisterPage() {
                   loading={isSearchingLocations}
                 />
               </div>
-              {locationFieldError !== "" && <FormHelperText>{locationFieldError}</FormHelperText>}
+              {geolocationFieldError !== "" && <FormHelperText>{geolocationFieldError}</FormHelperText>}
             </FormControl>
           </FadeIn>
 
@@ -401,7 +397,7 @@ export function RegisterPage() {
             <AnimatedButton className="filling">
               <button
                 className={classNames("button", { "filling loading": isSubmittingForm })}
-                disabled={emailField.error !== "" || usernameFieldError !== "" || locationFieldError !== ""}
+                disabled={emailField.error !== "" || usernameFieldError !== "" || geolocationFieldError !== ""}
               >
                 {isSubmittingForm && <ButtonLoader/>}
                 <span>Complete registration</span>
