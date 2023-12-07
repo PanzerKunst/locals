@@ -25,7 +25,7 @@ import { scrollIntoView } from "../Util/BrowserUtils.ts"
 import { isEditorEmpty } from "../Util/QuillUtils.ts"
 import { useDebounce } from "../Util/ReactUtils.ts"
 import { getEmptyPostWithTagsFromSession, saveEmptyPostWithTagsInSession } from "../Util/SessionStorage.ts"
-import { asTagName } from "../Util/TagUtils.ts"
+import { asTag } from "../Util/TagUtils.ts"
 import { Field, isOnlyDigitsAndNotEmpty } from "../Util/ValidationUtils.ts"
 
 import "./ComposePage.scss"
@@ -317,7 +317,7 @@ export function ComposePage() {
             />
             <SelectList
               items={artistSearchResults.slice(0, 5)}
-              renderItem={(artist: Artist) => asTagName(artist.name, "@")}
+              renderItem={(artist: Artist) => asTag(artist.name, "@")}
               onSelect={handleArtistSelect}
               loading={isSearchingArtists}
             />
@@ -325,7 +325,7 @@ export function ComposePage() {
 
           <ChipList
             items={taggedArtists}
-            renderItem={(artist: Artist) => <span>{asTagName(artist.name, "@")}</span>}
+            renderItem={(artist: Artist) => <span>{asTag(artist.name, "@")}</span>}
             onDelete={handleDeleteArtistTag}
           />
         </FormControl>
@@ -344,14 +344,14 @@ export function ComposePage() {
             />
             <SelectList
               items={genreSearchResults.slice(0, 5)}
-              renderItem={(musicGenre) => asTagName(musicGenre.name, "#")}
+              renderItem={(musicGenre) => asTag(musicGenre.name, "#")}
               onSelect={handleGenreSelect}
             />
           </div>
 
           <ChipList
             items={taggedGenres}
-            renderItem={(musicGenre) => <span>{asTagName(musicGenre.name, "#")}</span>}
+            renderItem={(musicGenre) => <span>{asTag(musicGenre.name, "#")}</span>}
             onDelete={handleDeleteGenreTag}
           />
         </FormControl>
