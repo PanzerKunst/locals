@@ -17,11 +17,12 @@ export function AppHeader() {
   const { loggedInUser } = useAppContext()
   const location = useLocation()
   const headerRef = useRef<HTMLHeadingElement>(null)
-  const [isDarkBg, setIsDarkBg] = useState(false)
 
   const isHeroPicture = useMemo(() => {
     return location.pathname === "/"
   }, [location.pathname])
+
+  const [isDarkBg, setIsDarkBg] = useState(isHeroPicture)
 
   useEffect(() => {
     const header = headerRef.current
