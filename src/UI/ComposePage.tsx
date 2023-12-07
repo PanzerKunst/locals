@@ -132,6 +132,7 @@ export function ComposePage() {
       quillEditor.root.innerHTML = postWithTags.post.content
     }
 
+    /* TODO: doesn't work
     function handleTextChange(delta: Delta) {
       // TODO: remove
       console.log("handleTextChange", delta)
@@ -145,7 +146,7 @@ export function ComposePage() {
     // Cleanup
     return () => {
       quillEditor.off("text-change", handleTextChange)
-    }
+    } */
   }, [allMusicGenresQuery.data, postId, quill])
 
   useEffect(() => {

@@ -25,7 +25,6 @@ export function AppHeader() {
     return isPicture
   }, [location.pathname])
 
-
   useEffect(() => {
     const header = headerRef.current
 
