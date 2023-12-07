@@ -6,7 +6,7 @@ import Quill from "quill"
 import Delta from "quill-delta"
 import { ChangeEvent, FormEvent, ReactNode, useEffect, useRef, useState } from "react"
 import { useQuery } from "react-query"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 import { AnimatedButton } from "./_CommonComponents/AnimatedButton.tsx"
 import { ButtonLoader } from "./_CommonComponents/ButtonLoader.tsx"
@@ -20,15 +20,14 @@ import { fetchAllMusicGenres } from "../Data/Backend/Apis/MusicGenresApi.ts"
 import { fetchPost, storePost, updatePost } from "../Data/Backend/Apis/PostsApi.ts"
 import { Artist } from "../Data/Backend/Models/Artist.ts"
 import { MusicGenre } from "../Data/Backend/Models/MusicGenre.ts"
-import { EmptyPost } from "../Data/Backend/Models/Post.ts"
 import { EmptyPostWithTags } from "../Data/Backend/Models/PostWithTags.ts"
 import { searchArtists } from "../Data/Spotify/Apis/SearchApi.ts"
 import { scrollIntoView } from "../Util/AnimationUtils.ts"
-import { Field } from "../Util/FormUtils.ts"
 import { isEditorEmpty } from "../Util/QuillUtils.ts"
 import { useDebounce } from "../Util/ReactUtils.ts"
 import { getEmptyPostWithTagsFromSession, saveEmptyPostWithTagsInSession } from "../Util/SessionStorage.ts"
 import { asTagName } from "../Util/TagUtils.ts"
+import { Field, isOnlyDigitsAndNotEmpty } from "../Util/ValidationUtils.ts"
 
 import "./ComposePage.scss"
 
@@ -43,6 +42,7 @@ const editorPlaceholders = [
 export function ComposePage() {
   const navigate = useNavigate()
   const appContext = useAppContext()
+  const { postId } = useParams()
 
   const [artistQuery, setArtistQuery] = useState("")
   const debouncedArtistQuery = useDebounce(artistQuery, 300)
@@ -96,7 +96,9 @@ export function ComposePage() {
 
     if (emptyPostWithTags) {
       initPostTitleAndTags(emptyPostWithTags)
-      initQuillContent(emptyPostWithTags.post)
+      initQuillContent(emptyPostWithTags.post.id)
+    } else if (isOnlyDigitsAndNotEmpty(postId)) {
+      initPostFromId(Number(postId))
     }
 
     function initPostTitleAndTags(emptyPostWithTags: EmptyPostWithTags) {
@@ -109,8 +111,19 @@ export function ComposePage() {
       setTaggedGenres(emptyPostWithTags.taggedGenres)
     }
 
-    async function initQuillContent(emptyPost: EmptyPost) {
-      const postWithTags = await fetchPost(emptyPost.id)
+    async function initPostFromId(postId: number) {
+      const postWithTags = await fetchPost(postId)
+
+      if (!postWithTags) {
+        return
+      }
+
+      initPostTitleAndTags(postWithTags)
+      quillEditor.root.innerHTML = postWithTags.post.content
+    }
+
+    async function initQuillContent(postId: number) {
+      const postWithTags = await fetchPost(postId)
 
       if (!postWithTags) {
         return
@@ -133,7 +146,7 @@ export function ComposePage() {
     return () => {
       quillEditor.off("text-change", handleTextChange)
     }
-  }, [allMusicGenresQuery.data, quill])
+  }, [allMusicGenresQuery.data, postId, quill])
 
   useEffect(() => {
     async function performArtistSearch() {
@@ -269,7 +282,11 @@ export function ComposePage() {
 
     setIsSubmittingForm(true)
 
-    const emptyPostWithTags = getEmptyPostWithTagsFromSession()
+    let emptyPostWithTags = getEmptyPostWithTagsFromSession()
+
+    if (!emptyPostWithTags && isOnlyDigitsAndNotEmpty(postId)) {
+      emptyPostWithTags = await fetchPost(Number(postId))
+    }
 
     const storedEmptyPostWithTags = emptyPostWithTags
       ? await updatePost(emptyPostWithTags.post, titleField.value, taggedArtists, taggedGenres, quill!)

@@ -8,10 +8,6 @@ ul.chips {
   > li {
     transition: opacity #{$animation-duration-sm}s ease;
 
-    &[aria-selected="false"] {
-      opacity: 0.3 !important;
-    }
-
     font-size: $variable-font-size;
 
     display: flex;
@@ -26,6 +22,14 @@ ul.chips {
     > svg {
       color: $color-icon-primary;
       @include img-size(1.1em);
+    }
+
+    &[aria-selected="false"] {
+      opacity: 0.3 !important;
+
+      > svg {
+        visibility: hidden;
+      }
     }
   }
 }

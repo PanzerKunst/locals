@@ -14,3 +14,9 @@ const USERNAME_FORMAT_REGEXP = /^[A-Za-zÀ-ÖØ-öø-ÿ0-9-_.]+$/
 export function isUsernameValid(username: string): boolean {
   return USERNAME_FORMAT_REGEXP.test(username)
 }
+
+const ONLY_DIGITS_AND_NOT_EMPTY_REGEXP = /^\d+$/
+
+export function isOnlyDigitsAndNotEmpty(value: string | undefined): boolean {
+  return ONLY_DIGITS_AND_NOT_EMPTY_REGEXP.test(value || "")
+}

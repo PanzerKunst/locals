@@ -34,7 +34,12 @@ export function PreviewPostPage() {
     return renderContents(<span>Error fetching data</span>)
   }
 
-  const handleClick = () => {
+  const handleEditClick = () => {
+    saveEmptyPostWithTagsInSession(undefined)
+    navigate(`/compose/${currentPostQuery.data!.post.id}`)
+  }
+
+  const handlePublishClick = () => {
     setIsPublishing(true)
     saveEmptyPostWithTagsInSession(undefined)
     navigate(`/home?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.PUBLICATION_SUCCESS}`)
@@ -51,9 +56,11 @@ export function PreviewPostPage() {
           <div id="quill-preview" dangerouslySetInnerHTML={{ __html: currentPostQuery.data!.post.content }}/>
         </FadeIn>
 
-        <FadeIn>
+        <FadeIn className="action-buttons">
+          <button className="underlined disappears" onClick={handleEditClick}>Edit</button>
+
           <AnimatedButton className="filling">
-            <button className={classNames("button", { "filling loading": isPublishing })} onClick={handleClick}>
+            <button className={classNames("button", { "filling loading": isPublishing })} onClick={handlePublishClick}>
               {isPublishing && <ButtonLoader/>}
               <span>Publish & Notify subscribers</span>
             </button>

@@ -23,6 +23,7 @@ const router = createBrowserRouter([
       { path: "account", element: <AccountPage /> },
       { path: "compose", element: <ComposePage /> },
       { path: "compose/preview", element: <PreviewPostPage /> },
+      { path: "compose/:postId", element: <ComposePage /> },
       { path: "contact", element: <ContactPage /> },
       { path: "privacy", element: <PrivacyPolicyPage /> }
     ]

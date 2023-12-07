@@ -32,7 +32,7 @@
     > form {
       display: flex;
       flex-direction: column;
-      gap: 3vmin;
+      gap: $default-field-gap;
 
       > .wrapper-next-button {
         margin-top: 2vmin;

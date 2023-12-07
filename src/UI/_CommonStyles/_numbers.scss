@@ -13,8 +13,7 @@ $animation-duration-sm: 0.3;
 $animation-duration-md: 0.7;
 
 $z-index-default: 0;
-$z-index-MuiChipDelete-root: 1; // stylelint-disable-line
-$z-index-select-list: $z-index-MuiChipDelete-root + 1;
+$z-index-select-list: $z-index-default + 1;
 $z-index-header: $z-index-select-list + 1;
 
 $header-height: 60px;
@@ -23,6 +22,8 @@ $header-padding-inline: 15px;
 
 $input-border-radius: 6px;
 $input-padding: max(0.5em, 18px);
+
+$default-field-gap: 3vmin;
 
 $variable-font-size: max(1.8vw, 18px);
 $variable-font-size-sm: max(1.3vw, 15px);

@@ -1,0 +1,34 @@
+@import "/src/UI/_CommonStyles/colors";
+@import "/src/UI/_CommonStyles/numbers";
+
+.tooltip {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+
+  font-size: 16px;
+  color: $color-text-negative;
+
+  background-color: $color-tooltip-bg;
+  border-radius: 0.5em;
+
+  // Arrow styling
+  &::after {
+    $border-width: 10px;
+
+    content: "";
+    position: absolute;
+    bottom: -#{($border-width * 2) - 1}; // 1px to overlap the tooltip
+    left: 50%;
+    transform: translateX(-50%);
+
+    border-width: $border-width;
+    border-style: solid;
+    border-color: $color-tooltip-bg transparent transparent transparent; // Only top border is colored
+  }
+
+  > span {
+    padding-left: 0.5em;
+    cursor: default;
+  }
+}

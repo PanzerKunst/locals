@@ -2,8 +2,12 @@ import { Check } from "@mui/icons-material"
 import { AnimatePresence, motion } from "framer-motion"
 
 import { SpotifyArtist } from "../../Data/Spotify/Models/SpotifyArtist.ts"
-import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 import { useViewportSize } from "../../Util/BrowserUtils.ts"
+import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
+
+import { useState } from "react"
+
+import { Tooltip } from "../_CommonComponents/Tooltip.tsx"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./FavouriteArtists.scss"
@@ -45,13 +49,20 @@ type Props = {
 
 export function FavouriteArtists({ isShowingAll = false, favourites, followed, onToggle }: Props) {
   const viewportWidth = useViewportSize().width
-  const artistsByPopularity = favourites.sort((a, b) => b.popularity - a.popularity)
+  const [isTooltipVisible, setIsTooltipVisible] = useState(true)
 
-  const top50artists = artistsByPopularity.slice(0, getItemCount(isShowingAll, viewportWidth))
+  const artistsByPopularity = favourites.sort((a, b) => b.popularity - a.popularity)
+  const topArtists = artistsByPopularity.slice(0, getItemCount(isShowingAll, viewportWidth))
+
+  const handleToggle = (spotifyArtist: SpotifyArtist) => {
+    setIsTooltipVisible(false)
+    onToggle(spotifyArtist)
+  }
 
   return (
     <ul className="styleless favourite-artists">
-      {top50artists.map((spotifyArtist) => {
+      {isTooltipVisible && <Tooltip text="Tap to toggle" />}
+      {topArtists.map((spotifyArtist) => {
         const largeImage = spotifyArtist.images[0]
         const isActive = followed.some((followedArtist) => followedArtist.id === spotifyArtist.id)
 
@@ -59,7 +70,7 @@ export function FavouriteArtists({ isShowingAll = false, favourites, followed, o
           <motion.li
             key={spotifyArtist.id}
             whileTap={{ scale: 0.95 }}
-            onClick={() => onToggle(spotifyArtist)}
+            onClick={() => handleToggle(spotifyArtist)}
             // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
             role="option"
             aria-selected={isActive}

@@ -20,6 +20,14 @@
     grid-template-columns: repeat(5, 1fr);
   }
 
+  position: relative;
+
+  > .tooltip {
+    position: absolute;
+    right: 1em;
+    top: -3.5em;
+  }
+
   > li {
     transition: opacity #{$animation-duration-sm}s ease;
 
