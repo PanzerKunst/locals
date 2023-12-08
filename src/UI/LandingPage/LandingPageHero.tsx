@@ -44,7 +44,7 @@ export function LandingPageHero() {
         transition={{ duration: s.animationDurationSm, delay: 0.7 }}
       >
         <AnimatedButton className="filling">
-          <Link to="/home" className="button"><span>Join now</span></Link>
+          <Link to="/home" className="button"><span>Join the Community</span></Link>
         </AnimatedButton>
       </motion.div>
       
