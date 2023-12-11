@@ -137,16 +137,12 @@ export function ComposePage() {
     }
   }, [allMusicGenresQuery.data, postId, quill])
 
-  /* TODO: currently unused
   useEffect(() => {
     if (!quill) {
       return
     }
 
-    function handleTextChange(delta: Delta) {
-      // TODO: remove
-      console.log("handleTextChange", delta)
-
+    function handleTextChange() {
       setEditorError("") // We reset any eventual errors
     }
 
@@ -157,7 +153,7 @@ export function ComposePage() {
     return () => {
       quill.off("text-change", handleTextChange)
     }
-  }, [quill]) */
+  }, [quill])
 
   useEffect(() => {
     async function performArtistSearch() {
