@@ -353,7 +353,7 @@ export function ComposePage() {
           <Input
             variant="soft"
             size="lg"
-            placeholder="Post title"
+            placeholder="Post title (optional)"
             autoComplete="off"
             value={titleField.value}
             onChange={handleTitleChange}

@@ -1,5 +1,6 @@
 import classNames from "classnames"
 import dayjs from "dayjs"
+import _isEmpty from "lodash/isEmpty"
 import { ReactNode, useState } from "react"
 import { useQuery } from "react-query"
 import { Link, useNavigate } from "react-router-dom"
@@ -54,9 +55,11 @@ export function PreviewPostPage() {
   return (
     <div className="page preview-post">
       <main className="container">
-        <FadeIn>
-          <h1>{postQuery.data!.post.title}</h1>
-        </FadeIn>
+        {!_isEmpty(postQuery.data!.post.title) && (
+          <FadeIn>
+            <h1>{postQuery.data!.post.title}</h1>
+          </FadeIn>
+        )}
 
         <FadeIn className="tags-wrapper">
           <ul className="styleless">
