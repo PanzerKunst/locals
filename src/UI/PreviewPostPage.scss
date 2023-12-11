@@ -1,27 +1,6 @@
 @import "/src/UI/_CommonStyles/mixins";
 
 .page.preview-post {
-  .tags-wrapper {
-    display: flex;
-    gap: 1em;
-
-    font-size: $variable-font-size-sm;
-
-    > ul {
-      display: flex;
-      gap: 0.5em;
-    }
-  }
-
-  .author,
-  .publication-date {
-    font-size: $variable-font-size-sm;
-  }
-
-  .quill-preview {
-    @include quill-editor;
-  }
-
   .action-buttons {
     display: flex;
     justify-content: flex-end;

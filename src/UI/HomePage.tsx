@@ -1,15 +1,14 @@
 import { ReactNode } from "react"
 import { useQuery } from "react-query"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 import { CircularLoader } from "./_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
-import { SuccessSnackbar } from "./_CommonComponents/Snackbar/SuccessSnackbar.tsx"
 import { useAppContext } from "../AppContext.tsx"
 import { fetchUser } from "../Data/Backend/Apis/UsersApi.ts"
 import { getAccessToken, redirectToAuthCodeFlow } from "../Data/Spotify/Apis/AuthApi.ts"
 import { fetchProfile } from "../Data/Spotify/Apis/ProfileApi.ts"
-import { actionsFromAppUrl, appUrlQueryParam } from "../Util/AppUrlQueryParams.ts"
+import { appUrlQueryParam } from "../Util/AppUrlQueryParams.ts"
 import { getUrlQueryParam } from "../Util/BrowserUtils.ts"
 import { saveSpotifyProfileInSession } from "../Util/SessionStorage.ts"
 
@@ -77,21 +76,10 @@ export function HomePage() {
     return renderContents(<></>)
   }
 
-  const actionFromUrl = getUrlQueryParam(appUrlQueryParam.ACTION)
-
   return renderContents(
-    <>
-      {actionFromUrl === actionsFromAppUrl.PUBLICATION_SUCCESS && (
-        <SuccessSnackbar>
-          <span>Your post is now published</span>
-          <p><Link to="/post" className="underlined disappears">Check it out</Link></p>
-        </SuccessSnackbar>
-      )}
-
-      <FadeIn>
-        <h1>Welcome back, {loggedInUser?.name}!</h1>
-      </FadeIn>
-    </>
+    <FadeIn>
+      <h1>Welcome back, {loggedInUser?.name}!</h1>
+    </FadeIn>
   )
 
   function renderContents(children: ReactNode) {

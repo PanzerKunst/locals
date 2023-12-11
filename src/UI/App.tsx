@@ -5,6 +5,7 @@ import { ComposePage } from "./ComposePage.tsx"
 import { ContactPage } from "./ContactPage.tsx"
 import { HomePage } from "./HomePage.tsx"
 import { LandingPage } from "./LandingPage/LandingPage.tsx"
+import { PostPage } from "./PostPage.tsx"
 import { PreviewPostPage } from "./PreviewPostPage.tsx"
 import { PrivacyPolicyPage } from "./PrivacyPolicyPage.tsx"
 import { RegisterPage } from "./RegisterPage/RegisterPage.tsx"
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
       { path: "compose", element: <ComposePage /> },
       { path: "compose/preview", element: <PreviewPostPage /> },
       { path: "compose/:postId", element: <ComposePage /> },
+      { path: "p/:postId", element: <PostPage /> },
       { path: "contact", element: <ContactPage /> },
       { path: "privacy", element: <PrivacyPolicyPage /> }
     ]
