@@ -3,8 +3,8 @@ import { config } from "../../../config.ts"
 
 export type NewPost = {
   userId: number,
-  title: string,
   content: string,
+  title?: string,
 }
 
 // Taken by copy/pasting the last part of the bubble when hovering `posts.$inferSelect`
@@ -17,7 +17,7 @@ export type Post = NewPost & {
 
 export type EmptyPost = Omit<Post, "content">
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
 export function isPostCompatible(obj: any, isEmpty: boolean | undefined = false): boolean {
   // Check if the object is not null and is an object
   if (typeof obj !== "object" || !obj) {
@@ -40,12 +40,12 @@ export function isPostCompatible(obj: any, isEmpty: boolean | undefined = false)
     console.log("Post incompatible: 'typeof obj.userId !== \"number\"'")
     return false
   }
-  if (typeof obj.title !== "string") {
-    console.log("Post incompatible: 'typeof obj.title !== \"string\"'")
-    return false
-  }
   if (!isEmpty && typeof obj.content !== "string") {
     console.log("Post incompatible: '!isEmpty && typeof obj.content !== \"string\"'")
+    return false
+  }
+  if (obj.title && typeof obj.title !== "string") {
+    console.log("Post incompatible: 'obj.title && typeof obj.title !== \"string\"'")
     return false
   }
   if (typeof obj.id !== "number") {
@@ -68,3 +68,4 @@ export function isPostCompatible(obj: any, isEmpty: boolean | undefined = false)
   // If all checks pass, then the object matches the type
   return true
 }
+/* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */

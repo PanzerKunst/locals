@@ -18,7 +18,6 @@ export async function searchLocations(text: string): Promise<GeoapifyFeature[]> 
   if (!result.ok) {
     throw new Error("Error while fetching locations")
   }
-
-  const json = await result.json()
-  return json.results as GeoapifyFeature[]
+  const json = await result.json() as { results: GeoapifyFeature[] }
+  return json.results
 }

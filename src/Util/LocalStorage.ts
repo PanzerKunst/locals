@@ -12,7 +12,7 @@ export type ContextInLocalStorage = {
 type CookieConsent = "necessary" | "all"
 
 // Generated at https://chat.openai.com/c/59314a97-9171-4dd4-bbdb-9ec32b9e9c1f
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
 function isContextCompatible(obj: any): obj is ContextInLocalStorage {
   // Check if the object is not null and is an object
   if (typeof obj !== "object" || !obj) {
@@ -78,7 +78,7 @@ function getContextFromLocalStorage(): ContextInLocalStorage {
     return defaultContext
   }
 
-  const contextInStorage: ContextInLocalStorage = JSON.parse(contextStringInStorage)
+  const contextInStorage = JSON.parse(contextStringInStorage) as ContextInLocalStorage
 
   if (!isContextCompatible(contextInStorage)) {
     window.localStorage.removeItem(localStorageKey)

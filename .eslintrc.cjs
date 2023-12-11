@@ -3,18 +3,20 @@ module.exports = {
   env: {browser: true, es2020: true},
   extends: [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-type-checked",
     "plugin:react-hooks/recommended",
     "plugin:react/recommended",
     "plugin:css-import-order/recommended",
-    "plugin:jsx-a11y/strict"
+    "plugin:jsx-a11y/strict",
+    "plugin:react/jsx-runtime"
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  ignorePatterns: ["dist", ".eslintrc.cjs"],
   parser: "@typescript-eslint/parser",
   plugins: [
     "react-refresh",
     "react",
     "react-hooks",
+    "@typescript-eslint",
     "import",
     "css-import-order"
   ],
@@ -22,6 +24,12 @@ module.exports = {
     react: {
       version: "detect"
     }
+  },
+  parserOptions: {
+    ecmaVersion: "latest",
+    sourceType: "module",
+    project: ["./tsconfig.json", "./tsconfig.node.json"],
+    tsconfigRootDir: __dirname,
   },
   rules: {
     "quotes": ["error", "double"],
@@ -38,6 +46,7 @@ module.exports = {
     "react/jsx-no-constructed-context-values": "error",
     "@typescript-eslint/ban-ts-comment": ["error", {"ts-ignore": "allow-with-description"}],
     "@typescript-eslint/no-unused-vars": "off", // Already covered by no-unused-vars
+    "@typescript-eslint/no-unsafe-call": "off",
     "import/order": ["error", {
       "groups": [
         "external",

@@ -13,7 +13,7 @@ export function getSpotifyProfileFromSession(): SpotifyUserProfile | undefined {
   const spotifyProfileInSession = window.sessionStorage.getItem(sessionStorageKeys.spotifyProfile)
 
   return spotifyProfileInSession
-    ? JSON.parse(spotifyProfileInSession)
+    ? JSON.parse(spotifyProfileInSession) as SpotifyUserProfile
     : undefined
 }
 
@@ -36,7 +36,7 @@ export function getEmptyPostWithTagsFromSession(): EmptyPostWithTags | undefined
     return undefined
   }
 
-  const emptyPostWithTags = JSON.parse(emptyPostInSession)
+  const emptyPostWithTags = JSON.parse(emptyPostInSession) as EmptyPostWithTags
 
   return isPostWithTagsCompatible(emptyPostWithTags, true)
     ? emptyPostWithTags

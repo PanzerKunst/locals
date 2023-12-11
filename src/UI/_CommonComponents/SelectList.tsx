@@ -32,7 +32,7 @@ export function SelectList<T>({ items, renderItem, onSelect, loading = false }: 
       return
     }
 
-    animate(
+    void animate(
       "li",
       motionVariants.animate,
       {
@@ -43,6 +43,7 @@ export function SelectList<T>({ items, renderItem, onSelect, loading = false }: 
   }, [animate, scope, items])
 
   function handleOutsideClick(event: MouseEvent) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (!scope.current.contains(event.target as Node)) {
       setIsOpen(false)
     }

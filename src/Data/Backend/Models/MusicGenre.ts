@@ -12,7 +12,7 @@ export type MusicGenre = NewMusicGenre & {
   updatedAt: string
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
 export function isGenreCompatible(obj: any): obj is MusicGenre {
   // Check if the object is not null and is an object
   if (typeof obj !== "object" || !obj) {
@@ -51,3 +51,4 @@ export function isGenreCompatible(obj: any): obj is MusicGenre {
   // If all checks pass, then the object matches the type
   return true
 }
+/* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */

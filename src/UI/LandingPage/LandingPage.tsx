@@ -76,7 +76,7 @@ export function LandingPage() {
           </FadeIn>
 
           <FadeIn>
-            <p>2. Complete the <Link to="/" className="underlined disappears">artist registration process</Link>.</p>
+            <p>2. Complete the <Link to="/" className="underlined disappears">artist verification & registration process</Link>.</p>
           </FadeIn>
 
           <FadeIn>

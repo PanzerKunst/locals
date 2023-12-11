@@ -21,7 +21,7 @@ export function MenuLinks({ closeMenu }: Props) {
   const [scope, animate] = useAnimate()
 
   useEffect(() => {
-    animate(
+    void animate(
       "li",
       motionVariants.animate,
       {

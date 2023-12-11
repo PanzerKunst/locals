@@ -21,7 +21,7 @@ export type PostWithTags = {
   taggedGenres: MusicGenre[];
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
 export function isPostWithTagsCompatible(obj: any, isEmpty: boolean | undefined = false): boolean {
   // Check if the object is not null and is an object
   if (typeof obj !== "object" || !obj) {
@@ -44,12 +44,10 @@ export function isPostWithTagsCompatible(obj: any, isEmpty: boolean | undefined 
     console.log("PostWithTags incompatible: '!isPostCompatible(obj.post, isEmpty)'")
     return false
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (!Array.isArray(obj.taggedArtists) || obj.taggedArtists.some((item: any) => !isArtistCompatible(item))) {
     console.log("PostWithTags incompatible: '!Array.isArray(obj.taggedArtists) || obj.taggedArtists.some((item: any) => !isArtistCompatible(item))'")
     return false
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (!Array.isArray(obj.taggedGenres) || obj.taggedGenres.some((item: any) => !isGenreCompatible(item))) {
     console.log("PostWithTags incompatible: '!Array.isArray(obj.taggedGenres) || obj.taggedGenres.some((item: any) => !isGenreCompatible(item))'")
     return false
@@ -58,3 +56,5 @@ export function isPostWithTagsCompatible(obj: any, isEmpty: boolean | undefined 
   // If all checks pass, then the object matches the type
   return true
 }
+
+/* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */

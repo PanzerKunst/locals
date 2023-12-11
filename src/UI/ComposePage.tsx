@@ -92,14 +92,14 @@ export function ComposePage() {
 
     if (emptyPostWithTags) {
       initPostTitleAndTags(emptyPostWithTags)
-      initQuillContent(emptyPostWithTags.post.id)
+      void initQuillContent(emptyPostWithTags.post.id)
     } else if (isOnlyDigitsAndNotEmpty(postId)) {
-      initPostFromId(Number(postId))
+      void initPostFromId(Number(postId))
     }
 
     function initPostTitleAndTags(emptyPostWithTags: EmptyPostWithTags) {
       setTitleField({
-        value: emptyPostWithTags.post.title,
+        value: emptyPostWithTags.post.title || "",
         error: "" // We reset any eventual errors
       })
 
@@ -168,7 +168,7 @@ export function ComposePage() {
       return
     }
 
-    performArtistSearch()
+    void performArtistSearch()
   }, [appContext, debouncedArtistQuery, taggedArtists])
 
   useEffect(() => {
@@ -195,19 +195,7 @@ export function ComposePage() {
   function areTagsValid(): boolean {
     if (_isEmpty(taggedArtists) && _isEmpty(taggedGenres)) {
       setTagsError("Add at least 1 artist or genre tag")
-      scrollIntoView(document.querySelector(".tag-fields")!)
-      return false
-    }
-
-    return true
-  }
-
-  function isTitleValid(): boolean {
-    const { value } = titleField
-
-    if (value === "") {
-      setTitleField({ value, error: "Your post needs a title" })
-      scrollIntoView(document.querySelector("#post-title")!)
+      scrollIntoView(document.querySelector(".tag-fields"))
       return false
     }
 
@@ -225,7 +213,7 @@ export function ComposePage() {
   }
 
   function isFormValid(): boolean {
-    return areTagsValid() && isTitleValid() && isEditorValid()
+    return areTagsValid() && isEditorValid()
   }
 
   const handleArtistChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -272,10 +260,6 @@ export function ComposePage() {
     })
   }
 
-  const handleTitleBlur = () => {
-    return isTitleValid()
-  }
-
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
@@ -301,6 +285,7 @@ export function ComposePage() {
   }
 
   return renderContents(
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <form noValidate onSubmit={handleFormSubmit}>
       <FadeIn className="tag-fields">
         <FormControl>
@@ -372,7 +357,6 @@ export function ComposePage() {
             autoComplete="off"
             value={titleField.value}
             onChange={handleTitleChange}
-            onBlur={handleTitleBlur}
           />
           {titleField.error !== "" && <FormHelperText>{titleField.error}</FormHelperText>}
         </FormControl>

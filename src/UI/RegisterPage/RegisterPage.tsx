@@ -113,7 +113,7 @@ export function RegisterPage() {
       return
     }
 
-    performLocationSearch()
+    void performLocationSearch()
   }, [debouncedGeolocationQuery, selectedGeolocation])
 
   useEffect(() => {
@@ -131,7 +131,7 @@ export function RegisterPage() {
       return
     }
 
-    performUsernameAvailabilityCheck()
+    void performUsernameAvailabilityCheck()
   }, [debouncedUsername]) // eslint-disable-line react-hooks/exhaustive-deps
 
   /* eslint-enable react-hooks/rules-of-hooks */
@@ -154,13 +154,13 @@ export function RegisterPage() {
 
     if (email === "") {
       setEmailField({ value: email, error: "Please input your email" })
-      scrollIntoView(document.querySelector("#email")!)
+      scrollIntoView(document.querySelector("#email"))
       return false
     }
 
     if (!isEmailValid(email)) {
       setEmailField({ value: email, error: "Invalid email, sorry" })
-      scrollIntoView(document.querySelector("#email")!)
+      scrollIntoView(document.querySelector("#email"))
       return false
     }
 
@@ -170,13 +170,13 @@ export function RegisterPage() {
   function isUsernameInputValid(): boolean {
     if (debouncedUsername === "") {
       setUsernameFieldError("Please input your username")
-      scrollIntoView(document.querySelector("#username")!)
+      scrollIntoView(document.querySelector("#username"))
       return false
     }
 
     if (!isUsernameValid(debouncedUsername)) {
       setUsernameFieldError("A combination of letters, numbers, -, _, .")
-      scrollIntoView(document.querySelector("#username")!)
+      scrollIntoView(document.querySelector("#username"))
       return false
     }
 
@@ -186,7 +186,7 @@ export function RegisterPage() {
   function isLocationInputValid(): boolean {
     if (!selectedGeolocation) {
       setGeolocationFieldError("Please select a location")
-      scrollIntoView(document.querySelector("#geolocation")!)
+      scrollIntoView(document.querySelector("#geolocation"))
       return false
     }
 
@@ -220,7 +220,7 @@ export function RegisterPage() {
   const handleNextStepClick = (event: MouseEvent<HTMLButtonElement>) => {
     const nextStep = nbShownSteps + 1
     setNbShownSteps(nextStep)
-    animate(event.currentTarget, { opacity: 0 }, { duration: Number(s.animationDurationSm) })
+    void animate(event.currentTarget, { opacity: 0 }, { duration: Number(s.animationDurationSm) })
     const nextStepEl = document.querySelector(`section[data-step="${nextStep}"]`)
     scrollIntoView(nextStepEl, defaultFadeInDelay)
   }
@@ -336,6 +336,7 @@ export function RegisterPage() {
           <h2>Your account</h2>
         </FadeIn>
 
+        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form noValidate onSubmit={handleFormSubmit}>
           <FadeIn>
             <FormControl error={emailField.error !== ""} id="email">

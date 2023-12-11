@@ -34,7 +34,7 @@ export function HomePage() {
     // TODO: remove
     console.log("HomePage > redirectToAuthCodeFlow")
 
-    redirectToAuthCodeFlow(appContext)
+    void redirectToAuthCodeFlow(appContext)
     return renderContents(<></>)
   }
 
@@ -68,7 +68,7 @@ export function HomePage() {
   }
 
   if (!userQuery.data) {
-    saveSpotifyProfileInSession(spotifyProfileQuery.data!)
+    saveSpotifyProfileInSession(spotifyProfileQuery.data)
 
     // TODO: remove
     console.log("HomePage > redirecting to /register")

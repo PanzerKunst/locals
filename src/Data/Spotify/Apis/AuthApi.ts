@@ -41,7 +41,7 @@ export async function getAccessToken(appContext: AppContextType, code: string): 
     body: qs.stringify(queryParams)
   })
 
-  const { access_token, refresh_token } = await result.json()
+  const { access_token, refresh_token } = await result.json() as { access_token: string, refresh_token: string }
   setSpotifyApiAccessToken(access_token)
   setSpotifyApiRefreshToken(refresh_token)
 
@@ -70,7 +70,7 @@ export async function refreshToken(appContext: AppContextType) {
     body: qs.stringify(queryParams)
   })
 
-  const { access_token, refresh_token } = await result.json()
+  const { access_token, refresh_token } = await result.json() as { access_token: string, refresh_token: string }
   setSpotifyApiAccessToken(access_token)
   setSpotifyApiRefreshToken(refresh_token)
 }

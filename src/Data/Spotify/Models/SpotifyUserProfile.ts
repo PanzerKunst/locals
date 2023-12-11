@@ -20,7 +20,7 @@ export type SpotifyUserProfile = {
   uri: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access */
 export function isSpotifyUserProfileCompatible(obj: any): obj is SpotifyUserProfile {
   // Check if the object is not null and is an object
   if (typeof obj !== "object" || !obj) {
@@ -45,3 +45,4 @@ export function isSpotifyUserProfileCompatible(obj: any): obj is SpotifyUserProf
   // If all checks pass, then the object matches the type
   return true
 }
+/* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access */

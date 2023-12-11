@@ -16,7 +16,7 @@ export type User = NewUser & {
   lastSeenAt: string,
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
 export function isUserCompatible(obj: any): obj is User {
   // Check if the object is not null and is an object
   if (typeof obj !== "object" || !obj) {
@@ -71,3 +71,4 @@ export function isUserCompatible(obj: any): obj is User {
   // If all checks pass, then the object matches the type
   return true
 }
+/* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */

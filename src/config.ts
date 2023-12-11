@@ -8,6 +8,7 @@ type Config = {
   readonly GEOAPIFY_API_KEY: string;
 }
 
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unnecessary-type-assertion */
 export const config: Config = {
   IS_PROD: import.meta.env.MODE === "production",
   BACKEND_URL: import.meta.env.VITE_BACKEND_URL!,
@@ -17,3 +18,4 @@ export const config: Config = {
   GEOAPIFY_API_URL: import.meta.env.VITE_GEOAPIFY_API_URL!,
   GEOAPIFY_API_KEY: import.meta.env.VITE_GEOAPIFY_API_KEY!
 }
+/* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unnecessary-type-assertion */
