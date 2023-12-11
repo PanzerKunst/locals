@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from "react-query"
 import "dayjs/locale/sv"
 import { App } from "./UI/App.tsx"
 import { getScrollbarWidth, isTouchDevice } from "./Util/BrowserUtils.ts"
+import { config } from "./config.ts"
 
 import "./main.scss"
 
@@ -21,6 +22,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <QueryClientProvider client={new QueryClient()}>
       <App/>
     </QueryClientProvider>
-    <SpeedInsights />
+    {config.IS_PROD && <SpeedInsights />}
   </React.StrictMode>
 )

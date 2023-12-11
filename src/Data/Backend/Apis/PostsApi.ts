@@ -5,7 +5,7 @@ import { httpStatusCode } from "../../../Util/HttpUtils.ts"
 import { config } from "../../../config.ts"
 import { Artist } from "../Models/Artist.ts"
 import { MusicGenre } from "../Models/MusicGenre.ts"
-import { EmptyPost } from "../Models/Post.ts"
+import { EmptyPost, Post } from "../Models/Post.ts"
 import { EmptyPostWithTags, PostWithTags } from "../Models/PostWithTags.ts"
 
 export async function fetchPost(id: number): Promise<PostWithTags | undefined> {
@@ -80,6 +80,19 @@ export async function updatePost(
 
   if (!result.ok) {
     throw new Error(`Error while updating post ${JSON.stringify(emptyPost)}`)
+  }
+
+  return await result.json() as EmptyPostWithTags
+}
+
+export async function publishPost(post: Post): Promise<EmptyPostWithTags> {
+  const result = await fetch(`${config.BACKEND_URL}/post/publish/${post.id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" }
+  })
+
+  if (!result.ok) {
+    throw new Error(`Error while publishing post ${JSON.stringify(post)}`)
   }
 
   return await result.json() as EmptyPostWithTags

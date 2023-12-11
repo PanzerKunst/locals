@@ -21,6 +21,7 @@ import { Artist } from "../Data/Backend/Models/Artist.ts"
 import { MusicGenre } from "../Data/Backend/Models/MusicGenre.ts"
 import { EmptyPostWithTags } from "../Data/Backend/Models/PostWithTags.ts"
 import { searchArtists } from "../Data/Spotify/Apis/SearchApi.ts"
+import { appUrlQueryParam } from "../Util/AppUrlQueryParams.ts"
 import { scrollIntoView } from "../Util/BrowserUtils.ts"
 import { isEditorEmpty } from "../Util/QuillUtils.ts"
 import { useDebounce } from "../Util/ReactUtils.ts"
@@ -40,8 +41,9 @@ const editorPlaceholders = [
 
 export function ComposePage() {
   const navigate = useNavigate()
-  const appContext = useAppContext()
   const { postId } = useParams()
+
+  const appContext = useAppContext()
 
   const [artistQuery, setArtistQuery] = useState("")
   const debouncedArtistQuery = useDebounce(artistQuery, 300)
@@ -60,6 +62,12 @@ export function ComposePage() {
   const [quill, setQuill] = useState<Quill>()
   const [editorError, setEditorError] = useState("")
   const [isSubmittingForm, setIsSubmittingForm] = useState(false)
+
+  useEffect(() => {
+    if (!appContext.loggedInUser) {
+      navigate(`/?${appUrlQueryParam.ACCESS_ERROR}`, { replace: true })
+    }
+  }, [appContext.loggedInUser, navigate])
 
   const allMusicGenresQuery = useQuery(
     "allMusicGenres",

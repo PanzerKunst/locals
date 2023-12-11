@@ -4,6 +4,10 @@ export function getUrlQueryParam(name: string): string | undefined {
   return new URLSearchParams(window.location.search).get(name) || undefined
 }
 
+export function hasUrlQueryParam(name: string): boolean {
+  return new URLSearchParams(window.location.search).has(name)
+}
+
 export function isTouchDevice() {
   // @ts-ignore TS2551: Property msMaxTouchPoints does not exist on type Navigator
   return "ontouchstart" in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0

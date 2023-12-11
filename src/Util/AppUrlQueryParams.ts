@@ -2,6 +2,7 @@ type AppUrlQueryParam = {
   readonly SPOTIFY_CALLBACK_CODE: string;
   readonly SPOTIFY_CALLBACK_ERROR: string;
   readonly ACTION: string;
+  readonly ACCESS_ERROR: string;
   readonly POST_ID: string;
 }
 
@@ -9,6 +10,7 @@ export const appUrlQueryParam: AppUrlQueryParam = {
   SPOTIFY_CALLBACK_CODE: "code",
   SPOTIFY_CALLBACK_ERROR: "error",
   ACTION: "action",
+  ACCESS_ERROR: "access_error",
   POST_ID: "post_id"
 }
 

@@ -1,5 +1,5 @@
 import classNames from "classnames"
-import { ReactNode, useState } from "react"
+import { ReactNode, useEffect, useState } from "react"
 import { useQuery } from "react-query"
 import { useNavigate } from "react-router-dom"
 
@@ -8,7 +8,9 @@ import { ButtonLoader } from "./_CommonComponents/ButtonLoader.tsx"
 import { CircularLoader } from "./_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
 import { Post } from "./_CommonComponents/Post.tsx"
-import { fetchPost } from "../Data/Backend/Apis/PostsApi.ts"
+import { useAppContext } from "../AppContext.tsx"
+import { fetchPost, publishPost } from "../Data/Backend/Apis/PostsApi.ts"
+import { getPostPath } from "../Data/Backend/BackendUtils.ts"
 import { actionsFromAppUrl, appUrlQueryParam } from "../Util/AppUrlQueryParams.ts"
 import { getEmptyPostWithTagsFromSession, saveEmptyPostWithTagsInSession } from "../Util/SessionStorage.ts"
 
@@ -16,9 +18,16 @@ import "./PreviewPostPage.scss"
 
 export function PreviewPostPage() {
   const navigate = useNavigate()
+  const { loggedInUser } = useAppContext()
   const [isPublishing, setIsPublishing] = useState(false)
 
   const emptyPostWithTags = getEmptyPostWithTagsFromSession()
+
+  useEffect(() => {
+    if (!loggedInUser) {
+      navigate(`/?${appUrlQueryParam.ACCESS_ERROR}`, { replace: true })
+    }
+  }, [loggedInUser, navigate])
 
   const postQuery = useQuery(
     "post",
@@ -40,11 +49,17 @@ export function PreviewPostPage() {
     navigate(`/compose/${postQuery.data!.post.id}`)
   }
 
-  const handlePublishClick = () => {
+  const handlePublishClick = async () => {
     setIsPublishing(true)
+
+    await publishPost(postQuery.data!.post)
+
     saveEmptyPostWithTagsInSession(undefined)
-    navigate(`/p/${postQuery.data!.post.id}?${appUrlQueryParam.POST_ID}=${postQuery.data!.post.id}&${appUrlQueryParam.ACTION}=${actionsFromAppUrl
-      .PUBLICATION_SUCCESS}`)
+
+    const postPath = getPostPath(postQuery.data!.post, loggedInUser!)
+    const pathQueryStringPrefix = postPath.includes("?") ? "&" : "?"
+
+    navigate(`/p/${postPath}${pathQueryStringPrefix}${appUrlQueryParam.ACTION}=${actionsFromAppUrl.PUBLICATION_SUCCESS}`)
   }
 
   return renderContents(
@@ -55,6 +70,7 @@ export function PreviewPostPage() {
         <button className="underlined disappears" onClick={handleEditClick}>Edit</button>
 
         <AnimatedButton className="filling">
+          {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
           <button className={classNames("button", { "filling loading": isPublishing })} onClick={handlePublishClick}>
             {isPublishing && <ButtonLoader/>}
             <span>Publish & Notify subscribers</span>
