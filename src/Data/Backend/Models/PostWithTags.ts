@@ -1,6 +1,7 @@
 import { Artist, isArtistCompatible } from "./Artist.ts"
 import { isGenreCompatible, MusicGenre } from "./MusicGenre.ts"
 import { EmptyPost, isPostCompatible, Post } from "./Post.ts"
+import { isUserCompatible, User } from "./User.ts"
 import { config } from "../../../config.ts"
 
 export type EmptyPostWithTags = {
@@ -15,8 +16,9 @@ export type EmptyPostWithTags = {
   taggedGenres: MusicGenre[];
 } */
 
-export type PostWithTags = {
+export type PostWithAuthorAndTags = {
   post: Post;
+  author: User;
   taggedArtists: Artist[];
   taggedGenres: MusicGenre[];
 }
@@ -42,6 +44,10 @@ export function isPostWithTagsCompatible(obj: any, isEmpty: boolean | undefined 
   // Check for the existence and type of optional properties
   if (!isPostCompatible(obj.post, isEmpty)) {
     console.log("PostWithTags incompatible: '!isPostCompatible(obj.post, isEmpty)'")
+    return false
+  }
+  if (obj.author && !isUserCompatible(obj.author)) {
+    console.log("PostWithTags incompatible: 'obj.author && !isUserCompatible(obj.author)'")
     return false
   }
   if (!Array.isArray(obj.taggedArtists) || obj.taggedArtists.some((item: any) => !isArtistCompatible(item))) {

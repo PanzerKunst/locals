@@ -43,7 +43,7 @@ export function PostPage() {
       )}
 
       {!postQuery.data && <span>Post not found</span>}
-      {postQuery.data && <Post postWithTags={postQuery.data}/>}
+      {postQuery.data && <Post postWithAuthorAndTags={postQuery.data}/>}
     </>
   )
 

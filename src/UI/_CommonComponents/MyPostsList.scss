@@ -1,0 +1,33 @@
+@import "/src/UI/_CommonStyles/colors";
+@import "/src/UI/_CommonStyles/numbers";
+
+ul.styleless.my-posts {
+  > li {
+    display: flex;
+    align-items: center;
+
+    > div {
+      flex-grow: 1;
+    }
+  }
+}
+
+ul.MuiPopper-root.MuiMenu-root.post-action-menu {
+  padding-block: 0;
+  background-color: $color-list-item-bg;
+
+  font-size: $variable-font-size-sm;
+  line-height: max(2em, 40px);
+
+  > .MuiMenuItem-root {
+    transition: background-color #{$animation-duration-sm}s ease;
+
+    &:hover {
+      background-color: $color-list-item-bg-hover;
+    }
+  }
+
+  .MuiSvgIcon-root[data-testid="UTurnLeftIcon"] {
+    transform: rotate(90deg);
+  }
+}

@@ -10,6 +10,7 @@ import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
 import { Post } from "./_CommonComponents/Post.tsx"
 import { useAppContext } from "../AppContext.tsx"
 import { changePostPublicationStatus, fetchPost } from "../Data/Backend/Apis/PostsApi.ts"
+import { getPostPath } from "../Data/Backend/BackendUtils.ts"
 import { actionsFromAppUrl, appUrlQueryParam } from "../Util/AppUrlQueryParams.ts"
 import { getEmptyPostWithTagsFromSession, saveEmptyPostWithTagsInSession } from "../Util/SessionStorage.ts"
 
@@ -54,13 +55,12 @@ export function PreviewPostPage() {
     await changePostPublicationStatus(postQuery.data!.post, true)
     saveEmptyPostWithTagsInSession(undefined)
 
-    const postPath = `@${loggedInUser!.username}/${postQuery.data!.post.id}`
-    navigate(`/p/${postPath}?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.PUBLICATION_SUCCESS}`)
+    navigate(`${getPostPath(postQuery.data!)}?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.PUBLICATION_SUCCESS}`)
   }
 
   return renderContents(
     <>
-      <Post postWithTags={postQuery.data!}/>
+      <Post postWithAuthorAndTags={postQuery.data!}/>
 
       <FadeIn className="action-buttons">
         <button className="underlined disappears" onClick={handleEditClick}>Edit</button>

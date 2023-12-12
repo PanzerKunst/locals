@@ -116,24 +116,24 @@ export function ComposePage() {
     }
 
     async function initPostFromId(postId: number) {
-      const postWithTags = await fetchPost(postId, false)
+      const postWithAuthorAndTags = await fetchPost(postId, false)
 
-      if (!postWithTags) {
+      if (!postWithAuthorAndTags) {
         return
       }
 
-      initPostTitleAndTags(postWithTags)
-      quillEditor.root.innerHTML = postWithTags.post.content
+      initPostTitleAndTags(postWithAuthorAndTags)
+      quillEditor.root.innerHTML = postWithAuthorAndTags.post.content
     }
 
     async function initQuillContent(postId: number) {
-      const postWithTags = await fetchPost(postId, false)
+      const postWithAuthorAndTags = await fetchPost(postId, false)
 
-      if (!postWithTags) {
+      if (!postWithAuthorAndTags) {
         return
       }
 
-      quillEditor.root.innerHTML = postWithTags.post.content
+      quillEditor.root.innerHTML = postWithAuthorAndTags.post.content
     }
   }, [allMusicGenresQuery.data, postId, quill])
 

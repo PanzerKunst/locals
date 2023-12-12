@@ -3,8 +3,7 @@ import _isEmpty from "lodash/isEmpty"
 import { Link } from "react-router-dom"
 
 import { FadeIn } from "./FadeIn.tsx"
-import { useAppContext } from "../../AppContext.tsx"
-import { PostWithTags } from "../../Data/Backend/Models/PostWithTags.ts"
+import { PostWithAuthorAndTags } from "../../Data/Backend/Models/PostWithTags.ts"
 import { getFormattedPostPublicationDate } from "../../Util/DateUtils.ts"
 import { capitalizeAndWithoutSpaces } from "../../Util/StringUtils.ts"
 import { asTag } from "../../Util/TagUtils.ts"
@@ -12,12 +11,11 @@ import { asTag } from "../../Util/TagUtils.ts"
 import "./Post.scss"
 
 type Props = {
-  postWithTags: PostWithTags;
+  postWithAuthorAndTags: PostWithAuthorAndTags;
 }
 
-export function Post({ postWithTags }: Props) {
-  const { loggedInUser } = useAppContext()
-  const { post, taggedArtists, taggedGenres } = postWithTags
+export function Post({ postWithAuthorAndTags }: Props) {
+  const { post, author, taggedArtists, taggedGenres } = postWithAuthorAndTags
 
   return (
     <article>
@@ -49,7 +47,7 @@ export function Post({ postWithTags }: Props) {
       </FadeIn>
 
       <FadeIn>
-        <span className="author">By {loggedInUser?.username}</span>
+        <span className="author">By {author.username}</span>
       </FadeIn>
 
       <FadeIn>

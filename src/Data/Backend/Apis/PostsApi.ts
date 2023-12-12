@@ -6,9 +6,10 @@ import { config } from "../../../config.ts"
 import { Artist } from "../Models/Artist.ts"
 import { MusicGenre } from "../Models/MusicGenre.ts"
 import { EmptyPost, Post } from "../Models/Post.ts"
-import { EmptyPostWithTags, PostWithTags } from "../Models/PostWithTags.ts"
+import { EmptyPostWithTags, PostWithAuthorAndTags } from "../Models/PostWithTags.ts"
+import { User } from "../Models/User.ts"
 
-export async function fetchPost(id: number, isPublished: boolean | undefined = true): Promise<PostWithTags | undefined> {
+export async function fetchPost(id: number, isPublished: boolean | undefined = true): Promise<PostWithAuthorAndTags | undefined> {
   const queryParam = isPublished ? "" : "?unpublished"
 
   const result = await fetch(`${config.BACKEND_URL}/post/${id}${queryParam}`, {
@@ -22,7 +23,7 @@ export async function fetchPost(id: number, isPublished: boolean | undefined = t
 
   return result.status === httpStatusCode.NO_CONTENT
     ? undefined
-    : await result.json() as PostWithTags
+    : await result.json() as PostWithAuthorAndTags
 }
 
 export async function storePost(
@@ -98,4 +99,17 @@ export async function changePostPublicationStatus(post: Post, isPublish: boolean
   }
 
   return await result.json() as EmptyPostWithTags
+}
+
+export async function fetchPostsByUser(user: User): Promise<PostWithAuthorAndTags[]> {
+  const result = await fetch(`${config.BACKEND_URL}/posts/user/${user.id}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  })
+
+  if (!result.ok) {
+    throw new Error(`Error while fetching posts for userID ${user.id}`)
+  }
+
+  return await result.json() as PostWithAuthorAndTags[]
 }
