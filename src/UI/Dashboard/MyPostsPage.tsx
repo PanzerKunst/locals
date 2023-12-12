@@ -1,12 +1,16 @@
 import { ReactNode, useEffect } from "react"
 import { useQuery } from "react-query"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 import { useAppContext } from "../../AppContext.tsx"
 import { fetchPostsByUser } from "../../Data/Backend/Apis/PostsApi.ts"
 import { appUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
+import { AnimatedButton } from "../_CommonComponents/AnimatedButton.tsx"
 import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
+import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 import { MyPostsList } from "../_CommonComponents/MyPostsList.tsx"
+
+import "./MyPostsPage.scss"
 
 export function MyPostsPage() {
   const navigate = useNavigate()
@@ -39,6 +43,12 @@ export function MyPostsPage() {
     return (
       <div className="page my-posts">
         <main className="container">
+          <FadeIn>
+            <h1>My posts</h1>
+            <AnimatedButton className="filling">
+              <Link to="/compose" className="button"><span>Compose</span></Link>
+            </AnimatedButton>
+          </FadeIn>
           {children}
         </main>
       </div>
