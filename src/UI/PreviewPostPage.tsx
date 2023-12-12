@@ -31,7 +31,7 @@ export function PreviewPostPage() {
 
   const postQuery = useQuery(
     "post",
-    () => fetchPost(emptyPostWithTags!.post.id), {
+    () => fetchPost(emptyPostWithTags!.post.id, false), {
       enabled: !!emptyPostWithTags
     }
   )

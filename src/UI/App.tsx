@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 
 import { AccountPage } from "./AccountPage.tsx"
+import { AtTagPage } from "./AtTagPage.tsx"
 import { ComposePage } from "./ComposePage.tsx"
 import { ContactPage } from "./ContactPage.tsx"
 import { HomePage } from "./HomePage.tsx"
@@ -27,7 +28,8 @@ const router = createBrowserRouter([
       { path: "compose/:postId", element: <ComposePage /> },
       { path: "p/:atUsername/:postSlugOrId", element: <PostPage /> },
       { path: "contact", element: <ContactPage /> },
-      { path: "privacy", element: <PrivacyPolicyPage /> }
+      { path: "privacy", element: <PrivacyPolicyPage /> },
+      { path: ":atTag", element: <AtTagPage /> }
     ]
   }
 ])

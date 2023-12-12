@@ -17,7 +17,7 @@ export function PostPage() {
 
   const postQuery = useQuery(
     "post",
-    () => fetchPost(Number(postId)), {
+    () => fetchPost(postId), {
       enabled: !isNaN(postId)
     }
   )
@@ -44,7 +44,8 @@ export function PostPage() {
         </SuccessSnackbar>
       )}
 
-      <Post postWithTags={postQuery.data!}/>
+      {!postQuery.data && <span>Post not found</span>}
+      {postQuery.data && <Post postWithTags={postQuery.data}/>}
     </>
   )
 

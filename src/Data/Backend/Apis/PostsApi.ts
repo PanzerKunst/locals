@@ -8,8 +8,10 @@ import { MusicGenre } from "../Models/MusicGenre.ts"
 import { EmptyPost, Post } from "../Models/Post.ts"
 import { EmptyPostWithTags, PostWithTags } from "../Models/PostWithTags.ts"
 
-export async function fetchPost(id: number): Promise<PostWithTags | undefined> {
-  const result = await fetch(`${config.BACKEND_URL}/post/${id}`, {
+export async function fetchPost(id: number, isPublished: boolean | undefined = true): Promise<PostWithTags | undefined> {
+  const queryParam = isPublished ? "" : "?unpublished"
+
+  const result = await fetch(`${config.BACKEND_URL}/post/${id}${queryParam}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" }
   })
