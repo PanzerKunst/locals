@@ -6,14 +6,12 @@ import { CircularLoader } from "./_CommonComponents/CircularLoader.tsx"
 import { Post } from "./_CommonComponents/Post.tsx"
 import { SuccessSnackbar } from "./_CommonComponents/Snackbar/SuccessSnackbar.tsx"
 import { fetchPost } from "../Data/Backend/Apis/PostsApi.ts"
-import { getPostSlugAndIdFromSlugOrId } from "../Data/Backend/BackendUtils.ts"
 import { actionsFromAppUrl, appUrlQueryParam } from "../Util/AppUrlQueryParams.ts"
 import { getUrlQueryParam } from "../Util/BrowserUtils.ts"
 
 export function PostPage() {
-  const { postSlugOrId } = useParams()
-  const { id } = getPostSlugAndIdFromSlugOrId(postSlugOrId)
-  const postId = id || Number(getUrlQueryParam(appUrlQueryParam.POST_ID))
+  const { id } = useParams()
+  const postId = Number(id)
 
   const postQuery = useQuery(
     "post",

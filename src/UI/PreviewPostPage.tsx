@@ -9,8 +9,7 @@ import { CircularLoader } from "./_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
 import { Post } from "./_CommonComponents/Post.tsx"
 import { useAppContext } from "../AppContext.tsx"
-import { fetchPost, publishPost } from "../Data/Backend/Apis/PostsApi.ts"
-import { getPostPath } from "../Data/Backend/BackendUtils.ts"
+import { changePostPublicationStatus, fetchPost } from "../Data/Backend/Apis/PostsApi.ts"
 import { actionsFromAppUrl, appUrlQueryParam } from "../Util/AppUrlQueryParams.ts"
 import { getEmptyPostWithTagsFromSession, saveEmptyPostWithTagsInSession } from "../Util/SessionStorage.ts"
 
@@ -52,14 +51,11 @@ export function PreviewPostPage() {
   const handlePublishClick = async () => {
     setIsPublishing(true)
 
-    await publishPost(postQuery.data!.post)
-
+    await changePostPublicationStatus(postQuery.data!.post, true)
     saveEmptyPostWithTagsInSession(undefined)
 
-    const postPath = getPostPath(postQuery.data!.post, loggedInUser!)
-    const pathQueryStringPrefix = postPath.includes("?") ? "&" : "?"
-
-    navigate(`/p/${postPath}${pathQueryStringPrefix}${appUrlQueryParam.ACTION}=${actionsFromAppUrl.PUBLICATION_SUCCESS}`)
+    const postPath = `@${loggedInUser!.username}/${postQuery.data!.post.id}`
+    navigate(`/p/${postPath}?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.PUBLICATION_SUCCESS}`)
   }
 
   return renderContents(
