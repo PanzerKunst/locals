@@ -3,8 +3,7 @@
     {
       "source": "/p/@:username",
       "destination": "/@:username",
-      "permanent": false,
-      "statusCode": 307
+      "permanent": false
     }
   ],
   "rewrites": [
