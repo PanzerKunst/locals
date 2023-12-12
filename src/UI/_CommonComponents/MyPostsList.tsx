@@ -3,10 +3,12 @@ import { Dropdown, IconButton, ListDivider, ListItemDecorator, Menu, MenuButton,
 import { motion, stagger, useAnimate } from "framer-motion"
 import _isEmpty from "lodash/isEmpty"
 import { useEffect } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
-import { PostWithAuthorAndTags } from "../../Data/Backend/Models/PostWithTags.ts"
+import { changePostPublicationStatus } from "../../Data/Backend/Apis/PostsApi.ts"
 import { getPostPath } from "../../Data/Backend/BackendUtils.ts"
+import { Post } from "../../Data/Backend/Models/Post.ts"
+import { PostWithAuthorAndTags } from "../../Data/Backend/Models/PostWithTags.ts"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./MyPostsList.scss"
@@ -21,6 +23,7 @@ const motionVariants = {
 }
 
 export function MyPostsList({ postsWithAuthorAndTags }: Props) {
+  const navigate = useNavigate()
   const [scope, animate] = useAnimate()
 
   useEffect(() => {
@@ -38,6 +41,21 @@ export function MyPostsList({ postsWithAuthorAndTags }: Props) {
     )
   }, [animate, scope, postsWithAuthorAndTags])
 
+  const handleEditClick = (post: Post) => {
+    navigate(`/compose/${post.id}`)
+  }
+
+  const handleUnpublishClick = async (post: Post) => {
+    await changePostPublicationStatus(post, false)
+  }
+
+  const handleDeleteClick = (post: Post) => {
+    // TODO: remove
+    console.log("handleUnpublishClick", post)
+
+    // TODO: display confirmation dialog
+  }
+
   return (
     <ul ref={scope} className="styleless my-posts">
       {postsWithAuthorAndTags.map((postWithAuthorAndTags) => {
@@ -51,19 +69,22 @@ export function MyPostsList({ postsWithAuthorAndTags }: Props) {
             </Link>
 
             <Dropdown>
-              <MenuButton slots={{ root: IconButton }}><MoreVert /></MenuButton>
+              <MenuButton slots={{ root: IconButton }}><MoreVert/></MenuButton>
 
               <Menu variant="plain" placement="bottom-end" className="post-action-menu">
-                <MenuItem>
+                <MenuItem onClick={() => handleEditClick(post)}>
                   <ListItemDecorator><Edit/></ListItemDecorator>
                   Edit post
                 </MenuItem>
-                <ListDivider />
-                <MenuItem>
-                  <ListItemDecorator><UTurnLeft/></ListItemDecorator>
-                  Unpublish
-                </MenuItem>
-                <MenuItem>
+                <ListDivider/>
+                {post.publishedAt && (
+                  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                  <MenuItem onClick={() => handleUnpublishClick(post)}>
+                    <ListItemDecorator><UTurnLeft/></ListItemDecorator>
+                    Unpublish
+                  </MenuItem>
+                )}
+                <MenuItem onClick={() => handleDeleteClick(post)}>
                   <ListItemDecorator><DeleteOutlined/></ListItemDecorator>
                   Delete
                 </MenuItem>
