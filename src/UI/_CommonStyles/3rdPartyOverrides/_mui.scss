@@ -63,3 +63,21 @@
     block-size: $block-size;
   }
 }
+
+.MuiModalDialog-root.MuiModalDialog-layoutCenter {
+  > .button.close {
+    align-self: flex-end;
+    margin: -0.75em -0.75em 0 0;
+
+    > svg {
+      color: $color-icon-dark;
+    }
+  }
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+  }
+}

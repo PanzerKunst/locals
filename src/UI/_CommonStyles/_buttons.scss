@@ -48,7 +48,8 @@ a.button:not(.icon-only) {
   padding-inline: 1em;
   border-radius: max(0.1em, 3px);
 
-  &.filling {
+  &.filling,
+  &.filled {
     background-size: 100% 100%;
     color: $color-btn-text;
   }
@@ -92,9 +93,14 @@ a.button:not(.icon-only) {
   // Left icon
 
   > svg,
+  > .MuiSvgIcon-root,
   > img {
     @include img-size(1.5em);
     margin-right: 0.5em;
+  }
+
+  > .MuiSvgIcon-root {
+    font-size: 1em;
   }
 
 

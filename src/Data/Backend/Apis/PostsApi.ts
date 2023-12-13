@@ -113,3 +113,14 @@ export async function fetchPostsByUser(user: User): Promise<PostWithAuthorAndTag
 
   return await result.json() as PostWithAuthorAndTags[]
 }
+
+export async function deletePost(post: Post): Promise<void> {
+  const result = await fetch(`${config.BACKEND_URL}/post/${post.id}`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+  })
+
+  if (!result.ok) {
+    throw new Error(`Error while delete post of ID ${post.id}`)
+  }
+}

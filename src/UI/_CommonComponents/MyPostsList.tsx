@@ -1,11 +1,11 @@
-import { DeleteOutlined, Edit, MoreVert, UTurnLeft } from "@mui/icons-material"
-import { Dropdown, IconButton, ListDivider, ListItemDecorator, Menu, MenuButton, MenuItem } from "@mui/joy"
-import { motion, stagger, useAnimate } from "framer-motion"
+import { Close, DeleteOutlined, Edit, MoreVert, UTurnLeft } from "@mui/icons-material"
+import { Dropdown, IconButton, ListDivider, ListItemDecorator, Menu, MenuButton, MenuItem, Modal, ModalDialog } from "@mui/joy"
+import { AnimatePresence, motion, stagger, useAnimate } from "framer-motion"
 import _isEmpty from "lodash/isEmpty"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 
-import { changePostPublicationStatus } from "../../Data/Backend/Apis/PostsApi.ts"
+import { changePostPublicationStatus, deletePost } from "../../Data/Backend/Apis/PostsApi.ts"
 import { getPostPath } from "../../Data/Backend/BackendUtils.ts"
 import { Post } from "../../Data/Backend/Models/Post.ts"
 import { PostWithAuthorAndTags } from "../../Data/Backend/Models/PostWithTags.ts"
@@ -22,9 +22,13 @@ const motionVariants = {
   animate: { opacity: 1 }
 }
 
+const modalMotionVariants = motionVariants
+
 export function MyPostsList({ postsWithAuthorAndTags }: Props) {
   const navigate = useNavigate()
   const [scope, animate] = useAnimate()
+  const [postToDelete, setPostToDelete] = useState<Post>()
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
 
   useEffect(() => {
     if (_isEmpty(postsWithAuthorAndTags)) {
@@ -49,50 +53,93 @@ export function MyPostsList({ postsWithAuthorAndTags }: Props) {
     await changePostPublicationStatus(post, false)
   }
 
-  const handleDeleteClick = (post: Post) => {
-    // TODO: remove
-    console.log("handleUnpublishClick", post)
+  const handleMenuItemDeleteClick = (post: Post) => {
+    setPostToDelete(post)
+    setIsDeleteDialogOpen(true)
+  }
 
-    // TODO: display confirmation dialog
+  const handleCancelDeleteClick = () => {
+    setPostToDelete(undefined)
+    setIsDeleteDialogOpen(false)
+  }
+
+  const handleConfirmDeleteClick = async () => {
+    if (!postToDelete) {
+      return
+    }
+
+    await deletePost(postToDelete)
+    setIsDeleteDialogOpen(false)
   }
 
   return (
-    <ul ref={scope} className="styleless my-posts">
-      {postsWithAuthorAndTags.map((postWithAuthorAndTags) => {
-        const { post } = postWithAuthorAndTags
+    <>
+      <ul ref={scope} className="styleless my-posts">
+        {postsWithAuthorAndTags.map((postWithAuthorAndTags) => {
+          const { post } = postWithAuthorAndTags
 
-        return (
-          <motion.li key={post.id} initial={motionVariants.initial}>
-            <Link to={getPostPath(postWithAuthorAndTags)}>
-              {post.title && <h2>{post.title}</h2>}
-              <p dangerouslySetInnerHTML={{ __html: post.content }}/>
-            </Link>
+          return (
+            <motion.li key={post.id} initial={motionVariants.initial}>
+              <Link to={getPostPath(postWithAuthorAndTags)}>
+                {post.title && <h2>{post.title}</h2>}
+                <p dangerouslySetInnerHTML={{ __html: post.content }}/>
+              </Link>
 
-            <Dropdown>
-              <MenuButton slots={{ root: IconButton }}><MoreVert/></MenuButton>
+              {!post.publishedAt && <span>Draft</span>}
 
-              <Menu variant="plain" placement="bottom-end" className="post-action-menu">
-                <MenuItem onClick={() => handleEditClick(post)}>
-                  <ListItemDecorator><Edit/></ListItemDecorator>
-                  Edit post
-                </MenuItem>
-                <ListDivider/>
-                {post.publishedAt && (
-                  // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                  <MenuItem onClick={() => handleUnpublishClick(post)}>
-                    <ListItemDecorator><UTurnLeft/></ListItemDecorator>
-                    Unpublish
+              <Dropdown>
+                <MenuButton slots={{ root: IconButton }}><MoreVert/></MenuButton>
+
+                <Menu variant="plain" placement="bottom-end" className="post-action-menu">
+                  <MenuItem onClick={() => handleEditClick(post)}>
+                    <ListItemDecorator><Edit/></ListItemDecorator>
+                    Edit post
                   </MenuItem>
-                )}
-                <MenuItem onClick={() => handleDeleteClick(post)}>
-                  <ListItemDecorator><DeleteOutlined/></ListItemDecorator>
-                  Delete
-                </MenuItem>
-              </Menu>
-            </Dropdown>
-          </motion.li>
-        )
-      })}
-    </ul>
+                  <ListDivider/>
+                  {post.publishedAt && (
+                    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                    <MenuItem onClick={() => handleUnpublishClick(post)}>
+                      <ListItemDecorator><UTurnLeft/></ListItemDecorator>
+                      Unpublish
+                    </MenuItem>
+                  )}
+                  <MenuItem onClick={() => handleMenuItemDeleteClick(post)}>
+                    <ListItemDecorator><DeleteOutlined/></ListItemDecorator>
+                    Delete
+                  </MenuItem>
+                </Menu>
+              </Dropdown>
+            </motion.li>
+          )
+        })}
+      </ul>
+
+      <AnimatePresence>
+        {isDeleteDialogOpen && (
+          <Modal open={isDeleteDialogOpen} onClose={handleCancelDeleteClick}>
+            <motion.div
+              initial={modalMotionVariants.initial}
+              animate={modalMotionVariants.animate}
+              exit={modalMotionVariants.initial}
+              transition={{ duration: Number(s.animationDurationSm) }}
+            >
+              <ModalDialog>
+                <button className="button icon-only close" aria-label="close" onClick={handleCancelDeleteClick}>
+                  <Close/>
+                </button>
+                <div>
+                  <span>Are you sure? Deletion is final.</span>
+                  {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+                  <button className="button filled fixed-height" onClick={handleConfirmDeleteClick}>
+                    <DeleteOutlined/>
+                    <span>Delete</span>
+                  </button>
+                </div>
+              </ModalDialog>
+            </motion.div>
+          </Modal>
+        )}
+      </AnimatePresence>
+    </>
   )
 }
