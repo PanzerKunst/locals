@@ -63,7 +63,7 @@ export async function storeUser(
   })
 
   if (!result.ok) {
-    throw new Error("Error while storing user")
+    throw new Error(`Error while storing user ${JSON.stringify(newUser)}`)
   }
 
   const user = await result.json() as User
@@ -73,17 +73,32 @@ export async function storeUser(
   return user
 }
 
-/* TODO: remove?
-export async function updateUser(appContext: AppContextType, user: User) {
+export async function updateUser(appContext: AppContextType, user: User): Promise<User> {
   const result = await fetch(`${config.BACKEND_URL}/user`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(user)
+    body: JSON.stringify({ user })
   })
 
   if (!result.ok) {
-    throw new Error("Error while updating user")
+    throw new Error(`Error while updating user ${JSON.stringify(user)}`)
   }
 
-  appContext.setLoggedInUser(user)
-} */
+  const updatedUser = await result.json() as User
+
+  appContext.setLoggedInUser(updatedUser)
+
+  return updatedUser
+}
+
+export async function deleteUser(user: User): Promise<void> {
+  const result = await fetch(`${config.BACKEND_URL}/user`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ user })
+  })
+
+  if (!result.ok) {
+    throw new Error(`Error while deleting user ${JSON.stringify(user)}`)
+  }
+}

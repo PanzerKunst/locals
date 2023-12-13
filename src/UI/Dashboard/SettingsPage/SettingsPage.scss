@@ -1,0 +1,30 @@
+@import "/src/UI/_CommonStyles/colors";
+@import "/src/UI/_CommonStyles/numbers";
+
+.page.settings {
+  section {
+    h2 {
+      margin-bottom: 0.5em;
+    }
+
+    .wrapper-next-button {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 5vmin;
+    }
+
+    > form {
+      display: flex;
+      flex-direction: column;
+      gap: $default-field-gap;
+
+      > .wrapper-next-button {
+        margin-top: 2vmin;
+      }
+    }
+  }
+
+  .MuiSnackbar-root.app-snackbar > svg {
+    color: $color-icon-success;
+  }
+}

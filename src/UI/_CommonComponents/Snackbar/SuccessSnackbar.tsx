@@ -16,7 +16,6 @@ export function SuccessSnackbar({ children }: Props) {
       color="success"
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
       open={isOpen}
-      className="success"
     >
       <div>
         {children}

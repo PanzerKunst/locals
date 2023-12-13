@@ -13,16 +13,16 @@ import { PostWithAuthorAndTags } from "../../Data/Backend/Models/PostWithTags.ts
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./MyPostsList.scss"
 
-type Props = {
-  postsWithAuthorAndTags: PostWithAuthorAndTags[];
-}
-
 const motionVariants = {
   initial: { opacity: 0 },
   animate: { opacity: 1 }
 }
 
 const modalMotionVariants = motionVariants
+
+type Props = {
+  postsWithAuthorAndTags: PostWithAuthorAndTags[];
+}
 
 export function MyPostsList({ postsWithAuthorAndTags }: Props) {
   const navigate = useNavigate()

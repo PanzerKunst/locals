@@ -16,7 +16,6 @@ export function ErrorSnackbar({ message }: Props) {
       color="danger"
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
       open={isOpen}
-      className="error"
     >
       <div>
         <span>An error occured</span>

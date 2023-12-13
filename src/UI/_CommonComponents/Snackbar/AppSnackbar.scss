@@ -20,12 +20,20 @@
   &.MuiSnackbar-colorNeutral {
     background-color: $color-app-bg;
     color: $color-text;
+
+    > .icon-only {
+      color: $color-icon-dark;
+    }
   }
 
   &.MuiSnackbar-colorDanger,
   &.MuiSnackbar-colorSuccess {
     a {
       color: $color-text-negative;
+    }
+
+    > .icon-only {
+      color: $color-icon-light;
     }
   }
 
@@ -54,9 +62,5 @@
         font-size: 16px;
       }
     }
-  }
-
-  > .icon-only {
-    color: $color-icon-light;
   }
 }

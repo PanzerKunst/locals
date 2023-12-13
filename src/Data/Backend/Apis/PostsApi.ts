@@ -115,9 +115,12 @@ export async function fetchPostsByUser(user: User): Promise<PostWithAuthorAndTag
 }
 
 export async function deletePost(post: Post): Promise<void> {
-  const result = await fetch(`${config.BACKEND_URL}/post/${post.id}`, {
+  const { content, ...emptyPost } = post // eslint-disable-line no-unused-vars
+
+  const result = await fetch(`${config.BACKEND_URL}/post`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ emptyPost })
   })
 
   if (!result.ok) {

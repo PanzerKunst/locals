@@ -4,6 +4,7 @@ import { AtTagPage } from "./AtTagPage.tsx"
 import { ComposePage } from "./ComposePage.tsx"
 import { ContactPage } from "./ContactPage.tsx"
 import { MyPostsPage } from "./Dashboard/MyPostsPage.tsx"
+import { SettingsPage } from "./Dashboard/SettingsPage/SettingsPage.tsx"
 import { HomePage } from "./HomePage.tsx"
 import { LandingPage } from "./LandingPage/LandingPage.tsx"
 import { PostPage } from "./PostPage.tsx"
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
       { path: "compose/:postId", element: <ComposePage /> },
       { path: "p/:atUsername/:id", element: <PostPage /> },
       { path: "posts", element: <MyPostsPage />},
+      { path: "settings", element: <SettingsPage />},
       { path: "contact", element: <ContactPage /> },
       { path: "privacy", element: <PrivacyPolicyPage /> },
       { path: ":atTag", element: <AtTagPage /> }
