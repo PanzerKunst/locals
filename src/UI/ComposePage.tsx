@@ -116,7 +116,7 @@ export function ComposePage() {
     }
 
     async function initPostFromId(postId: number) {
-      const postWithAuthorAndTags = await fetchPost(postId, false)
+      const postWithAuthorAndTags = await fetchPost(postId)
 
       if (!postWithAuthorAndTags) {
         return
@@ -127,7 +127,7 @@ export function ComposePage() {
     }
 
     async function initQuillContent(postId: number) {
-      const postWithAuthorAndTags = await fetchPost(postId, false)
+      const postWithAuthorAndTags = await fetchPost(postId)
 
       if (!postWithAuthorAndTags) {
         return
@@ -276,7 +276,7 @@ export function ComposePage() {
     let emptyPostWithTags = getEmptyPostWithTagsFromSession()
 
     if (!emptyPostWithTags && isOnlyDigitsAndNotEmpty(postId)) {
-      emptyPostWithTags = await fetchPost(Number(postId), false)
+      emptyPostWithTags = await fetchPost(Number(postId))
     }
 
     const storedEmptyPostWithTags = emptyPostWithTags

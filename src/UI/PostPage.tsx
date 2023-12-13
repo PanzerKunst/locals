@@ -42,8 +42,8 @@ export function PostPage() {
         </SuccessSnackbar>
       )}
 
-      {!postQuery.data && <span>Post not found</span>}
-      {postQuery.data && <Post postWithAuthorAndTags={postQuery.data}/>}
+      {!postQuery.data?.post.publishedAt && <span>Post not found</span>}
+      {postQuery.data?.post.publishedAt && <Post postWithAuthorAndTags={postQuery.data} />}
     </>
   )
 

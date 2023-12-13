@@ -9,10 +9,8 @@ import { EmptyPost, Post } from "../Models/Post.ts"
 import { EmptyPostWithTags, PostWithAuthorAndTags } from "../Models/PostWithTags.ts"
 import { User } from "../Models/User.ts"
 
-export async function fetchPost(id: number, isPublished: boolean | undefined = true): Promise<PostWithAuthorAndTags | undefined> {
-  const queryParam = isPublished ? "" : "?unpublished"
-
-  const result = await fetch(`${config.BACKEND_URL}/post/${id}${queryParam}`, {
+export async function fetchPost(id: number): Promise<PostWithAuthorAndTags | undefined> {
+  const result = await fetch(`${config.BACKEND_URL}/post/${id}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" }
   })
