@@ -20,7 +20,7 @@ export async function fetchTopArtists(appContext: AppContextType, pageNb: number
   }
 
   const queryParams = {
-    time_range: "medium_term",
+    time_range: "long_term",
     limit: pageSize,
     offset: pageSize * pageNb,
   }

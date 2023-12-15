@@ -23,7 +23,7 @@ function getItemCount(isShowingAll: boolean, viewportWidth: number) {
   const viewportWidthXl = parseInt(s.vwXl || "")
 
   if (isShowingAll) {
-    return 50
+    return 500
   }
 
   const rowCount = 3
@@ -51,8 +51,8 @@ export function FavouriteArtists({ isShowingAll = false, favourites, followed, o
   const viewportWidth = useViewportSize().width
   const [isTooltipVisible, setIsTooltipVisible] = useState(true)
 
-  const artistsByPopularity = favourites.sort((a, b) => b.popularity - a.popularity)
-  const topArtists = artistsByPopularity.slice(0, getItemCount(isShowingAll, viewportWidth))
+  // const artistsByPopularity = favourites.sort((a, b) => b.popularity - a.popularity)
+  const topArtists = favourites.slice(0, getItemCount(isShowingAll, viewportWidth))
 
   const handleToggle = (spotifyArtist: SpotifyArtist) => {
     setIsTooltipVisible(false)

@@ -2,14 +2,13 @@ import _isEmpty from "lodash/isEmpty"
 import _uniqBy from "lodash/uniqBy"
 
 import { AppContextType } from "../../AppContext.tsx"
-import { fetchFollowedArtists } from "../Spotify/Apis/FollowedArtistsApi.ts"
 import { fetchTopArtists } from "../Spotify/Apis/TopItemsApi.ts"
 import { SpotifyArtist } from "../Spotify/Models/SpotifyArtist.ts"
 
 export async function fetchFavouriteSpotifyArtists(appContext: AppContextType): Promise<SpotifyArtist[]> {
   const topArtists = await fetchTopSpotifyArtists(appContext)
-  const followedArtists = await fetchFollowedSpotifyArtists(appContext)
-  return _uniqBy([...topArtists, ...followedArtists], "id")
+  // const followedArtists = await fetchFollowedSpotifyArtists(appContext)
+  return _uniqBy([...topArtists/* , ...followedArtists */], "id")
 }
 
 async function fetchTopSpotifyArtists(appContext: AppContextType): Promise<SpotifyArtist[]> {
@@ -27,7 +26,7 @@ async function fetchTopSpotifyArtists(appContext: AppContextType): Promise<Spoti
   return result
 }
 
-async function fetchFollowedSpotifyArtists(appContext: AppContextType): Promise<SpotifyArtist[]> {
+/* async function fetchFollowedSpotifyArtists(appContext: AppContextType): Promise<SpotifyArtist[]> {
   let idOfLastFetchedArtist: string | undefined = undefined
   const result: SpotifyArtist[] = []
 
@@ -40,4 +39,4 @@ async function fetchFollowedSpotifyArtists(appContext: AppContextType): Promise<
   }
 
   return result
-}
+} */
