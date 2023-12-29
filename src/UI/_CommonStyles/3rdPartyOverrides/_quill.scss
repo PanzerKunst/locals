@@ -18,6 +18,8 @@
   padding: $input-padding;
   border-radius: $input-border-radius;
 
+  min-height: 300px;
+
   &.ql-blank::before { // Placeholder
     font-size: $variable-font-size;
     color: $color-input-placeholder;

@@ -2,7 +2,8 @@ import { FormControl, FormHelperText, Input } from "@mui/joy"
 import classNames from "classnames"
 import _isEmpty from "lodash/isEmpty"
 import _sample from "lodash/sample"
-import Quill from "quill"
+import Quill, { Sources } from "quill"
+import Delta from "quill-delta"
 import { ChangeEvent, FormEvent, ReactNode, useEffect, useRef, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 
@@ -13,6 +14,7 @@ import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
 import { SelectList } from "./_CommonComponents/SelectList.tsx"
 import { useAppContext } from "../AppContext.tsx"
 import { storeArtists } from "../Data/Backend/Apis/ArtistsApi.ts"
+import { uploadImage } from "../Data/Backend/Apis/FileApi.ts"
 import { fetchPostOfId, storePost, updatePost } from "../Data/Backend/Apis/PostsApi.ts"
 import { Artist } from "../Data/Backend/Models/Artist.ts"
 import { EmptyPostWithTags } from "../Data/Backend/Models/PostWithTags.ts"
@@ -23,7 +25,7 @@ import { isEditorEmpty } from "../Util/QuillUtils.ts"
 import { useDebounce } from "../Util/ReactUtils.ts"
 import { getEmptyPostWithTagsFromSession, saveEmptyPostWithTagsInSession } from "../Util/SessionStorage.ts"
 import { asTag } from "../Util/TagUtils.ts"
-import { Field, isOnlyDigitsAndNotEmpty } from "../Util/ValidationUtils.ts"
+import { Field, isBase64, isOnlyDigitsAndNotEmpty } from "../Util/ValidationUtils.ts"
 
 import "./ComposePage.scss"
 
@@ -124,8 +126,28 @@ export function ComposePage() {
       return
     }
 
-    function handleTextChange() {
+    async function handleTextChange(delta: Delta, _oldContents: Delta, source: Sources) {
       setEditorError("") // We reset any eventual errors
+
+      if (!quill || source !== "user") {
+        return
+      }
+
+      for (const op of delta.ops) {
+        // @ts-ignore TS2339: Property image does not exist on type string | Record<string, unknown>
+        const image = op.insert?.image as string
+
+        if (!isBase64(image)) {
+          continue
+        }
+
+        quill.history.undo() // Prevent default image insertion
+
+        const imageUrl = await uploadImage(image)
+
+        const cursorPosition = quill.getSelection()?.index || 0
+        quill.insertEmbed(cursorPosition, "image", imageUrl)
+      }
     }
 
     // Register handler
