@@ -7,12 +7,10 @@ import { ChangeEvent, FormEvent, MouseEvent, ReactNode, useEffect, useState } fr
 import { useQuery } from "react-query"
 import { useNavigate } from "react-router-dom"
 
-import { FavouriteArtists } from "./FavouriteArtists.tsx"
 import { useAppContext } from "../../AppContext.tsx"
 import { storeArtists } from "../../Data/Backend/Apis/ArtistsApi.ts"
 import { storeUserFavouriteArtists } from "../../Data/Backend/Apis/UserFavouriteArtistsApi.ts"
 import { checkUsernameAvailability, storeUser } from "../../Data/Backend/Apis/UsersApi.ts"
-import { getFavouriteGenresFromArtists } from "../../Data/Backend/BackendUtils.ts"
 import { fetchFavouriteSpotifyArtists } from "../../Data/FrontendHelperApis/UserFavouriteArtistsApi.ts"
 import { searchLocations } from "../../Data/Geoapify/Apis/AutocompleteApi.ts"
 import { GeoapifyFeature } from "../../Data/Geoapify/Models/GeoapifyFeature.ts"
@@ -20,20 +18,20 @@ import { SpotifyArtist } from "../../Data/Spotify/Models/SpotifyArtist.ts"
 import { isSpotifyUserProfileCompatible } from "../../Data/Spotify/Models/SpotifyUserProfile.ts"
 import { defaultFadeInDelay } from "../../Util/AnimationUtils.ts"
 import { actionsFromAppUrl, appUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
+import { scrollIntoView } from "../../Util/BrowserUtils.ts"
 import { useDebounce } from "../../Util/ReactUtils.ts"
 import { getSpotifyProfileFromSession, saveSpotifyProfileInSession } from "../../Util/SessionStorage.ts"
 import { Field, isEmailValid, isUsernameValid } from "../../Util/ValidationUtils.ts"
 import { AnimatedButton } from "../_CommonComponents/AnimatedButton.tsx"
 import { ButtonLoader } from "../_CommonComponents/ButtonLoader.tsx"
-import { ChipList } from "../_CommonComponents/ChipList.tsx"
 import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 import { SelectList } from "../_CommonComponents/SelectList.tsx"
 import { ErrorSnackbar } from "../_CommonComponents/Snackbar/ErrorSnackbar.tsx"
-import { scrollIntoView } from "../../Util/BrowserUtils.ts"
+import { FavouriteArtists } from "./FavouriteArtists.tsx"
 
-import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./RegisterPage.scss"
+import s from "/src/UI/_CommonStyles/_exports.module.scss"
 
 const minLocationQueryLength = 3
 
@@ -74,9 +72,6 @@ export function RegisterPage() {
 
   const [isShowingAllArtists, setIsShowingAllArtists] = useState(false)
 
-  const [favouriteGenres, setFavouriteGenres] = useState<string[]>([])
-  const [followedGenres, setFollowedGenres] = useState<string[]>([])
-
   const favouriteSpotifyArtistsQuery = useQuery(
     "favouriteSpotifyArtists",
     () => fetchFavouriteSpotifyArtists(appContext)
@@ -86,10 +81,6 @@ export function RegisterPage() {
     const favouriteArtists = _uniqBy(favouriteSpotifyArtistsQuery.data || [], "id")
     setFavouriteArtists(favouriteArtists)
     setFollowedArtists(favouriteArtists)
-
-    const favouriteGenres = getFavouriteGenresFromArtists(favouriteArtists)
-    setFavouriteGenres(favouriteGenres)
-    setFollowedGenres(favouriteGenres)
   },
   [favouriteSpotifyArtistsQuery.data]
   )
@@ -207,16 +198,6 @@ export function RegisterPage() {
     setFollowedArtists(updatedArtists)
   }
 
-  const handleToggleFollowingGenre = (genreName: string) => {
-    const isAlreadyInList = followedGenres.includes(genreName)
-
-    const updatedGenres = isAlreadyInList
-      ? followedGenres.filter(genre => genre !== genreName)
-      : [...followedGenres, genreName]
-
-    setFollowedGenres(updatedGenres)
-  }
-
   const handleNextStepClick = (event: MouseEvent<HTMLButtonElement>) => {
     const nextStep = nbShownSteps + 1
     setNbShownSteps(nextStep)
@@ -303,35 +284,12 @@ export function RegisterPage() {
 
         <FadeIn className="wrapper-next-button">
           <AnimatedButton className="filling">
-            <button className="button" onClick={handleNextStepClick}><span>Continue to Genres</span></button>
-          </AnimatedButton>
-        </FadeIn>
-      </section>
-
-      <section data-step={2} className={classNames({ "hidden": nbShownSteps < 2 })}>
-        <FadeIn>
-          <h2>Which genres to follow?</h2>
-        </FadeIn>
-
-        <ChipList
-          items={favouriteGenres.slice(0, 10)}
-          renderItem={(genre) => <span>{genre}</span>}
-          activeItems={followedGenres}
-          onToggle={handleToggleFollowingGenre}
-        />
-
-        <FadeIn className="tip-and-show-all">
-          <span className="offset">You can always change this later</span>
-        </FadeIn>
-
-        <FadeIn className="wrapper-next-button">
-          <AnimatedButton className="filling">
             <button className="button" onClick={handleNextStepClick}><span>Continue to Account</span></button>
           </AnimatedButton>
         </FadeIn>
       </section>
 
-      <section data-step={3} className={classNames({ "hidden": nbShownSteps < 3 })}>
+      <section data-step={2} className={classNames({ "hidden": nbShownSteps < 2 })}>
         <FadeIn>
           <h2>Your account</h2>
         </FadeIn>

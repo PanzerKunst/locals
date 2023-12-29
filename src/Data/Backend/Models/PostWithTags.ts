@@ -1,26 +1,22 @@
 import { Artist, isArtistCompatible } from "./Artist.ts"
-import { isGenreCompatible, MusicGenre } from "./MusicGenre.ts"
-import { EmptyPost, isPostCompatible, Post } from "./Post.ts"
-import { isUserCompatible, User } from "./User.ts"
+import { EmptyPost, Post, isPostCompatible } from "./Post.ts"
+import { User, isUserCompatible } from "./User.ts"
 import { config } from "../../../config.ts"
 
 export type EmptyPostWithTags = {
   post: EmptyPost;
   taggedArtists: Artist[];
-  taggedGenres: MusicGenre[];
 }
 
 /* TODO export type NewPostWithTags = {
   post: NewPost;
   taggedArtists: Artist[];
-  taggedGenres: MusicGenre[];
 } */
 
 export type PostWithAuthorAndTags = {
   post: Post;
   author: User;
   taggedArtists: Artist[];
-  taggedGenres: MusicGenre[];
 }
 
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
@@ -33,7 +29,7 @@ export function isPostWithTagsCompatible(obj: any, isEmpty: boolean | undefined 
   if (!config.IS_PROD) {
     // Get all keys of the object
     const keys = Object.keys(obj)
-    const allowedKeys = ["post", "taggedArtists", "taggedGenres"]
+    const allowedKeys = ["post", "taggedArtists"]
 
     // Check for no additional keys
     if (keys.some(key => !allowedKeys.includes(key))) {
@@ -52,10 +48,6 @@ export function isPostWithTagsCompatible(obj: any, isEmpty: boolean | undefined 
   }
   if (!Array.isArray(obj.taggedArtists) || obj.taggedArtists.some((item: any) => !isArtistCompatible(item))) {
     console.log("PostWithTags incompatible: '!Array.isArray(obj.taggedArtists) || obj.taggedArtists.some((item: any) => !isArtistCompatible(item))'")
-    return false
-  }
-  if (!Array.isArray(obj.taggedGenres) || obj.taggedGenres.some((item: any) => !isGenreCompatible(item))) {
-    console.log("PostWithTags incompatible: '!Array.isArray(obj.taggedGenres) || obj.taggedGenres.some((item: any) => !isGenreCompatible(item))'")
     return false
   }
 

@@ -5,7 +5,6 @@ import { Link } from "react-router-dom"
 import { FadeIn } from "./FadeIn.tsx"
 import { PostWithAuthorAndTags } from "../../Data/Backend/Models/PostWithTags.ts"
 import { getFormattedPostPublicationDate } from "../../Util/DateUtils.ts"
-import { capitalizeAndWithoutSpaces } from "../../Util/StringUtils.ts"
 import { asTag } from "../../Util/TagUtils.ts"
 
 import "./Post.scss"
@@ -15,7 +14,7 @@ type Props = {
 }
 
 export function Post({ postWithAuthorAndTags }: Props) {
-  const { post, author, taggedArtists, taggedGenres } = postWithAuthorAndTags
+  const { post, author, taggedArtists } = postWithAuthorAndTags
 
   return (
     <article>
@@ -36,13 +35,6 @@ export function Post({ postWithAuthorAndTags }: Props) {
               </li>
             )
           })}
-        </ul>
-        <ul className="styleless">
-          {taggedGenres.map(musicGenre => (
-            <li key={musicGenre.id}>
-              <Link to={`/genre/${capitalizeAndWithoutSpaces(musicGenre.name)}`} className="underlined appears">{asTag(musicGenre.name, "#")}</Link>
-            </li>
-          ))}
         </ul>
       </FadeIn>
 

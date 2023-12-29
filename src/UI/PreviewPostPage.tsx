@@ -52,10 +52,13 @@ export function PreviewPostPage() {
   const handlePublishClick = async () => {
     setIsPublishing(true)
 
-    await changePostPublicationStatus(postQuery.data!.post, true)
+    const emptyPostWithSlug = await changePostPublicationStatus(postQuery.data!.post, true)
+    const postWithAuthorAndTags = { ...postQuery.data! }
+    postWithAuthorAndTags.post.slug = emptyPostWithSlug.post.slug
+
     saveEmptyPostWithTagsInSession(undefined)
 
-    navigate(`${getPostPath(postQuery.data!)}?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.PUBLICATION_SUCCESS}`)
+    navigate(`${getPostPath(postWithAuthorAndTags)}?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.PUBLICATION_SUCCESS}`)
   }
 
   return renderContents(

@@ -4,7 +4,6 @@ import { AppContextType } from "../../../AppContext.tsx"
 import { httpStatusCode } from "../../../Util/HttpUtils.ts"
 import { config } from "../../../config.ts"
 import { Artist } from "../Models/Artist.ts"
-import { MusicGenre } from "../Models/MusicGenre.ts"
 import { EmptyPost, Post } from "../Models/Post.ts"
 import { EmptyPostWithTags, PostWithAuthorAndTags } from "../Models/PostWithTags.ts"
 import { User } from "../Models/User.ts"
@@ -43,7 +42,6 @@ export async function storePost(
   appContext: AppContextType,
   title: string,
   taggedArtists: Artist[],
-  taggedGenres: MusicGenre[],
   quill: Quill
 ): Promise<EmptyPostWithTags> {
   const loggedInUser = appContext.loggedInUser
@@ -61,8 +59,7 @@ export async function storePost(
         title,
         content: quill.root.innerHTML
       },
-      taggedArtists,
-      taggedGenres
+      taggedArtists
     })
   })
 
@@ -77,7 +74,6 @@ export async function updatePost(
   emptyPost: EmptyPost,
   title: string,
   taggedArtists: Artist[],
-  taggedGenres: MusicGenre[],
   quill: Quill
 ): Promise<EmptyPostWithTags> {
   const result = await fetch(`${config.BACKEND_URL}/post`, {
@@ -89,8 +85,7 @@ export async function updatePost(
         title,
         content: quill.root.innerHTML
       },
-      taggedArtists,
-      taggedGenres
+      taggedArtists
     })
   })
 

@@ -49,15 +49,11 @@ export function LandingPage() {
           </FadeIn>
 
           <FadeIn>
-            <p>3. Select which if your favourite #genres to follow.</p>
+            <p>3. Confirm your account details.</p>
           </FadeIn>
 
           <FadeIn>
-            <p>4. Confirm your account details.</p>
-          </FadeIn>
-
-          <FadeIn>
-            <p>5. You&apos;re set! 🎉<br/>Write and share content about your favourite music!</p>
+            <p>4. You&apos;re set! 🎉<br/>Write and share content about your favourite music!</p>
           </FadeIn>
 
           <FadeIn className="centered-contents">
