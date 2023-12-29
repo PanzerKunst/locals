@@ -1,11 +1,4 @@
 {
-  "redirects": [
-    {
-      "source": "/p/@:username",
-      "destination": "/@:username",
-      "permanent": false
-    }
-  ],
   "rewrites": [
     {
       "source": "/(.*)",

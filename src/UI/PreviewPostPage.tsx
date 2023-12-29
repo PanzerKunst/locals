@@ -9,7 +9,7 @@ import { CircularLoader } from "./_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
 import { Post } from "./_CommonComponents/Post.tsx"
 import { useAppContext } from "../AppContext.tsx"
-import { changePostPublicationStatus, fetchPost } from "../Data/Backend/Apis/PostsApi.ts"
+import { changePostPublicationStatus, fetchPostOfId } from "../Data/Backend/Apis/PostsApi.ts"
 import { getPostPath } from "../Data/Backend/BackendUtils.ts"
 import { actionsFromAppUrl, appUrlQueryParam } from "../Util/AppUrlQueryParams.ts"
 import { getEmptyPostWithTagsFromSession, saveEmptyPostWithTagsInSession } from "../Util/SessionStorage.ts"
@@ -31,7 +31,7 @@ export function PreviewPostPage() {
 
   const postQuery = useQuery(
     "post",
-    () => fetchPost(emptyPostWithTags!.post.id), {
+    () => fetchPostOfId(emptyPostWithTags!.post.id), {
       enabled: !!emptyPostWithTags
     }
   )

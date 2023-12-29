@@ -16,7 +16,7 @@ import { SelectList } from "./_CommonComponents/SelectList.tsx"
 import { useAppContext } from "../AppContext.tsx"
 import { storeArtists } from "../Data/Backend/Apis/ArtistsApi.ts"
 import { fetchAllMusicGenres } from "../Data/Backend/Apis/MusicGenresApi.ts"
-import { fetchPost, storePost, updatePost } from "../Data/Backend/Apis/PostsApi.ts"
+import { fetchPostOfId, storePost, updatePost } from "../Data/Backend/Apis/PostsApi.ts"
 import { Artist } from "../Data/Backend/Models/Artist.ts"
 import { MusicGenre } from "../Data/Backend/Models/MusicGenre.ts"
 import { EmptyPostWithTags } from "../Data/Backend/Models/PostWithTags.ts"
@@ -34,10 +34,7 @@ import "./ComposePage.scss"
 const maxTaggedArtists = 2
 const maxGenreHashtags = 2
 
-const editorPlaceholders = [
-  "Compose an epic...",
-  "Always be authentic..."
-]
+const editorPlaceholders = ["Tell your story..."]
 
 export function ComposePage() {
   const navigate = useNavigate()
@@ -116,7 +113,7 @@ export function ComposePage() {
     }
 
     async function initPostFromId(postId: number) {
-      const postWithAuthorAndTags = await fetchPost(postId)
+      const postWithAuthorAndTags = await fetchPostOfId(postId)
 
       if (!postWithAuthorAndTags) {
         return
@@ -127,7 +124,7 @@ export function ComposePage() {
     }
 
     async function initQuillContent(postId: number) {
-      const postWithAuthorAndTags = await fetchPost(postId)
+      const postWithAuthorAndTags = await fetchPostOfId(postId)
 
       if (!postWithAuthorAndTags) {
         return
@@ -276,7 +273,7 @@ export function ComposePage() {
     let emptyPostWithTags = getEmptyPostWithTagsFromSession()
 
     if (!emptyPostWithTags && isOnlyDigitsAndNotEmpty(postId)) {
-      emptyPostWithTags = await fetchPost(Number(postId))
+      emptyPostWithTags = await fetchPostOfId(Number(postId))
     }
 
     const storedEmptyPostWithTags = emptyPostWithTags

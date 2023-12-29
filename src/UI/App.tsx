@@ -26,11 +26,11 @@ const router = createBrowserRouter([
       { path: "compose", element: <ComposePage /> },
       { path: "compose/preview", element: <PreviewPostPage /> },
       { path: "compose/:postId", element: <ComposePage /> },
-      { path: "p/:atUsername/:id", element: <PostPage /> },
       { path: "posts", element: <MyPostsPage />},
       { path: "settings", element: <SettingsPage />},
       { path: "contact", element: <ContactPage /> },
       { path: "privacy", element: <PrivacyPolicyPage /> },
+      { path: ":atUsername/:slug", element: <PostPage /> },
       { path: ":atTag", element: <AtTagPage /> }
     ]
   }

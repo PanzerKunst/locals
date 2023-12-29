@@ -2,17 +2,18 @@
 import { config } from "../../../config.ts"
 
 export type NewPost = {
-  userId: number,
-  content: string,
-  title?: string,
+  userId: number;
+  content: string;
+  title?: string;
 }
 
 // Taken by copy/pasting the last part of the bubble when hovering `posts.$inferSelect`
 export type Post = NewPost & {
-  id: number,
-  createdAt: string,
-  updatedAt: string,
-  publishedAt?: string,
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt?: string;
+  slug?: string;
 }
 
 export type EmptyPost = Omit<Post, "content">
@@ -27,7 +28,7 @@ export function isPostCompatible(obj: any, isEmpty: boolean | undefined = false)
   if (!config.IS_PROD) {
     // Get all keys of the object
     const keys = Object.keys(obj)
-    const allowedKeys = ["userId", "title", "content", "id", "createdAt", "updatedAt", "publishedAt"]
+    const allowedKeys = ["userId", "content", "title", "id", "createdAt", "updatedAt", "publishedAt", "slug"]
 
     // Check for no additional keys
     if (keys.some(key => !allowedKeys.includes(key))) {
@@ -64,8 +65,13 @@ export function isPostCompatible(obj: any, isEmpty: boolean | undefined = false)
     console.log("Post incompatible: 'obj.publishedAt && typeof obj.publishedAt !== \"string\"'")
     return false
   }
+  if (obj.slug && typeof obj.slug !== "string") {
+    console.log("obj.slug && typeof obj.slug !== \"string\"'")
+    return false
+  }
 
   // If all checks pass, then the object matches the type
   return true
 }
+
 /* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */

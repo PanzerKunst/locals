@@ -34,7 +34,7 @@ export function LandingPage() {
 
       <LandingPageHero/>
 
-      <section id="for-artists">
+      <section>
         <div className="container">
           <FadeIn className="centered-contents">
             <h2>How it works</h2>
@@ -68,7 +68,7 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section id="for-fans">
+      <section>
         <div className="container">
           <FadeIn className="centered-contents">
             <h2>How it works - for artists</h2>
@@ -93,6 +93,19 @@ export function LandingPage() {
           <FadeIn>
             <p>You get <em>paid directly</em> by your subscribers. Keep 90% of the revenue. You always own your content and your subscriber list.</p>
           </FadeIn>
+
+          <p>It is for you if:
+            - You feel motivated to engage with your audience online. Via blogging, sharing images or videos, chatting, or streaming.
+          </p>
+
+          <p>It is not for you if:
+            - You believe your music and live performances are enough ways to engage with your audience
+          </p>
+
+          <p>Your fanbase is willing to pay for valuable premium content. We provide the tools and process to make it happen. But you have to provide
+            the content.</p>
+
+          <p>Create high quality content for your fans. Get paid for it.</p>
 
           <FadeIn className="centered-contents">
             <AnimatedButton className="filling">

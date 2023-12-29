@@ -18,5 +18,5 @@ export function getFavouriteGenresFromArtists(spotifyArtists: SpotifyArtist[]): 
 
 export function getPostPath(postWithAuthorAndTags: PostWithAuthorAndTags): string {
   const { post, author } = postWithAuthorAndTags
-  return `/p/@${author.username}/${post.id}`
+  return `/@${author.username}/${post.slug}`
 }

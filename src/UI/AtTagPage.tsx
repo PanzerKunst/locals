@@ -3,7 +3,7 @@ import { useQuery } from "react-query"
 import { useParams } from "react-router-dom"
 
 import { CircularLoader } from "./_CommonComponents/CircularLoader.tsx"
-import { fetchPost } from "../Data/Backend/Apis/PostsApi.ts"
+import { fetchPostOfId } from "../Data/Backend/Apis/PostsApi.ts"
 
 export function AtTagPage() {
   const { atTag } = useParams()
@@ -14,7 +14,7 @@ export function AtTagPage() {
 
   const postQuery = useQuery(
     "post",
-    () => fetchPost(postId), {
+    () => fetchPostOfId(postId), {
       enabled: !isNaN(postId)
     }
   )

@@ -9,14 +9,29 @@ import { EmptyPost, Post } from "../Models/Post.ts"
 import { EmptyPostWithTags, PostWithAuthorAndTags } from "../Models/PostWithTags.ts"
 import { User } from "../Models/User.ts"
 
-export async function fetchPost(id: number): Promise<PostWithAuthorAndTags | undefined> {
+export async function fetchPostOfId(id: number): Promise<PostWithAuthorAndTags | undefined> {
   const result = await fetch(`${config.BACKEND_URL}/post/${id}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" }
   })
 
   if (!result.ok) {
-    throw new Error("Error while fetching post")
+    throw new Error(`Error while fetching post of id ${id}`)
+  }
+
+  return result.status === httpStatusCode.NO_CONTENT
+    ? undefined
+    : await result.json() as PostWithAuthorAndTags
+}
+
+export async function fetchPostOfUserAndSlug(username: string, slug: string): Promise<PostWithAuthorAndTags | undefined> {
+  const result = await fetch(`${config.BACKEND_URL}/post/${username}/${slug}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  })
+
+  if (!result.ok) {
+    throw new Error(`Error while fetching post of user ${username} and slug ${slug}`)
   }
 
   return result.status === httpStatusCode.NO_CONTENT
