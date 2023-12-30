@@ -20,7 +20,7 @@ export function AppFooter() {
 
         <div>
           <img src="/images/icon.svg" alt="logo"/>
-          <span>&copy; {dayjs().year()}<br/>Backstage Pass</span>
+          <span>&copy; {dayjs().year()}<br/>Get Backstage</span>
         </div>
       </div>
     </footer>

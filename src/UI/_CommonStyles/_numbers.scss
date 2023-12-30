@@ -1,3 +1,5 @@
+@import "./functions";
+
 $vw-sm: 320px;
 $vw-md: 640px;
 $vw-lg: 960px;
@@ -25,10 +27,11 @@ $input-padding: max(0.5em, 18px);
 
 $default-field-gap: 3vmin;
 
-$variable-font-size: max(1.8vw, 18px);
-$variable-font-size-sm: max(1.3vw, 15px);
-$variable-font-size-xs: max(0.8vw, 12px);
-$variable-h2-size: max(4vw, 24px);
-$variable-h3-size: max(3vw, 22px);
+$variable-font-size-xxl: variable-font(36, 96);
+$variable-font-size-xl: variable-font(24, 48);
+$variable-font-size-lg: variable-font(20, 32);
+$variable-font-size-md: variable-font(20, 24);
+$variable-font-size-sm: variable-font(16, 20);
+$variable-font-size-xs: variable-font(12, 14);
 
 $hero-picture-min-height: 500px;

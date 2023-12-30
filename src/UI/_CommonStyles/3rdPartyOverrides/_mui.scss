@@ -11,11 +11,11 @@
 
 .MuiFormControl-root {
   .MuiFormLabel-root {
-    font-size: $variable-font-size;
+    font-size: $variable-font-size-sm;
   }
 
   .MuiInput-root {
-    font-size: $variable-font-size;
+    font-size: $variable-font-size-sm;
     border-radius: $input-border-radius;
     padding: 0.3em $input-padding;
     background-color: $color-input-bg;
@@ -27,22 +27,7 @@
   }
 
   .MuiFormHelperText-root {
-    font-size: $variable-font-size;
-  }
-}
-
-.MuiTabs-root.MuiTabs-colorNeutral {
-  > .MuiTabList-root {
-    font-size: $variable-font-size;
-
-    > .MuiTab-root {
-      color: $color-text;
-    }
-  }
-
-  > .MuiTabPanel-root {
-    background-color: $color-app-bg;
-    padding-inline: 0;
+    font-size: $variable-font-size-sm;
   }
 }
 

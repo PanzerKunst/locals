@@ -16,18 +16,19 @@ h2,
 h3 {
   line-height: 1em;
   font-weight: 600;
+  letter-spacing: -0.03em;
 }
 
 h1 {
-  font-size: max(5vw, 28px);
+  font-size: $variable-font-size-xxl;
 }
 
 h2 {
-  font-size: $variable-h2-size;
+  font-size: $variable-font-size-xl;
 }
 
 h3 {
-  font-size: $variable-h3-size;
+  font-size: $variable-font-size-lg;
 }
 
 p,
@@ -40,7 +41,7 @@ span {
 .container {
   p,
   blockquote {
-    font-size: $variable-font-size;
+    font-size: $variable-font-size-md;
     line-height: 1.4em;
     margin-bottom: 1.5em;
   }

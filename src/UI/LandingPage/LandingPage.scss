@@ -1,17 +1,44 @@
 @import "/src/UI/_CommonStyles/colors";
+@import "/src/UI/_CommonStyles/numbers";
+@import "/src/UI/_CommonStyles/functions";
 
 .page.landing {
   > section {
     &:not(#hero) {
-      padding-block: 10vmin;
+      padding-block: 15vmin;
     }
 
-    &:nth-of-type(even) {
+    &:nth-of-type(odd) {
       background-color: $color-offset-bg;
     }
 
     h2 {
-      margin-bottom: 0.5em;
+      text-align: center;
+      margin-bottom: 1.5em;
+
+      > p {
+        font-size: inherit;
+        line-height: inherit;
+        margin-bottom: 0.7em;
+
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    .fade-in > p {
+      font-size: variable-font(20, 40);
+      margin-bottom: 1em;
+    }
+
+    .button.lg {
+      margin-top: 3vmin;
+    }
+
+    &#how-it-works footer {
+      margin-top: 7vmin;
+      font-style: italic;
     }
   }
 }

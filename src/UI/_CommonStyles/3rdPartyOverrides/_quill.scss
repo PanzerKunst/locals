@@ -21,7 +21,7 @@
   min-height: 300px;
 
   &.ql-blank::before { // Placeholder
-    font-size: $variable-font-size;
+    font-size: $variable-font-size-sm;
     color: $color-input-placeholder;
   }
 }

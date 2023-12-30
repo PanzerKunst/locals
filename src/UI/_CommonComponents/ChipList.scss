@@ -8,7 +8,7 @@ ul.chips {
   > li {
     transition: opacity #{$animation-duration-sm}s ease;
 
-    font-size: $variable-font-size;
+    font-size: $variable-font-size-sm;
 
     display: flex;
     align-items: center;

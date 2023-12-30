@@ -34,44 +34,39 @@ export function LandingPage() {
 
       <LandingPageHero/>
 
-      <section>
+      <section id="intro">
         <div className="container">
-          <FadeIn className="centered-contents">
-            <h2>How it works</h2>
+          <FadeIn>
+            <h2>
+              <p>Create high quality content for your audience.</p>
+              <p>Get paid for it.</p>
+            </h2>
           </FadeIn>
 
           <FadeIn>
-            <p>1. Sign in with your Spotify account.</p>
+            <p>Music fans get access to premium content from <em>all</em> their favourite artists for $9.99 a month.</p>
           </FadeIn>
 
           <FadeIn>
-            <p>2. Select which of you favourite @artists to follow.</p>
-          </FadeIn>
-
-          <FadeIn>
-            <p>3. Confirm your account details.</p>
-          </FadeIn>
-
-          <FadeIn>
-            <p>4. You&apos;re set! 🎉<br/>Write and share content about your favourite music!</p>
+            <p>90% of the revenue goes to the content creators.</p>
           </FadeIn>
 
           <FadeIn className="centered-contents">
             <AnimatedButton className="filling">
-              <Link to="/home" className="button"><span>Let&apos;s go!</span></Link>
+              <Link to="/home" className="button lg"><span>Let&apos;s go!</span></Link>
             </AnimatedButton>
           </FadeIn>
         </div>
       </section>
 
-      <section>
+      <section id="how-it-works">
         <div className="container">
-          <FadeIn className="centered-contents">
-            <h2>How it works - for artists</h2>
+          <FadeIn>
+            <h2>How it works</h2>
           </FadeIn>
 
           <FadeIn>
-            <p>1. Register as a normal user with your private Spotify account.</p>
+            <p>1. Register via a Spotify account, just like everyone.</p>
           </FadeIn>
 
           <FadeIn>
@@ -79,33 +74,64 @@ export function LandingPage() {
           </FadeIn>
 
           <FadeIn>
-            <p>3. Start sharing your artist journey by publishing to your followers. They are longing for a real, authentic connection!</p>
+            <p>3. Members who listen to your music on Spotify are subscribed to your content automatically.</p>
           </FadeIn>
 
           <FadeIn>
-            <p>4. Add some subscriber-only content. Subscribers are your biggest fans: they support you financially through a monthly payment.</p>
+            <p>4. Go paid by connecting to Stripe, it takes 5 minutes.</p>
           </FadeIn>
 
           <FadeIn>
-            <p>You get <em>paid directly</em> by your subscribers. Keep 90% of the revenue. You always own your content and your subscriber list.</p>
+            <p>5. Create content: accessible to everyone or exclusive to premium members - you decide.</p>
           </FadeIn>
 
-          <p>It is for you if:
+          <FadeIn>
+            <p>6. Keep 90% of the revenue.</p>
+          </FadeIn>
+
+          {/* <p>It is for you if:
             - You feel motivated to engage with your audience online. Via blogging, sharing images or videos, chatting, or streaming.
           </p>
 
           <p>It is not for you if:
             - You believe your music and live performances are enough ways to engage with your audience
-          </p>
-
-          <p>Your fanbase is willing to pay for valuable premium content. We provide the tools and process to make it happen. But you have to provide
-            the content.</p>
-
-          <p>Create high quality content for your fans. Get paid for it.</p>
+          </p> */}
 
           <FadeIn className="centered-contents">
             <AnimatedButton className="filling">
-              <Link to="/home" className="button"><span>Get started!</span></Link>
+              <Link to="/home" className="button lg"><span>Get started</span></Link>
+            </AnimatedButton>
+          </FadeIn>
+
+          <footer>
+            <FadeIn>
+              <p>Your fanbase is willing to pay you to access high quality content.</p>
+            </FadeIn>
+
+            <FadeIn>
+              <p>We provide the tools and process for you to make it happen.</p>
+            </FadeIn>
+          </footer>
+        </div>
+      </section>
+
+      <section id="everyone-earns">
+        <div className="container">
+          <FadeIn>
+            <h2>Fans and journalists earn too</h2>
+          </FadeIn>
+
+          <FadeIn>
+            <p>Everyone can create content on their favourite music and artists, and get paid for it.</p>
+          </FadeIn>
+
+          <FadeIn>
+            <p>90% of the site revenue goes to content creators.</p>
+          </FadeIn>
+
+          <FadeIn className="centered-contents">
+            <AnimatedButton className="filling">
+              <Link to="/home" className="button lg"><span>Get started</span></Link>
             </AnimatedButton>
           </FadeIn>
         </div>

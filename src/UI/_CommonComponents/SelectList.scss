@@ -13,10 +13,9 @@ ul.styleless.select {
   background-color: $color-list-item-bg;
   @include joy-dropdown-shadow;
 
-  font-size: $variable-font-size;
+  font-size: $variable-font-size-sm;
   line-height: max(2em, 40px);
 
-  &:empty,
   &.closed {
     display: none;
   }

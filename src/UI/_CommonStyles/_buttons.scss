@@ -41,11 +41,11 @@ a.button:not(.icon-only) {
 
   transition: all #{$animation-duration-sm}s ease; // background-size color opacity
 
-  font-size: $variable-font-size;
+  font-size: $variable-font-size-sm;
   font-weight: 400;
   color: $color-btn-text-pre-filled;
 
-  padding-inline: 1em;
+  padding-inline: 0.7em;
   border-radius: max(0.1em, 3px);
 
   &.filling,
@@ -77,10 +77,14 @@ a.button:not(.icon-only) {
   }
 
   > span {
-    padding-block: 0.5em 0.6em;
+    padding-block: 0.35em 0.4em;
   }
 
-  &.fixed-height {
+  &.lg {
+    font-size: $variable-font-size-lg;
+  }
+
+  &.fixed-height { // Used in modals
     font-size: 18px;
     border-width: 2px;
 

@@ -10,7 +10,7 @@ html {
 body {
   background-color: $color-app-bg;
   color: $color-text;
-  font-family: Inter, sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
 
   box-sizing: border-box; // Border-box everything by default
 
@@ -50,14 +50,11 @@ main {
   padding: $min-content-side-margin;
 
   @include vw(md) {
+    padding-inline: 0;
     width: 75%;
   }
 
-  @include vw(lg) {
-    width: 66%;
-  }
-
-  @include vw(xxl) {
-    width: 60%;
+  @include vw(xl) {
+    width: $vw-lg;
   }
 }

@@ -181,7 +181,7 @@ export function ComposePage() {
 
   function areTagsValid(): boolean {
     if (_isEmpty(taggedArtists)) {
-      setTagsError("Add at least 1 artist tag")
+      setTagsError("Tag at least 1 artist")
       scrollIntoView(document.querySelector(".tag-fields"))
       return false
     }

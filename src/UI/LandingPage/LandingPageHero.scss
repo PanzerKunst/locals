@@ -18,15 +18,11 @@
     @include darkened-image-bg("/images/evgeniy-smersh-PuqP_vEnTv0-unsplash.jpg");
   }
 
-
   height: max(45vw, $hero-picture-min-height);
 
   > h1 {
-    font-weight: 400;
     color: $color-text-negative;
-    letter-spacing: -0.03em;
     text-align: center;
-    font-size: max(7vw, 40px);
     @include text-shadow;
 
     margin-top: max(15vw, 200px);
