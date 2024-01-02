@@ -1,4 +1,5 @@
-import { Close, ErrorOutline } from "@mui/icons-material"
+import { faCircleExclamation, faXmark } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useState } from "react"
 
 import { AppSnackbar } from "./AppSnackbar.tsx"
@@ -12,7 +13,7 @@ export function ErrorSnackbar({ message }: Props) {
 
   return (
     <AppSnackbar
-      leftIcon={<ErrorOutline/>}
+      leftIcon={<FontAwesomeIcon icon={faCircleExclamation} />}
       color="danger"
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
       open={isOpen}
@@ -22,7 +23,7 @@ export function ErrorSnackbar({ message }: Props) {
         <p className="offset">{message}</p>
       </div>
       <button className="button icon-only" onClick={() => setIsOpen(false)}>
-        <Close/>
+        <FontAwesomeIcon icon={faXmark} />
       </button>
     </AppSnackbar>
   )

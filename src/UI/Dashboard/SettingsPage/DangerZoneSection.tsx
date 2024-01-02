@@ -1,12 +1,13 @@
-import { useNavigate } from "react-router-dom"
 import { AnimatePresence, motion } from "framer-motion"
+import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import { Modal, ModalDialog } from "@mui/joy"
-import { Close, DeleteOutlined } from "@mui/icons-material"
+import { faTrashCan, faXmark } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
+import { useAppContext } from "../../../AppContext.tsx"
 import { deleteUser } from "../../../Data/Backend/Apis/UsersApi.ts"
 import { actionsFromAppUrl, appUrlQueryParam } from "../../../Util/AppUrlQueryParams.ts"
-import { useAppContext } from "../../../AppContext.tsx"
 import { FadeIn } from "../../_CommonComponents/FadeIn.tsx"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
@@ -53,13 +54,13 @@ export function DangerZoneSection() {
             >
               <ModalDialog>
                 <button className="button icon-only close" aria-label="close" onClick={() => setIsDeleteDialogOpen(false)}>
-                  <Close/>
+                  <FontAwesomeIcon icon={faXmark} />
                 </button>
                 <div>
                   <span>Are you sure? Deletion is final.</span>
                   {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
                   <button className="button filled fixed-height" onClick={handleConfirmDeleteClick}>
-                    <DeleteOutlined/>
+                    <FontAwesomeIcon icon={faTrashCan} />
                     <span>Delete my account</span>
                   </button>
                 </div>

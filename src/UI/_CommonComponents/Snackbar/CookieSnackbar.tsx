@@ -1,10 +1,10 @@
-import { Cookie } from "@mui/icons-material"
+import { faCookie } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useState } from "react"
 import { Link } from "react-router-dom"
 
 import { AppSnackbar } from "./AppSnackbar.tsx"
 import { getCookieConsentFromLocalStorage, saveCookieConsentInLocalStorage } from "../../../Util/LocalStorage.ts"
-
 
 import "./CookieSnackbar.scss"
 
@@ -29,7 +29,7 @@ export function CookieSnackbar() {
 
   return (
     <AppSnackbar
-      leftIcon={<Cookie/>}
+      leftIcon={<FontAwesomeIcon icon={faCookie} />}
       color="neutral"
       anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       open={isOpen}

@@ -1,4 +1,6 @@
-import { CheckCircleOutline, Close } from "@mui/icons-material"
+import { faCircleCheck } from "@fortawesome/free-regular-svg-icons"
+import { faXmark } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { ReactNode, useState } from "react"
 
 import { AppSnackbar } from "./AppSnackbar.tsx"
@@ -12,7 +14,7 @@ export function SuccessSnackbar({ children }: Props) {
 
   return (
     <AppSnackbar
-      leftIcon={<CheckCircleOutline/>}
+      leftIcon={<FontAwesomeIcon icon={faCircleCheck} />}
       color="success"
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
       open={isOpen}
@@ -21,7 +23,7 @@ export function SuccessSnackbar({ children }: Props) {
         {children}
       </div>
       <button className="button icon-only" onClick={() => setIsOpen(false)}>
-        <Close/>
+        <FontAwesomeIcon icon={faXmark} />
       </button>
     </AppSnackbar>
   )

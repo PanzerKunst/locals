@@ -1,6 +1,7 @@
-import { Close } from "@mui/icons-material"
 import { AnimatePresence, motion } from "framer-motion"
 import { useState } from "react"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faXmark } from "@fortawesome/free-solid-svg-icons"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./Tooltip.scss"
@@ -36,7 +37,7 @@ export function Tooltip({ text, visible = true }: Props) {
             className="button icon-only"
             onClick={() => setIsVisible(false)}
           >
-            <Close/>
+            <FontAwesomeIcon icon={faXmark} />
           </motion.button>
         </motion.div>
       )}

@@ -27,7 +27,7 @@ ul.MuiPopper-root.MuiMenu-root.post-action-menu {
     }
   }
 
-  .MuiSvgIcon-root[data-testid="UTurnLeftIcon"] {
-    transform: rotate(90deg);
+  svg[data-icon="arrow-turn-up"] {
+    transform: rotate(-90deg);
   }
 }

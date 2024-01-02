@@ -1,12 +1,11 @@
-import { Check } from "@mui/icons-material"
 import { AnimatePresence, motion } from "framer-motion"
+import { useState } from "react"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCheck } from "@fortawesome/free-solid-svg-icons"
 
 import { SpotifyArtist } from "../../Data/Spotify/Models/SpotifyArtist.ts"
 import { useViewportSize } from "../../Util/BrowserUtils.ts"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
-
-import { useState } from "react"
-
 import { Tooltip } from "../_CommonComponents/Tooltip.tsx"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
@@ -87,7 +86,7 @@ export function FavouriteArtists({ isShowingAll = false, favourites, followed, o
                   transition={{ duration: Number(s.animationDurationXs) }}
                   className="check-icon-wrapper"
                 >
-                  <Check/>
+                  <FontAwesomeIcon icon={faCheck} />
                 </motion.div>}
               </AnimatePresence>
             </FadeIn>

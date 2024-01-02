@@ -1,4 +1,5 @@
-import { LocationOn } from "@mui/icons-material"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faLocationDot } from "@fortawesome/free-solid-svg-icons"
 import { FormControl, FormHelperText, FormLabel, Input } from "@mui/joy"
 import classNames from "classnames"
 import { animate } from "framer-motion"
@@ -7,6 +8,7 @@ import { ChangeEvent, FormEvent, MouseEvent, ReactNode, useEffect, useState } fr
 import { useQuery } from "react-query"
 import { useNavigate } from "react-router-dom"
 
+import { FavouriteArtists } from "./FavouriteArtists.tsx"
 import { useAppContext } from "../../AppContext.tsx"
 import { storeArtists } from "../../Data/Backend/Apis/ArtistsApi.ts"
 import { storeUserFavouriteArtists } from "../../Data/Backend/Apis/UserFavouriteArtistsApi.ts"
@@ -28,10 +30,9 @@ import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 import { SelectList } from "../_CommonComponents/SelectList.tsx"
 import { ErrorSnackbar } from "../_CommonComponents/Snackbar/ErrorSnackbar.tsx"
-import { FavouriteArtists } from "./FavouriteArtists.tsx"
 
-import "./RegisterPage.scss"
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
+import "./RegisterPage.scss"
 
 const minLocationQueryLength = 3
 
@@ -339,7 +340,7 @@ export function RegisterPage() {
                   value={geolocationQuery}
                   autoComplete="search"
                   onChange={handleLocationChange}
-                  startDecorator={<LocationOn/>}
+                  startDecorator={<FontAwesomeIcon icon={faLocationDot} />}
                 />
                 <SelectList
                   items={locationSearchResults}

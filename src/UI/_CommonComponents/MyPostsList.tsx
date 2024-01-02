@@ -1,9 +1,10 @@
-import { Close, DeleteOutlined, Edit, MoreVert, UTurnLeft } from "@mui/icons-material"
 import { Dropdown, IconButton, ListDivider, ListItemDecorator, Menu, MenuButton, MenuItem, Modal, ModalDialog } from "@mui/joy"
 import { AnimatePresence, motion, stagger, useAnimate } from "framer-motion"
 import _isEmpty from "lodash/isEmpty"
 import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faEllipsisV, faPencil, faArrowTurnUp, faXmark, faTrashCan } from "@fortawesome/free-solid-svg-icons"
 
 import { changePostPublicationStatus, deletePost } from "../../Data/Backend/Apis/PostsApi.ts"
 import { getPostPath } from "../../Data/Backend/BackendUtils.ts"
@@ -88,23 +89,23 @@ export function MyPostsList({ postsWithAuthorAndTags }: Props) {
               {!post.publishedAt && <span>Draft</span>}
 
               <Dropdown>
-                <MenuButton slots={{ root: IconButton }}><MoreVert/></MenuButton>
+                <MenuButton slots={{ root: IconButton }}><FontAwesomeIcon icon={faEllipsisV} /></MenuButton>
 
                 <Menu variant="plain" placement="bottom-end" className="post-action-menu">
                   <MenuItem onClick={() => handleEditClick(post)}>
-                    <ListItemDecorator><Edit/></ListItemDecorator>
+                    <ListItemDecorator><FontAwesomeIcon icon={faPencil} /></ListItemDecorator>
                     Edit post
                   </MenuItem>
                   <ListDivider/>
                   {post.publishedAt && (
                     // eslint-disable-next-line @typescript-eslint/no-misused-promises
                     <MenuItem onClick={() => handleUnpublishClick(post)}>
-                      <ListItemDecorator><UTurnLeft/></ListItemDecorator>
+                      <ListItemDecorator><FontAwesomeIcon icon={faArrowTurnUp} /></ListItemDecorator>
                       Unpublish
                     </MenuItem>
                   )}
                   <MenuItem onClick={() => handleMenuItemDeleteClick(post)}>
-                    <ListItemDecorator><DeleteOutlined/></ListItemDecorator>
+                    <ListItemDecorator><FontAwesomeIcon icon={faTrashCan} /></ListItemDecorator>
                     Delete
                   </MenuItem>
                 </Menu>
@@ -125,13 +126,13 @@ export function MyPostsList({ postsWithAuthorAndTags }: Props) {
             >
               <ModalDialog>
                 <button className="button icon-only close" aria-label="close" onClick={handleCancelDeleteClick}>
-                  <Close/>
+                  <FontAwesomeIcon icon={faXmark} />
                 </button>
                 <div>
                   <span>Are you sure? Deletion is final.</span>
                   {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
                   <button className="button filled fixed-height" onClick={handleConfirmDeleteClick}>
-                    <DeleteOutlined/>
+                    <FontAwesomeIcon icon={faTrashCan} />
                     <span>Delete</span>
                   </button>
                 </div>

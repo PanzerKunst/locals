@@ -1,4 +1,5 @@
-import { Check, Close } from "@mui/icons-material"
+import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { ReactNode, useState } from "react"
 
 import { AppSnackbar } from "./AppSnackbar.tsx"
@@ -18,7 +19,7 @@ export function BottomRightInfoSnackbar({ children, onClose }: Props) {
 
   return (
     <AppSnackbar
-      leftIcon={<Check/>}
+      leftIcon={<FontAwesomeIcon icon={faCheck} />}
       color="neutral"
       anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       open={isOpen}
@@ -27,7 +28,7 @@ export function BottomRightInfoSnackbar({ children, onClose }: Props) {
         {children}
       </div>
       <button className="button icon-only" onClick={handleCloseClick}>
-        <Close/>
+        {<FontAwesomeIcon icon={faXmark} />}
       </button>
     </AppSnackbar>
   )

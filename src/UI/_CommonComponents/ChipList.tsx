@@ -1,7 +1,8 @@
-import { Check, Close } from "@mui/icons-material"
 import { AnimatePresence, motion } from "framer-motion"
 import _isEqual from "lodash/isEqual"
 import { ReactNode } from "react"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./ChipList.scss"
@@ -31,7 +32,7 @@ export function ChipList<T>({ items, renderItem, activeItems = [], onDelete, onT
   const onClick = onDelete || onToggle!
 
   function Icon() {
-    return onDelete ? <Close/> : <Check/>
+    return onDelete ? <FontAwesomeIcon icon={faXmark} /> : <FontAwesomeIcon icon={faCheck} />
   }
 
   return (

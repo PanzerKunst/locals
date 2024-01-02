@@ -264,7 +264,7 @@ export function ComposePage() {
               type="text"
               variant="soft"
               size="lg"
-              placeholder="@ArtistName"
+              placeholder="Artist Name"
               value={artistQuery}
               autoComplete="search"
               onChange={handleArtistChange}
