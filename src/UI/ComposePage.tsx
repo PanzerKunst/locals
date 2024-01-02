@@ -258,7 +258,7 @@ export function ComposePage() {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <form noValidate onSubmit={handleFormSubmit}>
       <FadeIn className="tag-fields">
-        <FormControl>
+        <FormControl error={tagsError !== ""}>
           <div className="input-and-select-list-wrapper">
             <Input
               type="text"
@@ -277,19 +277,14 @@ export function ComposePage() {
               loading={isSearchingArtists}
             />
           </div>
-
-          <ChipList
-            items={taggedArtists}
-            renderItem={(artist: Artist) => <span>{asTag(artist.name, "@")}</span>}
-            onDelete={handleDeleteArtistTag}
-          />
+          {tagsError !== "" && <FormHelperText>{tagsError}</FormHelperText>}
         </FormControl>
 
-        {tagsError !== "" && (
-          <FormControl error>
-            <FormHelperText>{tagsError}</FormHelperText>
-          </FormControl>
-        )}
+        <ChipList
+          items={taggedArtists}
+          renderItem={(artist: Artist) => <span>{asTag(artist.name, "@")}</span>}
+          onDelete={handleDeleteArtistTag}
+        />
       </FadeIn>
 
       <FadeIn>
@@ -313,7 +308,7 @@ export function ComposePage() {
         </FormControl>
       </FadeIn>
 
-      <FadeIn>
+      <FadeIn className="button-wrapper">
         <AnimatedButton className="filling">
           <button
             className={classNames("button", { "filling loading": isSubmittingForm })}

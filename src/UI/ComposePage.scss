@@ -5,7 +5,7 @@
     margin-bottom: 5vmin;
   }
 
-  .fade-in:last-of-type {
+  .fade-in.button-wrapper {
     display: flex;
     justify-content: flex-end;
   }
@@ -14,14 +14,19 @@
     display: grid;
     row-gap: 0.5em;
 
-    @include vw(lg) {
-      grid-template-columns: 1fr 1fr;
-      row-gap: 0;
-      column-gap: 1em;
-    }
-
     ul.chips {
       margin-top: 1vmin;
+    }
+
+    @include vw(lg) {
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      row-gap: 0;
+      column-gap: 1em;
+
+      ul.chips {
+        margin-top: 0;
+      }
     }
   }
 }
