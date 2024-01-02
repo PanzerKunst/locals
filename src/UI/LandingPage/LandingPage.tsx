@@ -44,11 +44,11 @@ export function LandingPage() {
           </FadeIn>
 
           <FadeIn>
-            <p>Music fans get access to premium content from <em>all</em> their favourite artists for $9.99 a month.</p>
+            <p>Music fans access premium content from all their favourite artists for $9.99 a month.</p>
           </FadeIn>
 
           <FadeIn>
-            <p>90% of the revenue goes to the content creators.</p>
+            <p>90% of the revenue goes to content creators.</p>
           </FadeIn>
 
           <FadeIn className="centered-contents">
@@ -109,7 +109,7 @@ export function LandingPage() {
             </FadeIn>
 
             <FadeIn>
-              <p>We provide the tools and process for you to make it happen.</p>
+              <p>We provide the tools and process for you to make it happen!</p>
             </FadeIn>
           </footer>
         </div>
@@ -118,11 +118,11 @@ export function LandingPage() {
       <section id="everyone-earns">
         <div className="container">
           <FadeIn>
-            <h2>Fans and journalists earn too</h2>
+            <h2>Fans and journalists can earn too.</h2>
           </FadeIn>
 
           <FadeIn>
-            <p>Everyone can create content on their favourite music and artists, and get paid for it.</p>
+            <p>Everyone can create premium content on their favourite music and artists, and get paid for it.</p>
           </FadeIn>
 
           <FadeIn>
