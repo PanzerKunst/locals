@@ -7,7 +7,7 @@ type Props = {
   postWithAuthorAndTags: PostWithTags;
 }
 
-export function PostPreview({ postWithAuthorAndTags }: Props) {
+export function PostPreviewCard({ postWithAuthorAndTags }: Props) {
   const { post } = postWithAuthorAndTags
 
   return (

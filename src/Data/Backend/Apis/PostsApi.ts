@@ -42,6 +42,7 @@ export async function storePost(
   appContext: AppContextType,
   title: string,
   taggedArtists: Artist[],
+  heroImagePath: string | undefined,
   quill: Quill
 ): Promise<PostWithTags> {
   const loggedInUser = appContext.loggedInUser
@@ -57,7 +58,8 @@ export async function storePost(
       post: {
         userId: loggedInUser.id,
         title,
-        content: quill.root.innerHTML
+        content: quill.root.innerHTML,
+        heroImagePath
       },
       taggedArtists
     })
@@ -74,6 +76,7 @@ export async function updatePost(
   post: Post,
   title: string,
   taggedArtists: Artist[],
+  heroImagePath: string | undefined,
   quill: Quill
 ): Promise<PostWithTags> {
   const result = await fetch(`${config.BACKEND_URL}/post`, {
@@ -83,7 +86,8 @@ export async function updatePost(
       post: {
         ...post,
         title,
-        content: quill.root.innerHTML
+        content: quill.root.innerHTML,
+        heroImagePath
       },
       taggedArtists
     })
@@ -123,12 +127,10 @@ export async function fetchPostsByUser(user: User): Promise<PostWithTags[]> {
 }
 
 export async function deletePost(post: Post): Promise<void> {
-  const { content, ...emptyPost } = post // eslint-disable-line no-unused-vars
-
   const result = await fetch(`${config.BACKEND_URL}/post`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ emptyPost })
+    body: JSON.stringify({ post })
   })
 
   if (!result.ok) {

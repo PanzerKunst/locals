@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { faArrowTurnUp, faEllipsisV, faPencil, faTrashCan, faXmark } from "@fortawesome/free-solid-svg-icons"
 
-import { PostPreview } from "./PostPreview.tsx"
+import { PostPreviewCard } from "./PostPreviewCard.tsx"
 import { changePostPublicationStatus, deletePost } from "../../Data/Backend/Apis/PostsApi.ts"
 import { Post } from "../../Data/Backend/Models/Post.ts"
 import { PostWithTags } from "../../Data/Backend/Models/PostWithTags.ts"
@@ -81,7 +81,7 @@ export function MyPostsList({ postsWithAuthorAndTags }: Props) {
 
           return (
             <motion.li key={post.id} initial={motionVariants.initial}>
-              <PostPreview postWithAuthorAndTags={postWithAuthorAndTags}/>
+              <PostPreviewCard postWithAuthorAndTags={postWithAuthorAndTags}/>
 
               {!post.publishedAt && <span>Draft</span>}
 

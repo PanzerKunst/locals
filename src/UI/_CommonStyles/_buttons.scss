@@ -96,6 +96,10 @@ a.button:not(.icon-only) {
     margin-right: 0.5em;
   }
 
+  > svg {
+    color: $color-icon-light;
+  }
+
 
   // Loader
 

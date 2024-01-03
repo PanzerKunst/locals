@@ -94,30 +94,30 @@ export function ComposePage() {
     const postWithTags = getPostWithTagsFromSession()
 
     if (postWithTags) {
-      initPostTitleAndTags(postWithTags)
-      quillEditor.root.innerHTML = postWithTags.post.content
+      initFormData(postWithTags)
     } else if (isOnlyDigitsAndNotEmpty(postId)) {
-      void initPostFromId(Number(postId))
+      void initFormDataFromPostId(Number(postId))
     }
 
-    function initPostTitleAndTags(postWithTags: PostWithTags) {
-      setTitleField({
-        value: postWithTags.post.title || "",
-        error: "" // We reset any eventual errors
-      })
-
-      setTaggedArtists(postWithTags.taggedArtists)
-    }
-
-    async function initPostFromId(postId: number) {
+    async function initFormDataFromPostId(postId: number) {
       const postWithAuthorAndTags = await fetchPostOfId(postId)
 
       if (!postWithAuthorAndTags) {
         return
       }
 
-      initPostTitleAndTags(postWithAuthorAndTags)
-      quillEditor.root.innerHTML = postWithAuthorAndTags.post.content
+      initFormData(postWithAuthorAndTags)
+    }
+
+    function initFormData(postWithTags: PostWithTags) {
+      setTitleField({
+        value: postWithTags.post.title || "",
+        error: "" // We reset any eventual errors
+      })
+
+      setTaggedArtists(postWithTags.taggedArtists)
+      setHeroImagePath(postWithTags.post.heroImagePath)
+      quillEditor.root.innerHTML = postWithTags.post.content
     }
   }, [postId, quill])
 
@@ -265,8 +265,8 @@ export function ComposePage() {
     }
 
     const storedPostWithTags = postWithTags
-      ? await updatePost(postWithTags.post, titleField.value, taggedArtists, quill!)
-      : await storePost(appContext, titleField.value, taggedArtists, quill!)
+      ? await updatePost(postWithTags.post, titleField.value, taggedArtists, heroImagePath, quill!)
+      : await storePost(appContext, titleField.value, taggedArtists, heroImagePath, quill!)
 
     savePostWithTagsInSession(storedPostWithTags)
 

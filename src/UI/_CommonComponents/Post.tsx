@@ -6,6 +6,7 @@ import { FadeIn } from "./FadeIn.tsx"
 import { PostWithTags } from "../../Data/Backend/Models/PostWithTags.ts"
 import { getFormattedPostPublicationDate } from "../../Util/DateUtils.ts"
 import { asTag } from "../../Util/TagUtils.ts"
+import { config } from "../../config.ts"
 
 import "./Post.scss"
 
@@ -49,6 +50,8 @@ export function Post({ postWithAuthorAndTags }: Props) {
       <FadeIn>
         <span className="publication-date">{getFormattedPostPublicationDate(dayjs().toISOString())}</span>
       </FadeIn>
+
+      {post.heroImagePath && <img src={`${config.BACKEND_URL}/file/${post.heroImagePath}`} alt="Hero"/>}
 
       <FadeIn>
         <div className="quill-preview" dangerouslySetInnerHTML={{ __html: post.content }}/>
