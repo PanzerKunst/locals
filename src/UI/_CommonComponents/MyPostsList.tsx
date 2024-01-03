@@ -1,13 +1,13 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Dropdown, IconButton, ListDivider, ListItemDecorator, Menu, MenuButton, MenuItem, Modal, ModalDialog } from "@mui/joy"
 import { AnimatePresence, motion, stagger, useAnimate } from "framer-motion"
 import _isEmpty from "lodash/isEmpty"
 import { useEffect, useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faEllipsisV, faPencil, faArrowTurnUp, faXmark, faTrashCan } from "@fortawesome/free-solid-svg-icons"
+import { useNavigate } from "react-router-dom"
+import { faArrowTurnUp, faEllipsisV, faPencil, faTrashCan, faXmark } from "@fortawesome/free-solid-svg-icons"
 
+import { PostPreview } from "./PostPreview.tsx"
 import { changePostPublicationStatus, deletePost } from "../../Data/Backend/Apis/PostsApi.ts"
-import { getPostPath } from "../../Data/Backend/BackendUtils.ts"
 import { Post } from "../../Data/Backend/Models/Post.ts"
 import { PostWithTags } from "../../Data/Backend/Models/PostWithTags.ts"
 
@@ -81,10 +81,7 @@ export function MyPostsList({ postsWithAuthorAndTags }: Props) {
 
           return (
             <motion.li key={post.id} initial={motionVariants.initial}>
-              <Link to={getPostPath(postWithAuthorAndTags)}>
-                {post.title && <h2>{post.title}</h2>}
-                <p dangerouslySetInnerHTML={{ __html: post.content }}/>
-              </Link>
+              <PostPreview postWithAuthorAndTags={postWithAuthorAndTags}/>
 
               {!post.publishedAt && <span>Draft</span>}
 
