@@ -25,11 +25,6 @@ a.button:not([role="tab"]) {
   color: $color-btn-text;
 
   transition: opacity #{$animation-duration-sm}s ease;
-
-  // TODO: instead, move the button slightly up, like on the Figma homepage
-  &:hover {
-    opacity: 0.9;
-  }
 }
 
 button.button:not(.icon-only),
@@ -97,14 +92,8 @@ a.button:not(.icon-only) {
   // Left icon
 
   > svg,
-  > .MuiSvgIcon-root,
   > img {
-    @include img-size(1.5em);
     margin-right: 0.5em;
-  }
-
-  > .MuiSvgIcon-root {
-    font-size: 1em;
   }
 
 
@@ -137,13 +126,38 @@ a.button {
 }
 
 .button.icon-only {
-  border: none;
-  outline: none;
-  background: none;
+  border-radius: 50%;
+
+  > svg {
+    color: $color-icon-dark;
+  }
+
+  &:hover {
+    background-color: $color-btn-bg-icon-only-dark-hover;
+  }
+
+  &.light {
+    > svg {
+      color: $color-icon-light;
+    }
+
+    &:hover {
+      background-color: $color-btn-bg-icon-only-light-hover;
+    }
+  }
+
+  &:not(:hover).bordered {
+    border: 2px solid $color-icon-dark;
+
+    &.light {
+      border-color: $color-icon-light;
+    }
+  }
 }
 
 button.underlined {
   @include button-reset;
   color: $color-link;
+  font-size: $variable-font-size-sm;
   @include underlined;
 }

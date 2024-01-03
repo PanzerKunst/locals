@@ -1,6 +1,6 @@
 import { FormControl, FormHelperText, FormLabel, Input } from "@mui/joy"
 import classNames from "classnames"
-import { ChangeEvent, FormEvent, useEffect, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 
 import { useAppContext } from "../../../AppContext.tsx"
 import { checkUsernameAvailability, updateUser } from "../../../Data/Backend/Apis/UsersApi.ts"
@@ -127,9 +127,7 @@ export function AccountSection() {
     isUsernameInputValid()
   }
 
-  const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
+  const handleFormSubmit = async () => {
     if (!isFormValid()) {
       return
     }
@@ -153,62 +151,61 @@ export function AccountSection() {
         <h2>Account</h2>
       </FadeIn>
 
-      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-      <form noValidate onSubmit={handleFormSubmit}>
-        <FadeIn>
-          <FormControl error={nameField.error !== ""} id="name">
-            <FormLabel>Name</FormLabel>
-            <Input
-              variant="soft"
-              size="lg"
-              value={nameField.value}
-              onChange={handleNameChange}
-            />
-            {nameField.error !== "" && <FormHelperText>{nameField.error}</FormHelperText>}
-          </FormControl>
-        </FadeIn>
+      <FadeIn>
+        <FormControl error={nameField.error !== ""} id="name">
+          <FormLabel>Name</FormLabel>
+          <Input
+            variant="soft"
+            size="lg"
+            value={nameField.value}
+            onChange={handleNameChange}
+          />
+          {nameField.error !== "" && <FormHelperText>{nameField.error}</FormHelperText>}
+        </FormControl>
+      </FadeIn>
 
-        <FadeIn>
-          <FormControl error={emailField.error !== ""} id="email">
-            <FormLabel>E-mail</FormLabel>
-            <Input
-              variant="soft"
-              size="lg"
-              placeholder="chris@hello.net"
-              value={emailField.value}
-              onChange={handleEmailChange}
-              onBlur={handleEmailBlur}
-            />
-            {emailField.error !== "" && <FormHelperText>{emailField.error}</FormHelperText>}
-          </FormControl>
-        </FadeIn>
+      <FadeIn>
+        <FormControl error={emailField.error !== ""} id="email">
+          <FormLabel>E-mail</FormLabel>
+          <Input
+            variant="soft"
+            size="lg"
+            placeholder="chris@hello.net"
+            value={emailField.value}
+            onChange={handleEmailChange}
+            onBlur={handleEmailBlur}
+          />
+          {emailField.error !== "" && <FormHelperText>{emailField.error}</FormHelperText>}
+        </FormControl>
+      </FadeIn>
 
-        <FadeIn>
-          <FormControl error={usernameFieldError !== ""} id="username">
-            <FormLabel>Username</FormLabel>
-            <Input
-              variant="soft"
-              size="lg"
-              placeholder="MusicLover96"
-              value={username}
-              onChange={handleUsernameChange}
-              onBlur={handleUsernameBlur}
-              endDecorator={isCheckingUsernameAvailability && <CircularLoader/>}
-            />
-            {usernameFieldError !== "" && <FormHelperText>{usernameFieldError}</FormHelperText>}
-          </FormControl>
-        </FadeIn>
+      <FadeIn>
+        <FormControl error={usernameFieldError !== ""} id="username">
+          <FormLabel>Username</FormLabel>
+          <Input
+            variant="soft"
+            size="lg"
+            placeholder="MusicLover96"
+            value={username}
+            onChange={handleUsernameChange}
+            onBlur={handleUsernameBlur}
+            endDecorator={isCheckingUsernameAvailability && <CircularLoader/>}
+          />
+          {usernameFieldError !== "" && <FormHelperText>{usernameFieldError}</FormHelperText>}
+        </FormControl>
+      </FadeIn>
 
-        <FadeIn className="wrapper-next-button">
-          <button
-            className={classNames("button filled", { loading: isSubmittingForm })}
-            disabled={emailField.error !== "" || usernameFieldError !== ""}
-          >
-            {isSubmittingForm && <ButtonLoader/>}
-            <span>Save changes</span>
-          </button>
-        </FadeIn>
-      </form>
+      <FadeIn className="wrapper-next-button">
+        <button
+          className={classNames("button filled", { loading: isSubmittingForm })}
+          disabled={emailField.error !== "" || usernameFieldError !== ""}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          onClick={handleFormSubmit}
+        >
+          {isSubmittingForm && <ButtonLoader/>}
+          <span>Save changes</span>
+        </button>
+      </FadeIn>
 
       {hasSaved && (
         <BottomRightInfoSnackbar onClose={() => setHasSaved(false)}>

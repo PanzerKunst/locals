@@ -1,18 +1,29 @@
 @import "/src/UI/_CommonStyles/mixins";
 
-.page.compose {
-  .fade-in:not(:last-of-type) {
+.page.compose > main {
+  > .fade-in {
     margin-bottom: 5vmin;
-  }
 
-  .fade-in.button-wrapper {
-    display: flex;
-    justify-content: flex-end;
+    &.button-wrapper {
+      display: flex;
+      justify-content: flex-end;
+    }
   }
 
   .tag-fields {
     display: grid;
     row-gap: 0.5em;
+
+    .input-and-select-list-wrapper {
+      position: relative;
+
+      > svg[data-icon="magnifying-glass"] {
+        position: absolute;
+        top: 0.6em;
+        left: 0;
+        margin-left: -2.3em;
+      }
+    }
 
     ul.chips {
       margin-top: 1vmin;
@@ -27,6 +38,79 @@
       ul.chips {
         margin-top: 0;
       }
+    }
+  }
+
+  .form-control-title > .MuiInput-root {
+    font-size: $variable-font-size-lg;
+  }
+
+  section.hero-media {
+    display: grid;
+    grid-template-columns: 2fr 1fr 2fr;
+    justify-items: stretch;
+    align-items: center;
+
+    > div {
+      aspect-ratio: 16 / 9;
+
+      &.fade-in {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 1.5vmin;
+
+        background-color: $color-offset-bg;
+        border-radius: $input-border-radius;
+
+        > span {
+          font-size: $variable-font-size-md;
+          color: $color-input-placeholder;
+          text-align: center;
+        }
+
+        > div {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 7%;
+
+          > input[type="file"] {
+            display: none;
+          }
+
+          > button.underlined {
+            margin-block: 0.5em;
+          }
+
+          > span {
+            color: $color-text-offset;
+            font-size: $variable-font-size-sm;
+          }
+        }
+      }
+
+      &:not(.fade-in) {
+        position: relative;
+
+        > img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        > button {
+          position: absolute;
+          top: 0.3em;
+          right: 0.3em;
+        }
+      }
+    }
+
+    > span {
+      color: $color-text-offset;
+      font-size: $variable-font-size-sm;
+      text-align: center;
     }
   }
 }

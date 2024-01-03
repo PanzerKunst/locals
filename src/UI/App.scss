@@ -47,7 +47,7 @@ main {
 
 .container {
   margin-inline: auto;
-  padding: $min-content-side-margin;
+  padding-inline: $min-content-side-margin;
 
   @include vw(md) {
     padding-inline: 0;

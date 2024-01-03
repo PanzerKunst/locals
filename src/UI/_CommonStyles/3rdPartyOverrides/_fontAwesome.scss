@@ -1,0 +1,6 @@
+@import "../mixins";
+
+svg.svg-inline--fa {
+  color: $color-icon-dark;
+  @include img-size(24px);
+}

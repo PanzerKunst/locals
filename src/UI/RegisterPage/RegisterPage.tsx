@@ -4,7 +4,7 @@ import { FormControl, FormHelperText, FormLabel, Input } from "@mui/joy"
 import classNames from "classnames"
 import { animate } from "framer-motion"
 import _uniqBy from "lodash/uniqBy"
-import { ChangeEvent, FormEvent, MouseEvent, ReactNode, useEffect, useState } from "react"
+import { ChangeEvent, MouseEvent, ReactNode, useEffect, useState } from "react"
 import { useQuery } from "react-query"
 import { useNavigate } from "react-router-dom"
 
@@ -240,9 +240,7 @@ export function RegisterPage() {
     setGeolocationFieldError("")
   }
 
-  const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
+  const handleFormSubmit = async () => {
     if (!isFormValid()) {
       return
     }
@@ -295,76 +293,75 @@ export function RegisterPage() {
           <h2>Your account</h2>
         </FadeIn>
 
-        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-        <form noValidate onSubmit={handleFormSubmit}>
-          <FadeIn>
-            <FormControl error={emailField.error !== ""} id="email">
-              <FormLabel>E-mail</FormLabel>
+        <FadeIn>
+          <FormControl error={emailField.error !== ""} id="email">
+            <FormLabel>E-mail</FormLabel>
+            <Input
+              variant="soft"
+              size="lg"
+              placeholder="chris@hello.net"
+              value={emailField.value}
+              onChange={handleEmailChange}
+              onBlur={handleEmailBlur}
+            />
+            {emailField.error !== "" && <FormHelperText>{emailField.error}</FormHelperText>}
+          </FormControl>
+        </FadeIn>
+
+        <FadeIn>
+          <FormControl error={usernameFieldError !== ""} id="username">
+            <FormLabel>Username</FormLabel>
+            <Input
+              variant="soft"
+              size="lg"
+              placeholder="MusicLover96"
+              value={username}
+              onChange={handleUsernameChange}
+              onBlur={handleUsernameBlur}
+              endDecorator={isCheckingUsernameAvailability && <CircularLoader/>}
+            />
+            {usernameFieldError !== "" && <FormHelperText>{usernameFieldError}</FormHelperText>}
+          </FormControl>
+        </FadeIn>
+
+        <FadeIn>
+          <FormControl error={geolocationFieldError !== ""} id="geolocation">
+            <FormLabel>Location</FormLabel>
+            <div className="input-and-select-list-wrapper">
               <Input
+                type="text"
                 variant="soft"
                 size="lg"
-                placeholder="chris@hello.net"
-                value={emailField.value}
-                onChange={handleEmailChange}
-                onBlur={handleEmailBlur}
+                placeholder="Paris, France"
+                value={geolocationQuery}
+                autoComplete="search"
+                onChange={handleLocationChange}
+                startDecorator={<FontAwesomeIcon icon={faLocationDot}/>}
               />
-              {emailField.error !== "" && <FormHelperText>{emailField.error}</FormHelperText>}
-            </FormControl>
-          </FadeIn>
-
-          <FadeIn>
-            <FormControl error={usernameFieldError !== ""} id="username">
-              <FormLabel>Username</FormLabel>
-              <Input
-                variant="soft"
-                size="lg"
-                placeholder="MusicLover96"
-                value={username}
-                onChange={handleUsernameChange}
-                onBlur={handleUsernameBlur}
-                endDecorator={isCheckingUsernameAvailability && <CircularLoader/>}
+              <SelectList
+                items={locationSearchResults}
+                renderItem={(location) => location.formatted}
+                onSelect={handleLocationSelect}
+                loading={isSearchingLocations}
               />
-              {usernameFieldError !== "" && <FormHelperText>{usernameFieldError}</FormHelperText>}
-            </FormControl>
-          </FadeIn>
+            </div>
+            {geolocationFieldError !== "" && <FormHelperText>{geolocationFieldError}</FormHelperText>}
+          </FormControl>
+        </FadeIn>
 
-          <FadeIn>
-            <FormControl error={geolocationFieldError !== ""} id="geolocation">
-              <FormLabel>Location</FormLabel>
-              <div className="input-and-select-list-wrapper">
-                <Input
-                  type="text"
-                  variant="soft"
-                  size="lg"
-                  placeholder="Paris, France"
-                  value={geolocationQuery}
-                  autoComplete="search"
-                  onChange={handleLocationChange}
-                  startDecorator={<FontAwesomeIcon icon={faLocationDot} />}
-                />
-                <SelectList
-                  items={locationSearchResults}
-                  renderItem={(location) => location.formatted}
-                  onSelect={handleLocationSelect}
-                  loading={isSearchingLocations}
-                />
-              </div>
-              {geolocationFieldError !== "" && <FormHelperText>{geolocationFieldError}</FormHelperText>}
-            </FormControl>
-          </FadeIn>
-
-          <FadeIn className="wrapper-next-button">
-            <AnimatedButton className="filling">
-              <button
-                className={classNames("button", { "filling loading": isSubmittingForm })}
-                disabled={emailField.error !== "" || usernameFieldError !== "" || geolocationFieldError !== ""}
-              >
-                {isSubmittingForm && <ButtonLoader/>}
-                <span>Complete registration</span>
-              </button>
-            </AnimatedButton>
-          </FadeIn>
-        </form>
+        <FadeIn className="wrapper-next-button">
+          <AnimatedButton className="filling">
+            <button
+              className={classNames("button", { "filling loading": isSubmittingForm })}
+              disabled={emailField.error !== "" || usernameFieldError !== "" || geolocationFieldError !== ""}
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
+              onClick={handleFormSubmit}
+            >
+              {isSubmittingForm && <ButtonLoader/>}
+              <span>Complete registration</span>
+            </button>
+          </AnimatedButton>
+        </FadeIn>
       </section>
     </>
   )

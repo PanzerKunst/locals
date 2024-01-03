@@ -1,10 +1,14 @@
+import { faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { FormControl, FormHelperText, Input } from "@mui/joy"
 import classNames from "classnames"
+import { motion } from "framer-motion"
+import _head from "lodash/head"
 import _isEmpty from "lodash/isEmpty"
 import _sample from "lodash/sample"
 import Quill, { Sources } from "quill"
 import Delta from "quill-delta"
-import { ChangeEvent, FormEvent, ReactNode, useEffect, useRef, useState } from "react"
+import { ChangeEvent, ReactNode, useEffect, useRef, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 
 import { AnimatedButton } from "./_CommonComponents/AnimatedButton.tsx"
@@ -14,7 +18,7 @@ import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
 import { SelectList } from "./_CommonComponents/SelectList.tsx"
 import { useAppContext } from "../AppContext.tsx"
 import { storeArtists } from "../Data/Backend/Apis/ArtistsApi.ts"
-import { uploadImage } from "../Data/Backend/Apis/FileApi.ts"
+import { deleteFile, uploadBase64Image, uploadFormDataImage } from "../Data/Backend/Apis/FileApi.ts"
 import { fetchPostOfId, storePost, updatePost } from "../Data/Backend/Apis/PostsApi.ts"
 import { Artist } from "../Data/Backend/Models/Artist.ts"
 import { EmptyPostWithTags } from "../Data/Backend/Models/PostWithTags.ts"
@@ -26,7 +30,9 @@ import { useDebounce } from "../Util/ReactUtils.ts"
 import { getEmptyPostWithTagsFromSession, saveEmptyPostWithTagsInSession } from "../Util/SessionStorage.ts"
 import { asTag } from "../Util/TagUtils.ts"
 import { Field, isBase64, isOnlyDigitsAndNotEmpty } from "../Util/ValidationUtils.ts"
+import { config } from "../config.ts"
 
+import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./ComposePage.scss"
 
 const maxTaggedArtists = 2
@@ -48,6 +54,10 @@ export function ComposePage() {
   const [tagsError, setTagsError] = useState("")
 
   const [titleField, setTitleField] = useState<Field>({ value: "", error: "" })
+
+  const heroImageInputRef = useRef<HTMLInputElement>(null)
+  const [heroImagePath, setHeroImagePath] = useState<string>()
+
   const editorRef = useRef<HTMLDivElement>(null)
   const [quill, setQuill] = useState<Quill>()
   const [editorError, setEditorError] = useState("")
@@ -143,10 +153,11 @@ export function ComposePage() {
 
         quill.history.undo() // Prevent default image insertion
 
-        const imageUrl = await uploadImage(image)
+        const filePath = await uploadBase64Image(image)
+        const fileUrl = `${config.BACKEND_URL}/file/${filePath}`
 
         const cursorPosition = quill.getSelection()?.index || 0
-        quill.insertEmbed(cursorPosition, "image", imageUrl)
+        quill.insertEmbed(cursorPosition, "image", fileUrl)
       }
     }
 
@@ -230,9 +241,27 @@ export function ComposePage() {
     })
   }
 
-  const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+  const handleBrowseHeroImageClick = () => {
+    heroImageInputRef.current?.click()
+  }
 
+  const handleHeroImageChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = _head(event.target.files)
+
+    if (!file) {
+      return
+    }
+
+    const filePath = await uploadFormDataImage(file)
+    setHeroImagePath(filePath)
+  }
+
+  const handleHeroImageDelete = async () => {
+    await deleteFile(heroImagePath!)
+    setHeroImagePath(undefined)
+  }
+
+  const handleFormSubmit = async () => {
     if (!isFormValid()) {
       return
     }
@@ -255,11 +284,11 @@ export function ComposePage() {
   }
 
   return renderContents(
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    <form noValidate onSubmit={handleFormSubmit}>
+    <>
       <FadeIn className="tag-fields">
-        <FormControl error={tagsError !== ""}>
+        <FormControl error={tagsError !== ""} id="tags">
           <div className="input-and-select-list-wrapper">
+            <FontAwesomeIcon icon={faMagnifyingGlass}/>
             <Input
               type="text"
               variant="soft"
@@ -288,11 +317,11 @@ export function ComposePage() {
       </FadeIn>
 
       <FadeIn>
-        <FormControl error={titleField.error !== ""} id="post-title">
+        <FormControl error={titleField.error !== ""} id="title" className="form-control-title">
           <Input
             variant="soft"
             size="lg"
-            placeholder="Post title (optional)"
+            placeholder="Title"
             autoComplete="off"
             value={titleField.value}
             onChange={handleTitleChange}
@@ -301,8 +330,50 @@ export function ComposePage() {
         </FormControl>
       </FadeIn>
 
+      <section className="hero-media">
+        {heroImagePath ? (
+          <div>
+            <img src={`${config.BACKEND_URL}/file/${heroImagePath}`} alt="Hero"/>
+            <motion.button
+              whileTap={{ scale: 0.9 }}
+              transition={{ duration: Number(s.animationDurationXs) }}
+              className="button icon-only light bordered"
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
+              onClick={handleHeroImageDelete}
+            >
+              <FontAwesomeIcon icon={faXmark}/>
+            </motion.button>
+          </div>
+        ) : (
+          <FadeIn>
+            <span>Hero image</span>
+            <div>
+              <input
+                type="file"
+                accept="image/*"
+                ref={heroImageInputRef}
+                // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                onChange={handleHeroImageChange}
+              />
+              <button className="underlined disappears" onClick={handleBrowseHeroImageClick}>Browse</button>
+            </div>
+          </FadeIn>
+        )}
+
+        <span>or</span>
+
+        <FadeIn>
+          <span>Hero video</span>
+          <div>
+            <button className="underlined disappears">From link</button>
+            <span>or</span>
+            <button className="underlined disappears">Browse</button>
+          </div>
+        </FadeIn>
+      </section>
+
       <FadeIn>
-        <FormControl error={editorError !== ""}>
+        <FormControl error={editorError !== ""} id="editor">
           <div ref={editorRef}/>
           {editorError !== "" && <FormHelperText>{editorError}</FormHelperText>}
         </FormControl>
@@ -313,13 +384,15 @@ export function ComposePage() {
           <button
             className={classNames("button", { "filling loading": isSubmittingForm })}
             disabled={tagsError !== "" || titleField.error !== "" || editorError !== ""}
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
+            onClick={handleFormSubmit}
           >
             {isSubmittingForm && <ButtonLoader/>}
             <span>Save & Preview</span>
           </button>
         </AnimatedButton>
       </FadeIn>
-    </form>
+    </>
   )
 
   function renderContents(children: ReactNode) {
