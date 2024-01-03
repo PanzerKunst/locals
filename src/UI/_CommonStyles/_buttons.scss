@@ -34,7 +34,7 @@ a.button:not(.icon-only) {
   background-position: left center;
   background-repeat: no-repeat;
 
-  transition: all #{$animation-duration-sm}s ease; // background-size color opacity
+  transition: all #{$animation-duration-sm}s ease; // background-size color opacity translateY
 
   font-size: $variable-font-size-sm;
   font-weight: 400;
@@ -42,6 +42,10 @@ a.button:not(.icon-only) {
 
   padding-inline: 0.7em;
   border-radius: max(0.1em, 3px);
+
+  &:hover {
+    transform: translateY(-2px);
+  }
 
   &.filling,
   &.filled {

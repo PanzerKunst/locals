@@ -34,7 +34,7 @@ export function Tooltip({ text, visible = true }: Props) {
           <motion.button
             whileTap={{ scale: 0.9 }}
             transition={{ duration: Number(s.animationDurationXs) }}
-            className="button icon-only"
+            className="button icon-only light"
             onClick={() => setIsVisible(false)}
           >
             <FontAwesomeIcon icon={faXmark} />

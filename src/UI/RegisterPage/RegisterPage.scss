@@ -29,10 +29,10 @@
       margin-top: 5vmin;
     }
 
-    > form {
-      display: flex;
-      flex-direction: column;
-      gap: $default-field-gap;
+    &[data-step="2"] {
+      .MuiFormControl-root {
+        margin-bottom: $default-field-gap;
+      }
 
       > .wrapper-next-button {
         margin-top: 2vmin;
