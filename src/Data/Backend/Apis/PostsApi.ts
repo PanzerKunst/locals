@@ -4,11 +4,11 @@ import { AppContextType } from "../../../AppContext.tsx"
 import { httpStatusCode } from "../../../Util/HttpUtils.ts"
 import { config } from "../../../config.ts"
 import { Artist } from "../Models/Artist.ts"
-import { EmptyPost, Post } from "../Models/Post.ts"
-import { EmptyPostWithTags, PostWithAuthorAndTags } from "../Models/PostWithTags.ts"
+import { Post } from "../Models/Post.ts"
+import { PostWithTags } from "../Models/PostWithTags.ts"
 import { User } from "../Models/User.ts"
 
-export async function fetchPostOfId(id: number): Promise<PostWithAuthorAndTags | undefined> {
+export async function fetchPostOfId(id: number): Promise<PostWithTags | undefined> {
   const result = await fetch(`${config.BACKEND_URL}/post/${id}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" }
@@ -20,10 +20,10 @@ export async function fetchPostOfId(id: number): Promise<PostWithAuthorAndTags |
 
   return result.status === httpStatusCode.NO_CONTENT
     ? undefined
-    : await result.json() as PostWithAuthorAndTags
+    : await result.json() as PostWithTags
 }
 
-export async function fetchPostOfUserAndSlug(username: string, slug: string): Promise<PostWithAuthorAndTags | undefined> {
+export async function fetchPostOfUserAndSlug(username: string, slug: string): Promise<PostWithTags | undefined> {
   const result = await fetch(`${config.BACKEND_URL}/post/${username}/${slug}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" }
@@ -35,7 +35,7 @@ export async function fetchPostOfUserAndSlug(username: string, slug: string): Pr
 
   return result.status === httpStatusCode.NO_CONTENT
     ? undefined
-    : await result.json() as PostWithAuthorAndTags
+    : await result.json() as PostWithTags
 }
 
 export async function storePost(
@@ -43,7 +43,7 @@ export async function storePost(
   title: string,
   taggedArtists: Artist[],
   quill: Quill
-): Promise<EmptyPostWithTags> {
+): Promise<PostWithTags> {
   const loggedInUser = appContext.loggedInUser
 
   if (!loggedInUser) {
@@ -67,21 +67,21 @@ export async function storePost(
     throw new Error(`Error while storing post for user ID ${loggedInUser.id}`)
   }
 
-  return await result.json() as EmptyPostWithTags
+  return await result.json() as PostWithTags
 }
 
 export async function updatePost(
-  emptyPost: EmptyPost,
+  post: Post,
   title: string,
   taggedArtists: Artist[],
   quill: Quill
-): Promise<EmptyPostWithTags> {
+): Promise<PostWithTags> {
   const result = await fetch(`${config.BACKEND_URL}/post`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       post: {
-        ...emptyPost,
+        ...post,
         title,
         content: quill.root.innerHTML
       },
@@ -90,13 +90,13 @@ export async function updatePost(
   })
 
   if (!result.ok) {
-    throw new Error(`Error while updating post ${JSON.stringify(emptyPost)}`)
+    throw new Error(`Error while updating post ${JSON.stringify(post)}`)
   }
 
-  return await result.json() as EmptyPostWithTags
+  return await result.json() as PostWithTags
 }
 
-export async function changePostPublicationStatus(post: Post, isPublish: boolean): Promise<EmptyPostWithTags> {
+export async function changePostPublicationStatus(post: Post, isPublish: boolean): Promise<PostWithTags> {
   const result = await fetch(`${config.BACKEND_URL}/post/${post.id}?publish=${isPublish}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" }
@@ -106,10 +106,10 @@ export async function changePostPublicationStatus(post: Post, isPublish: boolean
     throw new Error(`Error while changing publication status for post ${JSON.stringify(post)}`)
   }
 
-  return await result.json() as EmptyPostWithTags
+  return await result.json() as PostWithTags
 }
 
-export async function fetchPostsByUser(user: User): Promise<PostWithAuthorAndTags[]> {
+export async function fetchPostsByUser(user: User): Promise<PostWithTags[]> {
   const result = await fetch(`${config.BACKEND_URL}/posts/user/${user.id}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" }
@@ -119,7 +119,7 @@ export async function fetchPostsByUser(user: User): Promise<PostWithAuthorAndTag
     throw new Error(`Error while fetching posts for userID ${user.id}`)
   }
 
-  return await result.json() as PostWithAuthorAndTags[]
+  return await result.json() as PostWithTags[]
 }
 
 export async function deletePost(post: Post): Promise<void> {

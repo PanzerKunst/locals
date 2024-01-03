@@ -9,7 +9,7 @@ import { faEllipsisV, faPencil, faArrowTurnUp, faXmark, faTrashCan } from "@fort
 import { changePostPublicationStatus, deletePost } from "../../Data/Backend/Apis/PostsApi.ts"
 import { getPostPath } from "../../Data/Backend/BackendUtils.ts"
 import { Post } from "../../Data/Backend/Models/Post.ts"
-import { PostWithAuthorAndTags } from "../../Data/Backend/Models/PostWithTags.ts"
+import { PostWithTags } from "../../Data/Backend/Models/PostWithTags.ts"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./MyPostsList.scss"
@@ -22,7 +22,7 @@ const motionVariants = {
 const modalMotionVariants = motionVariants
 
 type Props = {
-  postsWithAuthorAndTags: PostWithAuthorAndTags[];
+  postsWithAuthorAndTags: PostWithTags[];
 }
 
 export function MyPostsList({ postsWithAuthorAndTags }: Props) {

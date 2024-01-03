@@ -21,13 +21,13 @@ import { storeArtists } from "../Data/Backend/Apis/ArtistsApi.ts"
 import { deleteFile, uploadBase64Image, uploadFormDataImage } from "../Data/Backend/Apis/FileApi.ts"
 import { fetchPostOfId, storePost, updatePost } from "../Data/Backend/Apis/PostsApi.ts"
 import { Artist } from "../Data/Backend/Models/Artist.ts"
-import { EmptyPostWithTags } from "../Data/Backend/Models/PostWithTags.ts"
+import { PostWithTags } from "../Data/Backend/Models/PostWithTags.ts"
 import { searchArtists } from "../Data/Spotify/Apis/SearchApi.ts"
 import { appUrlQueryParam } from "../Util/AppUrlQueryParams.ts"
 import { scrollIntoView } from "../Util/BrowserUtils.ts"
 import { isEditorEmpty } from "../Util/QuillUtils.ts"
 import { useDebounce } from "../Util/ReactUtils.ts"
-import { getEmptyPostWithTagsFromSession, saveEmptyPostWithTagsInSession } from "../Util/SessionStorage.ts"
+import { getPostWithTagsFromSession, savePostWithTagsInSession } from "../Util/SessionStorage.ts"
 import { asTag } from "../Util/TagUtils.ts"
 import { Field, isBase64, isOnlyDigitsAndNotEmpty } from "../Util/ValidationUtils.ts"
 import { config } from "../config.ts"
@@ -91,22 +91,22 @@ export function ComposePage() {
 
     setQuill(quillEditor)
 
-    const emptyPostWithTags = getEmptyPostWithTagsFromSession()
+    const postWithTags = getPostWithTagsFromSession()
 
-    if (emptyPostWithTags) {
-      initPostTitleAndTags(emptyPostWithTags)
-      void initQuillContent(emptyPostWithTags.post.id)
+    if (postWithTags) {
+      initPostTitleAndTags(postWithTags)
+      quillEditor.root.innerHTML = postWithTags.post.content
     } else if (isOnlyDigitsAndNotEmpty(postId)) {
       void initPostFromId(Number(postId))
     }
 
-    function initPostTitleAndTags(emptyPostWithTags: EmptyPostWithTags) {
+    function initPostTitleAndTags(postWithTags: PostWithTags) {
       setTitleField({
-        value: emptyPostWithTags.post.title || "",
+        value: postWithTags.post.title || "",
         error: "" // We reset any eventual errors
       })
 
-      setTaggedArtists(emptyPostWithTags.taggedArtists)
+      setTaggedArtists(postWithTags.taggedArtists)
     }
 
     async function initPostFromId(postId: number) {
@@ -117,16 +117,6 @@ export function ComposePage() {
       }
 
       initPostTitleAndTags(postWithAuthorAndTags)
-      quillEditor.root.innerHTML = postWithAuthorAndTags.post.content
-    }
-
-    async function initQuillContent(postId: number) {
-      const postWithAuthorAndTags = await fetchPostOfId(postId)
-
-      if (!postWithAuthorAndTags) {
-        return
-      }
-
       quillEditor.root.innerHTML = postWithAuthorAndTags.post.content
     }
   }, [postId, quill])
@@ -268,17 +258,17 @@ export function ComposePage() {
 
     setIsSubmittingForm(true)
 
-    let emptyPostWithTags = getEmptyPostWithTagsFromSession()
+    let postWithTags = getPostWithTagsFromSession()
 
-    if (!emptyPostWithTags && isOnlyDigitsAndNotEmpty(postId)) {
-      emptyPostWithTags = await fetchPostOfId(Number(postId))
+    if (!postWithTags && isOnlyDigitsAndNotEmpty(postId)) {
+      postWithTags = await fetchPostOfId(Number(postId))
     }
 
-    const storedEmptyPostWithTags = emptyPostWithTags
-      ? await updatePost(emptyPostWithTags.post, titleField.value, taggedArtists, quill!)
+    const storedPostWithTags = postWithTags
+      ? await updatePost(postWithTags.post, titleField.value, taggedArtists, quill!)
       : await storePost(appContext, titleField.value, taggedArtists, quill!)
 
-    saveEmptyPostWithTagsInSession(storedEmptyPostWithTags)
+    savePostWithTagsInSession(storedPostWithTags)
 
     navigate("/compose/preview")
   }
@@ -355,7 +345,7 @@ export function ComposePage() {
                 // eslint-disable-next-line @typescript-eslint/no-misused-promises
                 onChange={handleHeroImageChange}
               />
-              <button className="underlined disappears" onClick={handleBrowseHeroImageClick}>Browse</button>
+              <button className="underlined appears" onClick={handleBrowseHeroImageClick}>Browse</button>
             </div>
           </FadeIn>
         )}
@@ -365,9 +355,9 @@ export function ComposePage() {
         <FadeIn>
           <span>Hero video</span>
           <div>
-            <button className="underlined disappears">From link</button>
+            <button className="underlined appears">From link</button>
             <span>or</span>
-            <button className="underlined disappears">Browse</button>
+            <button className="underlined appears">Browse</button>
           </div>
         </FadeIn>
       </section>

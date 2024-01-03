@@ -1,11 +1,12 @@
 import { Artist, isArtistCompatible } from "./Artist.ts"
-import { EmptyPost, Post, isPostCompatible } from "./Post.ts"
+import { Post, isPostCompatible } from "./Post.ts"
 import { User, isUserCompatible } from "./User.ts"
 import { config } from "../../../config.ts"
 
-export type EmptyPostWithTags = {
-  post: EmptyPost;
+export type PostWithTags = {
+  post: Post;
   taggedArtists: Artist[];
+  author?: User;
 }
 
 /* TODO export type NewPostWithTags = {
@@ -13,14 +14,8 @@ export type EmptyPostWithTags = {
   taggedArtists: Artist[];
 } */
 
-export type PostWithAuthorAndTags = {
-  post: Post;
-  author: User;
-  taggedArtists: Artist[];
-}
-
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
-export function isPostWithTagsCompatible(obj: any, isEmpty: boolean | undefined = false): boolean {
+export function isPostWithTagsCompatible(obj: any): boolean {
   // Check if the object is not null and is an object
   if (typeof obj !== "object" || !obj) {
     return false
@@ -29,7 +24,7 @@ export function isPostWithTagsCompatible(obj: any, isEmpty: boolean | undefined 
   if (!config.IS_PROD) {
     // Get all keys of the object
     const keys = Object.keys(obj)
-    const allowedKeys = ["post", "taggedArtists"]
+    const allowedKeys = ["post", "taggedArtists", "author"]
 
     // Check for no additional keys
     if (keys.some(key => !allowedKeys.includes(key))) {
@@ -38,8 +33,8 @@ export function isPostWithTagsCompatible(obj: any, isEmpty: boolean | undefined 
   }
 
   // Check for the existence and type of optional properties
-  if (!isPostCompatible(obj.post, isEmpty)) {
-    console.log("PostWithTags incompatible: '!isPostCompatible(obj.post, isEmpty)'")
+  if (!isPostCompatible(obj.post)) {
+    console.log("PostWithTags incompatible: '!isPostCompatible(obj.post)'")
     return false
   }
   if (obj.author && !isUserCompatible(obj.author)) {

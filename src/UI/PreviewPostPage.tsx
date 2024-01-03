@@ -12,7 +12,7 @@ import { useAppContext } from "../AppContext.tsx"
 import { changePostPublicationStatus, fetchPostOfId } from "../Data/Backend/Apis/PostsApi.ts"
 import { getPostPath } from "../Data/Backend/BackendUtils.ts"
 import { actionsFromAppUrl, appUrlQueryParam } from "../Util/AppUrlQueryParams.ts"
-import { getEmptyPostWithTagsFromSession, saveEmptyPostWithTagsInSession } from "../Util/SessionStorage.ts"
+import { getPostWithTagsFromSession, savePostWithTagsInSession } from "../Util/SessionStorage.ts"
 
 import "./PreviewPostPage.scss"
 
@@ -21,7 +21,7 @@ export function PreviewPostPage() {
   const { loggedInUser } = useAppContext()
   const [isPublishing, setIsPublishing] = useState(false)
 
-  const emptyPostWithTags = getEmptyPostWithTagsFromSession()
+  const postWithTags = getPostWithTagsFromSession()
 
   useEffect(() => {
     if (!loggedInUser) {
@@ -31,8 +31,8 @@ export function PreviewPostPage() {
 
   const postQuery = useQuery(
     "post",
-    () => fetchPostOfId(emptyPostWithTags!.post.id), {
-      enabled: !!emptyPostWithTags
+    () => fetchPostOfId(postWithTags!.post.id), {
+      enabled: !!postWithTags
     }
   )
 
@@ -45,20 +45,17 @@ export function PreviewPostPage() {
   }
 
   const handleEditClick = () => {
-    saveEmptyPostWithTagsInSession(undefined)
+    savePostWithTagsInSession(undefined)
     navigate(`/compose/${postQuery.data!.post.id}`)
   }
 
   const handlePublishClick = async () => {
     setIsPublishing(true)
 
-    const emptyPostWithSlug = await changePostPublicationStatus(postQuery.data!.post, true)
-    const postWithAuthorAndTags = { ...postQuery.data! }
-    postWithAuthorAndTags.post.slug = emptyPostWithSlug.post.slug
+    const postWithSlugAndAuthor = await changePostPublicationStatus(postQuery.data!.post, true)
+    savePostWithTagsInSession(undefined)
 
-    saveEmptyPostWithTagsInSession(undefined)
-
-    navigate(`${getPostPath(postWithAuthorAndTags)}?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.PUBLICATION_SUCCESS}`)
+    navigate(`${getPostPath(postWithSlugAndAuthor)}?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.PUBLICATION_SUCCESS}`)
   }
 
   return renderContents(

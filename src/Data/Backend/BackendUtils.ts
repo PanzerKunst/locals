@@ -1,4 +1,4 @@
-import { PostWithAuthorAndTags } from "./Models/PostWithTags.ts"
+import { PostWithTags } from "./Models/PostWithTags.ts"
 import { SpotifyArtist } from "../Spotify/Models/SpotifyArtist.ts"
 
 export function getFavouriteGenresFromArtists(spotifyArtists: SpotifyArtist[]): string[] {
@@ -16,7 +16,7 @@ export function getFavouriteGenresFromArtists(spotifyArtists: SpotifyArtist[]): 
     .map(([genre]) => genre)
 }
 
-export function getPostPath(postWithAuthorAndTags: PostWithAuthorAndTags): string {
+export function getPostPath(postWithAuthorAndTags: PostWithTags): string {
   const { post, author } = postWithAuthorAndTags
-  return `/@${author.username}/${post.slug}`
+  return `/@${author!.username}/${post.slug}`
 }

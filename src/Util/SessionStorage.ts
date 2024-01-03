@@ -1,9 +1,9 @@
-import { EmptyPostWithTags, isPostWithTagsCompatible } from "../Data/Backend/Models/PostWithTags.ts"
+import { PostWithTags, isPostWithTagsCompatible } from "../Data/Backend/Models/PostWithTags.ts"
 import { SpotifyUserProfile } from "../Data/Spotify/Models/SpotifyUserProfile.ts"
 
 const sessionStorageKeys = {
   spotifyProfile: "spotifyProfile",
-  emptyPostWithTags: "emptyPostWithTags"
+  postWithTags: "postWithTags"
 }
 
 
@@ -27,27 +27,27 @@ export function saveSpotifyProfileInSession(spotifyProfile: SpotifyUserProfile |
 }
 
 
-// emptyPostWithTags
+// postWithTags
 
-export function getEmptyPostWithTagsFromSession(): EmptyPostWithTags | undefined {
-  const emptyPostInSession = window.sessionStorage.getItem(sessionStorageKeys.emptyPostWithTags)
+export function getPostWithTagsFromSession(): PostWithTags | undefined {
+  const postInSession = window.sessionStorage.getItem(sessionStorageKeys.postWithTags)
 
-  if (!emptyPostInSession) {
+  if (!postInSession) {
     return undefined
   }
 
-  const emptyPostWithTags = JSON.parse(emptyPostInSession) as EmptyPostWithTags
+  const postWithTags = JSON.parse(postInSession) as PostWithTags
 
-  return isPostWithTagsCompatible(emptyPostWithTags, true)
-    ? emptyPostWithTags
+  return isPostWithTagsCompatible(postWithTags)
+    ? postWithTags
     : undefined
 }
 
-export function saveEmptyPostWithTagsInSession(emptyPostWithTags: EmptyPostWithTags | undefined): void {
-  if (!emptyPostWithTags) {
-    window.sessionStorage.removeItem(sessionStorageKeys.emptyPostWithTags)
+export function savePostWithTagsInSession(postWithTags: PostWithTags | undefined): void {
+  if (!postWithTags) {
+    window.sessionStorage.removeItem(sessionStorageKeys.postWithTags)
     return
   }
 
-  window.sessionStorage.setItem(sessionStorageKeys.emptyPostWithTags, JSON.stringify(emptyPostWithTags))
+  window.sessionStorage.setItem(sessionStorageKeys.postWithTags, JSON.stringify(postWithTags))
 }

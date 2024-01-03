@@ -3,18 +3,22 @@ import _isEmpty from "lodash/isEmpty"
 import { Link } from "react-router-dom"
 
 import { FadeIn } from "./FadeIn.tsx"
-import { PostWithAuthorAndTags } from "../../Data/Backend/Models/PostWithTags.ts"
+import { PostWithTags } from "../../Data/Backend/Models/PostWithTags.ts"
 import { getFormattedPostPublicationDate } from "../../Util/DateUtils.ts"
 import { asTag } from "../../Util/TagUtils.ts"
 
 import "./Post.scss"
 
 type Props = {
-  postWithAuthorAndTags: PostWithAuthorAndTags;
+  postWithAuthorAndTags: PostWithTags;
 }
 
 export function Post({ postWithAuthorAndTags }: Props) {
   const { post, author, taggedArtists } = postWithAuthorAndTags
+
+  if (!author) {
+    return <span>ERROR: Author is missing</span>
+  }
 
   return (
     <article>

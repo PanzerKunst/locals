@@ -5,7 +5,7 @@ import { LandingPageHero } from "./LandingPageHero.tsx"
 import { useAppContext } from "../../AppContext.tsx"
 import { actionsFromAppUrl, appUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
 import { getUrlQueryParam } from "../../Util/BrowserUtils.ts"
-import { saveEmptyPostWithTagsInSession } from "../../Util/SessionStorage.ts"
+import { savePostWithTagsInSession } from "../../Util/SessionStorage.ts"
 import { AnimatedButton } from "../_CommonComponents/AnimatedButton.tsx"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 import { ErrorSnackbar } from "../_CommonComponents/Snackbar/ErrorSnackbar.tsx"
@@ -18,7 +18,7 @@ export function LandingPage() {
 
   useEffect(() => {
     if (actionFromUrl === actionsFromAppUrl.SIGN_OUT) {
-      saveEmptyPostWithTagsInSession(undefined)
+      savePostWithTagsInSession(undefined)
 
       setSpotifyApiAccessToken(undefined)
       setSpotifyApiRefreshToken(undefined)

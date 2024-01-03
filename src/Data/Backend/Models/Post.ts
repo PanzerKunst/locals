@@ -5,6 +5,7 @@ export type NewPost = {
   userId: number;
   content: string;
   title?: string;
+  heroImagePath?: string;
 }
 
 // Taken by copy/pasting the last part of the bubble when hovering `posts.$inferSelect`
@@ -16,10 +17,8 @@ export type Post = NewPost & {
   slug?: string;
 }
 
-export type EmptyPost = Omit<Post, "content">
-
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
-export function isPostCompatible(obj: any, isEmpty: boolean | undefined = false): boolean {
+export function isPostCompatible(obj: any): boolean {
   // Check if the object is not null and is an object
   if (typeof obj !== "object" || !obj) {
     return false
@@ -28,7 +27,7 @@ export function isPostCompatible(obj: any, isEmpty: boolean | undefined = false)
   if (!config.IS_PROD) {
     // Get all keys of the object
     const keys = Object.keys(obj)
-    const allowedKeys = ["userId", "content", "title", "id", "createdAt", "updatedAt", "publishedAt", "slug"]
+    const allowedKeys = ["userId", "content", "title", "heroImagePath", "id", "createdAt", "updatedAt", "publishedAt", "slug"]
 
     // Check for no additional keys
     if (keys.some(key => !allowedKeys.includes(key))) {
@@ -41,12 +40,16 @@ export function isPostCompatible(obj: any, isEmpty: boolean | undefined = false)
     console.log("Post incompatible: 'typeof obj.userId !== \"number\"'")
     return false
   }
-  if (!isEmpty && typeof obj.content !== "string") {
-    console.log("Post incompatible: '!isEmpty && typeof obj.content !== \"string\"'")
+  if (typeof obj.content !== "string") {
+    console.log("Post incompatible: 'typeof obj.content !== \"string\"'")
     return false
   }
   if (obj.title && typeof obj.title !== "string") {
     console.log("Post incompatible: 'obj.title && typeof obj.title !== \"string\"'")
+    return false
+  }
+  if (obj.heroImagePath && typeof obj.heroImagePath !== "string") {
+    console.log("Post incompatible: 'obj.heroImagePath && typeof obj.heroImagePath !== \"string\"'")
     return false
   }
   if (typeof obj.id !== "number") {
