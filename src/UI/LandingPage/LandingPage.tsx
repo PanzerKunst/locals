@@ -43,12 +43,20 @@ export function LandingPage() {
             </h2>
           </FadeIn>
 
-          <FadeIn>
+          {/* <FadeIn>
             <p>Music fans access premium content from all their favourite artists for $9.99 a month.</p>
           </FadeIn>
 
           <FadeIn>
             <p>90% of the revenue goes to content creators.</p>
+          </FadeIn> */}
+
+          <FadeIn>
+            <p>Your fanbase is willing to pay you to access high quality content.</p>
+          </FadeIn>
+
+          <FadeIn>
+            <p>We provide the tools and process for you to make it happen!</p>
           </FadeIn>
 
           <FadeIn className="centered-contents">
@@ -86,7 +94,7 @@ export function LandingPage() {
           </FadeIn>
 
           <FadeIn>
-            <p>6. Keep 90% of the revenue.</p>
+            <p>6. Fans access premium content from all their favourite artists for $9.99 a month. Keep 90% of the revenue.</p>
           </FadeIn>
 
           {/* <p>It is for you if:
@@ -102,16 +110,6 @@ export function LandingPage() {
               <Link to="/home" className="button lg"><span>Get started</span></Link>
             </AnimatedButton>
           </FadeIn>
-
-          <footer>
-            <FadeIn>
-              <p>Your fanbase is willing to pay you to access high quality content.</p>
-            </FadeIn>
-
-            <FadeIn>
-              <p>We provide the tools and process for you to make it happen!</p>
-            </FadeIn>
-          </footer>
         </div>
       </section>
 
