@@ -6,12 +6,12 @@
   align-items: center;
   gap: 20px;
 
-  position: sticky;
+  position: fixed;
+  width: 100%;
   z-index: $z-index-header;
   background-color: $color-header-bg;
-  transition: top #{$animation-duration-xs}s linear, background-color #{$animation-duration-md}s ease;
 
-  padding: $header-padding-block $header-padding-inline;
+  padding-inline: $min-content-side-margin;
 
   > a.button.icon-only  {
     flex-grow: 1;
@@ -22,12 +22,24 @@
     @include header-footer-text;
   }
 
-  &.dark {
-    background-color: $color-header-bg-dark;
+  &.mobile {
+    height: $header-height-mobile;
+    @include drop-shadow(top);
+    transition: bottom #{$animation-duration-xs}s linear;
+  }
 
-    > a.underlined {
-      transition: all #{$animation-duration-sm}s ease; // Same duration as in `@mixin underlined`
-      color: $color-text-negative;
+  &.desktop {
+    height: $header-height-desktop;
+    @include drop-shadow;
+    transition: top #{$animation-duration-xs}s linear, background-color #{$animation-duration-md}s ease;
+
+    &.dark {
+      background-color: $color-header-bg-dark;
+
+      > a.underlined {
+        transition: all #{$animation-duration-sm}s ease; // Same duration as in `@mixin underlined`
+        color: $color-text-negative;
+      }
     }
   }
 }

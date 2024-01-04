@@ -8,7 +8,6 @@
 
   position: relative; // Absolutely-positioned `> span`
   overflow-x: hidden; // To hide scrollbar of heading outside the viewport
-  margin-top: -$header-height; // To be visible under the header
 
   background-size: cover;
   background-position: center;

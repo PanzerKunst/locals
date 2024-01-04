@@ -10,9 +10,6 @@
 
   align-items: center;
 
-  padding-block: $header-padding-block + 1;
-  padding-inline: calc(#{$header-padding-inline} + var(--scrollbar-width) - 1px);
-
   > button.icon-only {
     align-self: flex-end;
   }

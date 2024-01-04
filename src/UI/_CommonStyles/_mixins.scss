@@ -31,10 +31,15 @@
   }
 }
 
-@mixin drop-shadow {
+@mixin drop-shadow($position: bottom) {
   $offset-x: 0;
-  $offset-y: 0.125em;
-  $blur-radius: 0.5em;
+  $offset-y: 0.25em; // Figma: 4px
+  $blur-radius: 0.25em; // Figma: 4px
+
+  @if $position == top {
+    $offset-y: -$offset-y;
+  }
+
   box-shadow: $offset-x $offset-y $blur-radius $color-drop-shadow;
 }
 
