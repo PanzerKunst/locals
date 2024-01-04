@@ -9,7 +9,12 @@ type Props = {
 export function VideoPlayer({ url }: Props) {
   return (
     <div className="video-player">
-      <ReactPlayer url={url} width="100%" height="100%" />
+      <ReactPlayer
+        url={url}
+        controls
+        width="100%"
+        height="100%"
+      />
     </div>
   )
 }

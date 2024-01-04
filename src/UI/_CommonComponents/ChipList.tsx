@@ -44,7 +44,7 @@ export function ChipList<T>({ items, renderItem, activeItems = [], onDelete, onT
           return (
             <motion.li
               key={JSON.stringify(item)}
-              whileTap={{ scale: 0.9 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => onClick(item)}
               // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
               role="option"
