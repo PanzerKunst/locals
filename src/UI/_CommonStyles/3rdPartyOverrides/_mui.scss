@@ -24,6 +24,15 @@
     > .MuiInput-startDecorator {
       color: $color-input-text;
     }
+
+    &.offset {
+      background-color: $color-input-bg-offset;
+      color: $color-input-text-offset;
+
+      > .MuiInput-startDecorator {
+        color: $color-input-text-offset;
+      }
+    }
   }
 
   .MuiFormHelperText-root {

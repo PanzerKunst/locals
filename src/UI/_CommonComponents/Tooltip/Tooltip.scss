@@ -2,6 +2,7 @@
 @import "/src/UI/_CommonStyles/numbers";
 
 .tooltip {
+  position: absolute;
   display: flex;
   align-items: center;
   gap: 0.5em;
@@ -13,21 +14,30 @@
   border-radius: 0.5em;
 
   // Arrow styling
-  &::after {
-    $border-width: 10px;
+  $border-width: 10px;
 
+  &::after {
     content: "";
     position: absolute;
-    bottom: -#{($border-width * 2) - 1}; // 1px to overlap the tooltip
+
     left: 50%;
     transform: translateX(-50%);
 
     border-width: $border-width;
     border-style: solid;
+  }
+
+  &.top::after {
+    bottom: -#{($border-width * 2) - 1}; // 1px to overlap the tooltip
     border-color: $color-tooltip-bg transparent transparent transparent; // Only top border is colored
   }
 
-  > span {
+  &.bottom::after {
+    top: -#{($border-width * 2) - 1}; // 1px to overlap the tooltip
+    border-color: transparent transparent $color-tooltip-bg transparent; // Only bottom border is colored
+  }
+
+  &.text > span {
     padding-left: 0.5em;
     cursor: default;
   }

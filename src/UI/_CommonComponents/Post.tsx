@@ -3,6 +3,7 @@ import _isEmpty from "lodash/isEmpty"
 import { Link } from "react-router-dom"
 
 import { FadeIn } from "./FadeIn.tsx"
+import { VideoPlayer } from "./VideoPlayer.tsx"
 import { PostWithTags } from "../../Data/Backend/Models/PostWithTags.ts"
 import { getFormattedPostPublicationDate } from "../../Util/DateUtils.ts"
 import { asTag } from "../../Util/TagUtils.ts"
@@ -52,6 +53,7 @@ export function Post({ postWithAuthorAndTags }: Props) {
       </FadeIn>
 
       {post.heroImagePath && <img src={`${config.BACKEND_URL}/file/${post.heroImagePath}`} alt="Hero"/>}
+      {post.heroVideoUrl && <VideoPlayer url={post.heroVideoUrl}/>}
 
       <FadeIn>
         <div className="quill-preview" dangerouslySetInnerHTML={{ __html: post.content }}/>

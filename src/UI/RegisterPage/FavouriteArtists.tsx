@@ -6,7 +6,7 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons"
 import { SpotifyArtist } from "../../Data/Spotify/Models/SpotifyArtist.ts"
 import { useViewportSize } from "../../Util/BrowserUtils.ts"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
-import { Tooltip } from "../_CommonComponents/Tooltip.tsx"
+import { TextTooltip } from "../_CommonComponents/Tooltip/TextTooltip.tsx"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./FavouriteArtists.scss"
@@ -60,7 +60,7 @@ export function FavouriteArtists({ isShowingAll = false, favourites, followed, o
 
   return (
     <ul className="styleless favourite-artists">
-      {isTooltipVisible && <Tooltip text="Tap to toggle" />}
+      {isTooltipVisible && <TextTooltip text="Tap to toggle" />}
       {topArtists.map((spotifyArtist) => {
         const largeImage = spotifyArtist.images[0]
         const isActive = followed.some((followedArtist) => followedArtist.id === spotifyArtist.id)

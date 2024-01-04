@@ -6,6 +6,7 @@ export type NewPost = {
   content: string;
   title?: string;
   heroImagePath?: string;
+  heroVideoUrl?: string;
 }
 
 // Taken by copy/pasting the last part of the bubble when hovering `posts.$inferSelect`
@@ -27,7 +28,7 @@ export function isPostCompatible(obj: any): boolean {
   if (!config.IS_PROD) {
     // Get all keys of the object
     const keys = Object.keys(obj)
-    const allowedKeys = ["userId", "content", "title", "heroImagePath", "id", "createdAt", "updatedAt", "publishedAt", "slug"]
+    const allowedKeys = ["userId", "content", "title", "heroImagePath", "heroVideoUrl", "id", "createdAt", "updatedAt", "publishedAt", "slug"]
 
     // Check for no additional keys
     if (keys.some(key => !allowedKeys.includes(key))) {
@@ -50,6 +51,10 @@ export function isPostCompatible(obj: any): boolean {
   }
   if (obj.heroImagePath && typeof obj.heroImagePath !== "string") {
     console.log("Post incompatible: 'obj.heroImagePath && typeof obj.heroImagePath !== \"string\"'")
+    return false
+  }
+  if (obj.heroVideoUrl && typeof obj.heroVideoUrl !== "string") {
+    console.log("Post incompatible: 'obj.heroVideoUrl && typeof obj.heroVideoUrl !== \"string\"'")
     return false
   }
   if (typeof obj.id !== "number") {

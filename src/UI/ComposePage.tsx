@@ -16,6 +16,7 @@ import { ButtonLoader } from "./_CommonComponents/ButtonLoader.tsx"
 import { ChipList } from "./_CommonComponents/ChipList.tsx"
 import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
 import { SelectList } from "./_CommonComponents/SelectList.tsx"
+import { InputTooltip } from "./_CommonComponents/Tooltip/InputTooltip.tsx"
 import { useAppContext } from "../AppContext.tsx"
 import { storeArtists } from "../Data/Backend/Apis/ArtistsApi.ts"
 import { deleteFile, uploadBase64Image, uploadFormDataImage } from "../Data/Backend/Apis/FileApi.ts"
@@ -31,6 +32,7 @@ import { getPostWithTagsFromSession, savePostWithTagsInSession } from "../Util/S
 import { asTag } from "../Util/TagUtils.ts"
 import { Field, isBase64, isOnlyDigitsAndNotEmpty } from "../Util/ValidationUtils.ts"
 import { config } from "../config.ts"
+import { VideoPlayer } from "./_CommonComponents/VideoPlayer.tsx"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./ComposePage.scss"
@@ -57,6 +59,9 @@ export function ComposePage() {
 
   const heroImageInputRef = useRef<HTMLInputElement>(null)
   const [heroImagePath, setHeroImagePath] = useState<string>()
+
+  const [isTooltipVisible, setIsTooltipVisible] = useState(false)
+  const [heroVideoUrl, setHeroVideoUrl] = useState<string>()
 
   const editorRef = useRef<HTMLDivElement>(null)
   const [quill, setQuill] = useState<Quill>()
@@ -117,6 +122,7 @@ export function ComposePage() {
 
       setTaggedArtists(postWithTags.taggedArtists)
       setHeroImagePath(postWithTags.post.heroImagePath)
+      setHeroVideoUrl(postWithTags.post.heroVideoUrl)
       quillEditor.root.innerHTML = postWithTags.post.content
     }
   }, [postId, quill])
@@ -242,13 +248,30 @@ export function ComposePage() {
       return
     }
 
+    handleHeroVideoDelete()
+
     const filePath = await uploadFormDataImage(file)
     setHeroImagePath(filePath)
   }
 
   const handleHeroImageDelete = async () => {
-    await deleteFile(heroImagePath!)
+    if (!heroImagePath) {
+      return
+    }
+
+    await deleteFile(heroImagePath)
     setHeroImagePath(undefined)
+  }
+
+  const handleHeroVideoUrlSubmitted = (value: string) => {
+    void handleHeroImageDelete()
+
+    setIsTooltipVisible(false)
+    setHeroVideoUrl(value)
+  }
+
+  const handleHeroVideoDelete = () => {
+    setHeroVideoUrl(undefined)
   }
 
   const handleFormSubmit = async () => {
@@ -265,8 +288,8 @@ export function ComposePage() {
     }
 
     const storedPostWithTags = postWithTags
-      ? await updatePost(postWithTags.post, titleField.value, taggedArtists, heroImagePath, quill!)
-      : await storePost(appContext, titleField.value, taggedArtists, heroImagePath, quill!)
+      ? await updatePost(postWithTags.post, titleField.value, taggedArtists, heroImagePath, heroVideoUrl, quill!)
+      : await storePost(appContext, titleField.value, taggedArtists, heroImagePath, heroVideoUrl, quill!)
 
     savePostWithTagsInSession(storedPostWithTags)
 
@@ -352,14 +375,29 @@ export function ComposePage() {
 
         <span>or</span>
 
-        <FadeIn>
-          <span>Hero video</span>
+        {heroVideoUrl ? (
           <div>
-            <button className="underlined appears">From link</button>
-            <span>or</span>
-            <button className="underlined appears">Browse</button>
+            <VideoPlayer url={heroVideoUrl}/>
+            <motion.button
+              whileTap={{ scale: 0.9 }}
+              transition={{ duration: Number(s.animationDurationXs) }}
+              className="button icon-only light bordered"
+              onClick={handleHeroVideoDelete}
+            >
+              <FontAwesomeIcon icon={faXmark}/>
+            </motion.button>
           </div>
-        </FadeIn>
+        ) : (
+          <FadeIn>
+            <span>Hero video</span>
+            <div>
+              {isTooltipVisible && <InputTooltip onSubmit={handleHeroVideoUrlSubmitted} position="bottom"/>}
+              <button className="underlined appears" onClick={() => setIsTooltipVisible(true)}>From link</button>
+              <span>or</span>
+              <button className="underlined appears">Browse</button>
+            </div>
+          </FadeIn>
+        )}
       </section>
 
       <FadeIn>

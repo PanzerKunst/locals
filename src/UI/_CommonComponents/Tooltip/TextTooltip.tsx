@@ -1,33 +1,32 @@
+import classNames from "classnames"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { AnimatePresence, motion } from "framer-motion"
 import { useState } from "react"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faXmark } from "@fortawesome/free-solid-svg-icons"
+
+import { tooltipMotionVariants, TooltipPosition } from "./Tooltip.ts"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./Tooltip.scss"
 
-const motionVariants = {
-  initial: { opacity: 0 },
-  animate: { opacity: 1 }
-}
-
 type Props = {
   text: string;
   visible?: boolean;
+  position?: TooltipPosition;
 }
 
-export function Tooltip({ text, visible = true }: Props) {
+export function TextTooltip({ text, visible = true, position = "top" }: Props) {
   const [isVisible, setIsVisible] = useState(visible)
 
   return (
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          initial={motionVariants.initial}
-          animate={motionVariants.animate}
-          exit={motionVariants.initial}
+          initial={tooltipMotionVariants.initial}
+          animate={tooltipMotionVariants.animate}
+          exit={tooltipMotionVariants.initial}
           transition={{ duration: Number(s.animationDurationXs) }}
-          className="tooltip"
+          className={classNames("tooltip text", position)}
         >
           <span>{text}</span>
 

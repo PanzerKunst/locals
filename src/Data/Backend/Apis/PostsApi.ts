@@ -43,6 +43,7 @@ export async function storePost(
   title: string,
   taggedArtists: Artist[],
   heroImagePath: string | undefined,
+  heroVideoUrl: string | undefined,
   quill: Quill
 ): Promise<PostWithTags> {
   const loggedInUser = appContext.loggedInUser
@@ -59,7 +60,8 @@ export async function storePost(
         userId: loggedInUser.id,
         title,
         content: quill.root.innerHTML,
-        heroImagePath
+        heroImagePath,
+        heroVideoUrl
       },
       taggedArtists
     })
@@ -77,6 +79,7 @@ export async function updatePost(
   title: string,
   taggedArtists: Artist[],
   heroImagePath: string | undefined,
+  heroVideoUrl: string | undefined,
   quill: Quill
 ): Promise<PostWithTags> {
   const result = await fetch(`${config.BACKEND_URL}/post`, {
@@ -87,7 +90,8 @@ export async function updatePost(
         ...post,
         title,
         content: quill.root.innerHTML,
-        heroImagePath
+        heroImagePath,
+        heroVideoUrl
       },
       taggedArtists
     })
