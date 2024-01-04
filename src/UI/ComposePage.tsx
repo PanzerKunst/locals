@@ -19,7 +19,7 @@ import { SelectList } from "./_CommonComponents/SelectList.tsx"
 import { InputTooltip } from "./_CommonComponents/Tooltip/InputTooltip.tsx"
 import { useAppContext } from "../AppContext.tsx"
 import { storeArtists } from "../Data/Backend/Apis/ArtistsApi.ts"
-import { deleteFile, uploadBase64Image, uploadFormDataImage } from "../Data/Backend/Apis/FileApi.ts"
+import { deleteFile, deleteVideo, uploadBase64Image, uploadFormDataFile } from "../Data/Backend/Apis/FileApi.ts"
 import { fetchPostOfId, storePost, updatePost } from "../Data/Backend/Apis/PostsApi.ts"
 import { Artist } from "../Data/Backend/Models/Artist.ts"
 import { PostWithTags } from "../Data/Backend/Models/PostWithTags.ts"
@@ -61,6 +61,7 @@ export function ComposePage() {
   const [heroImagePath, setHeroImagePath] = useState<string>()
 
   const [isTooltipVisible, setIsTooltipVisible] = useState(false)
+  const heroVideoInputRef = useRef<HTMLInputElement>(null)
   const [heroVideoUrl, setHeroVideoUrl] = useState<string>()
 
   const editorRef = useRef<HTMLDivElement>(null)
@@ -248,9 +249,9 @@ export function ComposePage() {
       return
     }
 
-    handleHeroVideoDelete()
+    void handleHeroVideoDelete()
 
-    const filePath = await uploadFormDataImage(file)
+    const filePath = await uploadFormDataFile(file)
     setHeroImagePath(filePath)
   }
 
@@ -263,6 +264,23 @@ export function ComposePage() {
     setHeroImagePath(undefined)
   }
 
+  const handleBrowseHeroVideoClick = () => {
+    heroVideoInputRef.current?.click()
+  }
+
+  const handleHeroVideoChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = _head(event.target.files)
+
+    if (!file) {
+      return
+    }
+
+    void handleHeroImageDelete()
+
+    const filePath = await uploadFormDataFile(file)
+    setHeroVideoUrl(`${config.BACKEND_URL}/file/${filePath}`)
+  }
+
   const handleHeroVideoUrlSubmitted = (value: string) => {
     void handleHeroImageDelete()
 
@@ -270,7 +288,12 @@ export function ComposePage() {
     setHeroVideoUrl(value)
   }
 
-  const handleHeroVideoDelete = () => {
+  const handleHeroVideoDelete = async () => {
+    if (!heroVideoUrl) {
+      return
+    }
+
+    await deleteVideo(heroVideoUrl)
     setHeroVideoUrl(undefined)
   }
 
@@ -382,6 +405,7 @@ export function ComposePage() {
               whileTap={{ scale: 0.9 }}
               transition={{ duration: Number(s.animationDurationXs) }}
               className="button icon-only light bordered"
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
               onClick={handleHeroVideoDelete}
             >
               <FontAwesomeIcon icon={faXmark}/>
@@ -394,7 +418,14 @@ export function ComposePage() {
               {isTooltipVisible && <InputTooltip onSubmit={handleHeroVideoUrlSubmitted} position="bottom"/>}
               <button className="underlined appears" onClick={() => setIsTooltipVisible(true)}>From link</button>
               <span>or</span>
-              <button className="underlined appears">Browse</button>
+              <input
+                type="file"
+                accept="video/*"
+                ref={heroVideoInputRef}
+                // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                onChange={handleHeroVideoChange}
+              />
+              <button className="underlined appears" onClick={handleBrowseHeroVideoClick}>Browse</button>
             </div>
           </FadeIn>
         )}
