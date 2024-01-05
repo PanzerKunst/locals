@@ -17,6 +17,7 @@ import { ChipList } from "./_CommonComponents/ChipList.tsx"
 import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
 import { SelectList } from "./_CommonComponents/SelectList.tsx"
 import { InputTooltip } from "./_CommonComponents/Tooltip/InputTooltip.tsx"
+import { VideoPlayer } from "./_CommonComponents/VideoPlayer.tsx"
 import { useAppContext } from "../AppContext.tsx"
 import { storeArtists } from "../Data/Backend/Apis/ArtistsApi.ts"
 import { deleteFile, deleteVideo, uploadBase64Image, uploadFormDataFile } from "../Data/Backend/Apis/FileApi.ts"
@@ -32,7 +33,7 @@ import { getPostWithTagsFromSession, savePostWithTagsInSession } from "../Util/S
 import { asTag } from "../Util/TagUtils.ts"
 import { Field, isBase64, isOnlyDigitsAndNotEmpty } from "../Util/ValidationUtils.ts"
 import { config } from "../config.ts"
-import { VideoPlayer } from "./_CommonComponents/VideoPlayer.tsx"
+import { useHeaderTitle } from "./_CommonComponents/AppHeader/AppHeader.ts"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./ComposePage.scss"
@@ -46,7 +47,6 @@ export function ComposePage() {
   const { postId } = useParams()
 
   const appContext = useAppContext()
-  const { loggedInUser, setHeaderTitle } = appContext
 
   const [artistQuery, setArtistQuery] = useState("")
   const debouncedArtistQuery = useDebounce(artistQuery, 300)
@@ -70,16 +70,13 @@ export function ComposePage() {
   const [editorError, setEditorError] = useState("")
   const [isSubmittingForm, setIsSubmittingForm] = useState(false)
 
-  useEffect(() => {
-    if (!loggedInUser) {
-      navigate(`/?${appUrlQueryParam.ACCESS_ERROR}`, { replace: true })
-    }
-  }, [loggedInUser, navigate])
+  useHeaderTitle("Compose")
 
   useEffect(() => {
-    setHeaderTitle("Compose")
-    return () => setHeaderTitle(undefined)
-  }, [setHeaderTitle])
+    if (!appContext.loggedInUser) {
+      navigate(`/?${appUrlQueryParam.ACCESS_ERROR}`, { replace: true })
+    }
+  }, [appContext.loggedInUser, navigate])
 
   useEffect(() => {
     if (quill || !editorRef.current) {
