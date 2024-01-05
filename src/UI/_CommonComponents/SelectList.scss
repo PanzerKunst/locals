@@ -10,7 +10,7 @@ ul.styleless.select {
 
   border-radius: $input-border-radius;
   background-color: $color-list-item-bg;
-  @include joy-dropdown-shadow;
+  @include drop-shadow(all-around);
 
   font-size: $variable-font-size-sm;
   line-height: max(2em, 40px);

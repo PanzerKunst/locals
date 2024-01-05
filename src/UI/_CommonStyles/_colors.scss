@@ -4,7 +4,8 @@
 $color-black: rgb(0 0 0); // #000
 $color-black-transparent: color.adjust($color-black, $alpha: -1);
 $color-black-opacity-50pc: color.adjust($color-black, $alpha: -0.5);
-$color-black-opacity-15pc: color.adjust($color-black, $alpha: -0.85);
+$color-black-opacity-20pc: color.adjust($color-black, $alpha: -0.80);
+$color-black-opacity-10pc: color.adjust($color-black, $alpha: -0.90);
 $color-black-opacity-5pc: color.adjust($color-black, $alpha: -0.95);
 $color-white: rgb(255 255 255); // #fff
 $color-white-opacity-50pc: color.adjust($color-white, $alpha: -0.5);
@@ -43,8 +44,9 @@ $color-checkbox-bg: $color-primary;
 $color-chip-bg: $color-greyscale-8;
 $color-darkened-image-filter: $color-black-opacity-50pc;
 $color-drop-shadow: $color-black-opacity-5pc;
+$color-drop-shadow-all-around: $color-black-opacity-10pc;
 $color-header-bg: $color-app-bg;
-$color-header-bg-dark: $color-black-opacity-15pc;
+$color-header-bg-dark: $color-black-opacity-20pc;
 $color-icon-dark: $color-greyscale-3;
 $color-icon-light: $color-white;
 $color-icon-primary: $color-primary;
