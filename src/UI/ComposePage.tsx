@@ -46,6 +46,7 @@ export function ComposePage() {
   const { postId } = useParams()
 
   const appContext = useAppContext()
+  const { loggedInUser, setHeaderTitle } = appContext
 
   const [artistQuery, setArtistQuery] = useState("")
   const debouncedArtistQuery = useDebounce(artistQuery, 300)
@@ -70,10 +71,15 @@ export function ComposePage() {
   const [isSubmittingForm, setIsSubmittingForm] = useState(false)
 
   useEffect(() => {
-    if (!appContext.loggedInUser) {
+    if (!loggedInUser) {
       navigate(`/?${appUrlQueryParam.ACCESS_ERROR}`, { replace: true })
     }
-  }, [appContext.loggedInUser, navigate])
+  }, [loggedInUser, navigate])
+
+  useEffect(() => {
+    setHeaderTitle("Compose")
+    return () => setHeaderTitle(undefined)
+  }, [setHeaderTitle])
 
   useEffect(() => {
     if (quill || !editorRef.current) {

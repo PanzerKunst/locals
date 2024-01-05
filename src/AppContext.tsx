@@ -26,13 +26,16 @@ export type AppContextType = {
   spotifyApiTokenExpirationDate?: Date;
   loggedInUser?: User;
   setLoggedInUser: (user: User | undefined) => void; // eslint-disable-line no-unused-vars
+  headerTitle?: string;
+  setHeaderTitle: (title: string | undefined) => void; // eslint-disable-line no-unused-vars
 }
 
 const AppContext = createContext<AppContextType>({
   setSpotifyApiVerifier: () => {},
   setSpotifyApiAccessToken: () => {},
   setSpotifyApiRefreshToken: () => {},
-  setLoggedInUser: () => {}
+  setLoggedInUser: () => {},
+  setHeaderTitle: () => {}
 })
 
 type Props = {
@@ -45,6 +48,7 @@ export function AppContextProvider({ children }: Props) {
   const [spotifyApiRefreshToken, setSpotifyApiRefreshToken] = useState(getSpotifyApiRefreshTokenFromLocalStorage())
   const [spotifyApiTokenExpirationDate, setSpotifyApiTokenExpirationDateState] = useState(getSpotifyApiTokenExpirationDateFromLocalStorage())
   const [loggedInUser, setLoggedInUserState] = useState(getLoggedInUserFromLocalStorage())
+  const [headerTitle, setHeaderTitle] = useState<string>()
 
   // Any context variable which isn't of a primitite type (string, number, boolean) should be wrapped in a useCallback to avoid infinite loops
 
@@ -101,8 +105,12 @@ export function AppContextProvider({ children }: Props) {
     setLoggedInUser: (user: User | undefined) => {
       saveLoggedInUserInLocalStorage(user)
       setLoggedInUser(user)
-    }
+    },
+
+    headerTitle,
+    setHeaderTitle
   }), [
+    headerTitle,
     loggedInUser,
     setLoggedInUser,
     setSpotifyApiTokenExpirationDate,

@@ -18,8 +18,7 @@ $z-index-default: 0;
 $z-index-select-list: $z-index-default + 1;
 $z-index-header: $z-index-select-list + 1;
 
-$header-height-mobile: 60px;
-$header-height-desktop: 80px;
+$header-height: 60px;
 
 $input-border-radius: 6px;
 $input-padding: max(0.5em, 18px);

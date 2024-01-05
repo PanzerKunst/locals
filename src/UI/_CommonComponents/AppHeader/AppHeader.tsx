@@ -1,6 +1,6 @@
+import classNames from "classnames"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { Link, useLocation } from "react-router-dom"
-import classNames from "classnames"
 
 import { AppMenu } from "./AppMenu.tsx"
 import { useAppContext } from "../../../AppContext.tsx"
@@ -9,13 +9,12 @@ import { useViewportSize } from "../../../Util/BrowserUtils.ts"
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./AppHeader.scss"
 
-const headerHeightMobile = parseInt(s.headerHeightMobile!)
-const headerHeightDesktop = parseInt(s.headerHeightDesktop!)
+const headerHeight = parseInt(s.headerHeight!)
 const heroPictureMinHeight = parseInt(s.heroPictureMinHeight!)
 let lastScrollY = window.scrollY
 
 export function AppHeader() {
-  const { loggedInUser } = useAppContext()
+  const { loggedInUser, headerTitle } = useAppContext()
   const location = useLocation()
 
   const viewportWidth = useViewportSize().width
@@ -38,7 +37,6 @@ export function AppHeader() {
       return
     }
 
-    const headerHeight = isMobile ? headerHeightMobile : headerHeightDesktop
     const handleScroll = isMobile ? handleScrollMobile : handleScrollDesktop
 
     function handleScrollMobile() {
@@ -116,7 +114,8 @@ export function AppHeader() {
       className={classNames("app-header", { desktop: !isMobile, mobile: isMobile, dark: isDarkBg })}
       style={isMobile ? { bottom: 0 } : { top: 0 }}
     >
-      <span/>
+      <div className="placeholder"/>
+      {headerTitle && <h2>{headerTitle}</h2>}
       {loggedInUser
         ? <AppMenu/>
         : <Link to="/home" className="underlined appears"><span>Sign in</span></Link>

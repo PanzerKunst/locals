@@ -52,7 +52,7 @@ export function LandingPage() {
           </FadeIn> */}
 
           <FadeIn>
-            <p>Your fanbase is willing to pay you to access high quality content.</p>
+            <p>Behind your music and live performances are some great stories. Stories that your fans would pay you for.</p>
           </FadeIn>
 
           <FadeIn>
@@ -116,7 +116,7 @@ export function LandingPage() {
       <section id="everyone-earns">
         <div className="container">
           <FadeIn>
-            <h2>Fans and journalists can earn too.</h2>
+            <h2>Everyone can earn from their content.</h2>
           </FadeIn>
 
           <FadeIn>

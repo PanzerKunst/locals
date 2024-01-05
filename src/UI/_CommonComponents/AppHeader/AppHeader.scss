@@ -11,7 +11,13 @@
   z-index: $z-index-header;
   background-color: $color-header-bg;
 
+  height: $header-height;
   padding-inline: $min-content-side-margin;
+
+  > h2 {
+    font-weight: 400;
+    font-size: $variable-font-size-md;
+  }
 
   > a.button.icon-only  {
     flex-grow: 1;
@@ -23,13 +29,11 @@
   }
 
   &.mobile {
-    height: $header-height-mobile;
     @include drop-shadow(top);
     transition: bottom #{$animation-duration-xs}s linear;
   }
 
   &.desktop {
-    height: $header-height-desktop;
     @include drop-shadow;
     transition: top #{$animation-duration-xs}s linear, background-color #{$animation-duration-md}s ease;
 
