@@ -4,9 +4,19 @@
   // TODO --variant-solidBg: #{$color-input-bg}; // stylelint-disable-line
 }
 
-.MuiModal-root > .MuiModal-backdrop {
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none; // stylelint-disable-line property-no-vendor-prefix
+.MuiModal-root {
+  > .MuiModal-backdrop {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none; // stylelint-disable-line property-no-vendor-prefix
+  }
+
+  &.invisible-backdrop {
+    z-index: $z-index-menu-backdrop;
+
+    > .MuiModal-backdrop {
+      background-color: transparent;
+    }
+  }
 }
 
 .MuiFormControl-root {

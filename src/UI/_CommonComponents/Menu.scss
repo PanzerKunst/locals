@@ -1,0 +1,36 @@
+@import "/src/UI/_CommonStyles/mixins";
+
+ul.styleless.menu {
+  position: absolute;
+  z-index: $z-index-menu;
+
+  background-color: $color-app-bg;
+  font-size: $variable-font-size-md;
+  line-height: max(2em, 40px);
+
+  left: 0;
+  width: 100%;
+
+  @include drop-shadow(all-around);
+  border-radius: $input-border-radius;
+
+  @include vw(md) {
+    left: unset;
+    width: auto;
+  }
+
+  > li {
+    padding-inline: $input-padding;
+    cursor: pointer;
+
+    transition: background-color #{$animation-duration-sm}s ease;
+
+    &:hover {
+      background-color: $color-list-item-bg-hover;
+    }
+
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+}

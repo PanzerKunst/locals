@@ -88,10 +88,6 @@ export function RegisterPage() {
 
   useEffect(() => {
     async function performLocationSearch() {
-
-      // TODO: remove
-      console.log("performLocationSearch()")
-
       setIsSearchingLocations(true)
       const searchResults = await searchLocations(debouncedGeolocationQuery)
       setIsSearchingLocations(false)

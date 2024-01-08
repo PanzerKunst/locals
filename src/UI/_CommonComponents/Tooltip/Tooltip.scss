@@ -3,6 +3,8 @@
 
 .tooltip {
   position: absolute;
+  z-index: $z-index-tooltip;
+
   display: flex;
   align-items: center;
   gap: 0.5em;

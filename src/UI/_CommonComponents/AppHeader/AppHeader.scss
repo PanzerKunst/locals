@@ -1,49 +1,71 @@
 @import "/src/UI/_CommonStyles/mixins";
 
-.app-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
+.app-header-wrapper {
+  > header {
+    position: fixed;
+    z-index: $z-index-header;
+    width: 100%;
 
-  position: fixed;
-  width: 100%;
-  z-index: $z-index-header;
-  background-color: $color-header-bg;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
 
-  height: $header-height;
-  padding-inline: $min-content-side-margin;
+    height: $header-height;
+    background-color: $color-header-bg;
+    padding-inline: $min-content-side-margin;
 
-  > h2 {
-    font-weight: 400;
-    font-size: $variable-font-size-md;
-  }
+    > .left-image-wrapper {
+      width: 40px;
+    }
 
-  > a.button.icon-only  {
-    flex-grow: 1;
-    justify-content: flex-start;
-  }
+    > h2 {
+      font-weight: 400;
+      font-size: $variable-font-size-md;
+    }
 
-  > a.underlined {
-    @include header-footer-text;
-  }
+    > a.underlined {
+      @include header-footer-text;
+    }
 
-  &.mobile {
-    @include drop-shadow(top);
-    transition: bottom #{$animation-duration-xs}s linear;
-  }
+    &.mobile {
+      @include drop-shadow(top);
+      transition: bottom #{$animation-duration-xs}s linear;
+    }
 
-  &.desktop {
-    @include drop-shadow;
-    transition: top #{$animation-duration-xs}s linear, background-color #{$animation-duration-md}s ease;
+    &.desktop {
+      @include drop-shadow;
+      transition: top #{$animation-duration-xs}s linear, background-color #{$animation-duration-md}s ease;
 
-    &.dark {
-      background-color: $color-header-bg-dark;
+      &.dark {
+        background-color: $color-header-bg-dark;
 
-      > a.underlined {
-        transition: all #{$animation-duration-sm}s ease; // Same duration as in `@mixin underlined`
-        color: $color-text-negative;
+        > a.underlined {
+          transition: all #{$animation-duration-sm}s ease; // Same duration as in `@mixin underlined`
+          color: $color-text-negative;
+        }
       }
+    }
+
+    &.menu-open {
+      padding-right: calc($min-content-side-margin + var(--scrollbar-width));
+    }
+  }
+
+  > ul.styleless.menu {
+    position: fixed;
+
+    bottom: $header-height - 5px;
+    border-radius: 0;
+    @include drop-shadow(all-around-top);
+
+    @include vw(md) {
+      bottom: unset;
+      top: $header-height - 5px;
+      right: 10px;
+
+      border-radius: $input-border-radius;
+      @include drop-shadow(all-around);
     }
   }
 }

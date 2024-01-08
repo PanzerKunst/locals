@@ -44,6 +44,11 @@
     $blur-radius: 10px;
     $spread: 2px;
     $color: $color-drop-shadow-all-around;
+  } @else if $position == all-around-top {
+    $offset-y: -$offset-y;
+    $blur-radius: 10px;
+    $spread: 2px;
+    $color: $color-drop-shadow-all-around;
   }
 
   box-shadow: $offset-x $offset-y $blur-radius $spread $color;

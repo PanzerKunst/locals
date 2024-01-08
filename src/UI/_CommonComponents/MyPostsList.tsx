@@ -1,11 +1,11 @@
+import { faArrowTurnUp, faEllipsisV, faPencil, faTrashCan, faXmark } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Dropdown, IconButton, ListDivider, ListItemDecorator, Menu, MenuButton, MenuItem, Modal, ModalDialog } from "@mui/joy"
+import { Modal, ModalDialog } from "@mui/joy"
 import { AnimatePresence, motion, stagger, useAnimate } from "framer-motion"
-import _isEmpty from "lodash/isEmpty"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { faArrowTurnUp, faEllipsisV, faPencil, faTrashCan, faXmark } from "@fortawesome/free-solid-svg-icons"
 
+import { Menu } from "./Menu.tsx"
 import { PostPreviewCard } from "./PostPreviewCard.tsx"
 import { changePostPublicationStatus, deletePost } from "../../Data/Backend/Apis/PostsApi.ts"
 import { Post } from "../../Data/Backend/Models/Post.ts"
@@ -28,11 +28,12 @@ type Props = {
 export function MyPostsList({ postsWithAuthorAndTags }: Props) {
   const navigate = useNavigate()
   const [scope, animate] = useAnimate()
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [postToDelete, setPostToDelete] = useState<Post>()
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
 
   useEffect(() => {
-    if (_isEmpty(postsWithAuthorAndTags)) {
+    if (postsWithAuthorAndTags.length === 0) {
       return
     }
 
@@ -46,16 +47,13 @@ export function MyPostsList({ postsWithAuthorAndTags }: Props) {
     )
   }, [animate, scope, postsWithAuthorAndTags])
 
-  const handleEditClick = (post: Post) => {
-    navigate(`/compose/${post.id}`)
-  }
-
   const handleUnpublishClick = async (post: Post) => {
     await changePostPublicationStatus(post, false)
   }
 
   const handleMenuItemDeleteClick = (post: Post) => {
     setPostToDelete(post)
+    setIsMenuOpen(false)
     setIsDeleteDialogOpen(true)
   }
 
@@ -85,28 +83,29 @@ export function MyPostsList({ postsWithAuthorAndTags }: Props) {
 
               {!post.publishedAt && <span>Draft</span>}
 
-              <Dropdown>
-                <MenuButton slots={{ root: IconButton }}><FontAwesomeIcon icon={faEllipsisV} /></MenuButton>
+              <button className="button icon-only" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                <FontAwesomeIcon icon={faEllipsisV}/>
+              </button>
 
-                <Menu variant="plain" placement="bottom-end" className="post-action-menu">
-                  <MenuItem onClick={() => handleEditClick(post)}>
-                    <ListItemDecorator><FontAwesomeIcon icon={faPencil} /></ListItemDecorator>
-                    Edit post
-                  </MenuItem>
-                  <ListDivider/>
-                  {post.publishedAt && (
-                    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                    <MenuItem onClick={() => handleUnpublishClick(post)}>
-                      <ListItemDecorator><FontAwesomeIcon icon={faArrowTurnUp} /></ListItemDecorator>
-                      Unpublish
-                    </MenuItem>
+              {isMenuOpen && ( /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-to-interactive-role */
+                <Menu close={() => setIsMenuOpen(false)}>
+                  <li role="link" onClick={() => navigate(`/compose/${post.id}`)}>
+                    <FontAwesomeIcon icon={faPencil}/>
+                    <span>Edit</span>
+                  </li>
+                  {post.publishedAt && ( // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                    <li role="button" onClick={() => handleUnpublishClick(post)}>
+                      <FontAwesomeIcon icon={faArrowTurnUp}/>
+                      <span>Unpublish</span>
+                    </li>
                   )}
-                  <MenuItem onClick={() => handleMenuItemDeleteClick(post)}>
-                    <ListItemDecorator><FontAwesomeIcon icon={faTrashCan} /></ListItemDecorator>
-                    Delete
-                  </MenuItem>
+                  <li role="button" onClick={() => handleMenuItemDeleteClick(post)}>
+                    <FontAwesomeIcon icon={faTrashCan}/>
+                    <span>Delete</span>
+                  </li>
                 </Menu>
-              </Dropdown>
+                /* eslint-enable jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-to-interactive-role */
+              )}
             </motion.li>
           )
         })}

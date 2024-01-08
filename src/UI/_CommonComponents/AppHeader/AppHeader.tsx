@@ -1,10 +1,13 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import classNames from "classnames"
 import { useEffect, useMemo, useRef, useState } from "react"
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
+import { faArrowRightFromBracket, faBars, faPencil, faSliders, faXmark } from "@fortawesome/free-solid-svg-icons"
 
-import { AppMenu } from "./AppMenu.tsx"
 import { useAppContext } from "../../../AppContext.tsx"
+import { actionsFromAppUrl, appUrlQueryParam } from "../../../Util/AppUrlQueryParams.ts"
 import { useViewportSize } from "../../../Util/BrowserUtils.ts"
+import { Menu } from "../Menu.tsx"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./AppHeader.scss"
@@ -15,6 +18,7 @@ let lastScrollY = window.scrollY
 
 export function AppHeader() {
   const { loggedInUser, headerTitle } = useAppContext()
+  const navigate = useNavigate()
   const location = useLocation()
 
   const viewportWidth = useViewportSize().width
@@ -23,6 +27,7 @@ export function AppHeader() {
 
   const headerRef = useRef<HTMLHeadingElement>(null)
   const [isDarkBg, setIsDarkBg] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const isHeroPicture = useMemo(() => {
     const isPicture = location.pathname === "/"
@@ -109,17 +114,51 @@ export function AppHeader() {
   }, [isHeroPicture, isMobile])
 
   return (
-    <header
-      ref={headerRef}
-      className={classNames("app-header", { desktop: !isMobile, mobile: isMobile, dark: isDarkBg })}
-      style={isMobile ? { bottom: 0 } : { top: 0 }}
-    >
-      <div className="placeholder"/>
-      {headerTitle && <h2>{headerTitle}</h2>}
-      {loggedInUser
-        ? <AppMenu/>
-        : <Link to="/home" className="underlined appears"><span>Sign in</span></Link>
-      }
-    </header>
+    <div className="app-header-wrapper">
+      <header
+        ref={headerRef}
+        className={classNames({ desktop: !isMobile, mobile: isMobile, dark: isDarkBg, "menu-open": isMenuOpen })}
+        style={isMobile ? { bottom: 0 } : { top: 0 }}
+      >
+        <div className="left-image-wrapper"/>
+
+        {headerTitle && <h2>{headerTitle}</h2>}
+
+        {loggedInUser ? (
+          <button className="button icon-only" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <FontAwesomeIcon icon={faXmark}/> : <FontAwesomeIcon icon={faBars}/>}
+          </button>
+        ) : (
+          <Link to="/home" className="underlined appears"><span>Sign in</span></Link>
+        )}
+      </header>
+
+      {isMenuOpen && ( /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-to-interactive-role */
+        <Menu close={() => setIsMenuOpen(false)}>
+          <li role="link" onClick={() => {
+            navigate("/compose")
+            setIsMenuOpen(false)
+          }}>
+            <FontAwesomeIcon icon={faPencil}/>
+            <span>Compose</span>
+          </li>
+          <li role="link" onClick={() => {
+            navigate("/settings")
+            setIsMenuOpen(false)
+          }}>
+            <FontAwesomeIcon icon={faSliders}/>
+            <span>Settings</span>
+          </li>
+          <li role="link" onClick={() => {
+            navigate(`/?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.SIGN_OUT}`)
+            setIsMenuOpen(false)
+          }}>
+            <FontAwesomeIcon icon={faArrowRightFromBracket}/>
+            <span>Sign out</span>
+          </li>
+        </Menu>
+        /* eslint-enable jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-to-interactive-role */
+      )}
+    </div>
   )
 }

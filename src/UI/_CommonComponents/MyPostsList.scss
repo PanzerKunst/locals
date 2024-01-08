@@ -1,5 +1,4 @@
-@import "/src/UI/_CommonStyles/colors";
-@import "/src/UI/_CommonStyles/numbers";
+@import "/src/UI/_CommonStyles/mixins";
 
 ul.styleless.my-posts {
   > li {
@@ -9,25 +8,16 @@ ul.styleless.my-posts {
     > a {
       flex-grow: 1;
     }
-  }
-}
 
-ul.MuiPopper-root.MuiMenu-root.post-action-menu {
-  padding-block: 0;
-  background-color: $color-list-item-bg;
+    position: relative;
 
-  font-size: $variable-font-size-sm;
-  line-height: max(2em, 40px);
+    > ul.styleless.menu {
+      top: 10px;
+      right: 0;
 
-  > .MuiMenuItem-root {
-    transition: background-color #{$animation-duration-sm}s ease;
-
-    &:hover {
-      background-color: $color-list-item-bg-hover;
+      svg[data-icon="arrow-turn-up"] {
+        transform: rotate(-90deg);
+      }
     }
-  }
-
-  svg[data-icon="arrow-turn-up"] {
-    transform: rotate(-90deg);
   }
 }

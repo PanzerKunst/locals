@@ -140,7 +140,7 @@ a.button {
     color: $color-icon-dark;
   }
 
-  &:hover {
+  &.offset-bg-on-hover:hover {
     background-color: $color-btn-bg-icon-only-dark-hover;
   }
 
@@ -149,7 +149,7 @@ a.button {
       color: $color-icon-light;
     }
 
-    &:hover {
+    &.offset-bg-on-hover:hover {
       background-color: $color-btn-bg-icon-only-light-hover;
     }
   }

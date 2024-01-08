@@ -2,7 +2,6 @@ import { LinearProgress } from "@mui/joy"
 import classNames from "classnames"
 import { motion, stagger, useAnimate } from "framer-motion"
 import { ReactNode, useEffect, useState } from "react"
-import _isEmpty from "lodash/isEmpty"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./SelectList.scss"
@@ -28,7 +27,7 @@ export function SelectList<T>({ items, renderItem, onSelect, loading = false }: 
   }, [items, loading])
 
   useEffect(() => {
-    if (_isEmpty(items)) {
+    if (items.length === 0) {
       return
     }
 
