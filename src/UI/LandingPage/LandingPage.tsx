@@ -52,7 +52,7 @@ export function LandingPage() {
           </FadeIn> */}
 
           <FadeIn>
-            <p>Behind your music and live performances are some great stories. Stories that your fans would pay you for.</p>
+            <p>Behind your music and live performances are some great stories. Stories that your fans would pay to access.</p>
           </FadeIn>
 
           <FadeIn>
