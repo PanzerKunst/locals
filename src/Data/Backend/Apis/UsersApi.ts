@@ -1,3 +1,5 @@
+import _last from "lodash/last"
+
 import { AppContextType } from "../../../AppContext.tsx"
 import { httpStatusCode } from "../../../Util/HttpUtils.ts"
 import { config } from "../../../config.ts"
@@ -47,11 +49,9 @@ export async function storeUser(
     spotifyId: spotifyUserProfile.id,
     name: spotifyUserProfile.display_name,
     username,
-    email: spotifyUserProfile.email
+    email: spotifyUserProfile.email,
+    avatarUrl: _last(spotifyUserProfile.images)?.url
   }
-
-  // TODO: remove
-  console.log("storeUser > geoapifyFeature", geoapifyFeature)
 
   const result = await fetch(`${config.BACKEND_URL}/user`, {
     method: "POST",

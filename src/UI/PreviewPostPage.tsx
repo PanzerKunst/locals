@@ -7,7 +7,7 @@ import { AnimatedButton } from "./_CommonComponents/AnimatedButton.tsx"
 import { ButtonLoader } from "./_CommonComponents/ButtonLoader.tsx"
 import { CircularLoader } from "./_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
-import { Post } from "./_CommonComponents/Post.tsx"
+import { Post } from "./_CommonComponents/Post/Post.tsx"
 import { useAppContext } from "../AppContext.tsx"
 import { changePostPublicationStatus, fetchPostOfId } from "../Data/Backend/Apis/PostsApi.ts"
 import { getPostPath } from "../Data/Backend/BackendUtils.ts"
@@ -60,7 +60,7 @@ export function PreviewPostPage() {
 
   return renderContents(
     <>
-      <Post postWithAuthorAndTags={postQuery.data!}/>
+      <Post postWithAuthorAndTags={postQuery.data!} preview/>
 
       <FadeIn className="action-buttons">
         <button className="underlined disappears" onClick={handleEditClick}>Edit</button>

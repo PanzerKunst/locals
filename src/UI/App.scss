@@ -26,8 +26,8 @@ img,
 iframe,
 embed,
 video {
-  max-width: 100%;
   display: block; // To avoid extra space below the element
+  max-width: 100%;
 }
 
 // To make sure the footer is always at the bottom of the viewport
@@ -46,15 +46,20 @@ main {
 }
 
 .container {
-  margin-inline: auto;
-  padding-inline: $min-content-side-margin;
+  @include container;
+}
 
-  @include vw(md) {
-    padding-inline: 0;
-    width: 75%;
-  }
+span.basic-chip {
+  display: inline-block;
 
-  @include vw(xl) {
-    width: $vw-lg;
+  padding: 0.3em 0.5em 0.2em;
+  border-radius: 0.3em;
+
+  font-size: $variable-font-size-xs;
+  color: $color-text-negative;
+  background-color: $color-basic-chip-bg;
+
+  &.negative {
+    background-color: $color-basic-chip-bg-negative;
   }
 }

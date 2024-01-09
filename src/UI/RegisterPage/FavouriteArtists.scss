@@ -30,6 +30,9 @@
   > li {
     transition: opacity #{$animation-duration-sm}s ease;
 
+    border-radius: $border-radius-md;
+    overflow: hidden; // So that the image doesn't overflow the border radius
+
     &[aria-selected="false"] {
       opacity: 0.3;
     }
@@ -59,7 +62,6 @@
         aspect-ratio: 1;
         object-fit: cover;
         height: 100%; // Otherwise portrait images make the container too tall
-        border-radius: 5px;
       }
 
       $container-breakpoint: 170px;

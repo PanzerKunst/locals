@@ -8,9 +8,8 @@ ul.styleless.select {
 
   margin-top: 0.3em;
 
-  border-radius: $input-border-radius;
+  border-radius: $border-radius-md;
   background-color: $color-list-item-bg;
-  @include drop-shadow(all-around);
 
   font-size: $variable-font-size-sm;
   line-height: max(2em, 40px);
@@ -21,15 +20,18 @@ ul.styleless.select {
 
   > li {
     transition: background-color #{$animation-duration-sm}s ease;
-
     padding-inline: $input-padding;
 
-    &:not(.loading) { // Because `&:not(:has(> .circular-loader))` isn't supported on Firefox
-      cursor: pointer;
+    &:hover {
+      background-color: $color-list-item-bg-hover;
+    }
+  }
 
-      &:hover {
-        background-color: $color-list-item-bg-hover;
-      }
+  &:not(.loading) {
+    @include drop-shadow(all-around);
+
+    > li {
+      cursor: pointer;
     }
   }
 }

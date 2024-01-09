@@ -1,0 +1,28 @@
+@import "/src/UI/_CommonStyles/mixins";
+
+article {
+  h1 {
+    font-size: variable-font(20, 40);
+    font-weight: 700;
+    margin-bottom: 1em;
+  }
+
+  > .metadata,
+  > .hero,
+  > .content {
+    margin-bottom: 3vmax;
+  }
+
+  > .metadata {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    font-size: variable-font(16, 20);
+    color: $color-text-offset;
+  }
+
+  > .content > div {
+    @include quill-editor;
+  }
+}

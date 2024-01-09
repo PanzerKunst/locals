@@ -1,0 +1,11 @@
+@import "/src/UI/_CommonStyles/colors";
+
+.likes-comments-share {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  > .button.rounded > svg {
+    color: $color-icon-grey;
+  }
+}

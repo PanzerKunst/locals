@@ -12,8 +12,9 @@ import { ChangeEvent, ReactNode, useEffect, useRef, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 
 import { AnimatedButton } from "./_CommonComponents/AnimatedButton.tsx"
+import { useHeaderTitle } from "./_CommonComponents/AppHeader/AppHeader.ts"
 import { ButtonLoader } from "./_CommonComponents/ButtonLoader.tsx"
-import { ChipList } from "./_CommonComponents/ChipList.tsx"
+import { ActionableChipList } from "./_CommonComponents/ActionableChipList.tsx"
 import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
 import { SelectList } from "./_CommonComponents/SelectList.tsx"
 import { InputTooltip } from "./_CommonComponents/Tooltip/InputTooltip.tsx"
@@ -30,10 +31,9 @@ import { scrollIntoView } from "../Util/BrowserUtils.ts"
 import { isEditorEmpty } from "../Util/QuillUtils.ts"
 import { useDebounce } from "../Util/ReactUtils.ts"
 import { getPostWithTagsFromSession, savePostWithTagsInSession } from "../Util/SessionStorage.ts"
-import { asTag } from "../Util/TagUtils.ts"
 import { Field, isBase64, isOnlyDigitsAndNotEmpty } from "../Util/ValidationUtils.ts"
 import { config } from "../config.ts"
-import { useHeaderTitle } from "./_CommonComponents/AppHeader/AppHeader.ts"
+import { asTag } from "../Util/PostUtils.ts"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./ComposePage.scss"
@@ -348,7 +348,7 @@ export function ComposePage() {
           {tagsError !== "" && <FormHelperText>{tagsError}</FormHelperText>}
         </FormControl>
 
-        <ChipList
+        <ActionableChipList
           items={taggedArtists}
           renderItem={(artist: Artist) => <span>{asTag(artist.name, "@")}</span>}
           onDelete={handleDeleteArtistTag}

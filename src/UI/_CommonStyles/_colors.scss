@@ -31,17 +31,21 @@ $color-green: rgb(31 193 31); // #1FC11F
 $color-green-spotify: rgb(30 215 96); // #1ed760
 
 // Functional colors, to use in the rest of the app
+$color-actionable-chip-bg: $color-greyscale-8;
 $color-app-bg: $color-white;
+$color-basic-chip-bg: $color-black-opacity-20pc;
+$color-basic-chip-bg-negative: $color-white-opacity-50pc;
+$color-border: $color-greyscale-7;
 $color-btn-border: $color-primary;
-$color-btn-bg-primary-gradient-start: $color-primary-dark;
-$color-btn-bg-primary-gradient-end: $color-primary-light;
 $color-btn-bg-icon-only-dark-hover: $color-black-opacity-50pc;
 $color-btn-bg-icon-only-light-hover: $color-white-opacity-50pc;
+$color-btn-bg-primary-gradient-start: $color-primary-dark;
+$color-btn-bg-primary-gradient-end: $color-primary-light;
 $color-btn-bg-spotify: $color-green-spotify;
+$color-btn-bg-transparent-hover: $color-greyscale-8;
 $color-btn-text: $color-white;
 $color-btn-text-pre-filled: $color-primary;
 $color-checkbox-bg: $color-primary;
-$color-chip-bg: $color-greyscale-8;
 $color-darkened-image-filter: $color-black-opacity-50pc;
 $color-drop-shadow: $color-black-opacity-5pc;
 $color-drop-shadow-all-around: $color-black-opacity-10pc;
@@ -49,6 +53,7 @@ $color-header-bg: $color-app-bg;
 $color-header-bg-dark: $color-black-opacity-20pc;
 $color-icon-dark: $color-greyscale-3;
 $color-icon-light: $color-white;
+$color-icon-grey: $color-greyscale-5;
 $color-icon-primary: $color-primary;
 $color-icon-success: $color-green;
 $color-input-bg: $color-greyscale-8;

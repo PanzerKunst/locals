@@ -6,6 +6,7 @@ export type NewUser = {
   spotifyId: string,
   username: string,
   email: string,
+  avatarUrl?: string,
 }
 
 // Taken by copy/pasting the last part of the bubble when hovering `users.$inferSelect`
@@ -26,7 +27,7 @@ export function isUserCompatible(obj: any): obj is User {
   if (!config.IS_PROD) {
     // Get all keys of the object
     const keys = Object.keys(obj)
-    const allowedKeys = ["name", "spotifyId", "username", "email", "id", "createdAt", "updatedAt", "lastSeenAt"]
+    const allowedKeys = ["name", "spotifyId", "username", "email", "avatarUrl", "id", "createdAt", "updatedAt", "lastSeenAt"]
 
     // Check for no additional keys
     if (keys.some(key => !allowedKeys.includes(key))) {
@@ -49,6 +50,10 @@ export function isUserCompatible(obj: any): obj is User {
   }
   if (typeof obj.email !== "string") {
     console.log("User incompatible: 'typeof obj.email !== \"string\"'")
+    return false
+  }
+  if (obj.avatarUrl && typeof obj.avatarUrl !== "string") {
+    console.log("User incompatible: 'obj.avatarUrl && typeof obj.avatarUrl !== \"string\"'")
     return false
   }
   if (typeof obj.id !== "number") {

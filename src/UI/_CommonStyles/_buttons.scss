@@ -5,7 +5,10 @@
 $min-button-size: 40px;
 
 @mixin button-reset {
-  cursor: pointer;
+  &:not([disabled]) {
+    cursor: pointer;
+  }
+
   background-color: transparent;
   padding: 0;
   border: 0;
@@ -43,7 +46,7 @@ a.button:not(.icon-only) {
   padding-inline: 0.7em;
   border-radius: max(0.1em, 3px);
 
-  &:hover {
+  &:not([disabled]):hover {
     transform: translateY(-2px);
   }
 
@@ -53,7 +56,11 @@ a.button:not(.icon-only) {
     color: $color-btn-text;
   }
 
-  &.transparent-bordered {
+  &.transparent:not([disabled]):hover {
+    background-color: $color-btn-bg-transparent-hover;
+  }
+
+  /* &.transparent-bordered {
     color: $color-btn-text-pre-filled;
     background-image: none;
     border: 0.1em solid $color-btn-border;
@@ -64,7 +71,7 @@ a.button:not(.icon-only) {
       background-size: 100% 100%;
       border-color: transparent;
     }
-  }
+  } */
 
   &.rounded {
     border-radius: 1.2em;
@@ -124,7 +131,6 @@ a.button:not(.icon-only) {
   }
 
   &[disabled] {
-    cursor: default;
     opacity: 0.3;
   }
 }

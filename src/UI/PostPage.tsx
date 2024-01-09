@@ -4,7 +4,7 @@ import { useQuery } from "react-query"
 import { useParams } from "react-router-dom"
 
 import { CircularLoader } from "./_CommonComponents/CircularLoader.tsx"
-import { Post } from "./_CommonComponents/Post.tsx"
+import { Post } from "./_CommonComponents/Post/Post.tsx"
 import { SuccessSnackbar } from "./_CommonComponents/Snackbar/SuccessSnackbar.tsx"
 import { fetchPostOfUserAndSlug } from "../Data/Backend/Apis/PostsApi.ts"
 import { actionsFromAppUrl, appUrlQueryParam } from "../Util/AppUrlQueryParams.ts"

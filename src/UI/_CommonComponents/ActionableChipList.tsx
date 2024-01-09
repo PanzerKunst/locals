@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
-import "./ChipList.scss"
+import "./ActionableChipList.scss"
 
 type Props<T> = {
   items: T[];
@@ -20,7 +20,7 @@ const motionVariants = {
   animate: { opacity: 1 }
 }
 
-export function ChipList<T>({ items, renderItem, activeItems = [], onDelete, onToggle }: Props<T>) {
+export function ActionableChipList<T>({ items, renderItem, activeItems = [], onDelete, onToggle }: Props<T>) {
   if (!onDelete && !onToggle) {
     throw new Error("Either onDelete or onToggle must be defined")
   }

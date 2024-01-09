@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import classNames from "classnames"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
-import { faArrowRightFromBracket, faBars, faPencil, faSliders, faXmark } from "@fortawesome/free-solid-svg-icons"
+import { faArrowRightFromBracket, faBars, faHouse, faPencil, faSliders, faXmark } from "@fortawesome/free-solid-svg-icons"
 
 import { useAppContext } from "../../../AppContext.tsx"
 import { actionsFromAppUrl, appUrlQueryParam } from "../../../Util/AppUrlQueryParams.ts"
@@ -135,6 +135,13 @@ export function AppHeader() {
 
       {isMenuOpen && ( /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-to-interactive-role */
         <Menu close={() => setIsMenuOpen(false)}>
+          <li role="link" onClick={() => {
+            navigate("/posts")
+            setIsMenuOpen(false)
+          }}>
+            <FontAwesomeIcon icon={faHouse} />
+            <span>Creator dashboard</span>
+          </li>
           <li role="link" onClick={() => {
             navigate("/compose")
             setIsMenuOpen(false)

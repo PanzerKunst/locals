@@ -1,6 +1,20 @@
 @import "./colors";
 @import "./numbers";
 
+@mixin container {
+  margin-inline: auto;
+  padding-inline: $min-content-side-margin;
+
+  @include vw(md) {
+    padding-inline: 0;
+    width: 75%;
+  }
+
+  @include vw(xl) {
+    width: $vw-lg;
+  }
+}
+
 @mixin img-size($size) {
   width: $size;
   height: $size;
@@ -24,8 +38,8 @@
     @media (min-width: #{$vw-md}) {
       @content;
     }
-  } @else {
-    @media (min-width: #{$vw-sm}) {
+  } @else if $size == sm {
+    @media (max-width: #{$vw-md}) {
       @content;
     }
   }
@@ -131,8 +145,12 @@
     font-size: $variable-font-size-lg;
   }
 
-  > p:last-child {
-    margin-bottom: 0;
+  > p {
+    font-size: variable-font(16, 24);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
   > iframe.ql-video {

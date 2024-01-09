@@ -64,7 +64,7 @@
       top: $header-height - 5px;
       right: 10px;
 
-      border-radius: $input-border-radius;
+      border-radius: $border-radius-md;
       @include drop-shadow(all-around);
     }
   }

@@ -10,6 +10,9 @@ $min-content-side-margin: 16px;
 
 $list-padding-left: 28px;
 
+$border-radius-md: 6px;
+$border-radius-lg: 12px;
+
 $animation-duration-xs: 0.1;
 $animation-duration-sm: 0.3;
 $animation-duration-md: 0.7;
@@ -23,7 +26,6 @@ $z-index-menu: $z-index-menu-backdrop + 1;
 
 $header-height: 60px;
 
-$input-border-radius: 6px;
 $input-padding: max(0.5em, 18px);
 
 $default-field-gap: 3vmin;
@@ -33,6 +35,7 @@ $variable-font-size-xl: variable-font(24, 48);
 $variable-font-size-lg: variable-font(20, 32);
 $variable-font-size-md: variable-font(20, 24);
 $variable-font-size-sm: variable-font(16, 20);
-$variable-font-size-xs: variable-font(12, 14);
+$variable-font-size-xs: variable-font(14, 16);
+$variable-font-size-xxs: variable-font(12, 14);
 
 $hero-picture-min-height: 500px;

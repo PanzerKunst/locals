@@ -1,20 +1,19 @@
 import { ReactNode, useEffect } from "react"
 import { useQuery } from "react-query"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 import { useAppContext } from "../../AppContext.tsx"
 import { fetchPostsByUser } from "../../Data/Backend/Apis/PostsApi.ts"
 import { appUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
-import { AnimatedButton } from "../_CommonComponents/AnimatedButton.tsx"
+import { useHeaderTitle } from "../_CommonComponents/AppHeader/AppHeader.ts"
 import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
-import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
-import { MyPostsList } from "../_CommonComponents/MyPostsList.tsx"
-
-import "./MyPostsPage.scss"
+import { PostSnippet } from "../_CommonComponents/PostSnippet.tsx"
 
 export function MyPostsPage() {
   const navigate = useNavigate()
   const { loggedInUser } = useAppContext()
+
+  useHeaderTitle("My Posts")
 
   useEffect(() => {
     if (!loggedInUser) {
@@ -37,18 +36,18 @@ export function MyPostsPage() {
     return renderContents(<span>Error fetching data</span>)
   }
 
-  return renderContents(<MyPostsList postsWithAuthorAndTags={userPostsQuery.data!}/>)
+  return renderContents(
+    <ul className="styleless">
+      {userPostsQuery.data!.map((postWithAuthorAndTags) => (
+        <PostSnippet key={postWithAuthorAndTags.post.id} postWithAuthorAndTags={postWithAuthorAndTags}/>
+      ))}
+    </ul>
+  )
 
   function renderContents(children: ReactNode) {
     return (
       <div className="page my-posts">
-        <main className="container">
-          <FadeIn>
-            <h1>My posts</h1>
-            <AnimatedButton className="filling">
-              <Link to="/compose" className="button"><span>Compose</span></Link>
-            </AnimatedButton>
-          </FadeIn>
+        <main>
           {children}
         </main>
       </div>

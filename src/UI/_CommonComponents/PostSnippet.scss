@@ -1,0 +1,146 @@
+@import "/src/UI/_CommonStyles/mixins";
+
+li.post-snippet {
+  position: relative;
+
+  $padding-sm: 12px;
+
+  margin-top: 5vmax;
+
+  border: 1px solid $color-border;
+
+  @include vw(sm) {
+    border-left: none;
+    border-right: none;
+  }
+
+  @include vw(md) {
+    border-radius: $border-radius-lg;
+
+    /* Can't use that trick, as the menu would be cropped
+    overflow: hidden; // So that the image doesn't overflow the border radius */
+
+    @include container;
+
+    > .hero-image-wrapper > img,
+    > .video-player video,
+    > .video-player iframe {
+      border-top-left-radius: $border-radius-lg;
+      border-top-right-radius: $border-radius-lg;
+    }
+  }
+
+  > .metadata,
+  > a.title-and-content-wrapper {
+    @include vw(sm) {
+      @include container;
+    }
+
+    @include vw(md) {
+      padding-inline: $padding-sm;
+    }
+  }
+
+  > .metadata {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    font-size: $variable-font-size-sm;
+
+    margin-block: $padding-sm;
+
+    @include vw(lg) {
+      margin-block: 1em;
+    }
+
+    > div {
+      display: flex;
+      align-items: center;
+
+      // For mobile
+      flex-grow: 1;
+      justify-content: space-between;
+
+      > img {
+        @include img-size(45px);
+      }
+
+      > span {
+        text-transform: uppercase;
+      }
+
+      > .publication-date {
+        color: $color-text-offset;
+      }
+
+      @include vw(lg) {
+        justify-content: flex-start;
+
+        > img {
+          @include img-size(55px);
+        }
+
+        > span {
+          margin-inline: $padding-sm 2.5em;
+        }
+      }
+    }
+
+    > ul.styleless.artist-tags {
+      display: none;
+
+      @include vw(lg) {
+        display: block;
+      }
+    }
+  }
+
+  > a.title-and-content-wrapper {
+    display: block;
+
+    > h2 {
+      font-size: $variable-font-size-lg;
+      font-weight: 700;
+      margin-bottom: 0.5em;
+    }
+
+    > .content {
+      font-size: $variable-font-size-sm;
+      margin-bottom: $padding-sm;
+
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+
+  // Absolutely-positioned elements
+
+  > span,
+  > .button.icon-only {
+    position: absolute;
+  }
+
+  > span {
+    top: $padding-sm;
+    right: 4em;
+  }
+
+  > .button.icon-only {
+    top: 6px;
+    right: 6px;
+  }
+
+  > ul.styleless.menu {
+    top: 45px;
+    right: $padding-sm;
+
+    svg[data-icon="arrow-turn-up"] {
+      transform: rotate(-90deg);
+    }
+  }
+}

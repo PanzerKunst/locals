@@ -12,7 +12,7 @@ ul.styleless.menu {
   width: 100%;
 
   @include drop-shadow(all-around);
-  border-radius: $input-border-radius;
+  border-radius: $border-radius-md;
 
   @include vw(md) {
     left: unset;

@@ -71,7 +71,7 @@ export function SelectList<T>({ items, renderItem, onSelect, loading = false }: 
 
   return (
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
-    <ul ref={scope} role="listbox" className={classNames("styleless select", { closed: !isOpen })}>
+    <ul ref={scope} role="listbox" className={classNames("styleless select", { loading, closed: !isOpen })}>
       {loading ? (
         <li className="loading">
           <LinearProgress variant="plain"/>
