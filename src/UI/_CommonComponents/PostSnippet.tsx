@@ -12,6 +12,7 @@ import { TaggedArtists } from "./Post/TaggedArtists.tsx"
 import { VideoPlayer } from "./VideoPlayer.tsx"
 import { changePostPublicationStatus, deletePost } from "../../Data/Backend/Apis/PostsApi.ts"
 import { getPostPath } from "../../Data/Backend/BackendUtils.ts"
+import { Post } from "../../Data/Backend/Models/Post.ts"
 import { PostWithTags } from "../../Data/Backend/Models/PostWithTags.ts"
 import { config } from "../../config.ts"
 
@@ -22,9 +23,10 @@ type Props = {
 }
 
 export function PostSnippet({ postWithAuthorAndTags }: Props) {
-  const { post, taggedArtists, author } = postWithAuthorAndTags
+  const { taggedArtists, author } = postWithAuthorAndTags
 
   const navigate = useNavigate()
+  const [post, setPost] = useState<Post | undefined>(postWithAuthorAndTags.post)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
 
@@ -32,8 +34,14 @@ export function PostSnippet({ postWithAuthorAndTags }: Props) {
     return <li>ERROR: Author is missing</li>
   }
 
+  if (!post) {
+    return undefined
+  }
+
   const handleUnpublishClick = async () => {
+    setIsMenuOpen(false)
     await changePostPublicationStatus(post, false)
+    setPost({ ...post, publishedAt: undefined })
   }
 
   const handleMenuItemDeleteClick = () => {
@@ -45,9 +53,9 @@ export function PostSnippet({ postWithAuthorAndTags }: Props) {
     setIsDeleteDialogOpen(false)
   }
 
-  const handleConfirmDeleteClick = async () => {
-    await deletePost(post)
-    setIsDeleteDialogOpen(false)
+  const handleConfirmDeleteClick = () => {
+    void deletePost(post)
+    setPost(undefined)
   }
 
   const hasHero = !!post.heroImagePath || !!post.heroVideoUrl

@@ -1,8 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import classNames from "classnames"
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
-import { faArrowRightFromBracket, faBars, faHouse, faPencil, faSliders, faXmark } from "@fortawesome/free-solid-svg-icons"
+import { faArrowRightFromBracket, faHouse, faPencil, faSliders, faXmark } from "@fortawesome/free-solid-svg-icons"
 
 import { useAppContext } from "../../../AppContext.tsx"
 import { actionsFromAppUrl, appUrlQueryParam } from "../../../Util/AppUrlQueryParams.ts"
@@ -25,15 +25,12 @@ export function AppHeader() {
   const viewportWidthMd = parseInt(s.vwMd || "")
   const isMobile = viewportWidth < viewportWidthMd
 
-  const headerRef = useRef<HTMLHeadingElement>(null)
-  const [isDarkBg, setIsDarkBg] = useState(false)
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const isLandingPage = location.pathname === "/"
+  const isHomepage = location.pathname === "/home" || location.pathname === "/spotify-callback"
 
-  const isHeroPicture = useMemo(() => {
-    const isPicture = location.pathname === "/"
-    setIsDarkBg(isPicture)
-    return isPicture
-  }, [location.pathname])
+  const headerRef = useRef<HTMLHeadingElement>(null)
+  const [isDarkBg, setIsDarkBg] = useState(isLandingPage)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   useEffect(() => {
     const header = headerRef.current
@@ -101,7 +98,7 @@ export function AppHeader() {
 
       header!.style.top = `${newTopPos}px`
 
-      if (isHeroPicture) {
+      if (isLandingPage) {
         setIsDarkBg(currentScrollY < heroPictureMinHeight)
       }
 
@@ -111,7 +108,7 @@ export function AppHeader() {
     window.addEventListener("scroll", handleScroll, { passive: true })
 
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [isHeroPicture, isMobile])
+  }, [isLandingPage, isMobile])
 
   return (
     <div className="app-header-wrapper">
@@ -124,24 +121,38 @@ export function AppHeader() {
 
         {headerTitle && <h2>{headerTitle}</h2>}
 
-        {loggedInUser ? (
+        {!loggedInUser && <Link to="/home" className="underlined appears"><span>Sign in</span></Link>}
+
+        {loggedInUser && (isLandingPage || isHomepage) && (
           <button className="button icon-only" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {isMenuOpen ? <FontAwesomeIcon icon={faXmark}/> : <FontAwesomeIcon icon={faBars}/>}
+            <img src={loggedInUser.avatarUrl} alt="User's avatar"/>
           </button>
-        ) : (
-          <Link to="/home" className="underlined appears"><span>Sign in</span></Link>
+        )}
+
+        {loggedInUser && !isLandingPage && !isHomepage && (
+          <Link to="/home" className="button icon-only offset-bg-on-hover"><FontAwesomeIcon icon={faXmark}/></Link>
         )}
       </header>
 
       {isMenuOpen && ( /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-to-interactive-role */
         <Menu close={() => setIsMenuOpen(false)}>
-          <li role="link" onClick={() => {
-            navigate("/posts")
-            setIsMenuOpen(false)
-          }}>
-            <FontAwesomeIcon icon={faHouse} />
-            <span>Creator dashboard</span>
-          </li>
+          {isLandingPage ? (
+            <li role="link" onClick={() => {
+              navigate("/home")
+              setIsMenuOpen(false)
+            }}>
+              <FontAwesomeIcon icon={faHouse} />
+              <span>Home</span>
+            </li>
+          ) : (
+            <li role="link" onClick={() => {
+              navigate("/posts")
+              setIsMenuOpen(false)
+            }}>
+              <FontAwesomeIcon icon={faHouse} />
+              <span>Creator dashboard</span>
+            </li>
+          )}
           <li role="link" onClick={() => {
             navigate("/compose")
             setIsMenuOpen(false)

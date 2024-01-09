@@ -28,6 +28,11 @@
       @include header-footer-text;
     }
 
+    > .button.icon-only > img {
+      @include img-size(40px);
+      border-radius: 50%;
+    }
+
     &.mobile {
       @include drop-shadow(top);
       transition: bottom #{$animation-duration-xs}s linear;
