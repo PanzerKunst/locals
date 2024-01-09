@@ -39,7 +39,7 @@ export function MyPostsPage() {
   if (userPostsQuery.data!.length === 0) {
     return renderContents(
       <div className="container">
-        <span>No posts found</span>
+        <p>No posts yet</p>
       </div>
     )
   }

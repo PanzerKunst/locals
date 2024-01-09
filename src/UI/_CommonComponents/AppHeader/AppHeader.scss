@@ -55,17 +55,20 @@
   > ul.styleless.menu {
     position: fixed;
 
-    bottom: $header-height - 5px;
-    border-radius: 0;
-    @include drop-shadow(all-around-top);
+    font-size: $variable-font-size-md;
+
+    @include vw(sm) {
+      bottom: $header-height - 5px;
+      left: 0;
+      width: 100%;
+
+      border-radius: 0;
+      @include drop-shadow(all-around-top);
+    }
 
     @include vw(md) {
-      bottom: unset;
       top: $header-height - 5px;
       right: 10px;
-
-      border-radius: $border-radius-md;
-      @include drop-shadow(all-around);
     }
   }
 }
