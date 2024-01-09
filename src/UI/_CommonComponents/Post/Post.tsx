@@ -32,9 +32,13 @@ export function Post({ postWithAuthorAndTags, preview = false }: Props) {
       )}
 
       <FadeIn className="metadata">
-        <PublicationDate publishedAt={post.publishedAt || dayjs().toISOString()}/>
-        <LikesCommentsShare disabled={preview}/>
-        <TaggedArtists taggedArtists={taggedArtists}/>
+        <div>
+          <PublicationDate publishedAt={post.publishedAt || dayjs().toISOString()}/>
+          <LikesCommentsShare disabled={preview} className="desktop-only"/>
+          <TaggedArtists taggedArtists={taggedArtists}/>
+        </div>
+
+        <LikesCommentsShare disabled={preview} className="mobile-only"/>
       </FadeIn>
 
       <FadeIn className="hero">

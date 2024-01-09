@@ -14,12 +14,35 @@ article {
   }
 
   > .metadata {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
     font-size: variable-font(16, 20);
     color: $color-text-offset;
+
+    > div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .likes-comments-share {
+      &.desktop-only {
+        display: none;
+      }
+
+      @include vw(md) {
+        &.mobile-only {
+          display: none;
+        }
+
+        &.desktop-only {
+          display: block;
+        }
+      }
+
+      &.mobile-only {
+        justify-content: flex-start;
+        margin-left: -0.6em;
+      }
+    }
   }
 
   > .content > div {
