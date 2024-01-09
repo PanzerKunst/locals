@@ -36,6 +36,10 @@ export function MyPostsPage() {
     return renderContents(<span>Error fetching data</span>)
   }
 
+  if (userPostsQuery.data!.length === 0) {
+    return renderContents(<span>No posts found</span>)
+  }
+
   return renderContents(
     <ul className="styleless">
       {userPostsQuery.data!.map((postWithAuthorAndTags) => (
