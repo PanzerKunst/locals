@@ -8,6 +8,75 @@
 }
 
 
+// Jost
+
+@font-face {
+  font-family: Jost;
+  src: url("/fonts/Jost/Jost-VariableFont_wght.ttf") format("truetype-variations");
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Jost;
+  src: url("/fonts/Jost/Jost-Italic-VariableFont_wght.ttf") format("truetype-variations");
+  font-weight: 100 900;
+  font-style: italic;
+}
+
+
+// Poppins
+
+@font-face {
+  font-family: Poppins;
+  src: url("/fonts/Poppins/Poppins-Regular.ttf") format("truetype");
+  font-weight: 400; // Could use normal as well
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Poppins;
+  src: url("/fonts/Poppins/Poppins-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: Poppins;
+  src: url("/fonts/Poppins/Poppins-Bold.ttf") format("truetype");
+  font-weight: 700; // 700 is typically bold
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Poppins;
+  src: url("/fonts/Poppins/Poppins-BoldItalic.ttf") format("truetype");
+  font-weight: 700; // Same as the non-italic bold
+  font-style: italic;
+}
+
+@font-face {
+  font-family: Poppins;
+  src: url("/fonts/Poppins/Poppins-Black.ttf") format("truetype");
+  font-weight: 900; /* 900 is typically black or ultra-bold */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Poppins;
+  src: url("/fonts/Poppins/Poppins-Light.ttf") format("truetype");
+  font-weight: 300; /* 600 is typically light */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Poppins;
+  src: url("/fonts/Poppins/Poppins-LightItalic.ttf") format("truetype");
+  font-weight: 300; /* 600 is typically light */
+  font-style: italic;
+}
+
+
 // Raleway
 
 @font-face {
@@ -25,20 +94,48 @@
 }
 
 
-// Jost
+// Roboto
 
 @font-face {
-  font-family: Jost;
-  src: url("/fonts/Jost/Jost-VariableFont_wght.ttf") format("truetype-variations");
-  font-weight: 100 900;
+  font-family: Roboto;
+  src: url("/fonts/Roboto/Roboto-Regular.ttf") format("truetype");
+  font-weight: 400; // Could use normal as well
   font-style: normal;
 }
 
 @font-face {
-  font-family: Jost;
-  src: url("/fonts/Jost/Jost-Italic-VariableFont_wght.ttf") format("truetype-variations");
-  font-weight: 100 900;
+  font-family: Roboto;
+  src: url("/fonts/Roboto/Roboto-Italic.ttf") format("truetype");
+  font-weight: 400;
   font-style: italic;
+}
+
+@font-face {
+  font-family: Roboto;
+  src: url("/fonts/Roboto/Roboto-Bold.ttf") format("truetype");
+  font-weight: 700; // 700 is typically bold
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Roboto;
+  src: url("/fonts/Roboto/Roboto-BoldItalic.ttf") format("truetype");
+  font-weight: 700; // Same as the non-italic bold
+  font-style: italic;
+}
+
+@font-face {
+  font-family: Roboto;
+  src: url("/fonts/Roboto/Roboto-Black.ttf") format("truetype");
+  font-weight: 900; /* 900 is typically black or ultra-bold */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Roboto;
+  src: url("/fonts/Roboto/Roboto-Light.ttf") format("truetype");
+  font-weight: 300; /* 600 is typically light */
+  font-style: normal;
 }
 
 
@@ -89,51 +186,6 @@
 @font-face {
   font-family: "Source Sans Pro";
   src: url("/fonts/SourceSansPro/SourceSansPro-Light.otf") format("opentype");
-  font-weight: 300; /* 600 is typically light */
-  font-style: normal;
-}
-
-
-// Roboto
-
-@font-face {
-  font-family: Roboto;
-  src: url("/fonts/Roboto/Roboto-Regular.ttf") format("truetype");
-  font-weight: 400; // Could use normal as well
-  font-style: normal;
-}
-
-@font-face {
-  font-family: Roboto;
-  src: url("/fonts/Roboto/Roboto-Italic.ttf") format("truetype");
-  font-weight: 400;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: Roboto;
-  src: url("/fonts/Roboto/Roboto-Bold.ttf") format("truetype");
-  font-weight: 700; // 700 is typically bold
-  font-style: normal;
-}
-
-@font-face {
-  font-family: Roboto;
-  src: url("/fonts/Roboto/Roboto-BoldItalic.ttf") format("truetype");
-  font-weight: 700; // Same as the non-italic bold
-  font-style: italic;
-}
-
-@font-face {
-  font-family: Roboto;
-  src: url("/fonts/Roboto/Roboto-Black.ttf") format("truetype");
-  font-weight: 900; /* 900 is typically black or ultra-bold */
-  font-style: normal;
-}
-
-@font-face {
-  font-family: Roboto;
-  src: url("/fonts/Roboto/Roboto-Light.ttf") format("truetype");
   font-weight: 300; /* 600 is typically light */
   font-style: normal;
 }

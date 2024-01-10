@@ -28,8 +28,9 @@
     }
 
     .fade-in > p {
-      font-size: variable-font(20, 40);
+      font-size: $variable-font-size-lg;
       margin-bottom: 1em;
+      text-align: justify;
     }
 
     .button.lg {

@@ -116,7 +116,7 @@ export function LandingPage() {
       <section id="everyone-earns">
         <div className="container">
           <FadeIn>
-            <h2>Everyone can earn from their content.</h2>
+            <h2>Everyone can earn from their content</h2>
           </FadeIn>
 
           <FadeIn>

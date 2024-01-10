@@ -130,19 +130,16 @@
 @mixin quill-editor {
   padding: 0;
 
-  h2,
-  h3 {
+  > h2,
+  > p {
+    text-align: justify;
+  }
+
+  > h2 {
+    font-size: $variable-font-size-lg;
     line-height: 1em;
     font-weight: 600;
     margin-bottom: 0.5em;
-  }
-
-  h2 {
-    font-size: $variable-font-size-xl;
-  }
-
-  h3 {
-    font-size: $variable-font-size-lg;
   }
 
   > p {

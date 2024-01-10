@@ -4,7 +4,7 @@ import { Modal, ModalDialog } from "@mui/joy"
 import classNames from "classnames"
 import dayjs from "dayjs"
 import { useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 
 import { Menu } from "./Menu.tsx"
 import { PublicationDate } from "./Post/PublicationDate.tsx"
@@ -26,6 +26,7 @@ export function PostSnippet({ postWithAuthorAndTags }: Props) {
   const { taggedArtists, author } = postWithAuthorAndTags
 
   const navigate = useNavigate()
+  const location = useLocation()
   const [post, setPost] = useState<Post | undefined>(postWithAuthorAndTags.post)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
@@ -86,9 +87,11 @@ export function PostSnippet({ postWithAuthorAndTags }: Props) {
 
       {!post.publishedAt && <span className={classNames("basic-chip", { negative: hasHero })}>DRAFT</span>}
 
-      <button className={classNames("button icon-only offset-bg-on-hover", { light: hasHero })} onClick={() => setIsMenuOpen(!isMenuOpen)}>
-        <FontAwesomeIcon icon={faEllipsisV}/>
-      </button>
+      {location.pathname === "/posts" && (
+        <button className={classNames("button icon-only offset-bg-on-hover", { light: hasHero })} onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          <FontAwesomeIcon icon={faEllipsisV}/>
+        </button>
+      )}
 
       {isMenuOpen && ( /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-to-interactive-role */
         <Menu close={() => setIsMenuOpen(false)}>
