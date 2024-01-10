@@ -12,15 +12,16 @@ import { getUrlQueryParam } from "../Util/BrowserUtils.ts"
 
 export function PostPage() {
   const { atUsername, slug } = useParams()
+  const username = atUsername?.substring(1)
 
   const postQuery = useQuery(
     "post",
-    () => fetchPostOfUserAndSlug(atUsername!.substring(1), slug!), {
-      enabled: !_isEmpty(atUsername) && !_isEmpty(slug)
+    () => fetchPostOfUserAndSlug(username!, slug!), {
+      enabled: !_isEmpty(username) && !_isEmpty(slug)
     }
   )
 
-  if (_isEmpty(atUsername) || _isEmpty(slug)) {
+  if (_isEmpty(username) || _isEmpty(slug)) {
     return renderContents(<span>Invalid post url</span>)
   }
 

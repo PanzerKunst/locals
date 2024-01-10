@@ -3,7 +3,8 @@ import { config } from "../../../config.ts"
 
 export type NewArtist = {
   spotifyId: string,
-  name: string
+  name: string,
+  tagName: string,
 }
 
 // Taken by copy/pasting the last part of the bubble when hovering `artists.$inferSelect`
@@ -23,7 +24,7 @@ export function isArtistCompatible(obj: any): obj is Artist {
   if (!config.IS_PROD) {
     // Get all keys of the object
     const keys = Object.keys(obj)
-    const allowedKeys = ["spotifyId", "name", "id", "createdAt", "updatedAt"]
+    const allowedKeys = ["spotifyId", "name", "tagName", "id", "createdAt", "updatedAt"]
 
     // Check for no additional keys
     if (keys.some(key => !allowedKeys.includes(key))) {
@@ -38,6 +39,10 @@ export function isArtistCompatible(obj: any): obj is Artist {
   }
   if (typeof obj.name !== "string") {
     console.log("Artist incompatible: 'typeof obj.name !== \"string\"'")
+    return false
+  }
+  if (typeof obj.tagName !== "string") {
+    console.log("Artist incompatible: 'typeof obj.tagName !== \"string\"'")
     return false
   }
   if (typeof obj.id !== "number") {

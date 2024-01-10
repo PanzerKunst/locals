@@ -1,5 +1,6 @@
 import _last from "lodash/last"
 
+import { fetchArtistOfTagName } from "./ArtistsApi.ts"
 import { AppContextType } from "../../../AppContext.tsx"
 import { httpStatusCode } from "../../../Util/HttpUtils.ts"
 import { config } from "../../../config.ts"
@@ -27,6 +28,12 @@ export async function fetchUser(appContext: AppContextType, spotifyUserProfile: 
 }
 
 export async function checkUsernameAvailability(username: string): Promise<boolean> {
+  const artistWithThatTagName = await fetchArtistOfTagName(username)
+
+  if (artistWithThatTagName) {
+    return false
+  }
+
   const result = await fetch(`${config.BACKEND_URL}/user/username/${username}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" }

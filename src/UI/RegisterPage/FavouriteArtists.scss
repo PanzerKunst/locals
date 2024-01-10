@@ -86,12 +86,12 @@
       }
 
       > .check-icon-wrapper {
-        color: $color-icon-primary;
         position: absolute;
         right: 6%;
         bottom: 5%;
 
         > svg {
+          color: $color-icon-primary;
           @include svg-shadow;
           @include img-size(1.1em);
         }

@@ -3,7 +3,7 @@ import { useQuery } from "react-query"
 import { useNavigate } from "react-router-dom"
 
 import { useAppContext } from "../../AppContext.tsx"
-import { fetchPostsByUser } from "../../Data/Backend/Apis/PostsApi.ts"
+import { fetchPostsByUsername } from "../../Data/Backend/Apis/PostsApi.ts"
 import { appUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
 import { useHeaderTitle } from "../_CommonComponents/AppHeader/AppHeader.ts"
 import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
@@ -23,7 +23,7 @@ export function MyPostsPage() {
 
   const userPostsQuery = useQuery(
     "userPosts",
-    () => fetchPostsByUser(loggedInUser!), {
+    () => fetchPostsByUsername(loggedInUser!.username), {
       enabled: !!loggedInUser
     }
   )

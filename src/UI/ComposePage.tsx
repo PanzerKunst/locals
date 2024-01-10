@@ -33,7 +33,6 @@ import { useDebounce } from "../Util/ReactUtils.ts"
 import { getPostWithTagsFromSession, savePostWithTagsInSession } from "../Util/SessionStorage.ts"
 import { Field, isBase64, isOnlyDigitsAndNotEmpty } from "../Util/ValidationUtils.ts"
 import { config } from "../config.ts"
-import { asTag } from "../Util/PostUtils.ts"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./ComposePage.scss"
@@ -340,7 +339,7 @@ export function ComposePage() {
             />
             <SelectList
               items={artistSearchResults.slice(0, 5)}
-              renderItem={(artist: Artist) => asTag(artist.name, "@")}
+              renderItem={(artist: Artist) => `@${artist.tagName}`}
               onSelect={handleArtistSelect}
               loading={isSearchingArtists}
             />
@@ -350,7 +349,7 @@ export function ComposePage() {
 
         <ActionableChipList
           items={taggedArtists}
-          renderItem={(artist: Artist) => <span>{asTag(artist.name, "@")}</span>}
+          renderItem={(artist: Artist) => <span>@{artist.tagName}</span>}
           onDelete={handleDeleteArtistTag}
         />
       </FadeIn>

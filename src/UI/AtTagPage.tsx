@@ -1,45 +1,64 @@
+import _isEmpty from "lodash/isEmpty"
 import { ReactNode } from "react"
 import { useQuery } from "react-query"
 import { useParams } from "react-router-dom"
 
 import { CircularLoader } from "./_CommonComponents/CircularLoader.tsx"
-import { fetchPostOfId } from "../Data/Backend/Apis/PostsApi.ts"
+import { PostSnippet } from "./_CommonComponents/PostSnippet.tsx"
+import { fetchPostsByUsername, fetchPostsTaggingArtist } from "../Data/Backend/Apis/PostsApi.ts"
 
 export function AtTagPage() {
   const { atTag } = useParams()
+  const usernameOrArtistTag = atTag?.substring(1)
 
-  // TODO: remove
-  console.log("AtTagPage > atTag", atTag)
-  const postId = 1
-
-  const postQuery = useQuery(
-    "post",
-    () => fetchPostOfId(postId), {
-      enabled: !isNaN(postId)
+  const postsByUserQuery = useQuery(
+    "postsByUser",
+    () => fetchPostsByUsername(usernameOrArtistTag!), {
+      enabled: !_isEmpty(usernameOrArtistTag)
     }
   )
 
-  if (isNaN(postId)) {
+  const postsTaggingArtistQuery = useQuery(
+    "postsTaggingArtist",
+    () => fetchPostsTaggingArtist(usernameOrArtistTag!), {
+      enabled: !_isEmpty(usernameOrArtistTag)
+    }
+  )
+
+  if (_isEmpty(usernameOrArtistTag)) {
     return renderContents(<span>Invalid post url</span>)
   }
 
-  if (postQuery.isLoading) {
+  if (postsByUserQuery.isLoading || postsTaggingArtistQuery.isLoading) {
     return renderContents(<CircularLoader/>)
   }
 
-  if (postQuery.isError) {
+  if (postsByUserQuery.isError || postsTaggingArtistQuery.isError) {
     return renderContents(<span>Error fetching data</span>)
   }
 
+  if (postsByUserQuery.data!.length === 0 && postsTaggingArtistQuery.data!.length === 0) {
+    return renderContents(
+      <div className="container">
+        <p>No posts yet</p>
+      </div>
+    )
+  }
+
+  const posts = postsTaggingArtistQuery.data!.length > 0 ? postsTaggingArtistQuery.data! : postsByUserQuery.data!
+
   return renderContents(
     <ul className="styleless">
+      {posts.map((postWithAuthorAndTags) => (
+        <PostSnippet key={postWithAuthorAndTags.post.id} postWithAuthorAndTags={postWithAuthorAndTags}/>
+      ))}
     </ul>
   )
 
   function renderContents(children: ReactNode) {
     return (
       <div className="page at-tag">
-        <main className="container">
+        <main>
           {children}
         </main>
       </div>

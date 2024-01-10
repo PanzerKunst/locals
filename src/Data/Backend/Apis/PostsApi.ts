@@ -6,7 +6,6 @@ import { config } from "../../../config.ts"
 import { Artist } from "../Models/Artist.ts"
 import { Post } from "../Models/Post.ts"
 import { PostWithTags } from "../Models/PostWithTags.ts"
-import { User } from "../Models/User.ts"
 
 export async function fetchPostOfId(id: number): Promise<PostWithTags | undefined> {
   const result = await fetch(`${config.BACKEND_URL}/post/${id}`, {
@@ -36,6 +35,32 @@ export async function fetchPostOfUserAndSlug(username: string, slug: string): Pr
   return result.status === httpStatusCode.NO_CONTENT
     ? undefined
     : await result.json() as PostWithTags
+}
+
+export async function fetchPostsByUsername(username: string): Promise<PostWithTags[]> {
+  const result = await fetch(`${config.BACKEND_URL}/posts/user/${username}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  })
+
+  if (!result.ok) {
+    throw new Error(`Error while fetching posts for username ${username}`)
+  }
+
+  return await result.json() as PostWithTags[]
+}
+
+export async function fetchPostsTaggingArtist(tagName: string): Promise<PostWithTags[]> {
+  const result = await fetch(`${config.BACKEND_URL}/posts/artist/${tagName}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  })
+
+  if (!result.ok) {
+    throw new Error(`Error while fetching posts for artist ${tagName}`)
+  }
+
+  return await result.json() as PostWithTags[]
 }
 
 export async function storePost(
@@ -115,19 +140,6 @@ export async function changePostPublicationStatus(post: Post, isPublish: boolean
   }
 
   return await result.json() as PostWithTags
-}
-
-export async function fetchPostsByUser(user: User): Promise<PostWithTags[]> {
-  const result = await fetch(`${config.BACKEND_URL}/posts/user/${user.id}`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" }
-  })
-
-  if (!result.ok) {
-    throw new Error(`Error while fetching posts for userID ${user.id}`)
-  }
-
-  return await result.json() as PostWithTags[]
 }
 
 export async function deletePost(post: Post): Promise<void> {
