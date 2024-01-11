@@ -12,6 +12,7 @@ export function VideoPlayer({ url }: Props) {
       <ReactPlayer
         url={url}
         controls
+        playsInline
         width="100%"
         height="100%"
       />
