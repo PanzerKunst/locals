@@ -20,7 +20,7 @@ ul.styleless.select {
 
   > li {
     transition: background-color #{$animation-duration-sm}s ease;
-    padding-inline: $input-padding;
+    padding-inline: $input-padding-inline;
 
     &:hover {
       background-color: $color-list-item-bg-hover;

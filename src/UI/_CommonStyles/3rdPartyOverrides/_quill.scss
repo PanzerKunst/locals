@@ -15,7 +15,7 @@
   @include quill-editor;
 
   background-color: $color-input-bg;
-  padding: $input-padding;
+  padding: $input-padding-inline;
   border-radius: $border-radius-md;
 
   min-height: 300px;

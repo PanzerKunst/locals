@@ -47,7 +47,7 @@ export function MyPostsPage() {
   return renderContents(
     <ul className="styleless">
       {userPostsQuery.data!.map((postWithAuthorAndTags) => (
-        <PostSnippet key={postWithAuthorAndTags.post.id} postWithAuthorAndTags={postWithAuthorAndTags}/>
+        <PostSnippet key={JSON.stringify(postWithAuthorAndTags.post)} postWithAuthorAndTags={postWithAuthorAndTags}/>
       ))}
     </ul>
   )

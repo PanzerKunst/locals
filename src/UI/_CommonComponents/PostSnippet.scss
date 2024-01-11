@@ -108,6 +108,7 @@ li.post-snippet {
     > .content {
       font-size: $variable-font-size-sm;
       margin-bottom: $padding-sm;
+      max-height: 2.3em;
 
       display: -webkit-box;
       -webkit-line-clamp: 2;

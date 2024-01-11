@@ -88,7 +88,7 @@ export function ComposePage() {
       formats: ["header", "bold", "italic", "strike", "link", "image", "video", "blockquote"],
       modules: {
         toolbar: [
-          [{ "header": [2, 3, false] }],
+          [{ "header": [2, false] }],
           ["bold", "italic", "strike"],
           ["link", "image", "video"],
           ["blockquote"],
@@ -375,7 +375,7 @@ export function ComposePage() {
             <motion.button
               whileTap={{ scale: 0.9 }}
               transition={{ duration: Number(s.animationDurationXs) }}
-              className="button icon-only light bordered"
+              className="button icon-only light bordered offset-bg-on-hover"
               // eslint-disable-next-line @typescript-eslint/no-misused-promises
               onClick={handleHeroImageDelete}
             >
@@ -406,7 +406,7 @@ export function ComposePage() {
             <motion.button
               whileTap={{ scale: 0.9 }}
               transition={{ duration: Number(s.animationDurationXs) }}
-              className="button icon-only light bordered"
+              className="button icon-only light bordered offset-bg-on-hover"
               // eslint-disable-next-line @typescript-eslint/no-misused-promises
               onClick={handleHeroVideoDelete}
             >

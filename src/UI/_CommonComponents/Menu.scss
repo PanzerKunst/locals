@@ -14,13 +14,13 @@ ul.styleless.menu {
   overflow: hidden; // To avoid the rounded corners to be killed on hover
 
   > li {
-    padding-inline: $input-padding;
+    padding-inline: 0.7em;
     cursor: pointer;
 
     transition: background-color #{$animation-duration-sm}s ease;
 
     &:hover {
-      background-color: $color-list-item-bg-hover;
+      background-color: $color-menu-item-bg-hover;
     }
 
     display: flex;

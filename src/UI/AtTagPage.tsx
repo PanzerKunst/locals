@@ -45,12 +45,14 @@ export function AtTagPage() {
     )
   }
 
-  const posts = postsTaggingArtistQuery.data!.length > 0 ? postsTaggingArtistQuery.data! : postsByUserQuery.data!
+  const postsToDisplay = postsTaggingArtistQuery.data!.length > 0
+    ? postsTaggingArtistQuery.data!
+    : postsByUserQuery.data!.filter((postWithTags) => !!postWithTags.post.publishedAt)
 
   return renderContents(
     <ul className="styleless">
-      {posts.map((postWithAuthorAndTags) => (
-        <PostSnippet key={postWithAuthorAndTags.post.id} postWithAuthorAndTags={postWithAuthorAndTags}/>
+      {postsToDisplay.map((postWithAuthorAndTags) => (
+        <PostSnippet key={JSON.stringify(postWithAuthorAndTags)} postWithAuthorAndTags={postWithAuthorAndTags}/>
       ))}
     </ul>
   )
