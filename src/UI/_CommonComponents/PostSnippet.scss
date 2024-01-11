@@ -21,10 +21,10 @@ li.post-snippet {
     overflow: hidden; // So that the image doesn't overflow the border radius */
 
     > .hero-image-wrapper > img,
-    > .video-player video,
-    > .video-player iframe {
+    > .video-player > div {
       border-top-left-radius: $border-radius-lg;
       border-top-right-radius: $border-radius-lg;
+      overflow: hidden;
     }
   }
 
@@ -100,15 +100,23 @@ li.post-snippet {
     }
 
     > .content {
-      font-size: $variable-font-size-sm;
       margin-bottom: $padding-sm;
-      max-height: 2.3em; // Workaround for old iOS versions
 
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
       text-overflow: ellipsis;
+
+      // Workaround for old iOS versions
+      @include vw(sm) {
+        max-height: 3.1em;
+      }
+
+      > p {
+        font-size: $variable-font-size-sm;
+        margin-bottom: 0;
+      }
     }
   }
 

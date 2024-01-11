@@ -1,3 +1,4 @@
+import classNames from "classnames"
 import dayjs from "dayjs"
 import _isEmpty from "lodash/isEmpty"
 
@@ -8,7 +9,9 @@ import { PostWithTags } from "../../../Data/Backend/Models/PostWithTags.ts"
 import { config } from "../../../config.ts"
 import { FadeIn } from "../FadeIn.tsx"
 import { VideoPlayer } from "../VideoPlayer.tsx"
+import { useViewportSize } from "../../../Util/BrowserUtils.ts"
 
+import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./Post.scss"
 
 type Props = {
@@ -18,6 +21,9 @@ type Props = {
 
 export function Post({ postWithAuthorAndTags, preview = false }: Props) {
   const { post, author, taggedArtists } = postWithAuthorAndTags
+
+  const viewportWidth = useViewportSize().width
+  const viewportWidthMd = parseInt(s.vwMd || "")
 
   if (!author) {
     return <span>ERROR: Author is missing</span>
@@ -41,7 +47,7 @@ export function Post({ postWithAuthorAndTags, preview = false }: Props) {
         <LikesCommentsShare disabled={preview} className="mobile-only"/>
       </FadeIn>
 
-      <FadeIn className="hero">
+      <FadeIn className={classNames("hero", { container: viewportWidth >= viewportWidthMd })}>
         {post.heroImagePath && <img src={`${config.BACKEND_URL}/file/${post.heroImagePath}`} alt="Hero"/>}
         {post.heroVideoUrl && <VideoPlayer url={post.heroVideoUrl}/>}
       </FadeIn>
