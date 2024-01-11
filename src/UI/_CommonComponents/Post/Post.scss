@@ -1,6 +1,10 @@
 @import "/src/UI/_CommonStyles/mixins";
 
-article {
+article.post {
+  @include vw(sm) {
+    margin-top: 5vmin;
+  }
+
   h1 {
     font-size: variable-font(20, 40);
     font-weight: 700;

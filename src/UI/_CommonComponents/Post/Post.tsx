@@ -30,7 +30,7 @@ export function Post({ postWithAuthorAndTags, preview = false }: Props) {
   }
 
   return (
-    <article>
+    <article className="post">
       {!_isEmpty(post.title) && (
         <FadeIn className="container">
           <h1>{post.title}</h1>

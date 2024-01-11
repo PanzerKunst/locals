@@ -50,7 +50,7 @@ export function PostPage() {
 
   function renderContents(children: ReactNode) {
     return (
-      <div className="page post">
+      <div className="page post no-top-margin-on-mobile">
         <main>
           {children}
         </main>

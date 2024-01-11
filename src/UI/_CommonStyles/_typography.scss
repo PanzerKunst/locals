@@ -38,13 +38,11 @@ span {
   }
 }
 
-.container {
-  p,
-  blockquote {
-    font-size: $variable-font-size-md;
-    line-height: 1.4em;
-    margin-bottom: 1.5em;
-  }
+p,
+blockquote {
+  font-size: $variable-font-size-sm;
+  line-height: 1.4em;
+  margin-bottom: 1.5em;
 }
 
 span.underlined {
