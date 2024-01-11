@@ -9,26 +9,19 @@ type Props = {
 }
 
 export function VideoPlayer({ url }: Props) {
+  if (url.startsWith(config.BACKEND_URL)) {
+    // eslint-disable-next-line jsx-a11y/media-has-caption
+    return <video src={url} controls playsInline />
+  }
+
   return (
     <div className="video-player">
-      {url.startsWith(config.BACKEND_URL) ? (
-        <div style={{ width: "100%", height: "100%"}}>
-          {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-          <video
-            src={url}
-            controls
-            playsInline
-            style={{ width: "100%", height: "100%"}}
-          />
-        </div>
-      ) : (
-        <ReactPlayer
-          url={url}
-          controls
-          width="100%"
-          height="100%"
-        />
-      )}
+      <ReactPlayer
+        url={url}
+        controls
+        width="100%"
+        height="100%"
+      />
     </div>
   )
 }
