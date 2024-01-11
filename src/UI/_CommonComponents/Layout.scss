@@ -1,5 +1,19 @@
 @import "/src/UI/_CommonStyles/mixins";
 
+.container {
+  margin-inline: auto;
+  padding-inline: $min-content-side-margin;
+
+  @include vw(md) {
+    padding-inline: 0;
+    width: 75%;
+  }
+
+  @include vw(xl) {
+    width: $vw-lg;
+  }
+}
+
 .page {
   > main {
     margin-top: 15vmin;
@@ -15,19 +29,10 @@
     h1 {
       margin-bottom: 1em;
     }
-  }
 
-  .container {
-    margin-inline: auto;
-    padding-inline: $min-content-side-margin;
-
-    @include vw(md) {
-      padding-inline: 0;
-      width: 75%;
-    }
-
-    @include vw(xl) {
-      width: $vw-lg;
+    p {
+      font-size: $variable-font-size-md;
+      @include justify-text-on-large-screen;
     }
   }
 

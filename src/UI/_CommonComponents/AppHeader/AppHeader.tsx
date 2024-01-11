@@ -126,16 +126,16 @@ export function AppHeader() {
 
         {headerTitle && <h2>{headerTitle}</h2>}
 
-        {!loggedInUser && <Link to="/home" className="underlined appears"><span>Sign in</span></Link>}
+        {isLandingPage && <Link to="/home" className="underlined appears"><span>Sign in</span></Link>}
 
-        {loggedInUser && (isLandingPage || isHomepage) && (
+        {isHomepage && loggedInUser && (
           <button className="button icon-only" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             <img src={loggedInUser.avatarUrl} alt="User's avatar"/>
           </button>
         )}
 
-        {loggedInUser && !isLandingPage && !isHomepage && (
-          <Link to="/home" className="button icon-only offset-bg-on-hover"><FontAwesomeIcon icon={faXmark}/></Link>
+        {!isLandingPage && !isHomepage && (
+          <Link to={loggedInUser ? "/home" : "/"} className="button icon-only offset-bg-on-hover"><FontAwesomeIcon icon={faXmark}/></Link>
         )}
       </header>
 
