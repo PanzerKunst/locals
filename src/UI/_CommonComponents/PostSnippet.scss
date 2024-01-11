@@ -108,7 +108,7 @@ li.post-snippet {
     > .content {
       font-size: $variable-font-size-sm;
       margin-bottom: $padding-sm;
-      max-height: 2.3em;
+      max-height: 2.3em; // Workaround for old iOS versions
 
       display: -webkit-box;
       -webkit-line-clamp: 2;

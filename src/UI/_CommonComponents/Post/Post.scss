@@ -4,7 +4,7 @@ article {
   h1 {
     font-size: variable-font(20, 40);
     font-weight: 700;
-    text-align: justify;
+    @include justify-text-on-large-screen;
 
     margin-bottom: 1em;
   }

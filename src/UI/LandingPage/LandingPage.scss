@@ -1,5 +1,4 @@
-@import "/src/UI/_CommonStyles/colors";
-@import "/src/UI/_CommonStyles/numbers";
+@import "/src/UI/_CommonStyles/mixins";
 @import "/src/UI/_CommonStyles/functions";
 
 .page.landing {
@@ -30,7 +29,7 @@
     .fade-in > p {
       font-size: $variable-font-size-lg;
       margin-bottom: 1em;
-      text-align: justify;
+      @include justify-text-on-large-screen;
     }
 
     .button.lg {
