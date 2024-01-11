@@ -15,7 +15,9 @@ import { getPostPath } from "../../Data/Backend/BackendUtils.ts"
 import { Post } from "../../Data/Backend/Models/Post.ts"
 import { PostWithTags } from "../../Data/Backend/Models/PostWithTags.ts"
 import { config } from "../../config.ts"
+import { useViewportSize } from "../../Util/BrowserUtils.ts"
 
+import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./PostSnippet.scss"
 
 type Props = {
@@ -27,6 +29,10 @@ export function PostSnippet({ postWithAuthorAndTags }: Props) {
 
   const navigate = useNavigate()
   const location = useLocation()
+
+  const viewportWidth = useViewportSize().width
+  const viewportWidthMd = parseInt(s.vwMd || "")
+
   const [post, setPost] = useState<Post | undefined>(postWithAuthorAndTags.post)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
@@ -62,7 +68,7 @@ export function PostSnippet({ postWithAuthorAndTags }: Props) {
   const hasHero = !!post.heroImagePath || !!post.heroVideoUrl
 
   return (
-    <li className="post-snippet">
+    <li className={classNames("post-snippet", { container: viewportWidth >= viewportWidthMd })}>
       {post.heroImagePath && (
         <Link to={getPostPath(postWithAuthorAndTags)} className="hero-image-wrapper">
           <img src={`${config.BACKEND_URL}/file/${post.heroImagePath}`} alt="Hero"/>
@@ -70,7 +76,7 @@ export function PostSnippet({ postWithAuthorAndTags }: Props) {
       )}
       {post.heroVideoUrl && <VideoPlayer url={post.heroVideoUrl}/>}
 
-      <div className="metadata">
+      <div className={classNames("metadata", { container: viewportWidth <= viewportWidthMd })}>
         <div>
           <img src={author.avatarUrl} alt="Author's avatar"/>
           <span>{author.name}</span>
@@ -80,7 +86,10 @@ export function PostSnippet({ postWithAuthorAndTags }: Props) {
         <TaggedArtists taggedArtists={taggedArtists}/>
       </div>
 
-      <Link to={getPostPath(postWithAuthorAndTags)} className="title-and-content-wrapper">
+      <Link
+        to={getPostPath(postWithAuthorAndTags)}
+        className={classNames("title-and-content-wrapper", { container: viewportWidth <= viewportWidthMd })}
+      >
         {post.title && <h2>{post.title}</h2>}
         <div className="content" dangerouslySetInnerHTML={{ __html: post.content }}/>
       </Link>

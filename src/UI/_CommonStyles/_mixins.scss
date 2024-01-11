@@ -1,20 +1,6 @@
 @import "./colors";
 @import "./numbers";
 
-@mixin container {
-  margin-inline: auto;
-  padding-inline: $min-content-side-margin;
-
-  @include vw(md) {
-    padding-inline: 0;
-    width: 75%;
-  }
-
-  @include vw(xl) {
-    width: $vw-lg;
-  }
-}
-
 @mixin img-size($size) {
   width: $size;
   height: $size;

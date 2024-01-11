@@ -46,7 +46,17 @@ main {
 }
 
 .container {
-  @include container;
+  margin-inline: auto;
+  padding-inline: $min-content-side-margin;
+
+  @include vw(md) {
+    padding-inline: 0;
+    width: 75%;
+  }
+
+  @include vw(xl) {
+    width: $vw-lg;
+  }
 }
 
 span.basic-chip {

@@ -20,8 +20,6 @@ li.post-snippet {
     /* Can't use that trick, as the menu would be cropped
     overflow: hidden; // So that the image doesn't overflow the border radius */
 
-    @include container;
-
     > .hero-image-wrapper > img,
     > .video-player video,
     > .video-player iframe {
@@ -32,10 +30,6 @@ li.post-snippet {
 
   > .metadata,
   > a.title-and-content-wrapper {
-    @include vw(sm) {
-      @include container;
-    }
-
     @include vw(md) {
       padding-inline: $padding-sm;
     }

@@ -26,12 +26,12 @@ export function Post({ postWithAuthorAndTags, preview = false }: Props) {
   return (
     <article>
       {!_isEmpty(post.title) && (
-        <FadeIn>
+        <FadeIn className="container">
           <h1>{post.title}</h1>
         </FadeIn>
       )}
 
-      <FadeIn className="metadata">
+      <FadeIn className="metadata container">
         <div>
           <PublicationDate publishedAt={post.publishedAt || dayjs().toISOString()}/>
           <LikesCommentsShare disabled={preview} className="desktop-only"/>
@@ -46,7 +46,7 @@ export function Post({ postWithAuthorAndTags, preview = false }: Props) {
         {post.heroVideoUrl && <VideoPlayer url={post.heroVideoUrl}/>}
       </FadeIn>
 
-      <FadeIn className="content">
+      <FadeIn className="content container">
         <div dangerouslySetInnerHTML={{ __html: post.content }}/>
       </FadeIn>
     </article>

@@ -51,7 +51,7 @@ export function PostPage() {
   function renderContents(children: ReactNode) {
     return (
       <div className="page post">
-        <main className="container">
+        <main>
           {children}
         </main>
       </div>
