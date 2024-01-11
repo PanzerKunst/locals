@@ -5,9 +5,11 @@ li.post-snippet {
 
   $padding-sm: 12px;
 
-  margin-top: 12vmax;
-
   border: 1px solid $color-border;
+
+  &:not(:first-of-type) {
+    margin-top: 12vmax;
+  }
 
   @include vw(sm) {
     border-left: none;

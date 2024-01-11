@@ -1,4 +1,12 @@
+@import "/src/UI/_CommonStyles/mixins";
+
 .page {
+  &.no-top-margin-on-mobile > main {
+    @include vw(sm) {
+      margin-top: 0;
+    }
+  }
+
   p.fetching-message {
     margin-bottom: 0.5em;
   }

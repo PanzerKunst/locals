@@ -59,7 +59,7 @@ export function AtTagPage() {
 
   function renderContents(children: ReactNode) {
     return (
-      <div className="page at-tag">
+      <div className="page at-tag no-top-margin-on-mobile">
         <main>
           {children}
         </main>
