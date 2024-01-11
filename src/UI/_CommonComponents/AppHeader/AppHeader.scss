@@ -60,7 +60,7 @@
   > ul.styleless.menu {
     position: fixed;
 
-    font-size: $variable-font-size-md;
+    font-size: variable-font(20, 24);
 
     @include vw(sm) {
       bottom: $header-height - 5px;
