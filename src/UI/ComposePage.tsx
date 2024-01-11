@@ -11,10 +11,10 @@ import Delta from "quill-delta"
 import { ChangeEvent, ReactNode, useEffect, useRef, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 
+import { ActionableChipList } from "./_CommonComponents/ActionableChipList.tsx"
 import { AnimatedButton } from "./_CommonComponents/AnimatedButton.tsx"
 import { useHeaderTitle } from "./_CommonComponents/AppHeader/AppHeader.ts"
 import { ButtonLoader } from "./_CommonComponents/ButtonLoader.tsx"
-import { ActionableChipList } from "./_CommonComponents/ActionableChipList.tsx"
 import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
 import { SelectList } from "./_CommonComponents/SelectList.tsx"
 import { InputTooltip } from "./_CommonComponents/Tooltip/InputTooltip.tsx"
@@ -33,6 +33,7 @@ import { useDebounce } from "../Util/ReactUtils.ts"
 import { getPostWithTagsFromSession, savePostWithTagsInSession } from "../Util/SessionStorage.ts"
 import { Field, isBase64, isOnlyDigitsAndNotEmpty } from "../Util/ValidationUtils.ts"
 import { config } from "../config.ts"
+import { CircularLoader } from "./_CommonComponents/CircularLoader.tsx"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./ComposePage.scss"
@@ -62,6 +63,7 @@ export function ComposePage() {
 
   const [isTooltipVisible, setIsTooltipVisible] = useState(false)
   const heroVideoInputRef = useRef<HTMLInputElement>(null)
+  const [isHeroVideoUploading, setIsHeroVideoUploading] = useState(false)
   const [heroVideoUrl, setHeroVideoUrl] = useState<string>()
 
   const editorRef = useRef<HTMLDivElement>(null)
@@ -279,7 +281,9 @@ export function ComposePage() {
 
     void handleHeroImageDelete()
 
+    setIsHeroVideoUploading(true)
     const filePath = await uploadFormDataFile(file)
+    setIsHeroVideoUploading(false)
     setHeroVideoUrl(`${config.BACKEND_URL}/file/${filePath}`)
   }
 
@@ -369,20 +373,7 @@ export function ComposePage() {
       </FadeIn>
 
       <section className="hero-media">
-        {heroImagePath ? (
-          <div>
-            <img src={`${config.BACKEND_URL}/file/${heroImagePath}`} alt="Hero"/>
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-              transition={{ duration: Number(s.animationDurationXs) }}
-              className="button icon-only light bordered offset-bg-on-hover"
-              // eslint-disable-next-line @typescript-eslint/no-misused-promises
-              onClick={handleHeroImageDelete}
-            >
-              <FontAwesomeIcon icon={faXmark}/>
-            </motion.button>
-          </div>
-        ) : (
+        {!heroImagePath ? (
           <FadeIn>
             <span>Hero image</span>
             <div>
@@ -396,11 +387,47 @@ export function ComposePage() {
               <button className="underlined appears" onClick={handleBrowseHeroImageClick}>Browse</button>
             </div>
           </FadeIn>
+        ) : (
+          <div>
+            <img src={`${config.BACKEND_URL}/file/${heroImagePath}`} alt="Hero"/>
+            <motion.button
+              whileTap={{ scale: 0.9 }}
+              transition={{ duration: Number(s.animationDurationXs) }}
+              className="button icon-only light bordered offset-bg-on-hover"
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
+              onClick={handleHeroImageDelete}
+            >
+              <FontAwesomeIcon icon={faXmark}/>
+            </motion.button>
+          </div>
         )}
 
         <span>or</span>
 
-        {heroVideoUrl ? (
+        {!heroVideoUrl && (
+          <FadeIn>
+            <span>Hero video</span>
+            {!isHeroVideoUploading ? (
+              <div>
+                {isTooltipVisible && <InputTooltip onSubmit={handleHeroVideoUrlSubmitted} position="bottom"/>}
+                <button className="underlined appears" onClick={() => setIsTooltipVisible(true)}>From link</button>
+                <span>or</span>
+                <input
+                  type="file"
+                  accept="video/*"
+                  ref={heroVideoInputRef}
+                  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                  onChange={handleHeroVideoChange}
+                />
+                <button className="underlined appears" onClick={handleBrowseHeroVideoClick}>Browse</button>
+              </div>
+            ) : (
+              <CircularLoader/>
+            )}
+          </FadeIn>
+        )}
+
+        {heroVideoUrl && (
           <div>
             <VideoPlayer url={heroVideoUrl}/>
             <motion.button
@@ -413,23 +440,6 @@ export function ComposePage() {
               <FontAwesomeIcon icon={faXmark}/>
             </motion.button>
           </div>
-        ) : (
-          <FadeIn>
-            <span>Hero video</span>
-            <div>
-              {isTooltipVisible && <InputTooltip onSubmit={handleHeroVideoUrlSubmitted} position="bottom"/>}
-              <button className="underlined appears" onClick={() => setIsTooltipVisible(true)}>From link</button>
-              <span>or</span>
-              <input
-                type="file"
-                accept="video/*"
-                ref={heroVideoInputRef}
-                // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                onChange={handleHeroVideoChange}
-              />
-              <button className="underlined appears" onClick={handleBrowseHeroVideoClick}>Browse</button>
-            </div>
-          </FadeIn>
         )}
       </section>
 
