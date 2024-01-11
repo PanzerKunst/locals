@@ -43,4 +43,8 @@
     padding-left: 0.5em;
     cursor: default;
   }
+
+  &.input .MuiFormControl-root .MuiInput-root {
+    font-size: $variable-font-size-xs;
+  }
 }

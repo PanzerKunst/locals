@@ -409,7 +409,9 @@ export function ComposePage() {
             <span>Hero video</span>
             {!isHeroVideoUploading ? (
               <div>
-                {isTooltipVisible && <InputTooltip onSubmit={handleHeroVideoUrlSubmitted} position="bottom"/>}
+                {isTooltipVisible && (
+                  <InputTooltip onClose={() => setIsTooltipVisible(false)} onSubmit={handleHeroVideoUrlSubmitted} position="bottom"/>
+                )}
                 <button className="underlined appears" onClick={() => setIsTooltipVisible(true)}>From link</button>
                 <span>or</span>
                 <input

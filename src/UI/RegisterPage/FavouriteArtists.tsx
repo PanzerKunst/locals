@@ -60,7 +60,7 @@ export function FavouriteArtists({ isShowingAll = false, favourites, followed, o
 
   return (
     <ul className="styleless favourite-artists">
-      {isTooltipVisible && <TextTooltip text="Tap to toggle" />}
+      {isTooltipVisible && <TextTooltip onClose={() => setIsTooltipVisible(false)} text="Tap to toggle" />}
       {topArtists.map((spotifyArtist) => {
         const largeImage = spotifyArtist.images[0]
         const isActive = followed.some((followedArtist) => followedArtist.id === spotifyArtist.id)
