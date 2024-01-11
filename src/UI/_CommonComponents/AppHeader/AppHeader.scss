@@ -38,7 +38,7 @@
       transition: bottom #{$animation-duration-xs}s linear;
     }
 
-    &.desktop {
+    &.desktop-or-landing {
       @include drop-shadow;
       transition: top #{$animation-duration-xs}s linear, background-color #{$animation-duration-md}s ease;
 

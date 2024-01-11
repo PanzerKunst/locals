@@ -39,7 +39,7 @@ export function AppHeader() {
       return
     }
 
-    const handleScroll = isMobile ? handleScrollMobile : handleScrollDesktop
+    const handleScroll = !isMobile || isLandingPage ? handleScrollDesktop : handleScrollMobile
 
     function handleScrollMobile() {
       const currentScrollY = window.scrollY
@@ -114,8 +114,13 @@ export function AppHeader() {
     <div className="app-header-wrapper">
       <header
         ref={headerRef}
-        className={classNames({ desktop: !isMobile, mobile: isMobile, dark: isDarkBg, "menu-open": isMenuOpen })}
-        style={isMobile ? { bottom: 0 } : { top: 0 }}
+        className={classNames({
+          "desktop-or-landing": !isMobile || isLandingPage,
+          mobile: isMobile,
+          dark: isDarkBg,
+          "menu-open": isMenuOpen
+        })}
+        style={!isMobile || isLandingPage ? { top: 0 } : { bottom: 0 }}
       >
         <div className="left-image-wrapper"/>
 
