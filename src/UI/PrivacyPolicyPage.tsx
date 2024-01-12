@@ -1,6 +1,9 @@
+import { useHeaderTitle } from "./_CommonComponents/AppHeader/AppHeader.ts"
 import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
 
 export function PrivacyPolicyPage() {
+  useHeaderTitle("Privacy Policy")
+
   return (
     <div className="page simple privacy-policy">
       <main className="container">

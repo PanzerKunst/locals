@@ -78,8 +78,12 @@ export function PostSnippet({ postWithAuthorAndTags }: Props) {
 
       <div className={classNames("metadata", { container: viewportWidth <= viewportWidthMd })}>
         <div>
-          <img src={author.avatarUrl} alt="Author's avatar"/>
-          <span>{author.name}</span>
+          <Link to={`/@${author.username}`}>
+            <img src={author.avatarUrl} alt="Author's avatar"/>
+          </Link>
+          <Link to={`/@${author.username}`} className="underlined appears">
+            <span>{author.name}</span>
+          </Link>
           <PublicationDate publishedAt={post.publishedAt || dayjs().toISOString()}/>
         </div>
 

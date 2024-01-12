@@ -1,6 +1,9 @@
+import { useHeaderTitle } from "./_CommonComponents/AppHeader/AppHeader.ts"
 import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
 
 export function ContactPage() {
+  useHeaderTitle("Contact")
+
   return (
     <div className="page simple contact">
       <main className="container">
