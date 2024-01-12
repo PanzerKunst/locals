@@ -11,16 +11,19 @@ export function AtTagPage() {
   const { atTag } = useParams()
   const usernameOrArtistTag = atTag?.substring(1)
 
+  // TODO const [fromDate, setFromDate] = useState<Date>(new Date())
+  const fromDate = new Date()
+
   const postsByUserQuery = useQuery(
     "postsByUser",
-    () => fetchPostsByUsername(usernameOrArtistTag!), {
+    () => fetchPostsByUsername(usernameOrArtistTag!, fromDate), {
       enabled: !_isEmpty(usernameOrArtistTag)
     }
   )
 
   const postsTaggingArtistQuery = useQuery(
     "postsTaggingArtist",
-    () => fetchPostsTaggingArtist(usernameOrArtistTag!), {
+    () => fetchPostsTaggingArtist(usernameOrArtistTag!, fromDate), {
       enabled: !_isEmpty(usernameOrArtistTag)
     }
   )

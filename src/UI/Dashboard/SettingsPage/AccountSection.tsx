@@ -6,7 +6,7 @@ import { useAppContext } from "../../../AppContext.tsx"
 import { checkUsernameAvailability, updateUser } from "../../../Data/Backend/Apis/UsersApi.ts"
 import { scrollIntoView } from "../../../Util/BrowserUtils.ts"
 import { useDebounce } from "../../../Util/ReactUtils.ts"
-import { Field, isEmailValid, isUsernameValid } from "../../../Util/ValidationUtils.ts"
+import { Field, isValidEmail, isValidUsername } from "../../../Util/ValidationUtils.ts"
 import { ButtonLoader } from "../../_CommonComponents/ButtonLoader.tsx"
 import { CircularLoader } from "../../_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "../../_CommonComponents/FadeIn.tsx"
@@ -67,7 +67,7 @@ export function AccountSection() {
       return false
     }
 
-    if (!isEmailValid(email)) {
+    if (!isValidEmail(email)) {
       setEmailField({ value: email, error: "Invalid email, sorry" })
       scrollIntoView(document.querySelector("#email"))
       return false
@@ -83,7 +83,7 @@ export function AccountSection() {
       return false
     }
 
-    if (!isUsernameValid(debouncedUsername)) {
+    if (!isValidUsername(debouncedUsername)) {
       setUsernameFieldError("A combination of letters, numbers, -, _, .")
       scrollIntoView(document.querySelector("#username"))
       return false

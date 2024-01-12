@@ -23,7 +23,7 @@ import { actionsFromAppUrl, appUrlQueryParam } from "../../Util/AppUrlQueryParam
 import { scrollIntoView } from "../../Util/BrowserUtils.ts"
 import { useDebounce } from "../../Util/ReactUtils.ts"
 import { getSpotifyProfileFromSession, saveSpotifyProfileInSession } from "../../Util/SessionStorage.ts"
-import { Field, isEmailValid, isUsernameValid } from "../../Util/ValidationUtils.ts"
+import { Field, isValidEmail, isValidUsername } from "../../Util/ValidationUtils.ts"
 import { AnimatedButton } from "../_CommonComponents/AnimatedButton.tsx"
 import { ButtonLoader } from "../_CommonComponents/ButtonLoader.tsx"
 import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
@@ -146,7 +146,7 @@ export function RegisterPage() {
       return false
     }
 
-    if (!isEmailValid(email)) {
+    if (!isValidEmail(email)) {
       setEmailField({ value: email, error: "Invalid email, sorry" })
       scrollIntoView(document.querySelector("#email"))
       return false
@@ -162,7 +162,7 @@ export function RegisterPage() {
       return false
     }
 
-    if (!isUsernameValid(debouncedUsername)) {
+    if (!isValidUsername(debouncedUsername)) {
       setUsernameFieldError("A combination of letters, numbers, -, _, .")
       scrollIntoView(document.querySelector("#username"))
       return false

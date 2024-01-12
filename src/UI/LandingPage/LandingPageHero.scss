@@ -17,7 +17,7 @@
     @include darkened-image-bg("/images/evgeniy-smersh-PuqP_vEnTv0-unsplash.jpg");
   }
 
-  height: max(45vw, $hero-picture-min-height);
+  height: max(50vmax, $hero-picture-min-height);
 
   > h1 {
     color: $color-text-negative;

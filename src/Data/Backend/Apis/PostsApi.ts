@@ -1,3 +1,4 @@
+import qs from "qs"
 import Quill from "quill"
 
 import { AppContextType } from "../../../AppContext.tsx"
@@ -37,8 +38,10 @@ export async function fetchPostOfUserAndSlug(username: string, slug: string): Pr
     : await result.json() as PostWithTags
 }
 
-export async function fetchPostsByUsername(username: string): Promise<PostWithTags[]> {
-  const result = await fetch(`${config.BACKEND_URL}/posts/user/${username}`, {
+export async function fetchPostsByUsername(username: string, fromDate: Date): Promise<PostWithTags[]> {
+  const queryParams = { from: fromDate.toISOString() }
+
+  const result = await fetch(`${config.BACKEND_URL}/posts/user/${username}?${qs.stringify(queryParams)}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" }
   })
@@ -50,8 +53,10 @@ export async function fetchPostsByUsername(username: string): Promise<PostWithTa
   return await result.json() as PostWithTags[]
 }
 
-export async function fetchPostsTaggingArtist(tagName: string): Promise<PostWithTags[]> {
-  const result = await fetch(`${config.BACKEND_URL}/posts/artist/${tagName}`, {
+export async function fetchPostsTaggingArtist(tagName: string, fromDate: Date): Promise<PostWithTags[]> {
+  const queryParams = { from: fromDate.toISOString() }
+
+  const result = await fetch(`${config.BACKEND_URL}/posts/artist/${tagName}?${qs.stringify(queryParams)}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" }
   })

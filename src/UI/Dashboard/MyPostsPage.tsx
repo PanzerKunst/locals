@@ -13,6 +13,9 @@ export function MyPostsPage() {
   const navigate = useNavigate()
   const { loggedInUser } = useAppContext()
 
+  // TODO const [fromDate, setFromDate] = useState<Date>(new Date())
+  const fromDate = new Date()
+
   useHeaderTitle("My Posts")
 
   useEffect(() => {
@@ -23,7 +26,7 @@ export function MyPostsPage() {
 
   const userPostsQuery = useQuery(
     "userPosts",
-    () => fetchPostsByUsername(loggedInUser!.username), {
+    () => fetchPostsByUsername(loggedInUser!.username, fromDate), {
       enabled: !!loggedInUser
     }
   )
