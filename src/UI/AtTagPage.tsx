@@ -1,18 +1,29 @@
 import _isEmpty from "lodash/isEmpty"
-import { ReactNode } from "react"
+import { ReactNode, useEffect } from "react"
 import { useQuery } from "react-query"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 import { CircularLoader } from "./_CommonComponents/CircularLoader.tsx"
 import { PostSnippet } from "./_CommonComponents/PostSnippet.tsx"
+import { useAppContext } from "../AppContext.tsx"
 import { fetchPostsByUsername, fetchPostsTaggingArtist } from "../Data/Backend/Apis/PostsApi.ts"
+import { appUrlQueryParam } from "../Util/AppUrlQueryParams.ts"
 
 export function AtTagPage() {
+  const navigate = useNavigate()
+  const loggedInUser = useAppContext().loggedInUser?.user
+
   const { atTag } = useParams()
   const usernameOrArtistTag = atTag?.substring(1)
 
   // TODO const [fromDate, setFromDate] = useState<Date>(new Date())
   const fromDate = new Date()
+
+  useEffect(() => {
+    if (!loggedInUser) {
+      navigate(`/?${appUrlQueryParam.ACCESS_ERROR}`, { replace: true })
+    }
+  }, [loggedInUser, navigate])
 
   const postsByUserQuery = useQuery(
     "postsByUser",
