@@ -1,11 +1,14 @@
-import { isUserCompatible, User } from "../Data/Backend/Models/User.ts"
+import {
+  isUserWithFollowedArtistsAndAuthorsCompatible,
+  UserWithFollowedArtistsAndAuthors
+} from "../Data/Backend/Models/UserWithFollowedArtistsAndAuthors.ts"
 
 export type ContextInLocalStorage = {
   spotifyApiVerifier?: string;
   spotifyApiAccessToken?: string;
   spotifyApiRefreshToken?: string;
   spotifyApiTokenExpirationDate?: string;
-  loggedInUser?: User;
+  loggedInUser?: UserWithFollowedArtistsAndAuthors;
   cookieConsent?: CookieConsent;
 }
 
@@ -54,8 +57,8 @@ function isContextCompatible(obj: any): obj is ContextInLocalStorage {
     console.log("Context incompatible: 'obj.spotifyApiTokenExpirationDate && typeof obj.spotifyApiTokenExpirationDate !== \"string\"'")
     return false
   }
-  if (obj.loggedInUser && !isUserCompatible(obj.loggedInUser)) {
-    console.log("Context incompatible: 'obj.loggedInUser && !isUserCompatible(obj.loggedInUser)'")
+  if (obj.loggedInUser && !isUserWithFollowedArtistsAndAuthorsCompatible(obj.loggedInUser)) {
+    console.log("Context incompatible: 'obj.loggedInUser && !isUserWithFollowedArtistsAndAuthorsCompatible(obj.loggedInUser)'")
     return false
   }
   if (obj.cookieConsent && typeof obj.cookieConsent !== "string") {
@@ -156,11 +159,11 @@ export function saveSpotifyApiTokenExpirationDateInLocalStorage(spotifyApiTokenE
 
 // loggedInUser
 
-export function getLoggedInUserFromLocalStorage(): User | undefined {
+export function getLoggedInUserFromLocalStorage(): UserWithFollowedArtistsAndAuthors | undefined {
   return getContextFromLocalStorage().loggedInUser
 }
 
-export function saveLoggedInUserInLocalStorage(loggedInUser: User | undefined): void {
+export function saveLoggedInUserInLocalStorage(loggedInUser: UserWithFollowedArtistsAndAuthors | undefined): void {
   const updatedContext: ContextInLocalStorage = {
     ...getContextFromLocalStorage(),
     loggedInUser,

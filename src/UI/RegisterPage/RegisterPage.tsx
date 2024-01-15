@@ -243,14 +243,14 @@ export function RegisterPage() {
 
     setIsSubmittingForm(true)
 
-    const user = await storeUser(appContext, {
+    const userWithFollowedArtistsAndAuthors = await storeUser(appContext, {
       ...spotifyProfile,
       email: emailField.value
     }, debouncedUsername, selectedGeolocation!)
 
     const storedArtistsWithGenres = await storeArtists(favouriteArtists)
     const storedArtists = storedArtistsWithGenres.map((artistWithGenres) => artistWithGenres.artist)
-    await storeUserFavouriteArtists(user, storedArtists, followedArtists)
+    await storeUserFavouriteArtists(userWithFollowedArtistsAndAuthors.user, storedArtists, followedArtists)
 
     saveSpotifyProfileInSession(undefined)
     navigate(`/home?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.REGISTRATION_SUCCESS}`)

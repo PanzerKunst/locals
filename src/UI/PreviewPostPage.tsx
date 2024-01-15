@@ -18,7 +18,7 @@ import "./PreviewPostPage.scss"
 
 export function PreviewPostPage() {
   const navigate = useNavigate()
-  const { loggedInUser } = useAppContext()
+  const loggedInUser = useAppContext().loggedInUser?.user
   const [isPublishing, setIsPublishing] = useState(false)
 
   const postWithTags = getPostWithTagsFromSession()

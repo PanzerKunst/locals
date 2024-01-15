@@ -16,7 +16,7 @@ export async function storePost(
   heroVideoUrl: string | undefined,
   quill: Quill
 ): Promise<PostWithTags> {
-  const loggedInUser = appContext.loggedInUser
+  const loggedInUser = appContext.loggedInUser?.user
 
   if (!loggedInUser) {
     throw new Error("Cannot store post with no user in session")

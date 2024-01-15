@@ -2,7 +2,7 @@ import dayjs from "dayjs"
 import _isEqual from "lodash/isEqual"
 import { createContext, ReactNode, useCallback, useContext, useMemo, useState } from "react"
 
-import { User } from "./Data/Backend/Models/User.ts"
+import { UserWithFollowedArtistsAndAuthors } from "./Data/Backend/Models/UserWithFollowedArtistsAndAuthors.ts"
 import {
   getLoggedInUserFromLocalStorage,
   getSpotifyApiAccessTokenFromLocalStorage,
@@ -24,8 +24,8 @@ export type AppContextType = {
   spotifyApiRefreshToken?: string;
   setSpotifyApiRefreshToken: (token: string | undefined) => void; // eslint-disable-line no-unused-vars
   spotifyApiTokenExpirationDate?: Date;
-  loggedInUser?: User;
-  setLoggedInUser: (user: User | undefined) => void; // eslint-disable-line no-unused-vars
+  loggedInUser?: UserWithFollowedArtistsAndAuthors;
+  setLoggedInUser: (userWithFollowedArtistsAndAuthors: UserWithFollowedArtistsAndAuthors | undefined) => void; // eslint-disable-line no-unused-vars
   headerTitle?: string;
   setHeaderTitle: (title: string | undefined) => void; // eslint-disable-line no-unused-vars
 }
@@ -50,7 +50,7 @@ export function AppContextProvider({ children }: Props) {
   const [loggedInUser, setLoggedInUserState] = useState(getLoggedInUserFromLocalStorage())
   const [headerTitle, setHeaderTitle] = useState<string>()
 
-  // Any context variable which isn't of a primitite type (string, number, boolean) should be wrapped in a useCallback to avoid infinite loops
+  // Any context variable which isn't of a primitive type (string, number, boolean) should be wrapped in a useCallback to avoid infinite loops
 
   const setSpotifyApiTokenExpirationDate = useCallback((date: Date) => {
     if (!dayjs(spotifyApiTokenExpirationDate).isSame(dayjs(date), "second")) {
@@ -58,9 +58,9 @@ export function AppContextProvider({ children }: Props) {
     }
   }, [spotifyApiTokenExpirationDate])
 
-  const setLoggedInUser = useCallback((user: User | undefined) => {
-    if (!_isEqual(loggedInUser, user)) {
-      setLoggedInUserState(user)
+  const setLoggedInUser = useCallback((userWithFollowedArtistsAndAuthors: UserWithFollowedArtistsAndAuthors | undefined) => {
+    if (!_isEqual(loggedInUser, userWithFollowedArtistsAndAuthors)) {
+      setLoggedInUserState(userWithFollowedArtistsAndAuthors)
     }
   }, [loggedInUser])
 
@@ -102,9 +102,9 @@ export function AppContextProvider({ children }: Props) {
 
     loggedInUser,
 
-    setLoggedInUser: (user: User | undefined) => {
-      saveLoggedInUserInLocalStorage(user)
-      setLoggedInUser(user)
+    setLoggedInUser: (userWithFollowedArtistsAndAuthors: UserWithFollowedArtistsAndAuthors | undefined) => {
+      saveLoggedInUserInLocalStorage(userWithFollowedArtistsAndAuthors)
+      setLoggedInUser(userWithFollowedArtistsAndAuthors)
     },
 
     headerTitle,

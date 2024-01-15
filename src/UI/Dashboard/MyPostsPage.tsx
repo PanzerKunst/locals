@@ -11,7 +11,7 @@ import { PostSnippet } from "../_CommonComponents/PostSnippet.tsx"
 
 export function MyPostsPage() {
   const navigate = useNavigate()
-  const { loggedInUser } = useAppContext()
+  const loggedInUser = useAppContext().loggedInUser?.user
 
   // TODO const [fromDate, setFromDate] = useState<Date>(new Date())
   const fromDate = new Date()

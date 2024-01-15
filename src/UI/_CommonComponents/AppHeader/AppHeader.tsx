@@ -17,7 +17,9 @@ const heroPictureMinHeight = parseInt(s.heroPictureMinHeight!)
 let lastScrollY = window.scrollY
 
 export function AppHeader() {
-  const { loggedInUser, headerTitle } = useAppContext()
+  const appContext = useAppContext()
+  const loggedInUser = appContext.loggedInUser?.user
+
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -124,7 +126,7 @@ export function AppHeader() {
       >
         <div className="left-image-wrapper"/>
 
-        {headerTitle && <h2>{headerTitle}</h2>}
+        {appContext.headerTitle && <h2>{appContext.headerTitle}</h2>}
 
         {isLandingPage && <Link to="/home" className="underlined appears"><span>Sign in</span></Link>}
 

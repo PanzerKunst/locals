@@ -6,6 +6,7 @@ import { Link } from "react-router-dom"
 import { LikesCommentsShare } from "./LikesCommentsShare.tsx"
 import { PublicationDate } from "./PublicationDate.tsx"
 import { TaggedArtists } from "./TaggedArtists.tsx"
+import { useAppContext } from "../../../AppContext.tsx"
 import { PostWithTags } from "../../../Data/Backend/Models/PostWithTags.ts"
 import { config } from "../../../config.ts"
 import { FadeIn } from "../FadeIn.tsx"
@@ -23,8 +24,13 @@ type Props = {
 export function Post({ postWithAuthorAndTags, preview = false }: Props) {
   const { post, author, taggedArtists } = postWithAuthorAndTags
 
+  const loggedInUser = useAppContext().loggedInUser?.user
   const viewportWidth = useViewportSize().width
   const viewportWidthMd = parseInt(s.vwMd || "")
+
+  const onFollowClick = () => {
+    // TODO
+  }
 
   if (!author) {
     return <span>ERROR: Author is missing</span>
@@ -48,7 +54,8 @@ export function Post({ postWithAuthorAndTags, preview = false }: Props) {
               <Link to={`/@${author.username}`} className="underlined appears">
                 <span>{author.name}</span>
               </Link>
-              <button className="underlined appears">Follow</button>
+              {author.id === loggedInUser?.id && <span>Following</span>}
+              {author.id !== loggedInUser?.id && <button className="underlined appears" onClick={onFollowClick}>Follow</button>}
             </div>
             <div className="publication-date-wrapper">
               <PublicationDate publishedAt={post.publishedAt || dayjs().toISOString()}/>-<span>Public</span>

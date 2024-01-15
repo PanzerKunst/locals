@@ -14,12 +14,12 @@ import { BottomRightInfoSnackbar } from "../../_CommonComponents/Snackbar/Bottom
 
 export function AccountSection() {
   const appContext = useAppContext()
-  const { loggedInUser } = appContext
+  const loggedInUser = appContext.loggedInUser!.user
 
-  const [nameField, setNameField] = useState<Field>({ value: loggedInUser?.name || "", error: "" })
-  const [emailField, setEmailField] = useState<Field>({ value: loggedInUser?.email || "", error: "" })
+  const [nameField, setNameField] = useState<Field>({ value: loggedInUser.name || "", error: "" })
+  const [emailField, setEmailField] = useState<Field>({ value: loggedInUser.email || "", error: "" })
 
-  const [username, setUsername] = useState(loggedInUser?.username || "")
+  const [username, setUsername] = useState(loggedInUser.username || "")
   const debouncedUsername = useDebounce(username, 300)
   const [usernameFieldError, setUsernameFieldError] = useState("")
   const [isCheckingUsernameAvailability, setIsCheckingUsernameAvailability] = useState(false)
@@ -38,7 +38,7 @@ export function AccountSection() {
 
     setUsernameFieldError("")
 
-    if (!isUsernameInputValid() || debouncedUsername === loggedInUser?.username) {
+    if (!isUsernameInputValid() || debouncedUsername === loggedInUser.username) {
       setIsCheckingUsernameAvailability(false)
       return
     }
@@ -135,7 +135,7 @@ export function AccountSection() {
     setIsSubmittingForm(true)
 
     await updateUser(appContext, {
-      ...loggedInUser!,
+      ...loggedInUser,
       name: nameField.value,
       email: emailField.value,
       username: debouncedUsername

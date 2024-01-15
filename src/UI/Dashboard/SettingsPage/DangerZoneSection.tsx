@@ -19,14 +19,10 @@ const modalMotionVariants = {
 
 export function DangerZoneSection() {
   const navigate = useNavigate()
-  const { loggedInUser } = useAppContext()
+  const loggedInUser = useAppContext().loggedInUser!.user
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
 
   const handleConfirmDeleteClick = async () => {
-    if (!loggedInUser) {
-      return
-    }
-
     await deleteUser(loggedInUser)
     setIsDeleteDialogOpen(false)
     navigate(`/?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.SIGN_OUT}`)
