@@ -7,6 +7,7 @@ import { LikesCommentsShare } from "./LikesCommentsShare.tsx"
 import { PublicationDate } from "./PublicationDate.tsx"
 import { TaggedArtists } from "./TaggedArtists.tsx"
 import { useAppContext } from "../../../AppContext.tsx"
+import { storeUserFollowingAuthor } from "../../../Data/Backend/Apis/UserFollowingAuthorsApi.ts"
 import { PostWithTags } from "../../../Data/Backend/Models/PostWithTags.ts"
 import { config } from "../../../config.ts"
 import { FadeIn } from "../FadeIn.tsx"
@@ -29,7 +30,11 @@ export function Post({ postWithAuthorAndTags, preview = false }: Props) {
   const viewportWidthMd = parseInt(s.vwMd || "")
 
   const onFollowClick = () => {
-    // TODO
+    if (!loggedInUser || !author) {
+      return
+    }
+    
+    void storeUserFollowingAuthor(loggedInUser, author)
   }
 
   if (!author) {
@@ -55,7 +60,7 @@ export function Post({ postWithAuthorAndTags, preview = false }: Props) {
                 <span>{author.name}</span>
               </Link>
               {author.id === loggedInUser?.id && <span>Following</span>}
-              {author.id !== loggedInUser?.id && <button className="underlined appears" onClick={onFollowClick}>Follow</button>}
+              {loggedInUser && loggedInUser.id !== author.id && <button className="underlined appears" onClick={onFollowClick}>Follow</button>}
             </div>
             <div className="publication-date-wrapper">
               <PublicationDate publishedAt={post.publishedAt || dayjs().toISOString()}/>-<span>Public</span>
