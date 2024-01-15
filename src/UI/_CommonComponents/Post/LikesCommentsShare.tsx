@@ -1,21 +1,19 @@
 import { faComment, faHeart } from "@fortawesome/free-regular-svg-icons"
 import { faLink } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import classNames from "classnames"
 
 import "./LikesCommentsShare.scss"
 
 type Props = {
   disabled?: boolean;
-  className?: string;
 }
 
-export function LikesCommentsShare({ disabled = false, className = "" }: Props) {
+export function LikesCommentsShare({ disabled = false }: Props) {
   const likesCount = 199
   const commentsCount = 12
 
   return (
-    <div className={classNames("likes-comments-share", className)}>
+    <div className="likes-comments-share">
       <button className="button transparent rounded" disabled={disabled}>
         <FontAwesomeIcon icon={faHeart}/>
         <span>{likesCount}</span>

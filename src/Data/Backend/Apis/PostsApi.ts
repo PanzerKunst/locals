@@ -8,66 +8,6 @@ import { Artist } from "../Models/Artist.ts"
 import { Post } from "../Models/Post.ts"
 import { PostWithTags } from "../Models/PostWithTags.ts"
 
-export async function fetchPostOfId(id: number): Promise<PostWithTags | undefined> {
-  const result = await fetch(`${config.BACKEND_URL}/post/${id}`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" }
-  })
-
-  if (!result.ok) {
-    throw new Error(`Error while fetching post of id ${id}`)
-  }
-
-  return result.status === httpStatusCode.NO_CONTENT
-    ? undefined
-    : await result.json() as PostWithTags
-}
-
-export async function fetchPostOfUserAndSlug(username: string, slug: string): Promise<PostWithTags | undefined> {
-  const result = await fetch(`${config.BACKEND_URL}/post/${username}/${slug}`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" }
-  })
-
-  if (!result.ok) {
-    throw new Error(`Error while fetching post of user ${username} and slug ${slug}`)
-  }
-
-  return result.status === httpStatusCode.NO_CONTENT
-    ? undefined
-    : await result.json() as PostWithTags
-}
-
-export async function fetchPostsByUsername(username: string, fromDate: Date): Promise<PostWithTags[]> {
-  const queryParams = { from: fromDate.toISOString() }
-
-  const result = await fetch(`${config.BACKEND_URL}/posts/user/${username}?${qs.stringify(queryParams)}`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" }
-  })
-
-  if (!result.ok) {
-    throw new Error(`Error while fetching posts for username ${username}`)
-  }
-
-  return await result.json() as PostWithTags[]
-}
-
-export async function fetchPostsTaggingArtist(tagName: string, fromDate: Date): Promise<PostWithTags[]> {
-  const queryParams = { from: fromDate.toISOString() }
-
-  const result = await fetch(`${config.BACKEND_URL}/posts/artist/${tagName}?${qs.stringify(queryParams)}`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" }
-  })
-
-  if (!result.ok) {
-    throw new Error(`Error while fetching posts for artist ${tagName}`)
-  }
-
-  return await result.json() as PostWithTags[]
-}
-
 export async function storePost(
   appContext: AppContextType,
   title: string,
@@ -157,4 +97,79 @@ export async function deletePost(post: Post): Promise<void> {
   if (!result.ok) {
     throw new Error(`Error while delete post of ID ${post.id}`)
   }
+}
+
+export async function fetchPostOfId(id: number): Promise<PostWithTags | undefined> {
+  const result = await fetch(`${config.BACKEND_URL}/post/${id}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  })
+
+  if (!result.ok) {
+    throw new Error(`Error while fetching post of id ${id}`)
+  }
+
+  return result.status === httpStatusCode.NO_CONTENT
+    ? undefined
+    : await result.json() as PostWithTags
+}
+
+export async function fetchPostOfUserAndSlug(username: string, slug: string): Promise<PostWithTags | undefined> {
+  const result = await fetch(`${config.BACKEND_URL}/post/${username}/${slug}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  })
+
+  if (!result.ok) {
+    throw new Error(`Error while fetching post of user ${username} and slug ${slug}`)
+  }
+
+  return result.status === httpStatusCode.NO_CONTENT
+    ? undefined
+    : await result.json() as PostWithTags
+}
+
+export async function fetchPostsByUsername(username: string, fromDate: Date): Promise<PostWithTags[]> {
+  const queryParams = { from: fromDate.toISOString() }
+
+  const result = await fetch(`${config.BACKEND_URL}/posts/user/${username}?${qs.stringify(queryParams)}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  })
+
+  if (!result.ok) {
+    throw new Error(`Error while fetching posts for username ${username}`)
+  }
+
+  return await result.json() as PostWithTags[]
+}
+
+export async function fetchPostsTaggingArtist(tagName: string, fromDate: Date): Promise<PostWithTags[]> {
+  const queryParams = { from: fromDate.toISOString() }
+
+  const result = await fetch(`${config.BACKEND_URL}/posts/artist/${tagName}?${qs.stringify(queryParams)}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  })
+
+  if (!result.ok) {
+    throw new Error(`Error while fetching posts for artist ${tagName}`)
+  }
+
+  return await result.json() as PostWithTags[]
+}
+
+export async function fetchHomepagePostsForUserId(userId: number, fromDate: Date): Promise<PostWithTags[]> {
+  const queryParams = { from: fromDate.toISOString() }
+
+  const result = await fetch(`${config.BACKEND_URL}/posts/home/${userId}?${qs.stringify(queryParams)}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  })
+
+  if (!result.ok) {
+    throw new Error(`Error while fetching homepage posts for user ID ${userId}`)
+  }
+
+  return await result.json() as PostWithTags[]
 }

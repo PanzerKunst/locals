@@ -20,33 +20,98 @@ article.post {
   }
 
   > .metadata {
-    font-size: variable-font(16, 20);
+    display: flex;
+    flex-direction: column;
+
+    font-size: $variable-font-size-xs;
     color: $color-text-offset;
 
-    > div {
-      display: flex;
+    @include vw(lg) {
+      flex-direction: row;
       justify-content: space-between;
       align-items: center;
     }
 
-    .likes-comments-share {
-      &.desktop-only {
+    > .author-and-publication-date {
+      display: flex;
+      align-items: center;
+      gap: 0.7em;
+
+      img {
+        @include img-size(40px);
+        @include vw(lg) {
+          @include img-size(44px);
+        }
+      }
+
+      > div {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3em;
+
+        > div {
+          display: flex;
+          align-items: center;
+
+          &.author-and-follow {
+            gap: 1.5em;
+
+            // stylelint-disable-next-line max-nesting-depth
+            > button {
+              font-size: $variable-font-size-xs;
+            }
+          }
+
+          &.publication-date-wrapper {
+            gap: 1em;
+          }
+        }
+      }
+    }
+
+    > .likes-comments-share,
+    > ul.artist-tags {
+      display: none;
+    }
+
+    .likes-comments-share > .button.transparent.rounded {
+      font-size: $variable-font-size-xs;
+
+      &:first-of-type {
+        margin-left: -0.7em;
+      }
+
+      > svg {
+        @include img-size(20px);
+      }
+
+      @include vw(lg) {
+        &:first-of-type {
+          margin-left: unset;
+        }
+
+        > svg {
+          @include img-size(24px);
+        }
+      }
+    }
+
+    > .mobile-only {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      margin-top: 2vmax;
+    }
+
+    @include vw(lg) {
+      > .likes-comments-share,
+      > ul.artist-tags {
+        display: unset;
+      }
+
+      > .mobile-only {
         display: none;
-      }
-
-      @include vw(md) {
-        &.mobile-only {
-          display: none;
-        }
-
-        &.desktop-only {
-          display: block;
-        }
-      }
-
-      &.mobile-only {
-        justify-content: flex-start;
-        margin-left: -0.6em;
       }
     }
   }

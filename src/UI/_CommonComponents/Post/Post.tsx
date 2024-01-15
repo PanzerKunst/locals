@@ -1,6 +1,7 @@
 import classNames from "classnames"
 import dayjs from "dayjs"
 import _isEmpty from "lodash/isEmpty"
+import { Link } from "react-router-dom"
 
 import { LikesCommentsShare } from "./LikesCommentsShare.tsx"
 import { PublicationDate } from "./PublicationDate.tsx"
@@ -38,13 +39,30 @@ export function Post({ postWithAuthorAndTags, preview = false }: Props) {
       )}
 
       <FadeIn className="metadata container">
-        <div>
-          <PublicationDate publishedAt={post.publishedAt || dayjs().toISOString()}/>
-          <LikesCommentsShare disabled={preview} className="desktop-only"/>
-          <TaggedArtists taggedArtists={taggedArtists}/>
+        <div className="author-and-publication-date">
+          <Link to={`/@${author.username}`}>
+            <img src={author.avatarUrl} alt="Author's avatar"/>
+          </Link>
+          <div>
+            <div className="author-and-follow">
+              <Link to={`/@${author.username}`} className="underlined appears">
+                <span>{author.name}</span>
+              </Link>
+              <button className="underlined appears">Follow</button>
+            </div>
+            <div className="publication-date-wrapper">
+              <PublicationDate publishedAt={post.publishedAt || dayjs().toISOString()}/>-<span>Public</span>
+            </div>
+          </div>
         </div>
 
-        <LikesCommentsShare disabled={preview} className="mobile-only"/>
+        <LikesCommentsShare disabled={preview}/>
+        <TaggedArtists taggedArtists={taggedArtists}/>
+
+        <div className="mobile-only">
+          <LikesCommentsShare disabled={preview}/>
+          <TaggedArtists taggedArtists={taggedArtists}/>
+        </div>
       </FadeIn>
 
       <FadeIn className={classNames("hero", { container: viewportWidth >= viewportWidthMd })}>

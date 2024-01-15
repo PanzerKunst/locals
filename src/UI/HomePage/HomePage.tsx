@@ -2,20 +2,20 @@ import { ReactNode } from "react"
 import { useQuery } from "react-query"
 import { useNavigate } from "react-router-dom"
 
-import { CircularLoader } from "./_CommonComponents/CircularLoader.tsx"
-import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
-import { useAppContext } from "../AppContext.tsx"
-import { fetchUser } from "../Data/Backend/Apis/UsersApi.ts"
-import { getAccessToken, redirectToAuthCodeFlow } from "../Data/Spotify/Apis/AuthApi.ts"
-import { fetchProfile } from "../Data/Spotify/Apis/ProfileApi.ts"
-import { appUrlQueryParam } from "../Util/AppUrlQueryParams.ts"
-import { getUrlQueryParam } from "../Util/BrowserUtils.ts"
-import { saveSpotifyProfileInSession } from "../Util/SessionStorage.ts"
+import { HomepageContent } from "./HomepageContent.tsx"
+import { useAppContext } from "../../AppContext.tsx"
+import { fetchUser } from "../../Data/Backend/Apis/UsersApi.ts"
+import { getAccessToken, redirectToAuthCodeFlow } from "../../Data/Spotify/Apis/AuthApi.ts"
+import { fetchProfile } from "../../Data/Spotify/Apis/ProfileApi.ts"
+import { appUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
+import { getUrlQueryParam } from "../../Util/BrowserUtils.ts"
+import { saveSpotifyProfileInSession } from "../../Util/SessionStorage.ts"
+import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 
 export function HomePage() {
   const navigate = useNavigate()
   const appContext = useAppContext()
-  const { spotifyApiAccessToken, loggedInUser } = appContext
+  const { spotifyApiAccessToken } = appContext
 
   const spotifyApiErrorFromUrl = getUrlQueryParam(appUrlQueryParam.SPOTIFY_CALLBACK_ERROR) // /spotify-callback?error=access_denied
 
@@ -76,16 +76,12 @@ export function HomePage() {
     return renderContents(<></>)
   }
 
-  return renderContents(
-    <FadeIn>
-      <h1>Welcome back, {loggedInUser?.name}!</h1>
-    </FadeIn>
-  )
+  return renderContents(<HomepageContent/>)
 
   function renderContents(children: ReactNode) {
     return (
-      <div className="page home">
-        <main className="container">
+      <div className="page home no-top-margin-on-mobile">
+        <main>
           {children}
         </main>
       </div>

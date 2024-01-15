@@ -62,7 +62,7 @@ export function PreviewPostPage() {
     <>
       <Post postWithAuthorAndTags={postQuery.data!} preview/>
 
-      <FadeIn className="action-buttons">
+      <FadeIn className="container action-buttons">
         <button className="underlined disappears" onClick={handleEditClick}>Edit</button>
 
         <AnimatedButton className="filling">
@@ -79,7 +79,7 @@ export function PreviewPostPage() {
   function renderContents(children: ReactNode) {
     return (
       <div className="page preview-post">
-        <main className="container">
+        <main>
           {children}
         </main>
       </div>

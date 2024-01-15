@@ -26,8 +26,6 @@ a.button:not([role="tab"]) {
   min-width: $min-button-size;
 
   color: $color-btn-text;
-
-  transition: opacity #{$animation-duration-sm}s ease;
 }
 
 button.button:not(.icon-only),
@@ -37,7 +35,7 @@ a.button:not(.icon-only) {
   background-position: left center;
   background-repeat: no-repeat;
 
-  transition: all #{$animation-duration-sm}s ease; // background-size color opacity translateY
+  transition: all #{$animation-duration-sm}s ease; // background-size color translateY
 
   font-size: $variable-font-size-sm;
   font-weight: 400;
@@ -77,10 +75,10 @@ a.button:not(.icon-only) {
     border-radius: 1.2em;
   }
 
-  &.spotify {
+  /* &.spotify {
     color: $color-btn-text;
     background: $color-btn-bg-spotify;
-  }
+  } */
 
   > span {
     padding-block: 0.35em 0.4em;
