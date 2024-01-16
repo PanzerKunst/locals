@@ -1,7 +1,13 @@
+import { AppContextType } from "../../../AppContext.tsx"
 import { config } from "../../../config.ts"
 import { User } from "../Models/User.ts"
+import { UserWithFollowedArtistsAndAuthors } from "../Models/UserWithFollowedArtistsAndAuthors.ts"
 
-export async function storeUserFollowingAuthor(user: User, followedAuthor: User): Promise<User[]> {
+export async function storeUserFollowingAuthor(
+  appContext: AppContextType,
+  user: User,
+  followedAuthor: User
+): Promise<UserWithFollowedArtistsAndAuthors> {
   const result = await fetch(`${config.BACKEND_URL}/userFollowingAuthor`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -15,5 +21,9 @@ export async function storeUserFollowingAuthor(user: User, followedAuthor: User)
     throw new Error("Error while storing userFollowingAuthors")
   }
 
-  return await result.json() as User[]
+  const userWithFollowedArtistsAndAuthors = await result.json() as UserWithFollowedArtistsAndAuthors
+
+  appContext.setLoggedInUser(userWithFollowedArtistsAndAuthors)
+
+  return userWithFollowedArtistsAndAuthors
 }

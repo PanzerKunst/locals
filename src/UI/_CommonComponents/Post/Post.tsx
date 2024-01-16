@@ -25,7 +25,10 @@ type Props = {
 export function Post({ postWithAuthorAndTags, preview = false }: Props) {
   const { post, author, taggedArtists } = postWithAuthorAndTags
 
-  const loggedInUser = useAppContext().loggedInUser?.user
+  const appContext = useAppContext()
+  const loggedInUser = appContext.loggedInUser?.user
+  const loggedInUserFollowedAuthors = appContext.loggedInUser?.followedAuthors || []
+
   const viewportWidth = useViewportSize().width
   const viewportWidthMd = parseInt(s.vwMd || "")
 
@@ -34,12 +37,14 @@ export function Post({ postWithAuthorAndTags, preview = false }: Props) {
       return
     }
     
-    void storeUserFollowingAuthor(loggedInUser, author)
+    void storeUserFollowingAuthor(appContext, loggedInUser, author)
   }
 
   if (!author) {
     return <span>ERROR: Author is missing</span>
   }
+
+  const isFollowingAuthor = author.id === loggedInUser?.id || loggedInUserFollowedAuthors.some(followedAuthor => followedAuthor.id === author.id)
 
   return (
     <article className="post">
@@ -59,8 +64,8 @@ export function Post({ postWithAuthorAndTags, preview = false }: Props) {
               <Link to={`/@${author.username}`} className="underlined appears">
                 <span>{author.name}</span>
               </Link>
-              {author.id === loggedInUser?.id && <span>Following</span>}
-              {loggedInUser && loggedInUser.id !== author.id && <button className="underlined appears" onClick={onFollowClick}>Follow</button>}
+              {isFollowingAuthor && <span>Following</span>}
+              {loggedInUser && !isFollowingAuthor && <button className="underlined appears" onClick={onFollowClick}>Follow</button>}
             </div>
             <div className="publication-date-wrapper">
               <PublicationDate publishedAt={post.publishedAt || dayjs().toISOString()}/>-<span>Public</span>
