@@ -13,7 +13,7 @@ import { useAppContext } from "../AppContext.tsx"
 import { changePostPublicationSettings, fetchPostOfId } from "../Data/Backend/Apis/PostsApi.ts"
 import { getPostPath } from "../Data/Backend/BackendUtils.ts"
 import { AccessTier } from "../Data/Backend/Models/Post.ts"
-import { appUrlQueryParam } from "../Util/AppUrlQueryParams.ts"
+import { AppUrlQueryParam } from "../Util/AppUrlQueryParams.ts"
 import { isOnlyDigitsAndNotEmpty } from "../Util/ValidationUtils.ts"
 
 import "./PublishPage.scss"
@@ -31,7 +31,7 @@ export function PublishPage() {
 
   useEffect(() => {
     if (!loggedInUser) {
-      navigate(`/?${appUrlQueryParam.ACCESS_ERROR}`, { replace: true })
+      navigate(`/?${AppUrlQueryParam.ACCESS_ERROR}`, { replace: true })
     }
   }, [loggedInUser, navigate])
 

@@ -15,6 +15,7 @@ import { ActionableChipList } from "./_CommonComponents/ActionableChipList.tsx"
 import { AnimatedButton } from "./_CommonComponents/AnimatedButton.tsx"
 import { useHeaderTitle } from "./_CommonComponents/AppHeader/AppHeader.ts"
 import { ButtonLoader } from "./_CommonComponents/ButtonLoader.tsx"
+import { CircularLoader } from "./_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
 import { SelectList } from "./_CommonComponents/SelectList.tsx"
 import { InputTooltip } from "./_CommonComponents/Tooltip/InputTooltip.tsx"
@@ -26,14 +27,13 @@ import { fetchPostOfId, storePost, updatePost } from "../Data/Backend/Apis/Posts
 import { Artist } from "../Data/Backend/Models/Artist.ts"
 import { PostWithTags } from "../Data/Backend/Models/PostWithTags.ts"
 import { searchArtists } from "../Data/Spotify/Apis/SearchApi.ts"
-import { appUrlQueryParam } from "../Util/AppUrlQueryParams.ts"
 import { scrollIntoView } from "../Util/BrowserUtils.ts"
 import { isEditorEmpty } from "../Util/QuillUtils.ts"
 import { useDebounce } from "../Util/ReactUtils.ts"
 import { getPostWithTagsFromSession, savePostWithTagsInSession } from "../Util/SessionStorage.ts"
 import { Field, isBase64, isOnlyDigitsAndNotEmpty } from "../Util/ValidationUtils.ts"
 import { config } from "../config.ts"
-import { CircularLoader } from "./_CommonComponents/CircularLoader.tsx"
+import { AppUrlQueryParam } from "../Util/AppUrlQueryParams.ts"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./ComposePage.scss"
@@ -75,7 +75,7 @@ export function ComposePage() {
 
   useEffect(() => {
     if (!appContext.loggedInUser) {
-      navigate(`/?${appUrlQueryParam.ACCESS_ERROR}`, { replace: true })
+      navigate(`/?${AppUrlQueryParam.ACCESS_ERROR}`, { replace: true })
     }
   }, [appContext.loggedInUser, navigate])
 

@@ -7,7 +7,7 @@ import { CircularLoader } from "./_CommonComponents/CircularLoader.tsx"
 import { PostSnippet } from "./_CommonComponents/PostSnippet.tsx"
 import { useAppContext } from "../AppContext.tsx"
 import { fetchPostsByUsername, fetchPostsTaggingArtist } from "../Data/Backend/Apis/PostsApi.ts"
-import { appUrlQueryParam } from "../Util/AppUrlQueryParams.ts"
+import { AppUrlQueryParam } from "../Util/AppUrlQueryParams.ts"
 
 export function AtTagPage() {
   const navigate = useNavigate()
@@ -21,7 +21,7 @@ export function AtTagPage() {
 
   useEffect(() => {
     if (!loggedInUser) {
-      navigate(`/?${appUrlQueryParam.ACCESS_ERROR}`, { replace: true })
+      navigate(`/?${AppUrlQueryParam.ACCESS_ERROR}`, { replace: true })
     }
   }, [loggedInUser, navigate])
 

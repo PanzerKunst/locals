@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 
 import { useAppContext } from "../../AppContext.tsx"
 import { fetchPostsByUsername } from "../../Data/Backend/Apis/PostsApi.ts"
-import { appUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
+import { AppUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
 import { useHeaderTitle } from "../_CommonComponents/AppHeader/AppHeader.ts"
 import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 import { PostSnippet } from "../_CommonComponents/PostSnippet.tsx"
@@ -20,7 +20,7 @@ export function MyPostsPage() {
 
   useEffect(() => {
     if (!loggedInUser) {
-      navigate(`/?${appUrlQueryParam.ACCESS_ERROR}`, { replace: true })
+      navigate(`/?${AppUrlQueryParam.ACCESS_ERROR}`, { replace: true })
     }
   }, [loggedInUser, navigate])
 

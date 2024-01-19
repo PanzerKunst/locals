@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 
 import { LandingPageHero } from "./LandingPageHero.tsx"
 import { useAppContext } from "../../AppContext.tsx"
-import { actionsFromAppUrl, appUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
+import { ActionsFromAppUrl, AppUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
 import { getUrlQueryParam } from "../../Util/BrowserUtils.ts"
 import { savePostWithTagsInSession } from "../../Util/SessionStorage.ts"
 import { AnimatedButton } from "../_CommonComponents/AnimatedButton.tsx"
@@ -14,10 +14,10 @@ import "./LandingPage.scss"
 
 export function LandingPage() {
   const { setSpotifyApiAccessToken, setSpotifyApiRefreshToken, setLoggedInUser } = useAppContext()
-  const actionFromUrl = getUrlQueryParam(appUrlQueryParam.ACTION)
+  const actionFromUrl = getUrlQueryParam(AppUrlQueryParam.ACTION)
 
   useEffect(() => {
-    if (actionFromUrl === actionsFromAppUrl.SIGN_OUT) {
+    if (actionFromUrl === ActionsFromAppUrl.SIGN_OUT) {
       savePostWithTagsInSession(undefined)
 
       setSpotifyApiAccessToken(undefined)
@@ -26,7 +26,7 @@ export function LandingPage() {
     }
   }, [actionFromUrl, setLoggedInUser, setSpotifyApiAccessToken, setSpotifyApiRefreshToken])
 
-  const spotifyCallbackErrorFromUrl = getUrlQueryParam(appUrlQueryParam.SPOTIFY_CALLBACK_ERROR)
+  const spotifyCallbackErrorFromUrl = getUrlQueryParam(AppUrlQueryParam.SPOTIFY_CALLBACK_ERROR)
 
   return (
     <div className="page landing">

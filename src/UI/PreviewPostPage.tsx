@@ -8,7 +8,7 @@ import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
 import { Post } from "./_CommonComponents/Post/Post.tsx"
 import { useAppContext } from "../AppContext.tsx"
 import { fetchPostOfId } from "../Data/Backend/Apis/PostsApi.ts"
-import { appUrlQueryParam } from "../Util/AppUrlQueryParams.ts"
+import { AppUrlQueryParam } from "../Util/AppUrlQueryParams.ts"
 import { getPostWithTagsFromSession, savePostWithTagsInSession } from "../Util/SessionStorage.ts"
 
 import "./PreviewPostPage.scss"
@@ -21,7 +21,7 @@ export function PreviewPostPage() {
 
   useEffect(() => {
     if (!loggedInUser) {
-      navigate(`/?${appUrlQueryParam.ACCESS_ERROR}`, { replace: true })
+      navigate(`/?${AppUrlQueryParam.ACCESS_ERROR}`, { replace: true })
     }
   }, [loggedInUser, navigate])
 

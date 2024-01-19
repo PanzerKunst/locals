@@ -1,0 +1,11 @@
+@import "/src/UI/_CommonStyles/colors";
+
+.page.settings {
+  h2 {
+    margin-bottom: 0.5em;
+  }
+
+  .MuiSnackbar-root.app-snackbar > svg {
+    color: $color-icon-success;
+  }
+}

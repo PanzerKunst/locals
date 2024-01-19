@@ -5,9 +5,9 @@ import { Link, useLocation, useNavigate } from "react-router-dom"
 import { faArrowRightFromBracket, faHouse, faPencil, faSliders, faXmark } from "@fortawesome/free-solid-svg-icons"
 
 import { useAppContext } from "../../../AppContext.tsx"
-import { actionsFromAppUrl, appUrlQueryParam } from "../../../Util/AppUrlQueryParams.ts"
 import { useViewportSize } from "../../../Util/BrowserUtils.ts"
 import { Menu } from "../Menu.tsx"
+import { ActionsFromAppUrl, AppUrlQueryParam } from "../../../Util/AppUrlQueryParams.ts"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./AppHeader.scss"
@@ -153,7 +153,7 @@ export function AppHeader() {
             </li>
           ) : (
             <li role="link" onClick={() => {
-              navigate("/posts")
+              navigate("/dashboard")
               setIsMenuOpen(false)
             }}>
               <FontAwesomeIcon icon={faHouse} />
@@ -175,7 +175,7 @@ export function AppHeader() {
             <span>Settings</span>
           </li>
           <li role="link" onClick={() => {
-            navigate(`/?${appUrlQueryParam.ACTION}=${actionsFromAppUrl.SIGN_OUT}`)
+            navigate(`/?${AppUrlQueryParam.ACTION}=${ActionsFromAppUrl.SIGN_OUT}`)
             setIsMenuOpen(false)
           }}>
             <FontAwesomeIcon icon={faArrowRightFromBracket}/>

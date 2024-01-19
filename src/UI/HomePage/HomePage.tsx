@@ -7,7 +7,7 @@ import { useAppContext } from "../../AppContext.tsx"
 import { fetchUser } from "../../Data/Backend/Apis/UsersApi.ts"
 import { getAccessToken, redirectToAuthCodeFlow } from "../../Data/Spotify/Apis/AuthApi.ts"
 import { fetchProfile } from "../../Data/Spotify/Apis/ProfileApi.ts"
-import { appUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
+import { AppUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
 import { getUrlQueryParam } from "../../Util/BrowserUtils.ts"
 import { saveSpotifyProfileInSession } from "../../Util/SessionStorage.ts"
 import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
@@ -17,15 +17,15 @@ export function HomePage() {
   const appContext = useAppContext()
   const { spotifyApiAccessToken } = appContext
 
-  const spotifyApiErrorFromUrl = getUrlQueryParam(appUrlQueryParam.SPOTIFY_CALLBACK_ERROR) // /spotify-callback?error=access_denied
+  const spotifyApiErrorFromUrl = getUrlQueryParam(AppUrlQueryParam.SPOTIFY_CALLBACK_ERROR) // /spotify-callback?error=access_denied
 
   if (spotifyApiErrorFromUrl) {
     // `navigate` doesn't work here
-    document.location.replace(`/?${appUrlQueryParam.SPOTIFY_CALLBACK_ERROR}=${spotifyApiErrorFromUrl}`)
+    document.location.replace(`/?${AppUrlQueryParam.SPOTIFY_CALLBACK_ERROR}=${spotifyApiErrorFromUrl}`)
     return renderContents(<></>)
   }
 
-  const spotifyApiCodeFromUrl = getUrlQueryParam(appUrlQueryParam.SPOTIFY_CALLBACK_CODE)
+  const spotifyApiCodeFromUrl = getUrlQueryParam(AppUrlQueryParam.SPOTIFY_CALLBACK_CODE)
 
   const shouldRedirectToAuth = !spotifyApiAccessToken && !spotifyApiCodeFromUrl
 
