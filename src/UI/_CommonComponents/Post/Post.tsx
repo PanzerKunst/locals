@@ -41,7 +41,7 @@ export function Post({ postWithAuthorAndTags, preview = false }: Props) {
   }
 
   if (!author) {
-    return <span className="error">ERROR: Author is missing</span>
+    return <span className="danger">ERROR: Author is missing</span>
   }
 
   const isFollowingAuthor = author.id === loggedInUser?.id || loggedInUserFollowedAuthors.some(followedAuthor => followedAuthor.id === author.id)

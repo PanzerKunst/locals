@@ -156,7 +156,7 @@ export function RegisterPage() {
   }
 
   if (favouriteSpotifyArtistsQuery.isError) {
-    return renderContents(<span className="error">Error fetching data</span>)
+    return renderContents(<span className="danger">Error fetching data</span>)
   }
 
   function isEmailFieldValid(): boolean {

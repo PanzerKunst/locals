@@ -24,7 +24,7 @@ export function HomepageContent() {
   }
 
   if (homepagePostsQuery.isError) {
-    return <span className="error">Error fetching data</span>
+    return <span className="danger">Error fetching data</span>
   }
 
   if (homepagePostsQuery.data!.length === 0) {

@@ -40,7 +40,7 @@ export function AtTagPage() {
   )
 
   if (_isEmpty(usernameOrArtistTag)) {
-    return renderContents(<span className="error">Invalid url</span>)
+    return renderContents(<span className="danger">Invalid url</span>)
   }
 
   if (postsByUserQuery.isLoading || postsTaggingArtistQuery.isLoading) {
@@ -48,7 +48,7 @@ export function AtTagPage() {
   }
 
   if (postsByUserQuery.isError || postsTaggingArtistQuery.isError) {
-    return renderContents(<span className="error">Error fetching data</span>)
+    return renderContents(<span className="danger">Error fetching data</span>)
   }
 
   if (postsByUserQuery.data!.length === 0 && postsTaggingArtistQuery.data!.length === 0) {

@@ -63,7 +63,7 @@ export function HomePage() {
   }
 
   if (spotifyAccessTokenQuery.isError || spotifyProfileQuery.isError || userQuery.isError) {
-    return renderContents(<span className="error">Error fetching data</span>)
+    return renderContents(<span className="danger">Error fetching data</span>)
   }
 
   if (!userQuery.data) {

@@ -19,7 +19,7 @@ export function PostPage() {
   )
 
   if (_isEmpty(username) || _isEmpty(slug)) {
-    return renderContents(<span className="error">Invalid url</span>)
+    return renderContents(<span className="danger">Invalid url</span>)
   }
 
   if (postQuery.isLoading) {
@@ -27,7 +27,7 @@ export function PostPage() {
   }
 
   if (postQuery.isError) {
-    return renderContents(<span className="error">Error fetching data</span>)
+    return renderContents(<span className="danger">Error fetching data</span>)
   }
 
   return renderContents(

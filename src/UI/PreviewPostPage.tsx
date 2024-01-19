@@ -37,7 +37,7 @@ export function PreviewPostPage() {
   }
 
   if (postQuery.isError) {
-    return renderContents(<span className="error">Error fetching data</span>)
+    return renderContents(<span className="danger">Error fetching data</span>)
   }
 
   const { post } = postQuery.data!
