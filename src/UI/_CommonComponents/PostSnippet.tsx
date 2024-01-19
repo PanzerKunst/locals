@@ -42,7 +42,7 @@ export function PostSnippet({ postWithAuthorAndTags }: Props) {
   }
 
   if (!post) {
-    return undefined
+    return <li>ERROR: Post is undefined</li>
   }
 
   const handleUnpublishClick = async () => {
@@ -78,11 +78,11 @@ export function PostSnippet({ postWithAuthorAndTags }: Props) {
 
       <div className={classNames("metadata", { container: viewportWidth <= viewportWidthMd })}>
         <div>
-          <Link to={`/@${author.username}`}>
-            <img src={author.avatarUrl} alt="Author's avatar"/>
+          <Link to={!author.isDeleted ? `/@${author.username}` : "#"}>
+            <img src={!author.isDeleted ? author.avatarUrl : "/images/deleted-user-avatar.png"} alt="Author's avatar"/>
           </Link>
-          <Link to={`/@${author.username}`} className="underlined appears">
-            <span>{author.name}</span>
+          <Link to={!author.isDeleted ? `/@${author.username}` : "#"} className="underlined appears">
+            <span>{!author.isDeleted ? author.name : "Deleted User"}</span>
           </Link>
           <PublicationDate publishedAt={post.publishedAt || dayjs().toISOString()}/>
         </div>

@@ -1,7 +1,15 @@
 @import "../mixins";
 
 :root {
-  // TODO --variant-solidBg: #{$color-input-bg}; // stylelint-disable-line
+  --joy-palette-danger-500: #{$color-danger};
+  --joy-palette-success-solidBg: #{$color-green}; // stylelint-disable-line
+  --variant-softColor: #{$color-primary-dark}; // stylelint-disable-line
+  --variant-softActiveColor: #{$color-primary-light}; // stylelint-disable-line
+  --variant-softBg: #{$color-radio-bg}; // stylelint-disable-line
+  --variant-softHoverBg: #{$color-radio-bg-hover};  // stylelint-disable-line
+  --variant-softActiveBg: #{$color-radio-bg-hover};  // stylelint-disable-line
+
+  /* --Radio-size: 1.2em;  // stylelint-disable-line */
 }
 
 .MuiModal-root {
@@ -51,8 +59,22 @@
 }
 
 .MuiCheckbox-root {
-  > .MuiCheckbox-checkbox.Mui-checked {
-    background-color: $color-checkbox-bg;
+  align-items: center;
+
+  > .MuiCheckbox-checkbox {
+    --Checkbox-size: 28px;  // stylelint-disable-line
+
+    > svg {
+      font-size: 28px;
+    }
+  }
+}
+
+.MuiRadioGroup-root.MuiRadioGroup-variantPlain {
+  margin: 0;
+
+  > .MuiRadio-root {
+    --Radio-size: 28px;  // stylelint-disable-line
   }
 }
 

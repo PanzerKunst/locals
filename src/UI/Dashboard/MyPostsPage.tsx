@@ -36,7 +36,7 @@ export function MyPostsPage() {
   }
 
   if (userPostsQuery.isError) {
-    return renderContents(<span>Error fetching data</span>)
+    return renderContents(<span className="error">Error fetching data</span>)
   }
 
   if (userPostsQuery.data!.length === 0) {

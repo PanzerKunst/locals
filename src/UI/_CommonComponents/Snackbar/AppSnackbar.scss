@@ -20,19 +20,11 @@
   &.MuiSnackbar-colorNeutral {
     background-color: $color-app-bg;
     color: $color-text;
-
-    > .icon-only {
-      color: $color-icon-dark;
-    }
   }
 
   &.MuiSnackbar-colorDanger,
   &.MuiSnackbar-colorSuccess {
-    a {
-      color: $color-text-negative;
-    }
-
-    > .icon-only {
+    > svg {
       color: $color-icon-light;
     }
   }

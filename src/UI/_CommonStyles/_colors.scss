@@ -19,16 +19,12 @@ $color-greyscale-7: rgb(202 202 202); // #CACACA
 $color-greyscale-8: rgb(238 238 238); // #EEEEEE
 $color-greyscale-9: rgb(247 247 247); // #F7F7F7
 $color-greyscale-3-opacity-50pc: color.adjust($color-greyscale-3, $alpha: -0.5);
-
-/* $color-primary: rgb(199 49 25); // #C73119
-$color-primary-dark: rgb(192 24 18); // #C01812
-$color-primary-light: rgb(205 64 30); // #CD401E */
-
 $color-primary: rgb(194 31 88); // #C21F58
 $color-primary-dark: rgb(168 13 67); // #A80D43
 $color-primary-light: rgb(219 48 108); // #DB306C
 $color-green: rgb(31 193 31); // #1FC11F
 $color-green-spotify: rgb(30 215 96); // #1ed760
+$color-red: rgb(243 24 24); // #F31818
 
 // Functional colors, to use in the rest of the app
 $color-actionable-chip-bg: $color-greyscale-8;
@@ -45,7 +41,7 @@ $color-btn-bg-spotify: $color-green-spotify;
 $color-btn-bg-transparent-hover: $color-greyscale-8;
 $color-btn-text: $color-white;
 $color-btn-text-pre-filled: $color-primary;
-$color-checkbox-bg: $color-primary;
+$color-danger: $color-red;
 $color-darkened-image-filter: $color-black-opacity-50pc;
 $color-drop-shadow: $color-black-opacity-5pc;
 $color-drop-shadow-all-around: $color-black-opacity-10pc;
@@ -64,9 +60,11 @@ $color-input-placeholder: $color-greyscale-6;
 $color-link: $color-greyscale-3;
 $color-list-item-bg: $color-input-bg;
 $color-list-item-bg-hover: $color-greyscale-9;
-$color-menu-item-bg-hover: $color-greyscale-8;
 $color-loader: $color-primary;
+$color-menu-item-bg-hover: $color-greyscale-8;
 $color-offset-bg: $color-greyscale-9;
+$color-radio-bg: $color-input-bg;
+$color-radio-bg-hover: $color-greyscale-7;
 $color-text: $color-greyscale-3;
 $color-text-photo-caption: $color-greyscale-4;
 $color-text-negative: $color-white;

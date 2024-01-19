@@ -54,4 +54,12 @@
   p.fetching-message {
     margin-bottom: 0.5em;
   }
+
+  section.bordered {
+    border: 1px solid $color-border;
+    border-radius: $border-radius-lg;
+
+    font-size: $variable-font-size-sm;
+    padding: 1em;
+  }
 }

@@ -22,7 +22,7 @@ export function ErrorSnackbar({ message }: Props) {
         <span>An error occured</span>
         <p className="offset">{message}</p>
       </div>
-      <button className="button icon-only" onClick={() => setIsOpen(false)}>
+      <button className="button icon-only light" onClick={() => setIsOpen(false)}>
         <FontAwesomeIcon icon={faXmark} />
       </button>
     </AppSnackbar>

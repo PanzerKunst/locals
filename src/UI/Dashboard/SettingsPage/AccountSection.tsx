@@ -3,7 +3,7 @@ import classNames from "classnames"
 import { ChangeEvent, useEffect, useState } from "react"
 
 import { useAppContext } from "../../../AppContext.tsx"
-import { checkUsernameAvailability, updateUser } from "../../../Data/Backend/Apis/UsersApi.ts"
+import { checkEmailAvailability, checkUsernameAvailability, updateUser } from "../../../Data/Backend/Apis/UsersApi.ts"
 import { scrollIntoView } from "../../../Util/BrowserUtils.ts"
 import { useDebounce } from "../../../Util/ReactUtils.ts"
 import { Field, isValidEmail, isValidUsername } from "../../../Util/ValidationUtils.ts"
@@ -17,7 +17,11 @@ export function AccountSection() {
   const loggedInUser = appContext.loggedInUser!.user
 
   const [nameField, setNameField] = useState<Field>({ value: loggedInUser.name || "", error: "" })
-  const [emailField, setEmailField] = useState<Field>({ value: loggedInUser.email || "", error: "" })
+
+  const [email, setEmail] = useState(loggedInUser.email || "")
+  const debouncedEmail = useDebounce(email, 300)
+  const [emailFieldError, setEmailFieldError] = useState("")
+  const [isCheckingEmailAvailability, setIsCheckingEmailAvailability] = useState(false)
 
   const [username, setUsername] = useState(loggedInUser.username || "")
   const debouncedUsername = useDebounce(username, 300)
@@ -29,6 +33,24 @@ export function AccountSection() {
   const [hasSaved, setHasSaved] = useState(false)
 
   useEffect(() => {
+    async function performEmailAvailabilityCheck() {
+      setIsCheckingEmailAvailability(true)
+      const isAvailable = await checkEmailAvailability(debouncedEmail)
+      setIsCheckingEmailAvailability(false)
+      setEmailFieldError(isAvailable ? "" : "Email is not available")
+    }
+
+    setEmailFieldError("")
+
+    if (!isEmailFieldValid() || debouncedEmail === loggedInUser.email) {
+      setIsCheckingEmailAvailability(false)
+      return
+    }
+
+    void performEmailAvailabilityCheck()
+  }, [debouncedEmail]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
     async function performUsernameAvailabilityCheck() {
       setIsCheckingUsernameAvailability(true)
       const isAvailable = await checkUsernameAvailability(debouncedUsername)
@@ -38,7 +60,7 @@ export function AccountSection() {
 
     setUsernameFieldError("")
 
-    if (!isUsernameInputValid() || debouncedUsername === loggedInUser.username) {
+    if (!isUsernameFieldValid() || debouncedUsername === loggedInUser.username) {
       setIsCheckingUsernameAvailability(false)
       return
     }
@@ -46,7 +68,7 @@ export function AccountSection() {
     void performUsernameAvailabilityCheck()
   }, [debouncedUsername]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  function isNameInputValid(): boolean {
+  function isNameFieldValid(): boolean {
     const name = nameField.value
 
     if (name === "") {
@@ -58,17 +80,15 @@ export function AccountSection() {
     return true
   }
 
-  function isEmailInputValid(): boolean {
-    const email = emailField.value
-
-    if (email === "") {
-      setEmailField({ value: email, error: "Please input your email" })
+  function isEmailFieldValid(): boolean {
+    if (debouncedEmail === "") {
+      setEmailFieldError("Please input your email address")
       scrollIntoView(document.querySelector("#email"))
       return false
     }
 
-    if (!isValidEmail(email)) {
-      setEmailField({ value: email, error: "Invalid email, sorry" })
+    if (!isValidEmail(debouncedEmail)) {
+      setEmailFieldError("Invalid email, sorry")
       scrollIntoView(document.querySelector("#email"))
       return false
     }
@@ -76,7 +96,7 @@ export function AccountSection() {
     return true
   }
 
-  function isUsernameInputValid(): boolean {
+  function isUsernameFieldValid(): boolean {
     if (debouncedUsername === "") {
       setUsernameFieldError("Please input your username")
       scrollIntoView(document.querySelector("#username"))
@@ -93,7 +113,7 @@ export function AccountSection() {
   }
 
   function isFormValid(): boolean {
-    return isNameInputValid() && isEmailInputValid() && isUsernameInputValid()
+    return isNameFieldValid() && isEmailFieldValid() && isUsernameFieldValid()
   }
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -106,16 +126,12 @@ export function AccountSection() {
   }
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target
-
-    setEmailField({
-      value,
-      error: "" // We reset any eventual errors
-    })
+    setEmail(event.target.value)
+    // Error reset done in `useEffect`
   }
 
   const handleEmailBlur = () => {
-    isEmailInputValid()
+    isEmailFieldValid()
   }
 
   const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -124,7 +140,7 @@ export function AccountSection() {
   }
 
   const handleUsernameBlur = () => {
-    isUsernameInputValid()
+    isUsernameFieldValid()
   }
 
   const handleFormSubmit = async () => {
@@ -137,7 +153,7 @@ export function AccountSection() {
     await updateUser(appContext, {
       ...loggedInUser,
       name: nameField.value,
-      email: emailField.value,
+      email: debouncedEmail,
       username: debouncedUsername
     })
 
@@ -165,17 +181,18 @@ export function AccountSection() {
       </FadeIn>
 
       <FadeIn>
-        <FormControl error={emailField.error !== ""} id="email">
+        <FormControl error={emailFieldError !== ""} id="email">
           <FormLabel>E-mail</FormLabel>
           <Input
             variant="soft"
             size="lg"
             placeholder="chris@hello.net"
-            value={emailField.value}
+            value={email}
             onChange={handleEmailChange}
             onBlur={handleEmailBlur}
+            endDecorator={isCheckingEmailAvailability && <CircularLoader/>}
           />
-          {emailField.error !== "" && <FormHelperText>{emailField.error}</FormHelperText>}
+          {emailFieldError !== "" && <FormHelperText>{emailFieldError}</FormHelperText>}
         </FormControl>
       </FadeIn>
 
@@ -198,7 +215,7 @@ export function AccountSection() {
       <FadeIn className="wrapper-next-button">
         <button
           className={classNames("button filled", { loading: isSubmittingForm })}
-          disabled={emailField.error !== "" || usernameFieldError !== ""}
+          disabled={emailFieldError !== "" || usernameFieldError !== ""}
           // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onClick={handleFormSubmit}
         >

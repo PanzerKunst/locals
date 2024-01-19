@@ -17,11 +17,9 @@ export const appUrlQueryParam: AppUrlQueryParam = {
 type ActionsFromAppUrl = {
   readonly SIGN_OUT: string;
   readonly REGISTRATION_SUCCESS: string;
-  readonly PUBLICATION_SUCCESS: string;
 }
 
 export const actionsFromAppUrl: ActionsFromAppUrl = {
   SIGN_OUT: "sign_out",
   REGISTRATION_SUCCESS: "registration_success",
-  PUBLICATION_SUCCESS: "publication_success"
 }

@@ -1,0 +1,25 @@
+@import "/src/UI/_CommonStyles/numbers";
+
+.page.publish {
+  .section-wrapper {
+    h2 {
+      font-size: $variable-font-size-md;
+      margin-bottom: 0.5em;
+    }
+
+    &:not(:last-of-type) {
+      margin-bottom: 5vmax;
+    }
+  }
+
+  .action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: $default-field-gap;
+
+    > a.underlined {
+      font-size: $variable-font-size-sm;
+    }
+  }
+}

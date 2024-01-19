@@ -53,17 +53,12 @@ article.post {
           display: flex;
           align-items: center;
 
-          &.author-and-follow {
-            gap: 1.5em;
-
-            // stylelint-disable-next-line max-nesting-depth
-            > button {
-              font-size: $variable-font-size-xs;
-            }
+          &.author-and-follow > button {
+            font-size: $variable-font-size-xs;
           }
 
-          &.publication-date-wrapper {
-            gap: 1em;
+          > .separator {
+            margin-inline: 0.7em;
           }
         }
       }

@@ -41,7 +41,7 @@ export function Post({ postWithAuthorAndTags, preview = false }: Props) {
   }
 
   if (!author) {
-    return <span>ERROR: Author is missing</span>
+    return <span className="error">ERROR: Author is missing</span>
   }
 
   const isFollowingAuthor = author.id === loggedInUser?.id || loggedInUserFollowedAuthors.some(followedAuthor => followedAuthor.id === author.id)
@@ -56,19 +56,24 @@ export function Post({ postWithAuthorAndTags, preview = false }: Props) {
 
       <FadeIn className="metadata container">
         <div className="author-and-publication-date">
-          <Link to={`/@${author.username}`}>
-            <img src={author.avatarUrl} alt="Author's avatar"/>
+          <Link to={!author.isDeleted ? `/@${author.username}` : "#"}>
+            <img src={!author.isDeleted ? author.avatarUrl : "/images/deleted-user-avatar.png"} alt="Author's avatar"/>
           </Link>
           <div>
             <div className="author-and-follow">
-              <Link to={`/@${author.username}`} className="underlined appears">
-                <span>{author.name}</span>
+              <Link to={!author.isDeleted ? `/@${author.username}` : "#"} className="underlined appears">
+                <span>{!author.isDeleted ? author.name : "Deleted User"}</span>
               </Link>
+
+              <span className="separator">·</span>
+
               {isFollowingAuthor && <span>Following</span>}
-              {loggedInUser && !isFollowingAuthor && <button className="underlined appears" onClick={onFollowClick}>Follow</button>}
+              {loggedInUser && !isFollowingAuthor && !author.isDeleted && (
+                <button className="underlined appears" onClick={onFollowClick}>Follow</button>
+              )}
             </div>
             <div className="publication-date-wrapper">
-              <PublicationDate publishedAt={post.publishedAt || dayjs().toISOString()}/>-<span>Public</span>
+              <PublicationDate publishedAt={post.publishedAt || dayjs().toISOString()}/><span className="separator">·</span><span>Public</span>
             </div>
           </div>
         </div>

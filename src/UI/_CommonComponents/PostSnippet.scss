@@ -59,11 +59,11 @@ li.post-snippet {
       justify-content: space-between;
 
       > a {
-        &:first-of-type > img {
-          @include img-size(45px);
+        > img {
+          @include img-size(40px);
         }
 
-        &:nth-of-type(2) > span {
+        > span {
           text-transform: uppercase;
         }
       }
@@ -76,8 +76,8 @@ li.post-snippet {
         justify-content: flex-start;
 
         > a {
-          &:first-of-type > img {
-            @include img-size(55px);
+          > img {
+            @include img-size(44px);
           }
 
           &:nth-of-type(2) {

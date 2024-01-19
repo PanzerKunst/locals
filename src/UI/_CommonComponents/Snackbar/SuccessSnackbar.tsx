@@ -22,7 +22,7 @@ export function SuccessSnackbar({ children }: Props) {
       <div>
         {children}
       </div>
-      <button className="button icon-only" onClick={() => setIsOpen(false)}>
+      <button className="button icon-only light" onClick={() => setIsOpen(false)}>
         <FontAwesomeIcon icon={faXmark} />
       </button>
     </AppSnackbar>

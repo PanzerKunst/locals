@@ -1,4 +1,5 @@
 import _last from "lodash/last"
+import qs from "qs"
 
 import { fetchArtistOfTagName } from "./ArtistsApi.ts"
 import { AppContextType } from "../../../AppContext.tsx"
@@ -13,7 +14,9 @@ export async function fetchUser(
   appContext: AppContextType,
   spotifyUserProfile: SpotifyUserProfile
 ): Promise<UserWithFollowedArtistsAndAuthors | undefined> {
-  const result = await fetch(`${config.BACKEND_URL}/user/spotifyId/${spotifyUserProfile.id}`, {
+  const queryParams = { spotifyId: spotifyUserProfile.id }
+
+  const result = await fetch(`${config.BACKEND_URL}/user?${qs.stringify(queryParams)}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" }
   })
@@ -38,13 +41,30 @@ export async function checkUsernameAvailability(username: string): Promise<boole
     return false
   }
 
-  const result = await fetch(`${config.BACKEND_URL}/user/username/${username}`, {
+  const queryParams = { username }
+
+  const result = await fetch(`${config.BACKEND_URL}/user?${qs.stringify(queryParams)}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" }
   })
 
   if (!result.ok) {
     throw new Error("Error while checking username availability")
+  }
+
+  return result.status === httpStatusCode.NO_CONTENT
+}
+
+export async function checkEmailAvailability(email: string): Promise<boolean> {
+  const queryParams = { email }
+
+  const result = await fetch(`${config.BACKEND_URL}/user?${qs.stringify(queryParams)}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  })
+
+  if (!result.ok) {
+    throw new Error("Error while checking email availability")
   }
 
   return result.status === httpStatusCode.NO_CONTENT

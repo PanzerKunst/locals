@@ -5,10 +5,7 @@ import { useParams } from "react-router-dom"
 
 import { CircularLoader } from "./_CommonComponents/CircularLoader.tsx"
 import { Post } from "./_CommonComponents/Post/Post.tsx"
-import { SuccessSnackbar } from "./_CommonComponents/Snackbar/SuccessSnackbar.tsx"
 import { fetchPostOfUserAndSlug } from "../Data/Backend/Apis/PostsApi.ts"
-import { actionsFromAppUrl, appUrlQueryParam } from "../Util/AppUrlQueryParams.ts"
-import { getUrlQueryParam } from "../Util/BrowserUtils.ts"
 
 export function PostPage() {
   const { atUsername, slug } = useParams()
@@ -22,7 +19,7 @@ export function PostPage() {
   )
 
   if (_isEmpty(username) || _isEmpty(slug)) {
-    return renderContents(<span>Invalid post url</span>)
+    return renderContents(<span className="error">Invalid url</span>)
   }
 
   if (postQuery.isLoading) {
@@ -30,19 +27,11 @@ export function PostPage() {
   }
 
   if (postQuery.isError) {
-    return renderContents(<span>Error fetching data</span>)
+    return renderContents(<span className="error">Error fetching data</span>)
   }
-
-  const actionFromUrl = getUrlQueryParam(appUrlQueryParam.ACTION)
 
   return renderContents(
     <>
-      {actionFromUrl === actionsFromAppUrl.PUBLICATION_SUCCESS && (
-        <SuccessSnackbar>
-          <span>Publication successful</span>
-        </SuccessSnackbar>
-      )}
-
       {!postQuery.data?.post.publishedAt && <span>Post not found</span>}
       {postQuery.data?.post.publishedAt && <Post postWithAuthorAndTags={postQuery.data} />}
     </>

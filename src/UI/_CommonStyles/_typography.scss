@@ -36,6 +36,10 @@ span {
   &.offset {
     opacity: 0.5;
   }
+
+  &.danger {
+    color: $color-danger;
+  }
 }
 
 p,

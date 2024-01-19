@@ -12,7 +12,7 @@ import { FavouriteArtists } from "./FavouriteArtists.tsx"
 import { useAppContext } from "../../AppContext.tsx"
 import { storeArtists } from "../../Data/Backend/Apis/ArtistsApi.ts"
 import { storeUserFavouriteArtists } from "../../Data/Backend/Apis/UserFavouriteArtistsApi.ts"
-import { checkUsernameAvailability, storeUser } from "../../Data/Backend/Apis/UsersApi.ts"
+import { checkEmailAvailability, checkUsernameAvailability, storeUser } from "../../Data/Backend/Apis/UsersApi.ts"
 import { fetchFavouriteSpotifyArtists } from "../../Data/FrontendHelperApis/UserFavouriteArtistsApi.ts"
 import { searchLocations } from "../../Data/Geoapify/Apis/AutocompleteApi.ts"
 import { GeoapifyFeature } from "../../Data/Geoapify/Models/GeoapifyFeature.ts"
@@ -23,7 +23,7 @@ import { actionsFromAppUrl, appUrlQueryParam } from "../../Util/AppUrlQueryParam
 import { scrollIntoView } from "../../Util/BrowserUtils.ts"
 import { useDebounce } from "../../Util/ReactUtils.ts"
 import { getSpotifyProfileFromSession, saveSpotifyProfileInSession } from "../../Util/SessionStorage.ts"
-import { Field, isValidEmail, isValidUsername } from "../../Util/ValidationUtils.ts"
+import { isValidEmail, isValidUsername } from "../../Util/ValidationUtils.ts"
 import { AnimatedButton } from "../_CommonComponents/AnimatedButton.tsx"
 import { ButtonLoader } from "../_CommonComponents/ButtonLoader.tsx"
 import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
@@ -52,7 +52,11 @@ export function RegisterPage() {
   /* eslint-disable react-hooks/rules-of-hooks */
 
   const [nbShownSteps, setNbShownSteps] = useState(1)
-  const [emailField, setEmailField] = useState<Field>({ value: spotifyProfile.email, error: "" })
+
+  const [email, setEmail] = useState(spotifyProfile.email)
+  const debouncedEmail = useDebounce(email, 300)
+  const [emailFieldError, setEmailFieldError] = useState("")
+  const [isCheckingEmailAvailability, setIsCheckingEmailAvailability] = useState(false)
 
   const [username, setUsername] = useState(spotifyProfile.id)
   const debouncedUsername = useDebounce(username, 300)
@@ -87,6 +91,42 @@ export function RegisterPage() {
   )
 
   useEffect(() => {
+    async function performEmailAvailabilityCheck() {
+      setIsCheckingEmailAvailability(true)
+      const isAvailable = await checkEmailAvailability(debouncedEmail)
+      setIsCheckingEmailAvailability(false)
+      setEmailFieldError(isAvailable ? "" : "Email is not available")
+    }
+
+    setEmailFieldError("")
+
+    if (!isEmailFieldValid()) {
+      setIsCheckingEmailAvailability(false)
+      return
+    }
+
+    void performEmailAvailabilityCheck()
+  }, [debouncedEmail]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    async function performUsernameAvailabilityCheck() {
+      setIsCheckingUsernameAvailability(true)
+      const isAvailable = await checkUsernameAvailability(debouncedUsername)
+      setIsCheckingUsernameAvailability(false)
+      setUsernameFieldError(isAvailable ? "" : "Username is not available")
+    }
+
+    setUsernameFieldError("")
+
+    if (!isUsernameFieldValid()) {
+      setIsCheckingUsernameAvailability(false)
+      return
+    }
+
+    void performUsernameAvailabilityCheck()
+  }, [debouncedUsername]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
     async function performLocationSearch() {
       setIsSearchingLocations(true)
       const searchResults = await searchLocations(debouncedGeolocationQuery)
@@ -104,24 +144,6 @@ export function RegisterPage() {
     void performLocationSearch()
   }, [debouncedGeolocationQuery, selectedGeolocation])
 
-  useEffect(() => {
-    async function performUsernameAvailabilityCheck() {
-      setIsCheckingUsernameAvailability(true)
-      const isAvailable = await checkUsernameAvailability(debouncedUsername)
-      setIsCheckingUsernameAvailability(false)
-      setUsernameFieldError(isAvailable ? "" : "Username is not available")
-    }
-
-    setUsernameFieldError("")
-
-    if (!isUsernameInputValid()) {
-      setIsCheckingUsernameAvailability(false)
-      return
-    }
-
-    void performUsernameAvailabilityCheck()
-  }, [debouncedUsername]) // eslint-disable-line react-hooks/exhaustive-deps
-
   /* eslint-enable react-hooks/rules-of-hooks */
 
   if (favouriteSpotifyArtistsQuery.isLoading) {
@@ -134,20 +156,18 @@ export function RegisterPage() {
   }
 
   if (favouriteSpotifyArtistsQuery.isError) {
-    return renderContents(<span>Error fetching data</span>)
+    return renderContents(<span className="error">Error fetching data</span>)
   }
 
-  function isEmailInputValid(): boolean {
-    const email = emailField.value
-
-    if (email === "") {
-      setEmailField({ value: email, error: "Please input your email" })
+  function isEmailFieldValid(): boolean {
+    if (debouncedEmail === "") {
+      setEmailFieldError("Please input your email address")
       scrollIntoView(document.querySelector("#email"))
       return false
     }
 
-    if (!isValidEmail(email)) {
-      setEmailField({ value: email, error: "Invalid email, sorry" })
+    if (!isValidEmail(debouncedEmail)) {
+      setEmailFieldError("Invalid email, sorry")
       scrollIntoView(document.querySelector("#email"))
       return false
     }
@@ -155,7 +175,7 @@ export function RegisterPage() {
     return true
   }
 
-  function isUsernameInputValid(): boolean {
+  function isUsernameFieldValid(): boolean {
     if (debouncedUsername === "") {
       setUsernameFieldError("Please input your username")
       scrollIntoView(document.querySelector("#username"))
@@ -171,7 +191,7 @@ export function RegisterPage() {
     return true
   }
 
-  function isLocationInputValid(): boolean {
+  function isLocationFieldValid(): boolean {
     if (!selectedGeolocation) {
       setGeolocationFieldError("Please select a location")
       scrollIntoView(document.querySelector("#geolocation"))
@@ -182,7 +202,7 @@ export function RegisterPage() {
   }
 
   function isFormValid(): boolean {
-    return isEmailInputValid() && isUsernameInputValid() && isLocationInputValid()
+    return isEmailFieldValid() && isUsernameFieldValid() && isLocationFieldValid()
   }
 
   const handleToggleFollowingArtist = (spotifyArtist: SpotifyArtist) => {
@@ -204,16 +224,12 @@ export function RegisterPage() {
   }
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target
-
-    setEmailField({
-      value,
-      error: "" // We reset any eventual errors
-    })
+    setEmail(event.target.value)
+    // Error reset done in `useEffect`
   }
 
   const handleEmailBlur = () => {
-    isEmailInputValid()
+    isEmailFieldValid()
   }
 
   const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -222,7 +238,7 @@ export function RegisterPage() {
   }
 
   const handleUsernameBlur = () => {
-    isUsernameInputValid()
+    isUsernameFieldValid()
   }
 
   const handleLocationChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -245,7 +261,7 @@ export function RegisterPage() {
 
     const userWithFollowedArtistsAndAuthors = await storeUser(appContext, {
       ...spotifyProfile,
-      email: emailField.value
+      email: debouncedEmail
     }, debouncedUsername, selectedGeolocation!)
 
     const storedArtistsWithGenres = await storeArtists(favouriteArtists)
@@ -290,17 +306,18 @@ export function RegisterPage() {
         </FadeIn>
 
         <FadeIn>
-          <FormControl error={emailField.error !== ""} id="email">
+          <FormControl error={emailFieldError !== ""} id="email">
             <FormLabel>E-mail</FormLabel>
             <Input
               variant="soft"
               size="lg"
-              placeholder="chris@hello.net"
-              value={emailField.value}
+              placeholder="alex@gmail.com"
+              value={email}
               onChange={handleEmailChange}
               onBlur={handleEmailBlur}
+              endDecorator={isCheckingEmailAvailability && <CircularLoader/>}
             />
-            {emailField.error !== "" && <FormHelperText>{emailField.error}</FormHelperText>}
+            {emailFieldError !== "" && <FormHelperText>{emailFieldError}</FormHelperText>}
           </FormControl>
         </FadeIn>
 
@@ -349,7 +366,7 @@ export function RegisterPage() {
           <AnimatedButton className="filling">
             <button
               className={classNames("button", { "filling loading": isSubmittingForm })}
-              disabled={emailField.error !== "" || usernameFieldError !== "" || geolocationFieldError !== ""}
+              disabled={emailFieldError !== "" || usernameFieldError !== "" || geolocationFieldError !== ""}
               // eslint-disable-next-line @typescript-eslint/no-misused-promises
               onClick={handleFormSubmit}
             >

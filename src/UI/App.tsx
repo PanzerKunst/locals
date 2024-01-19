@@ -10,6 +10,7 @@ import { LandingPage } from "./LandingPage/LandingPage.tsx"
 import { PostPage } from "./PostPage.tsx"
 import { PreviewPostPage } from "./PreviewPostPage.tsx"
 import { PrivacyPolicyPage } from "./PrivacyPolicyPage.tsx"
+import { PublishPage } from "./PublishPage.tsx"
 import { RegisterPage } from "./RegisterPage/RegisterPage.tsx"
 import { Layout } from "./_CommonComponents/Layout.tsx"
 import { AppContextProvider } from "../AppContext.tsx"
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
       { path: "compose", element: <ComposePage /> },
       { path: "compose/preview", element: <PreviewPostPage /> },
       { path: "compose/:postId", element: <ComposePage /> },
+      { path: "publish/:postId", element: <PublishPage /> },
       { path: "posts", element: <MyPostsPage />},
       { path: "settings", element: <SettingsPage />},
       { path: "contact", element: <ContactPage /> },
