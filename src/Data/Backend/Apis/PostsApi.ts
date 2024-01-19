@@ -74,14 +74,15 @@ export async function updatePost(
   return await result.json() as PostWithTags
 }
 
-export async function changePostPublicationStatus(post: Post, isPublish: boolean): Promise<PostWithTags> {
-  const result = await fetch(`${config.BACKEND_URL}/post/${post.id}?publish=${isPublish}`, {
+export async function changePostPublicationSettings(post: Post, isPublishing: boolean): Promise<PostWithTags> {
+  const result = await fetch(`${config.BACKEND_URL}/post/publication?publish=${isPublishing}`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" }
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ post })
   })
 
   if (!result.ok) {
-    throw new Error(`Error while changing publication status for post ${JSON.stringify(post)}`)
+    throw new Error(`Error while changing publication settings for post ${JSON.stringify(post)}`)
   }
 
   return await result.json() as PostWithTags

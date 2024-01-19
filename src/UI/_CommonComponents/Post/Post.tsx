@@ -8,6 +8,7 @@ import { PublicationDate } from "./PublicationDate.tsx"
 import { TaggedArtists } from "./TaggedArtists.tsx"
 import { useAppContext } from "../../../AppContext.tsx"
 import { storeUserFollowingAuthor } from "../../../Data/Backend/Apis/UserFollowingAuthorsApi.ts"
+import { AccessTier } from "../../../Data/Backend/Models/Post.ts"
 import { PostWithTags } from "../../../Data/Backend/Models/PostWithTags.ts"
 import { config } from "../../../config.ts"
 import { FadeIn } from "../FadeIn.tsx"
@@ -72,8 +73,10 @@ export function Post({ postWithAuthorAndTags, preview = false }: Props) {
                 <button className="underlined appears" onClick={onFollowClick}>Follow</button>
               )}
             </div>
-            <div className="publication-date-wrapper">
-              <PublicationDate publishedAt={post.publishedAt || dayjs().toISOString()}/><span className="separator">·</span><span>Public</span>
+            <div>
+              <PublicationDate publishedAt={post.publishedAt || dayjs().toISOString()}/>
+              <span className="separator">·</span>
+              <span>{post.accessTier === AccessTier.PUBLIC ? "Public" : "Premium"}</span>
             </div>
           </div>
         </div>

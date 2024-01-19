@@ -1,8 +1,16 @@
 // Taken by copy/pasting the last part of the bubble when hovering `posts.$inferInsert`
 import { config } from "../../../config.ts"
 
+/* eslint-disable no-unused-vars */
+export enum AccessTier {
+  PUBLIC = 0,
+  PREMIUM = 1,
+}
+/* eslint-enable no-unused-vars */
+
 export type NewPost = {
   userId: number;
+  accessTier: AccessTier;
   content: string;
   title?: string;
   heroImagePath?: string;
@@ -28,7 +36,20 @@ export function isPostCompatible(obj: any): boolean {
   if (!config.IS_PROD) {
     // Get all keys of the object
     const keys = Object.keys(obj)
-    const allowedKeys = ["userId", "content", "title", "heroImagePath", "heroVideoUrl", "id", "createdAt", "updatedAt", "publishedAt", "slug"]
+
+    const allowedKeys = [
+      "userId",
+      "accessTier",
+      "content",
+      "title",
+      "heroImagePath",
+      "heroVideoUrl",
+      "id",
+      "createdAt",
+      "updatedAt",
+      "publishedAt",
+      "slug"
+    ]
 
     // Check for no additional keys
     if (keys.some(key => !allowedKeys.includes(key))) {
@@ -39,6 +60,10 @@ export function isPostCompatible(obj: any): boolean {
   // Check for the existence and type of optional properties
   if (typeof obj.userId !== "number") {
     console.log("Post incompatible: 'typeof obj.userId !== \"number\"'")
+    return false
+  }
+  if (typeof obj.accessTier !== "number") {
+    console.log("Post incompatible: 'typeof obj.accessTier !== \"number\"'")
     return false
   }
   if (typeof obj.content !== "string") {

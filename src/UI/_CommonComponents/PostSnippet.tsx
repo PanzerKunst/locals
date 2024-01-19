@@ -10,7 +10,7 @@ import { Menu } from "./Menu.tsx"
 import { PublicationDate } from "./Post/PublicationDate.tsx"
 import { TaggedArtists } from "./Post/TaggedArtists.tsx"
 import { VideoPlayer } from "./VideoPlayer.tsx"
-import { changePostPublicationStatus, deletePost } from "../../Data/Backend/Apis/PostsApi.ts"
+import { changePostPublicationSettings, deletePost } from "../../Data/Backend/Apis/PostsApi.ts"
 import { getPostPath } from "../../Data/Backend/BackendUtils.ts"
 import { Post } from "../../Data/Backend/Models/Post.ts"
 import { PostWithTags } from "../../Data/Backend/Models/PostWithTags.ts"
@@ -42,12 +42,12 @@ export function PostSnippet({ postWithAuthorAndTags }: Props) {
   }
 
   if (!post) {
-    return <li>ERROR: Post is undefined</li>
+    return undefined // This is intentional
   }
 
   const handleUnpublishClick = async () => {
     setIsMenuOpen(false)
-    await changePostPublicationStatus(post, false)
+    await changePostPublicationSettings(post, false)
     setPost({ ...post, publishedAt: undefined })
   }
 
