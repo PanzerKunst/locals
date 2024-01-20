@@ -108,7 +108,7 @@ export function PublishPage() {
 
         <AnimatedButton className="filling">
           {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-          <button className={classNames("button", { "filling loading": isSubmittingForm })} onClick={handleFormSubmit}>
+          <button className={classNames("button", { "filling loading": isSubmittingForm })} disabled={isSubmittingForm} onClick={handleFormSubmit}>
             {isSubmittingForm && <ButtonLoader/>}
             <span>Publish</span>
           </button>

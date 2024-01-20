@@ -227,7 +227,7 @@ export function MyAccountPage() {
         <FadeIn className="wrapper-next-button">
           <button
             className={classNames("button filled", { loading: isSubmittingForm })}
-            disabled={emailFieldError !== "" || usernameFieldError !== ""}
+            disabled={isSubmittingForm || emailFieldError !== "" || usernameFieldError !== ""}
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onClick={handleFormSubmit}
           >

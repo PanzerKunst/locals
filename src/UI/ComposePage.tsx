@@ -456,7 +456,7 @@ export function ComposePage() {
         <AnimatedButton className="filling">
           <button
             className={classNames("button", { "filling loading": isSubmittingForm })}
-            disabled={tagsError !== "" || titleField.error !== "" || editorError !== ""}
+            disabled={isSubmittingForm || tagsError !== "" || titleField.error !== "" || editorError !== ""}
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onClick={handleFormSubmit}
           >

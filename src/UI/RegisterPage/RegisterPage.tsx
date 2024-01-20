@@ -366,7 +366,7 @@ export function RegisterPage() {
           <AnimatedButton className="filling">
             <button
               className={classNames("button", { "filling loading": isSubmittingForm })}
-              disabled={emailFieldError !== "" || usernameFieldError !== "" || geolocationFieldError !== ""}
+              disabled={isSubmittingForm || emailFieldError !== "" || usernameFieldError !== "" || geolocationFieldError !== ""}
               // eslint-disable-next-line @typescript-eslint/no-misused-promises
               onClick={handleFormSubmit}
             >
