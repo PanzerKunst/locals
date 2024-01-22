@@ -3,7 +3,7 @@ import classNames from "classnames"
 import { ChangeEvent, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-import { SettingsSidebarNav } from "./SettingsSidebarNav.tsx"
+import { SettingsSidebar } from "./SettingsSidebar.tsx"
 import { useAppContext } from "../../AppContext.tsx"
 import { checkEmailAvailability, checkUsernameAvailability, updateUser } from "../../Data/Backend/Apis/UsersApi.ts"
 import { AppUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
@@ -184,7 +184,7 @@ export function MyAccountPage() {
 
   return (
     <div className={classNames("page settings with-sidebar my-account", { "sidebar-hidden": isSidebarHideable && isSidebarHidden })}>
-      <SettingsSidebarNav isSidebarHideable={isSidebarHideable}/>
+      <SettingsSidebar isHideable={isSidebarHideable}/>
       <main className="container">
         <FadeIn>
           <FormControl error={nameField.error !== ""} id="name">

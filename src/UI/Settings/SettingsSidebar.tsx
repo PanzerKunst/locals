@@ -3,22 +3,24 @@ import { useLocation, useNavigate } from "react-router-dom"
 
 import { useAppContext } from "../../AppContext.tsx"
 
+import "./SettingsSidebar.scss"
+
 type Props = {
-  isSidebarHideable: boolean
+  isHideable: boolean
 }
 
-export function SettingsSidebarNav({ isSidebarHideable }: Props) {
+export function SettingsSidebar({ isHideable }: Props) {
   const navigate = useNavigate()
   const location = useLocation()
   const { setIsSidebarHidden } = useAppContext()
 
   const handleClick = (path: string) => {
-    isSidebarHideable && setIsSidebarHidden(true)
+    isHideable && setIsSidebarHidden(true)
     navigate(path)
   }
 
   return (
-    <aside>
+    <aside className="settings-sidebar">
       <nav>
         <ul className="styleless">
           <li>
@@ -26,7 +28,7 @@ export function SettingsSidebarNav({ isSidebarHideable }: Props) {
               className={classNames("button transparent", { active: location.pathname === "/settings" })}
               onClick={() => handleClick("/settings")}
             >
-              My Account
+              <span>My Account</span>
             </button>
           </li>
           <li>
@@ -34,7 +36,7 @@ export function SettingsSidebarNav({ isSidebarHideable }: Props) {
               className={classNames("button transparent", { active: location.pathname === "/settings/my-subscriptions" })}
               onClick={() => handleClick("/settings/my-subscriptions")}
             >
-              Subscriptions
+              <span>Subscriptions</span>
             </button>
           </li>
           <li>
@@ -42,7 +44,7 @@ export function SettingsSidebarNav({ isSidebarHideable }: Props) {
               className={classNames("button transparent", { active: location.pathname === "/settings/danger-zone" })}
               onClick={() => handleClick("/settings/danger-zone")}
             >
-              Danger Zone
+              <span>Danger Zone</span>
             </button>
           </li>
         </ul>

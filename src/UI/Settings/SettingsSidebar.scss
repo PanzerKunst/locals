@@ -1,0 +1,23 @@
+@import "/src/UI/_CommonStyles/mixins";
+
+.settings-sidebar > nav > ul {
+  @include make-all-list-items-same-length;
+
+  width: max-content;
+
+  margin-inline: auto;
+  @include vw(md) {
+    margin-right: $min-content-side-margin;
+  }
+
+  .button.transparent {
+    width: 100%;
+    justify-content: flex-start;
+
+    color: $color-sidebar-link;
+
+    &.active {
+      background-color: $color-sidebar-link-active;
+    }
+  }
+}

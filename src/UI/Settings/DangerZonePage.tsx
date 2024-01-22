@@ -4,7 +4,7 @@ import classNames from "classnames"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-import { SettingsSidebarNav } from "./SettingsSidebarNav.tsx"
+import { SettingsSidebar } from "./SettingsSidebar.tsx"
 import { useAppContext } from "../../AppContext.tsx"
 import { deleteUser } from "../../Data/Backend/Apis/UsersApi.ts"
 import { ActionsFromAppUrl, AppUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
@@ -51,7 +51,7 @@ export function DangerZonePage() {
 
   return (
     <div className={classNames("page settings with-sidebar danger-zone", { "sidebar-hidden": isSidebarHideable && isSidebarHidden })}>
-      <SettingsSidebarNav isSidebarHideable={isSidebarHideable}/>
+      <SettingsSidebar isHideable={isSidebarHideable}/>
       <main className="container">
         <FadeIn className="wrapper-next-button">
           <button className="button filled" onClick={() => setIsDeleteDialogOpen(true)}>

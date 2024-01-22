@@ -152,3 +152,12 @@
     text-align: justify;
   }
 }
+
+@mixin make-all-list-items-same-length {
+  display: flex;
+  flex-direction: column;
+
+  > li {
+    flex-grow: 1;
+  }
+}
