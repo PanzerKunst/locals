@@ -15,7 +15,8 @@
 }
 
 .page {
-  > main {
+  > main,
+  > aside > nav {
     margin-top: 15vmin;
   }
 
@@ -33,6 +34,51 @@
     p {
       font-size: $variable-font-size-md;
       @include justify-text-on-large-screen;
+    }
+  }
+
+  &.with-sidebar {
+    display: flex;
+
+    > aside,
+    > main {
+      flex-grow: 1;
+    }
+
+    // Mobile, sidebar visible
+    > aside {
+      background-color: $color-sidebar-bg;
+    }
+
+    > main {
+      display: none;
+    }
+
+    // Mobile, sidebar hidden
+    &.sidebar-hidden {
+      > aside {
+        display: none;
+      }
+
+      > main {
+        display: unset;
+      }
+    }
+
+    // Desktop, sidebar always visible
+    @include vw(md) {
+      > aside {
+        flex-basis: 25%;
+        flex-grow: 0;
+      }
+
+      > main {
+        display: unset;
+      }
+
+      .container {
+        padding-inline: $min-content-side-margin;
+      }
     }
   }
 

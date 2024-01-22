@@ -28,6 +28,8 @@ export type AppContextType = {
   setLoggedInUser: (userWithFollowedArtistsAndAuthors: UserWithFollowedArtistsAndAuthors | undefined) => void; // eslint-disable-line no-unused-vars
   headerTitle?: string;
   setHeaderTitle: (title: string | undefined) => void; // eslint-disable-line no-unused-vars
+  isSidebarHidden: boolean;
+  setIsSidebarHidden: (isHidden: boolean) => void; // eslint-disable-line no-unused-vars
 }
 
 const AppContext = createContext<AppContextType>({
@@ -35,7 +37,9 @@ const AppContext = createContext<AppContextType>({
   setSpotifyApiAccessToken: () => {},
   setSpotifyApiRefreshToken: () => {},
   setLoggedInUser: () => {},
-  setHeaderTitle: () => {}
+  setHeaderTitle: () => {},
+  isSidebarHidden: false,
+  setIsSidebarHidden: () => {}
 })
 
 type Props = {
@@ -49,6 +53,7 @@ export function AppContextProvider({ children }: Props) {
   const [spotifyApiTokenExpirationDate, setSpotifyApiTokenExpirationDateState] = useState(getSpotifyApiTokenExpirationDateFromLocalStorage())
   const [loggedInUser, setLoggedInUserState] = useState(getLoggedInUserFromLocalStorage())
   const [headerTitle, setHeaderTitle] = useState<string>()
+  const [isSidebarHidden, setIsSidebarHidden] = useState(false)
 
   // Any context variable which isn't of a primitive type (string, number, boolean) should be wrapped in a useCallback to avoid infinite loops
 
@@ -108,9 +113,13 @@ export function AppContextProvider({ children }: Props) {
     },
 
     headerTitle,
-    setHeaderTitle
+    setHeaderTitle,
+
+    isSidebarHidden,
+    setIsSidebarHidden
   }), [
     headerTitle,
+    isSidebarHidden,
     loggedInUser,
     setLoggedInUser,
     setSpotifyApiTokenExpirationDate,

@@ -3,23 +3,31 @@ import classNames from "classnames"
 import { ChangeEvent, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
+import { SettingsSidebarNav } from "./SettingsSidebarNav.tsx"
 import { useAppContext } from "../../AppContext.tsx"
 import { checkEmailAvailability, checkUsernameAvailability, updateUser } from "../../Data/Backend/Apis/UsersApi.ts"
 import { AppUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
-import { scrollIntoView } from "../../Util/BrowserUtils.ts"
+import { scrollIntoView, useViewportSize } from "../../Util/BrowserUtils.ts"
 import { useDebounce } from "../../Util/ReactUtils.ts"
 import { Field, isValidEmail, isValidUsername } from "../../Util/ValidationUtils.ts"
 import { ButtonLoader } from "../_CommonComponents/ButtonLoader.tsx"
 import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 import { BottomRightInfoSnackbar } from "../_CommonComponents/Snackbar/BottomRightInfoSnackbar.tsx"
+import { useHeaderTitle } from "../_CommonComponents/AppHeader/AppHeader.ts"
 
+import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./MyAccountPage.scss"
 
 export function MyAccountPage() {
   const navigate = useNavigate()
   const appContext = useAppContext()
   const loggedInUser = appContext.loggedInUser?.user
+  const { isSidebarHidden } = appContext
+
+  const viewportWidth = useViewportSize().width
+  const viewportWidthMd = parseInt(s.vwMd || "")
+  const isSidebarHideable = viewportWidth < viewportWidthMd
 
   const [nameField, setNameField] = useState<Field>({ value: loggedInUser?.name || "", error: "" })
 
@@ -36,6 +44,8 @@ export function MyAccountPage() {
   const [isSubmittingForm, setIsSubmittingForm] = useState(false)
 
   const [hasSaved, setHasSaved] = useState(false)
+
+  useHeaderTitle(isSidebarHideable && !isSidebarHidden ? "Settings" : "My Account")
 
   useEffect(() => {
     if (!loggedInUser) {
@@ -173,12 +183,9 @@ export function MyAccountPage() {
   }
 
   return (
-    <div className="page settings my-account">
+    <div className={classNames("page settings with-sidebar my-account", { "sidebar-hidden": isSidebarHideable && isSidebarHidden })}>
+      <SettingsSidebarNav isSidebarHideable={isSidebarHideable}/>
       <main className="container">
-        <FadeIn>
-          <h2>Account</h2>
-        </FadeIn>
-
         <FadeIn>
           <FormControl error={nameField.error !== ""} id="name">
             <FormLabel>Name</FormLabel>

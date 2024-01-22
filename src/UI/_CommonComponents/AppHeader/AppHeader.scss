@@ -16,7 +16,7 @@
     padding-inline: $min-content-side-margin;
 
     > .left-image-wrapper {
-      width: 40px;
+      flex-basis: 40px;
     }
 
     > h2 {

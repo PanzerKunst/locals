@@ -1,15 +1,20 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Modal, ModalDialog } from "@mui/joy"
+import classNames from "classnames"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
+import { SettingsSidebarNav } from "./SettingsSidebarNav.tsx"
 import { useAppContext } from "../../AppContext.tsx"
 import { deleteUser } from "../../Data/Backend/Apis/UsersApi.ts"
 import { ActionsFromAppUrl, AppUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 
 import { AnimatePresence, motion } from "framer-motion"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrashCan, faXmark } from "@fortawesome/free-solid-svg-icons"
+
+import { useViewportSize } from "../../Util/BrowserUtils.ts"
+import { useHeaderTitle } from "../_CommonComponents/AppHeader/AppHeader.ts"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 
@@ -20,9 +25,17 @@ const modalMotionVariants = {
 
 export function DangerZonePage() {
   const navigate = useNavigate()
-  const loggedInUser = useAppContext().loggedInUser?.user
+  const appContext = useAppContext()
+  const loggedInUser = appContext.loggedInUser?.user
+  const { isSidebarHidden } = appContext
+
+  const viewportWidth = useViewportSize().width
+  const viewportWidthMd = parseInt(s.vwMd || "")
+  const isSidebarHideable = viewportWidth < viewportWidthMd
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+
+  useHeaderTitle(isSidebarHideable && !isSidebarHidden ? "Settings" : "Danger Zone")
 
   useEffect(() => {
     if (!loggedInUser) {
@@ -37,11 +50,9 @@ export function DangerZonePage() {
   }
 
   return (
-    <div className="page settings danger-zone">
+    <div className={classNames("page settings with-sidebar danger-zone", { "sidebar-hidden": isSidebarHideable && isSidebarHidden })}>
+      <SettingsSidebarNav isSidebarHideable={isSidebarHideable}/>
       <main className="container">
-        <FadeIn>
-          <h2>Danger zone</h2>
-        </FadeIn>
         <FadeIn className="wrapper-next-button">
           <button className="button filled" onClick={() => setIsDeleteDialogOpen(true)}>
             <span>Delete account</span>

@@ -1,13 +1,13 @@
+import { faArrowLeft, faArrowRightFromBracket, faHouse, faPencil, faSliders, faXmark } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import classNames from "classnames"
 import { useEffect, useRef, useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
-import { faArrowRightFromBracket, faHouse, faPencil, faSliders, faXmark } from "@fortawesome/free-solid-svg-icons"
 
 import { useAppContext } from "../../../AppContext.tsx"
+import { ActionsFromAppUrl, AppUrlQueryParam } from "../../../Util/AppUrlQueryParams.ts"
 import { useViewportSize } from "../../../Util/BrowserUtils.ts"
 import { Menu } from "../Menu.tsx"
-import { ActionsFromAppUrl, AppUrlQueryParam } from "../../../Util/AppUrlQueryParams.ts"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./AppHeader.scss"
@@ -19,6 +19,7 @@ let lastScrollY = window.scrollY
 export function AppHeader() {
   const appContext = useAppContext()
   const loggedInUser = appContext.loggedInUser?.user
+  const { isSidebarHidden, setIsSidebarHidden } = appContext
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -124,7 +125,13 @@ export function AppHeader() {
         })}
         style={!isMobile || isLandingPage ? { top: 0 } : { bottom: 0 }}
       >
-        <div className="left-image-wrapper"/>
+        {isMobile && isSidebarHidden ? (
+          <button className="button icon-only" onClick={() => setIsSidebarHidden(false)}>
+            <FontAwesomeIcon icon={faArrowLeft} />
+          </button>
+        ) : (
+          <div className="left-image-wrapper"/>
+        )}
 
         {appContext.headerTitle && <h2>{appContext.headerTitle}</h2>}
 

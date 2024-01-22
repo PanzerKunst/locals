@@ -1,8 +1,20 @@
-@import "/src/UI/_CommonStyles/colors";
+@import "/src/UI/_CommonStyles/mixins";
 
-.page.settings {
-  h2 {
-    margin-bottom: 0.5em;
+.page.settings > main {
+  > .fade-in {
+    @include vw(lg) {
+      max-width: ($vw-sm + $vw-md) / 2;
+      margin-left: 12vw;
+    }
+
+    &.wrapper-next-button {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  .MuiFormControl-root {
+    margin-bottom: 3vmin;
   }
 
   .MuiSnackbar-root.app-snackbar > svg {

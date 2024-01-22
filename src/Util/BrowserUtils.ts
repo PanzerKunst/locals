@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { useLocation } from "react-router-dom"
 
 export function getUrlQueryParam(name: string): string | undefined {
   return new URLSearchParams(window.location.search).get(name) || undefined
@@ -71,4 +72,12 @@ export function isInViewport(element: Element): boolean {
     rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
     rect.right <= (window.innerWidth || document.documentElement.clientWidth)
   )
+}
+
+export function useNavigationEvent(onNavigation: () => void) {
+  const location = useLocation()
+
+  useEffect(() => {
+    onNavigation()
+  }, [location, onNavigation])
 }
