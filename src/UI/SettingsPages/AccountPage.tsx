@@ -19,6 +19,7 @@ import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 import { BottomRightInfoSnackbar } from "../_CommonComponents/Snackbar/BottomRightInfoSnackbar.tsx"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
+import "./AccountPage.scss"
 
 const modalMotionVariants = {
   initial: { opacity: 0 },

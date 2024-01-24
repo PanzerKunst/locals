@@ -4,6 +4,7 @@ import { config } from "../../../config.ts"
 export type NewArtist = {
   spotifyId: string,
   name: string,
+  avatarUrl?: string,
   tagName: string,
 }
 
@@ -24,7 +25,7 @@ export function isArtistCompatible(obj: any): obj is Artist {
   if (!config.IS_PROD) {
     // Get all keys of the object
     const keys = Object.keys(obj)
-    const allowedKeys = ["spotifyId", "name", "tagName", "id", "createdAt", "updatedAt"]
+    const allowedKeys = ["spotifyId", "name", "avatarUrl", "tagName", "id", "createdAt", "updatedAt"]
 
     // Check for no additional keys
     if (keys.some(key => !allowedKeys.includes(key))) {
@@ -39,6 +40,10 @@ export function isArtistCompatible(obj: any): obj is Artist {
   }
   if (typeof obj.name !== "string") {
     console.log("Artist incompatible: 'typeof obj.name !== \"string\"'")
+    return false
+  }
+  if (obj.avatarUrl && typeof obj.avatarUrl !== "string") {
+    console.log("Artist incompatible: 'obj.avatarUrl && typeof obj.avatarUrl !== \"string\"'")
     return false
   }
   if (typeof obj.tagName !== "string") {

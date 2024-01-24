@@ -1,0 +1,27 @@
+@use "sass:math";
+@import "/src/UI/_CommonStyles/mixins";
+
+.page.settings.subscriptions > main {
+  container-type: inline-size;
+
+  > section {
+    container-type: inline-size;
+
+    @include cw(md) {
+      max-width: $vw-md;
+    }
+
+    @include cw(lg) {
+      max-width: $vw-lg;
+    }
+
+    &:not(:first-of-type) {
+      margin-top: 5vmax;
+    }
+
+    > h2 {
+      text-align: center;
+      margin-bottom: 3vmin;
+    }
+  }
+}

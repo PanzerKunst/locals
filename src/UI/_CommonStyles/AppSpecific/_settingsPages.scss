@@ -2,13 +2,9 @@
 @import "/src/UI/_CommonStyles/mixins";
 
 .page.settings > main {
-  container-type: inline-size;
-
-  > section {
-    @include vw(lg) {
-      max-width: math.div($vw-sm + $vw-md, 2);
-      margin-left: 12vw;
-    }
+  > section > h2 {
+    font-size: $variable-font-size-md;
+    margin-bottom: 0.5em;
   }
 
   .button-wrapper {

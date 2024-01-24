@@ -33,8 +33,8 @@ export function SettingsSidebar({ isHideable }: Props) {
           </li>
           <li>
             <button
-              className={classNames("button transparent", { active: location.pathname === "/settings/my-subscriptions" })}
-              onClick={() => handleClick("/settings/my-subscriptions")}
+              className={classNames("button transparent", { active: location.pathname === "/settings/subscriptions" })}
+              onClick={() => handleClick("/settings/subscriptions")}
             >
               <span>Subscriptions</span>
             </button>

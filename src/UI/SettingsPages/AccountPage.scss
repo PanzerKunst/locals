@@ -1,0 +1,13 @@
+@use "sass:math";
+@import "/src/UI/_CommonStyles/mixins";
+
+.page.settings.account > main {
+  container-type: inline-size;
+
+  > section.bordered {
+    @include cw(md) {
+      max-width: math.div($vw-sm + $vw-md, 2);
+      margin-left: 12vw;
+    }
+  }
+}
