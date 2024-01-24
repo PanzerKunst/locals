@@ -1,5 +1,5 @@
-import { useHeaderTitle } from "./_CommonComponents/AppHeader/AppHeader.ts"
-import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
+import { useHeaderTitle } from "../_CommonComponents/AppHeader/AppHeader.ts"
+import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 
 export function PrivacyPolicyPage() {
   useHeaderTitle("Privacy Policy")

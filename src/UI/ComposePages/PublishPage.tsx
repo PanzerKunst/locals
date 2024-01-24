@@ -4,17 +4,17 @@ import { ChangeEvent, ReactNode, useEffect, useState } from "react"
 import { useQuery } from "react-query"
 import { Link, useNavigate, useParams } from "react-router-dom"
 
-import { AnimatedButton } from "./_CommonComponents/AnimatedButton.tsx"
-import { useHeaderTitle } from "./_CommonComponents/AppHeader/AppHeader.ts"
-import { ButtonLoader } from "./_CommonComponents/ButtonLoader.tsx"
-import { CircularLoader } from "./_CommonComponents/CircularLoader.tsx"
-import { FadeIn } from "./_CommonComponents/FadeIn.tsx"
-import { useAppContext } from "../AppContext.tsx"
-import { changePostPublicationSettings, fetchPostOfId } from "../Data/Backend/Apis/PostsApi.ts"
-import { getPostPath } from "../Data/Backend/BackendUtils.ts"
-import { AccessTier } from "../Data/Backend/Models/Post.ts"
-import { AppUrlQueryParam } from "../Util/AppUrlQueryParams.ts"
-import { isOnlyDigitsAndNotEmpty } from "../Util/ValidationUtils.ts"
+import { useAppContext } from "../../AppContext.tsx"
+import { changePostPublicationSettings, fetchPostOfId } from "../../Data/Backend/Apis/PostsApi.ts"
+import { getPostPath } from "../../Data/Backend/BackendUtils.ts"
+import { AccessTier } from "../../Data/Backend/Models/Post.ts"
+import { AppUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
+import { isOnlyDigitsAndNotEmpty } from "../../Util/ValidationUtils.ts"
+import { AnimatedButton } from "../_CommonComponents/AnimatedButton.tsx"
+import { useHeaderTitle } from "../_CommonComponents/AppHeader/AppHeader.ts"
+import { ButtonLoader } from "../_CommonComponents/ButtonLoader.tsx"
+import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
+import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 
 import "./PublishPage.scss"
 
@@ -77,31 +77,27 @@ export function PublishPage() {
 
   return renderContents(
     <>
-      <FadeIn className="section-wrapper">
-        <section className="bordered">
-          <FormControl id="access-tier">
-            <h2>This post is for</h2>
-            <RadioGroup value={accessTier.toString()} name="radio-buttons-group" onChange={handleAccessTierChange}>
-              <Radio value={AccessTier.PUBLIC.toString()} label="Everyone" variant="soft" />
-              <Radio value={AccessTier.PREMIUM.toString()} label="Premium subscribers only" variant="soft" />
-            </RadioGroup>
-          </FormControl>
-        </section>
-      </FadeIn>
+      <section className="bordered">
+        <FormControl id="access-tier">
+          <h2>This post is for</h2>
+          <RadioGroup value={accessTier.toString()} name="radio-buttons-group" onChange={handleAccessTierChange}>
+            <Radio value={AccessTier.PUBLIC.toString()} label="Everyone" variant="soft" />
+            <Radio value={AccessTier.PREMIUM.toString()} label="Premium subscribers only" variant="soft" />
+          </RadioGroup>
+        </FormControl>
+      </section>
 
-      <FadeIn className="section-wrapper">
-        <section className="bordered">
-          <FormControl id="notifications">
-            <h2>Notifications</h2>
-            <Checkbox
-              label="Send via e-mail to subscribers"
-              variant="soft"
-              color="primary"
-              defaultChecked
-            />
-          </FormControl>
-        </section>
-      </FadeIn>
+      <section className="bordered">
+        <FormControl id="notifications">
+          <h2>Notifications</h2>
+          <Checkbox
+            label="Send via e-mail to subscribers"
+            variant="soft"
+            color="primary"
+            defaultChecked
+          />
+        </FormControl>
+      </section>
 
       <FadeIn className="action-buttons">
         <Link to={`/compose/${post.id}`} className="underlined disappears">Edit Post</Link>

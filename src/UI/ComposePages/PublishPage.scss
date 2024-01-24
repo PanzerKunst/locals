@@ -1,22 +1,16 @@
+@import "/src/UI/_CommonStyles/colors";
 @import "/src/UI/_CommonStyles/numbers";
 
-.page.publish {
-  .section-wrapper {
-    h2 {
-      font-size: $variable-font-size-md;
-      margin-bottom: 0.5em;
-    }
+.page.publish > main {
+  container-type: inline-size;
 
-    &:not(:last-of-type) {
-      margin-bottom: 5vmax;
-    }
-  }
-
-  .action-buttons {
+  > .action-buttons {
     display: flex;
     justify-content: flex-end;
     align-items: center;
     gap: $default-field-gap;
+
+    margin-top: 5vmin;
 
     > a.underlined {
       font-size: $variable-font-size-sm;

@@ -102,10 +102,30 @@
   }
 
   section.bordered {
-    border: 1px solid $color-border;
-    border-radius: $border-radius-lg;
-
     font-size: $variable-font-size-sm;
-    padding: 1em;
+
+    &:not(:first-of-type) {
+      margin-top: 5vmax;
+
+      @include cw(sm) {
+        border-top: 1px solid $color-border;
+        padding-top: 5vmax;
+      }
+    }
+
+    @include cw(md) {
+      border: 1px solid $color-border;
+      border-radius: $border-radius-lg;
+      padding: 1em;
+
+      &.danger {
+        border-color: $color-border-danger;
+      }
+    }
+
+    h2 {
+      font-size: $variable-font-size-md;
+      margin-bottom: 0.5em;
+    }
   }
 }

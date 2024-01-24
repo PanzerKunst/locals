@@ -31,6 +31,30 @@
   }
 }
 
+@mixin cw($size) {
+  @if $size == xxl {
+    @container (min-width: #{$vw-xxl}) {
+      @content;
+    }
+  } @else if $size == xl {
+    @container (min-width: #{$vw-xl}) {
+      @content;
+    }
+  } @else if $size == lg {
+    @container (min-width: #{$vw-lg}) {
+      @content;
+    }
+  } @else if $size == md {
+    @container (min-width: #{$vw-md}) {
+      @content;
+    }
+  } @else if $size == sm {
+    @container (max-width: #{$vw-md}) {
+      @content;
+    }
+  }
+}
+
 @mixin drop-shadow($position: bottom) {
   $offset-x: 0;
   $offset-y: 4px;

@@ -122,8 +122,10 @@ export async function updateUser(appContext: AppContextType, user: User): Promis
   return updatedUserWithFollowedArtistsAndAuthors
 }
 
-export async function deleteUser(user: User): Promise<void> {
-  const result = await fetch(`${config.BACKEND_URL}/user`, {
+export async function deleteUser(user: User, shouldAlsoDeletePosts: boolean): Promise<void> {
+  const queryParams = { deletePosts: shouldAlsoDeletePosts }
+
+  const result = await fetch(`${config.BACKEND_URL}/user?${qs.stringify(queryParams)}`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ user })

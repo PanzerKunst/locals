@@ -54,8 +54,17 @@ a.button:not(.icon-only) {
     color: $color-btn-text;
   }
 
+  &.rounded {
+    border-radius: 1.2em;
+  }
+
   &.transparent:not([disabled]):hover {
     background-color: $color-btn-bg-transparent-hover;
+  }
+
+  &.danger {
+    background-image: none;
+    background-color: $color-btn-bg-danger;
   }
 
   /* &.transparent-bordered {
@@ -70,10 +79,6 @@ a.button:not(.icon-only) {
       border-color: transparent;
     }
   } */
-
-  &.rounded {
-    border-radius: 1.2em;
-  }
 
   /* &.spotify {
     color: $color-btn-text;

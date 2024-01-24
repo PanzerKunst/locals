@@ -28,7 +28,7 @@ export function SettingsSidebar({ isHideable }: Props) {
               className={classNames("button transparent", { active: location.pathname === "/settings" })}
               onClick={() => handleClick("/settings")}
             >
-              <span>My Account</span>
+              <span>Account</span>
             </button>
           </li>
           <li>
@@ -37,14 +37,6 @@ export function SettingsSidebar({ isHideable }: Props) {
               onClick={() => handleClick("/settings/my-subscriptions")}
             >
               <span>Subscriptions</span>
-            </button>
-          </li>
-          <li>
-            <button
-              className={classNames("button transparent", { active: location.pathname === "/settings/danger-zone" })}
-              onClick={() => handleClick("/settings/danger-zone")}
-            >
-              <span>Danger Zone</span>
             </button>
           </li>
         </ul>

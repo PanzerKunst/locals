@@ -25,6 +25,7 @@ $color-primary-light: rgb(219 48 108); // #DB306C
 $color-green: rgb(31 193 31); // #1FC11F
 $color-green-spotify: rgb(30 215 96); // #1ed760
 $color-red: rgb(243 24 24); // #F31818
+$color-red-opacity-50pc: color.adjust($color-red, $alpha: -0.5);
 
 // Functional colors, to use in the rest of the app
 $color-actionable-chip-bg: $color-greyscale-8;
@@ -32,7 +33,9 @@ $color-app-bg: $color-white;
 $color-basic-chip-bg: $color-black-opacity-20pc;
 $color-basic-chip-bg-negative: $color-white-opacity-50pc;
 $color-border: $color-greyscale-7;
+$color-border-danger: $color-red-opacity-50pc;
 $color-btn-border: $color-primary;
+$color-btn-bg-danger: $color-red;
 $color-btn-bg-icon-only-dark-hover: $color-black-opacity-5pc;
 $color-btn-bg-icon-only-light-hover: $color-white-opacity-50pc;
 $color-btn-bg-primary-gradient-start: $color-primary-dark;

@@ -1,25 +1,32 @@
-import { FormControl, FormHelperText, FormLabel, Input } from "@mui/joy"
+import { faXmark } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Checkbox, FormControl, FormHelperText, FormLabel, Input, Modal, ModalDialog } from "@mui/joy"
 import classNames from "classnames"
+import { AnimatePresence, motion } from "framer-motion"
 import { ChangeEvent, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
 import { SettingsSidebar } from "./SettingsSidebar.tsx"
 import { useAppContext } from "../../AppContext.tsx"
-import { checkEmailAvailability, checkUsernameAvailability, updateUser } from "../../Data/Backend/Apis/UsersApi.ts"
-import { AppUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
+import { checkEmailAvailability, checkUsernameAvailability, deleteUser, updateUser } from "../../Data/Backend/Apis/UsersApi.ts"
+import { ActionsFromAppUrl, AppUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
 import { scrollIntoView, useViewportSize } from "../../Util/BrowserUtils.ts"
 import { useDebounce } from "../../Util/ReactUtils.ts"
 import { Field, isValidEmail, isValidUsername } from "../../Util/ValidationUtils.ts"
+import { useHeaderTitle } from "../_CommonComponents/AppHeader/AppHeader.ts"
 import { ButtonLoader } from "../_CommonComponents/ButtonLoader.tsx"
 import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
-import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 import { BottomRightInfoSnackbar } from "../_CommonComponents/Snackbar/BottomRightInfoSnackbar.tsx"
-import { useHeaderTitle } from "../_CommonComponents/AppHeader/AppHeader.ts"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
-import "./MyAccountPage.scss"
+import "./AccountPage.scss"
 
-export function MyAccountPage() {
+const modalMotionVariants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 }
+}
+
+export function AccountPage() {
   const navigate = useNavigate()
   const appContext = useAppContext()
   const loggedInUser = appContext.loggedInUser?.user
@@ -28,6 +35,9 @@ export function MyAccountPage() {
   const viewportWidth = useViewportSize().width
   const viewportWidthMd = parseInt(s.vwMd || "")
   const isSidebarHideable = viewportWidth < viewportWidthMd
+
+
+  // Name, username, email
 
   const [nameField, setNameField] = useState<Field>({ value: loggedInUser?.name || "", error: "" })
 
@@ -45,7 +55,13 @@ export function MyAccountPage() {
 
   const [hasSaved, setHasSaved] = useState(false)
 
-  useHeaderTitle(isSidebarHideable && !isSidebarHidden ? "Settings" : "My Account")
+
+  // Danger zone
+
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+  const [shouldAlsoDeletePosts, setShouldAlsoDeletePosts] = useState(false)
+
+  useHeaderTitle(isSidebarHideable && !isSidebarHidden ? "Settings" : "Account")
 
   useEffect(() => {
     if (!loggedInUser) {
@@ -182,11 +198,21 @@ export function MyAccountPage() {
     setHasSaved(true)
   }
 
+  const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setShouldAlsoDeletePosts(event.target.checked)
+  }
+
+  const handleConfirmDeleteClick = async () => {
+    await deleteUser(loggedInUser!, shouldAlsoDeletePosts)
+    setIsDeleteDialogOpen(false)
+    navigate(`/?${AppUrlQueryParam.ACTION}=${ActionsFromAppUrl.SIGN_OUT}`)
+  }
+
   return (
-    <div className={classNames("page settings with-sidebar my-account", { "sidebar-hidden": isSidebarHideable && isSidebarHidden })}>
+    <div className={classNames("page settings with-sidebar account", { "sidebar-hidden": isSidebarHideable && isSidebarHidden })}>
       <SettingsSidebar isHideable={isSidebarHideable}/>
       <main className="container">
-        <FadeIn>
+        <section className="bordered">
           <FormControl error={nameField.error !== ""} id="name">
             <FormLabel>Name</FormLabel>
             <Input
@@ -197,9 +223,7 @@ export function MyAccountPage() {
             />
             {nameField.error !== "" && <FormHelperText>{nameField.error}</FormHelperText>}
           </FormControl>
-        </FadeIn>
 
-        <FadeIn>
           <FormControl error={emailFieldError !== ""} id="email">
             <FormLabel>E-mail</FormLabel>
             <Input
@@ -213,9 +237,7 @@ export function MyAccountPage() {
             />
             {emailFieldError !== "" && <FormHelperText>{emailFieldError}</FormHelperText>}
           </FormControl>
-        </FadeIn>
 
-        <FadeIn>
           <FormControl error={usernameFieldError !== ""} id="username">
             <FormLabel>Username</FormLabel>
             <Input
@@ -229,19 +251,64 @@ export function MyAccountPage() {
             />
             {usernameFieldError !== "" && <FormHelperText>{usernameFieldError}</FormHelperText>}
           </FormControl>
-        </FadeIn>
 
-        <FadeIn className="wrapper-next-button">
-          <button
-            className={classNames("button filled", { loading: isSubmittingForm })}
-            disabled={isSubmittingForm || emailFieldError !== "" || usernameFieldError !== ""}
-            // eslint-disable-next-line @typescript-eslint/no-misused-promises
-            onClick={handleFormSubmit}
-          >
-            {isSubmittingForm && <ButtonLoader/>}
-            <span>Save changes</span>
-          </button>
-        </FadeIn>
+          <div className="button-wrapper">
+            <button
+              className={classNames("button filled", { loading: isSubmittingForm })}
+              disabled={isSubmittingForm || emailFieldError !== "" || usernameFieldError !== ""}
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
+              onClick={handleFormSubmit}
+            >
+              {isSubmittingForm && <ButtonLoader/>}
+              <span>Save changes</span>
+            </button>
+          </div>
+        </section>
+
+        <section className="bordered danger">
+          <h2>Danger Zone</h2>
+
+          <div className="button-wrapper">
+            <button className="button filled danger" onClick={() => setIsDeleteDialogOpen(true)}>
+              <span>Delete account</span>
+            </button>
+          </div>
+        </section>
+
+        <AnimatePresence>
+          {isDeleteDialogOpen && (
+            <Modal open={isDeleteDialogOpen} onClose={() => setIsDeleteDialogOpen(false)}>
+              <motion.div
+                initial={modalMotionVariants.initial}
+                animate={modalMotionVariants.animate}
+                exit={modalMotionVariants.initial}
+                transition={{ duration: Number(s.animationDurationXs) }}
+              >
+                <ModalDialog>
+                  <button className="button icon-only close" aria-label="close" onClick={() => setIsDeleteDialogOpen(false)}>
+                    <FontAwesomeIcon icon={faXmark}/>
+                  </button>
+                  <div>
+                    <span>Are you sure? Deletion is final.</span>
+                    <FormControl id="delete-posts">
+                      <Checkbox
+                        label="Also delete all my posts"
+                        variant="soft"
+                        color="primary"
+                        checked={shouldAlsoDeletePosts}
+                        onChange={handleCheckboxChange}
+                      />
+                    </FormControl>
+                    {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+                    <button className="button filled fixed-height danger" onClick={handleConfirmDeleteClick}>
+                      <span>Delete my account</span>
+                    </button>
+                  </div>
+                </ModalDialog>
+              </motion.div>
+            </Modal>
+          )}
+        </AnimatePresence>
 
         {hasSaved && (
           <BottomRightInfoSnackbar onClose={() => setHasSaved(false)}>
