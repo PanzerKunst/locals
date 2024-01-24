@@ -1,7 +1,7 @@
 import {
   isUserWithFollowedArtistsAndAuthorsCompatible,
   UserWithFollowedArtistsAndAuthors
-} from "../Data/Backend/Models/UserWithFollowedArtistsAndAuthors.ts"
+} from "../Data/Backend/Models/UserWithMore.ts"
 
 export type ContextInLocalStorage = {
   spotifyApiVerifier?: string;

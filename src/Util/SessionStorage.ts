@@ -1,4 +1,4 @@
-import { PostWithTags, isPostWithTagsCompatible } from "../Data/Backend/Models/PostWithTags.ts"
+import { PostWithTags, isPostWithTagsCompatible } from "../Data/Backend/Models/PostWithMore.ts"
 import { SpotifyUserProfile } from "../Data/Spotify/Models/SpotifyUserProfile.ts"
 
 const sessionStorageKeys = {

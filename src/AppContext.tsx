@@ -2,7 +2,7 @@ import dayjs from "dayjs"
 import _isEqual from "lodash/isEqual"
 import { createContext, ReactNode, useCallback, useContext, useMemo, useState } from "react"
 
-import { UserWithFollowedArtistsAndAuthors } from "./Data/Backend/Models/UserWithFollowedArtistsAndAuthors.ts"
+import { UserWithFollowedArtistsAndAuthors } from "./Data/Backend/Models/UserWithMore.ts"
 import {
   getLoggedInUserFromLocalStorage,
   getSpotifyApiAccessTokenFromLocalStorage,

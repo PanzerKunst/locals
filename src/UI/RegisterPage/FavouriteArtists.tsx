@@ -9,7 +9,6 @@ import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 import { TextTooltip } from "../_CommonComponents/Tooltip/TextTooltip.tsx"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
-import "./FavouriteArtists.scss"
 
 const motionVariants = {
   initial: { opacity: 0 },
@@ -59,7 +58,7 @@ export function FavouriteArtists({ isShowingAll = false, favourites, followed, o
   }
 
   return (
-    <ul className="styleless favourite-artists">
+    <ul className="styleless following artists">
       {isTooltipVisible && <TextTooltip onClose={() => setIsTooltipVisible(false)} text="Tap to toggle" />}
       {topArtists.map((spotifyArtist) => {
         const largeImage = spotifyArtist.images[0]
@@ -76,7 +75,7 @@ export function FavouriteArtists({ isShowingAll = false, favourites, followed, o
           >
             <FadeIn>
               {largeImage && <img src={largeImage.url} alt="artist-avatar"/>}
-              <span className="artist-name">{spotifyArtist.name}</span>
+              <span>{spotifyArtist.name}</span>
 
               <AnimatePresence>
                 {isActive && <motion.div

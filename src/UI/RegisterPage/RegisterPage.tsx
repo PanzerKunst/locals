@@ -264,8 +264,7 @@ export function RegisterPage() {
       email: debouncedEmail
     }, debouncedUsername, selectedGeolocation!)
 
-    const storedArtistsWithGenres = await storeArtists(favouriteArtists)
-    const storedArtists = storedArtistsWithGenres.map((artistWithGenres) => artistWithGenres.artist)
+    const storedArtists = await storeArtists(favouriteArtists)
     await storeUserFavouriteArtists(userWithFollowedArtistsAndAuthors.user, storedArtists, followedArtists)
 
     saveSpotifyProfileInSession(undefined)

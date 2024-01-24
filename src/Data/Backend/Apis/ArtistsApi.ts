@@ -2,9 +2,8 @@ import { httpStatusCode } from "../../../Util/HttpUtils.ts"
 import { config } from "../../../config.ts"
 import { SpotifyArtist } from "../../Spotify/Models/SpotifyArtist.ts"
 import { Artist } from "../Models/Artist.ts"
-import { ArtistWithGenres } from "../Models/ArtistWithGenres.ts"
 
-export async function storeArtists(spotifyArtists: SpotifyArtist[]): Promise<ArtistWithGenres[]> {
+export async function storeArtists(spotifyArtists: SpotifyArtist[]): Promise<Artist[]> {
   const result = await fetch(`${config.BACKEND_URL}/artists`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -15,7 +14,7 @@ export async function storeArtists(spotifyArtists: SpotifyArtist[]): Promise<Art
     throw new Error("Error while storing artists")
   }
 
-  return await result.json() as ArtistWithGenres[]
+  return await result.json() as Artist[]
 }
 
 export async function fetchArtistOfTagName(tagName: string): Promise<Artist | undefined> {

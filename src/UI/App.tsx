@@ -10,6 +10,7 @@ import { LandingPage } from "./LandingPage/LandingPage.tsx"
 import { PostPage } from "./PostPage.tsx"
 import { RegisterPage } from "./RegisterPage/RegisterPage.tsx"
 import { AccountPage } from "./SettingsPages/AccountPage.tsx"
+import { SubscriptionsPage } from "./SettingsPages/Subscriptions/SubscriptionsPage.tsx"
 import { ContactPage } from "./SimplePages/ContactPage.tsx"
 import { PrivacyPolicyPage } from "./SimplePages/PrivacyPolicyPage.tsx"
 import { Layout } from "./_CommonComponents/Layout.tsx"
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
       { path: "publish/:postId", element: <PublishPage /> },
       { path: "dashboard", element: <MyPostsPage />},
       { path: "settings", element: <AccountPage />},
+      { path: "settings/subscriptions", element: <SubscriptionsPage />},
       { path: "contact", element: <ContactPage /> },
       { path: "privacy", element: <PrivacyPolicyPage /> },
       { path: ":atUsername/:slug", element: <PostPage /> },

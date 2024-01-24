@@ -1,7 +1,7 @@
 import { AppContextType } from "../../../AppContext.tsx"
 import { config } from "../../../config.ts"
 import { User } from "../Models/User.ts"
-import { UserWithFollowedArtistsAndAuthors } from "../Models/UserWithFollowedArtistsAndAuthors.ts"
+import { UserWithFollowedArtistsAndAuthors } from "../Models/UserWithMore.ts"
 
 export async function storeUserFollowingAuthor(
   appContext: AppContextType,

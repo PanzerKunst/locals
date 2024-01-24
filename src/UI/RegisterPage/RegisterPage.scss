@@ -29,6 +29,10 @@
       margin-top: 5vmin;
     }
 
+    &[data-step="1"] {
+      container-type: inline-size;
+    }
+
     &[data-step="2"] {
       .MuiFormControl-root {
         margin-bottom: $default-field-gap;

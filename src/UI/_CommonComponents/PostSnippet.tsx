@@ -13,7 +13,7 @@ import { VideoPlayer } from "./VideoPlayer.tsx"
 import { changePostPublicationSettings, deletePost } from "../../Data/Backend/Apis/PostsApi.ts"
 import { getPostPath } from "../../Data/Backend/BackendUtils.ts"
 import { Post } from "../../Data/Backend/Models/Post.ts"
-import { PostWithTags } from "../../Data/Backend/Models/PostWithTags.ts"
+import { PostWithTags } from "../../Data/Backend/Models/PostWithMore.ts"
 import { config } from "../../config.ts"
 import { useViewportSize } from "../../Util/BrowserUtils.ts"
 

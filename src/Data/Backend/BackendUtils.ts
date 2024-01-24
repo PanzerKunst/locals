@@ -1,4 +1,4 @@
-import { PostWithTags } from "./Models/PostWithTags.ts"
+import { PostWithTags } from "./Models/PostWithMore.ts"
 
 export function getPostPath(postWithAuthorAndTags: PostWithTags): string {
   const { post, author } = postWithAuthorAndTags

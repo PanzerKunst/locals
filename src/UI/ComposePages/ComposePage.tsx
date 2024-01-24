@@ -25,7 +25,7 @@ import { storeArtists } from "../../Data/Backend/Apis/ArtistsApi.ts"
 import { deleteFile, deleteVideo, uploadBase64Image, uploadFormDataFile } from "../../Data/Backend/Apis/FileApi.ts"
 import { fetchPostOfId, storePost, updatePost } from "../../Data/Backend/Apis/PostsApi.ts"
 import { Artist } from "../../Data/Backend/Models/Artist.ts"
-import { PostWithTags } from "../../Data/Backend/Models/PostWithTags.ts"
+import { PostWithTags } from "../../Data/Backend/Models/PostWithMore.ts"
 import { searchArtists } from "../../Data/Spotify/Apis/SearchApi.ts"
 import { scrollIntoView } from "../../Util/BrowserUtils.ts"
 import { isEditorEmpty } from "../../Util/QuillUtils.ts"
@@ -174,11 +174,13 @@ export function ComposePage() {
   useEffect(() => {
     async function performArtistSearch() {
       setIsSearchingArtists(true)
+
       const queryWithoutAtSign = debouncedArtistQuery.replace("@", "")
       const searchResults = await searchArtists(appContext, queryWithoutAtSign)
-      const matchingArtistsWithGenres = await storeArtists(searchResults)
+      const matchingArtists = await storeArtists(searchResults)
+      setArtistSearchResults(matchingArtists)
+
       setIsSearchingArtists(false)
-      setArtistSearchResults(matchingArtistsWithGenres.map((artistWithGenres) => artistWithGenres.artist))
     }
 
     setArtistSearchResults([])

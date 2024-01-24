@@ -19,7 +19,6 @@ import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 import { BottomRightInfoSnackbar } from "../_CommonComponents/Snackbar/BottomRightInfoSnackbar.tsx"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
-import "./AccountPage.scss"
 
 const modalMotionVariants = {
   initial: { opacity: 0 },
@@ -35,6 +34,8 @@ export function AccountPage() {
   const viewportWidth = useViewportSize().width
   const viewportWidthMd = parseInt(s.vwMd || "")
   const isSidebarHideable = viewportWidth < viewportWidthMd
+
+  const [hasSaved, setHasSaved] = useState(false)
 
 
   // Name, username, email
@@ -52,8 +53,6 @@ export function AccountPage() {
   const [isCheckingUsernameAvailability, setIsCheckingUsernameAvailability] = useState(false)
 
   const [isSubmittingForm, setIsSubmittingForm] = useState(false)
-
-  const [hasSaved, setHasSaved] = useState(false)
 
 
   // Danger zone

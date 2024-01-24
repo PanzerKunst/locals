@@ -6,7 +6,7 @@ import { httpStatusCode } from "../../../Util/HttpUtils.ts"
 import { config } from "../../../config.ts"
 import { Artist } from "../Models/Artist.ts"
 import { Post } from "../Models/Post.ts"
-import { PostWithTags } from "../Models/PostWithTags.ts"
+import { PostWithTags } from "../Models/PostWithMore.ts"
 
 export async function storePost(
   appContext: AppContextType,

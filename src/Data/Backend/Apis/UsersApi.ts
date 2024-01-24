@@ -8,7 +8,7 @@ import { config } from "../../../config.ts"
 import { GeoapifyFeature } from "../../Geoapify/Models/GeoapifyFeature.ts"
 import { SpotifyUserProfile } from "../../Spotify/Models/SpotifyUserProfile.ts"
 import { NewUser, User } from "../Models/User.ts"
-import { UserWithFollowedArtistsAndAuthors } from "../Models/UserWithFollowedArtistsAndAuthors.ts"
+import { UserWithFollowedArtistsAndAuthors } from "../Models/UserWithMore.ts"
 
 export async function fetchUser(
   appContext: AppContextType,
