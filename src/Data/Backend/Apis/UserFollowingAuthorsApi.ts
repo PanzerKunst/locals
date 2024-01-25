@@ -8,7 +8,7 @@ export async function storeUserFollowingAuthor(
   user: User,
   followedAuthor: User
 ): Promise<UserWithFollowedArtistsAndAuthors> {
-  const result = await fetch(`${config.BACKEND_URL}/userFollowingAuthor`, {
+  const result = await fetch(`${config.BACKEND_URL}/followingAuthor`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -26,4 +26,21 @@ export async function storeUserFollowingAuthor(
   appContext.setLoggedInUser(userWithFollowedArtistsAndAuthors)
 
   return userWithFollowedArtistsAndAuthors
+}
+
+export async function updateFollowedAuthors(user: User, followedAuthors: User[]): Promise<User[]> {
+  const result = await fetch(`${config.BACKEND_URL}/followedAuthors`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      user,
+      followedAuthors
+    })
+  })
+
+  if (!result.ok) {
+    throw new Error("Error while updating followed authors")
+  }
+
+  return await result.json() as User[]
 }

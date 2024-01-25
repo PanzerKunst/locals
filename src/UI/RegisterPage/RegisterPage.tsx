@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom"
 import { FavouriteArtists } from "./FavouriteArtists.tsx"
 import { useAppContext } from "../../AppContext.tsx"
 import { storeArtists } from "../../Data/Backend/Apis/ArtistsApi.ts"
-import { storeUserFavouriteArtists } from "../../Data/Backend/Apis/UserFavouriteArtistsApi.ts"
+import { storeFavouriteArtists } from "../../Data/Backend/Apis/UserFavouriteArtistsApi.ts"
 import { checkEmailAvailability, checkUsernameAvailability, storeUser } from "../../Data/Backend/Apis/UsersApi.ts"
 import { fetchFavouriteSpotifyArtists } from "../../Data/FrontendHelperApis/UserFavouriteArtistsApi.ts"
 import { searchLocations } from "../../Data/Geoapify/Apis/AutocompleteApi.ts"
@@ -265,7 +265,7 @@ export function RegisterPage() {
     }, debouncedUsername, selectedGeolocation!)
 
     const storedArtists = await storeArtists(favouriteArtists)
-    await storeUserFavouriteArtists(userWithFollowedArtistsAndAuthors.user, storedArtists, followedArtists)
+    await storeFavouriteArtists(userWithFollowedArtistsAndAuthors.user, storedArtists, followedArtists)
 
     saveSpotifyProfileInSession(undefined)
     navigate(`/home?${AppUrlQueryParam.ACTION}=${ActionsFromAppUrl.REGISTRATION_SUCCESS}`)
