@@ -22,8 +22,7 @@ export function PrivacyPolicyPage() {
         </FadeIn>
         <FadeIn>
           <p>Lastly, and most importantly, your data is not shared with third parties. Your trust is the backbone of our community, and we strive to
-            maintain that trust by respecting your privacy. Your music preferences, site interactions, and personal data stay with us, and us
-            alone.</p>
+            maintain that trust by respecting your privacy. Your music preferences, site interactions, and personal data stay with us alone.</p>
         </FadeIn>
       </main>
     </div>
