@@ -11,7 +11,7 @@ export function TaggedArtists({ taggedArtists }: Props) {
     <ul className="styleless artist-tags">
       {taggedArtists.map(artist => (
         <li key={artist.id}>
-          <Link to={`/@${artist.tagName}`} className="underlined appears">@{artist.tagName}</Link>
+          <Link to={`/@${artist.tagName}`} className="underlined appears">{artist.name}</Link>
         </li>
       ))}
     </ul>
