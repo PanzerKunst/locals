@@ -7,7 +7,7 @@ export async function storeArtists(spotifyArtists: SpotifyArtist[]): Promise<Art
   const result = await fetch(`${config.BACKEND_URL}/artists`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ spotifyArtists})
+    body: JSON.stringify({ spotifyArtists })
   })
 
   if (!result.ok) {

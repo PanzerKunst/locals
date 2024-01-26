@@ -10,10 +10,10 @@ import { useAppContext } from "../../../AppContext.tsx"
 import { storeUserFollowingAuthor } from "../../../Data/Backend/Apis/UserFollowingAuthorsApi.ts"
 import { AccessTier } from "../../../Data/Backend/Models/Post.ts"
 import { PostWithTags } from "../../../Data/Backend/Models/PostWithMore.ts"
+import { useViewportSize } from "../../../Util/BrowserUtils.ts"
 import { config } from "../../../config.ts"
 import { FadeIn } from "../FadeIn.tsx"
 import { VideoPlayer } from "../VideoPlayer.tsx"
-import { useViewportSize } from "../../../Util/BrowserUtils.ts"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./Post.scss"
@@ -81,11 +81,11 @@ export function Post({ postWithAuthorAndTags, preview = false }: Props) {
           </div>
         </div>
 
-        <LikesCommentsShare disabled={preview}/>
+        <LikesCommentsShare postId={post.id} preview={preview}/>
         <TaggedArtists taggedArtists={taggedArtists}/>
 
         <div className="mobile-only">
-          <LikesCommentsShare disabled={preview}/>
+          <LikesCommentsShare postId={post.id} preview={preview}/>
           <TaggedArtists taggedArtists={taggedArtists}/>
         </div>
       </FadeIn>

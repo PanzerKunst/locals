@@ -14,8 +14,9 @@ import { changePostPublicationSettings, deletePost } from "../../Data/Backend/Ap
 import { getPostPath } from "../../Data/Backend/BackendUtils.ts"
 import { Post } from "../../Data/Backend/Models/Post.ts"
 import { PostWithTags } from "../../Data/Backend/Models/PostWithMore.ts"
-import { config } from "../../config.ts"
 import { useViewportSize } from "../../Util/BrowserUtils.ts"
+import { config } from "../../config.ts"
+import { LikesCommentsShare } from "./Post/LikesCommentsShare.tsx"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./PostSnippet.scss"
@@ -97,6 +98,8 @@ export function PostSnippet({ postWithAuthorAndTags }: Props) {
         {post.title && <h2>{post.title}</h2>}
         <div className="content" dangerouslySetInnerHTML={{ __html: post.content }}/>
       </Link>
+
+      <LikesCommentsShare postId={post.id}/>
 
       {!post.publishedAt && <span className={classNames("basic-chip", { negative: hasHero })}>DRAFT</span>}
 

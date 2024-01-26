@@ -125,6 +125,10 @@ li.post-snippet {
     }
   }
 
+  > .likes-comments-share > button:last-of-type {
+    display: none;
+  }
+
 
   // Absolutely-positioned elements
 

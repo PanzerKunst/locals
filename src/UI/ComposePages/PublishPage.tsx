@@ -80,7 +80,7 @@ export function PublishPage() {
       <section className="bordered">
         <FormControl id="access-tier">
           <h2>This post is for</h2>
-          <RadioGroup value={accessTier.toString()} name="radio-buttons-group" onChange={handleAccessTierChange}>
+          <RadioGroup value={accessTier.toString()} onChange={handleAccessTierChange}>
             <Radio value={AccessTier.PUBLIC.toString()} label="Everyone" variant="soft" />
             <Radio value={AccessTier.PREMIUM.toString()} label="Premium subscribers only" variant="soft" />
           </RadioGroup>

@@ -5,7 +5,15 @@
   justify-content: space-between;
   align-items: center;
 
-  > .button.rounded > svg {
-    color: $color-icon-grey;
+  > .button.rounded {
+    color: $color-text-offset;
+
+    > svg {
+      color: $color-icon-grey;
+
+      &.active {
+        color: $color-icon-primary;
+      }
+    }
   }
 }
