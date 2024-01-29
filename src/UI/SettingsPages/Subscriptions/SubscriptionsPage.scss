@@ -7,10 +7,6 @@
   > section {
     container-type: inline-size;
 
-    @include cw(md) {
-      max-width: $vw-md;
-    }
-
     @include cw(lg) {
       max-width: $vw-lg;
     }

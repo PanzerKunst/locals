@@ -86,7 +86,7 @@ export function SubscriptionsPage() {
   }
 
   return (
-    <div className={classNames("page settings with-sidebar subscriptions", { "sidebar-hidden": isSidebarHideable && isSidebarHidden })}>
+    <div className={classNames("page with-sidebar settings subscriptions", { "sidebar-hidden": isSidebarHideable && isSidebarHidden })}>
       <SettingsSidebar isHideable={isSidebarHideable}/>
       <main className="container">
         <section>

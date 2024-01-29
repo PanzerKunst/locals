@@ -7,7 +7,10 @@
   > section.bordered {
     @include cw(md) {
       max-width: math.div($vw-sm + $vw-md, 2);
-      margin-left: 12vw;
+    }
+
+    @include cw(lg) {
+      margin-left: 16%;
     }
   }
 }

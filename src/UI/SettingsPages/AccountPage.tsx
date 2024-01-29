@@ -209,7 +209,7 @@ export function AccountPage() {
   }
 
   return (
-    <div className={classNames("page settings with-sidebar account", { "sidebar-hidden": isSidebarHideable && isSidebarHidden })}>
+    <div className={classNames("page with-sidebar settings account", { "sidebar-hidden": isSidebarHideable && isSidebarHidden })}>
       <SettingsSidebar isHideable={isSidebarHideable}/>
       <main className="container">
         <section className="bordered">
