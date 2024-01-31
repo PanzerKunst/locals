@@ -103,7 +103,7 @@ export function PostSnippet({ postWithAuthorAndTags }: Props) {
 
       {!post.publishedAt && <span className={classNames("basic-chip", { negative: hasHero })}>DRAFT</span>}
 
-      {location.pathname === "/posts" && (
+      {location.pathname === "/dashboard" && (
         <button className={classNames("button icon-only offset-bg-on-hover", { light: hasHero })} onClick={() => setIsMenuOpen(!isMenuOpen)}>
           <FontAwesomeIcon icon={faEllipsisV}/>
         </button>

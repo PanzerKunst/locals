@@ -1,3 +1,4 @@
+import _orderBy from "lodash/orderBy"
 import qs from "qs"
 import Quill from "quill"
 
@@ -172,5 +173,7 @@ export async function fetchHomepagePostsForUserId(userId: number, fromDate: Date
     throw new Error(`Error while fetching homepage posts for user ID ${userId}`)
   }
 
-  return await result.json() as PostWithTags[]
+  const postsWithTags = await result.json() as PostWithTags[]
+
+  return _orderBy(postsWithTags, [pwt => pwt.post.publishedAt], ["desc"])
 }

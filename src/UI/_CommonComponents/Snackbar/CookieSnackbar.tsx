@@ -39,8 +39,8 @@ export function CookieSnackbar() {
         <p>We use cookies for analytics.<br/>
           Learn more on our <Link to="/privacy" className="underlined disappears">privacy policy</Link>.</p>
         <div>
-          <button className="underlined disappears" onClick={handleRejectNonEssential}>No, thanks</button>
           <button className="underlined disappears" onClick={handleAllowAll}>It&apos;s okay</button>
+          <button className="underlined disappears" onClick={handleRejectNonEssential}>No, thanks</button>
         </div>
       </div>
     </AppSnackbar>
