@@ -1,4 +1,4 @@
-import { Checkbox, FormControl, Radio, RadioGroup } from "@mui/joy"
+import { Checkbox, FormControl, FormLabel, Radio, RadioGroup } from "@mui/joy"
 import classNames from "classnames"
 import { ChangeEvent, ReactNode, useEffect, useState } from "react"
 import { useQuery } from "react-query"
@@ -78,18 +78,20 @@ export function PublishPage() {
   return renderContents(
     <>
       <section className="bordered">
+        <h2>This post is for</h2>
+
         <FormControl id="access-tier">
-          <h2>This post is for</h2>
           <RadioGroup value={accessTier.toString()} onChange={handleAccessTierChange}>
-            <Radio value={AccessTier.PUBLIC.toString()} label="Everyone" variant="soft" />
-            <Radio value={AccessTier.PREMIUM.toString()} label="Premium subscribers only" variant="soft" />
+            <Radio value={AccessTier.PUBLIC.toString()} label="Everyone" variant="soft"/>
+            <Radio value={AccessTier.PREMIUM.toString()} label="Premium subscribers only" variant="soft"/>
           </RadioGroup>
         </FormControl>
       </section>
 
       <section className="bordered">
+        <h2>Notifications</h2>
+
         <FormControl id="notifications">
-          <h2>Notifications</h2>
           <Checkbox
             label="Send via e-mail to subscribers"
             variant="soft"

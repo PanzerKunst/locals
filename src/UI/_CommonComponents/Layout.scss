@@ -17,7 +17,7 @@
 .page {
   > main,
   > aside > nav {
-    margin-top: 15vmin;
+    margin-block: 15vmin;
   }
 
   &.no-top-margin-on-mobile > main {
@@ -31,9 +31,27 @@
       margin-bottom: 1em;
     }
 
-    p {
+    h2 {
+      margin-block: 2em 1em;
+    }
+
+    p,
+    span,
+    ul {
       font-size: $variable-font-size-md;
       @include justify-text-on-large-screen;
+    }
+
+    ul {
+      margin-bottom: 1.5em;
+
+      > li:not(:first-of-type) {
+        margin-top: 0.2em;
+      }
+    }
+
+    p + ul {
+      margin-top: -1.3em; // Compensates for the bottom-margin of the preceding `p`
     }
   }
 

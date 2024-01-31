@@ -44,7 +44,7 @@ a.button:not(.icon-only) {
   padding-inline: 0.7em;
   border-radius: max(0.1em, 3px);
 
-  &:not([disabled]):hover {
+  &:not([disabled], :active):hover {
     transform: translateY(-2px);
   }
 

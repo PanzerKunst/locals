@@ -1,28 +1,43 @@
-import { useHeaderTitle } from "../_CommonComponents/AppHeader/AppHeader.ts"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 
 export function PrivacyPolicyPage() {
-  useHeaderTitle("Privacy Policy")
-
   return (
     <div className="page simple privacy-policy">
       <main className="container">
         <FadeIn>
-          <h1>We are commited to protecting your privacy</h1>
+          <h1>Privacy Policy</h1>
+        </FadeIn>
+
+        <FadeIn>
+          <h2>Spotify data</h2>
         </FadeIn>
         <FadeIn>
-          <p>We employ cookies and similar tracking technology to ensure the smooth functioning of our website. Some of these cookies are necessary
-            for the site to function.</p>
+          <p>Registration and login to the platform is done via your Spotify account, enabling the platform to know your musical interests and deliver
+            content relevant to you specifically. The platform periodically accesses your Spotify user data to keep that content relevant over
+            time.</p>
+        </FadeIn>
+
+        <FadeIn>
+          <h2>Email</h2>
         </FadeIn>
         <FadeIn>
-          <p>In addition to essential cookies, we also use analytics cookies, such as Google Analytics. These are used to understand how you use the
-            site: to see what works, what doesn’t, and how we can improve your experience. All of this data is anonymous. We don’t know who you are,
-            just how you interact with our site. And remember, these analytics cookies won&apos;t be collected if you decline them in the cookie popup
-            on your first visit. You are in control.</p>
+          <p>We need your email address for essential communication regarding the platform, such as notifying you of updates to our terms of use,
+            upcoming changes to subscription costs, and other important service-related information.</p>
         </FadeIn>
         <FadeIn>
-          <p>Lastly, and most importantly, your data is not shared with third parties. Your trust is the backbone of our community, and we strive to
-            maintain that trust by respecting your privacy. Your music preferences, site interactions, and personal data stay with us alone.</p>
+          <p>Your email is also used to receive new posts of subscribed artists and other authors directly in your inbox. This communication is
+            opt-in and configurable in your account settings.</p>
+        </FadeIn>
+
+        <FadeIn>
+          <h2>Cookies</h2>
+        </FadeIn>
+        <FadeIn>
+          <p>The platform employs cookies and similar tracking technology. Some of these cookies are necessary for the site to function, the rest are
+            for analytics. Analytics data is anonymous, and will not be collected if you decline those cookies in the popup on your first visit.</p>
+        </FadeIn>
+        <FadeIn>
+          <p>Finally, none of your data is shared with third parties.</p>
         </FadeIn>
       </main>
     </div>

@@ -1,7 +1,9 @@
 @import "/src/UI/_CommonStyles/mixins";
 @import "/src/UI/_CommonStyles/functions";
 
-.page.landing {
+.page.landing > main {
+  margin-block: 0;
+
   > section {
     &:not(#hero) {
       padding-block: 15vmin;

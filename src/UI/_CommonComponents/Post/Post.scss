@@ -82,7 +82,7 @@ article.post {
 
       @include vw(lg) {
         &:first-of-type {
-          margin-left: unset;
+          margin-left: 0;
         }
 
         > svg {

@@ -13,6 +13,7 @@ import { AccountPage } from "./SettingsPages/AccountPage.tsx"
 import { SubscriptionsPage } from "./SettingsPages/Subscriptions/SubscriptionsPage.tsx"
 import { ContactPage } from "./SimplePages/ContactPage.tsx"
 import { PrivacyPolicyPage } from "./SimplePages/PrivacyPolicyPage.tsx"
+import { TermsOfServicePage } from "./SimplePages/TermsOfServicePage.tsx"
 import { Layout } from "./_CommonComponents/Layout.tsx"
 import { AppContextProvider } from "../AppContext.tsx"
 
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
       { path: "settings", element: <AccountPage />},
       { path: "settings/subscriptions", element: <SubscriptionsPage />},
       { path: "contact", element: <ContactPage /> },
+      { path: "tos", element: <TermsOfServicePage /> },
       { path: "privacy", element: <PrivacyPolicyPage /> },
       { path: ":atUsername/:slug", element: <PostPage /> },
       { path: ":atTag", element: <AtTagPage /> }

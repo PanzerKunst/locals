@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons"
-import { FormControl, FormHelperText, FormLabel, Input } from "@mui/joy"
+import { Checkbox, FormControl, FormHelperText, FormLabel, Input } from "@mui/joy"
 import classNames from "classnames"
 import { animate } from "framer-motion"
 import _uniqBy from "lodash/uniqBy"
@@ -69,12 +69,13 @@ export function RegisterPage() {
   const [locationSearchResults, setLocationSearchResults] = useState<GeoapifyFeature[]>([])
   const [selectedGeolocation, setSelectedGeolocation] = useState<GeoapifyFeature>()
 
-  const [isSubmittingForm, setIsSubmittingForm] = useState(false)
-
   const [favouriteArtists, setFavouriteArtists] = useState<SpotifyArtist[]>([])
   const [followedArtists, setFollowedArtists] = useState<SpotifyArtist[]>([])
 
   const [isShowingAllArtists, setIsShowingAllArtists] = useState(false)
+
+  const [hasAgreedToTos, setHasAgreedToTos] = useState(false)
+  const [isSubmittingForm, setIsSubmittingForm] = useState(false)
 
   const favouriteSpotifyArtistsQuery = useQuery(
     "favouriteSpotifyArtists",
@@ -303,7 +304,7 @@ export function RegisterPage() {
           <h2>Your account</h2>
         </FadeIn>
 
-        <FadeIn>
+        <FadeIn className="email-field-and-checkbox">
           <FormControl error={emailFieldError !== ""} id="email">
             <FormLabel>E-mail</FormLabel>
             <Input
@@ -316,6 +317,15 @@ export function RegisterPage() {
               endDecorator={isCheckingEmailAvailability && <CircularLoader/>}
             />
             {emailFieldError !== "" && <FormHelperText>{emailFieldError}</FormHelperText>}
+          </FormControl>
+
+          <FormControl id="enable-post-notifications">
+            <Checkbox
+              label="Email me when a verified artist I follow publishes a new post"
+              variant="soft"
+              color="primary"
+              defaultChecked
+            />
           </FormControl>
         </FadeIn>
 
@@ -361,10 +371,25 @@ export function RegisterPage() {
         </FadeIn>
 
         <FadeIn className="wrapper-next-button">
+          <FormControl id="end-user-agreement">
+            <Checkbox
+              variant="soft"
+              color="primary"
+              checked={hasAgreedToTos}
+              onChange={() => setHasAgreedToTos(!hasAgreedToTos)}
+            />
+            <span className="end-user-agreement-checkbox-text">I have read and agree to the <a
+              href="/tos"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underlined disappears"
+            >Terms of Service</a></span>
+          </FormControl>
+
           <AnimatedButton className="filling">
             <button
               className={classNames("button", { "filling loading": isSubmittingForm })}
-              disabled={isSubmittingForm || emailFieldError !== "" || usernameFieldError !== "" || geolocationFieldError !== ""}
+              disabled={isSubmittingForm || emailFieldError !== "" || usernameFieldError !== "" || geolocationFieldError !== "" || !hasAgreedToTos}
               // eslint-disable-next-line @typescript-eslint/no-misused-promises
               onClick={handleFormSubmit}
             >

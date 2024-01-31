@@ -13,6 +13,9 @@ export function AppFooter() {
               <Link to="/contact" className="underlined appears">Contact</Link>
             </li>
             <li>
+              <Link to="/tos" className="underlined appears">Terms of Service</Link>
+            </li>
+            <li>
               <Link to="/privacy" className="underlined appears">Privacy Policy</Link>
             </li>
           </ul>

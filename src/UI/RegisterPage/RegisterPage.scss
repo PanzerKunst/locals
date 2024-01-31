@@ -1,4 +1,4 @@
-@import "/src/UI/_CommonStyles/numbers";
+@import "/src/UI/_CommonStyles/mixins";
 
 .page.register {
   section {
@@ -26,6 +26,7 @@
     .wrapper-next-button {
       display: flex;
       justify-content: flex-end;
+
       margin-top: 5vmin;
     }
 
@@ -38,8 +39,35 @@
         margin-bottom: $default-field-gap;
       }
 
+      .MuiCheckbox-root,
+      .end-user-agreement-checkbox-text {
+        font-size: $variable-font-size-sm;
+      }
+
+      .email-field-and-checkbox > .MuiFormControl-root:first-of-type {
+        margin-bottom: 1vmin;
+      }
+
       > .wrapper-next-button {
-        margin-top: 2vmin;
+        margin-top: 10vmin;
+
+        gap: 1vmin;
+        flex-direction: column;
+        @include vw(md) {
+          flex-direction: row;
+          justify-content: space-between;
+        }
+
+        > .MuiFormControl-root {
+          flex-direction: row;
+          align-items: center;
+
+          margin-bottom: 0;
+
+          > .end-user-agreement-checkbox-text {
+            margin-left: 0.4em;
+          }
+        }
       }
     }
   }

@@ -4,6 +4,10 @@
 .page.publish > main {
   container-type: inline-size;
 
+  .MuiFormLabel-root {
+    font-size: $variable-font-size-md;
+  }
+
   > .action-buttons {
     display: flex;
     justify-content: flex-end;
