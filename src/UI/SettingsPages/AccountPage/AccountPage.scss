@@ -12,5 +12,9 @@
     @include cw(lg) {
       margin-left: 16%;
     }
+
+    > h2 {
+      text-align: center;
+    }
   }
 }

@@ -28,19 +28,17 @@ export async function storeUserFollowingAuthor(
   return userWithFollowedArtistsAndAuthors
 }
 
-export async function updateFollowedAuthors(user: User, followedAuthors: User[]): Promise<User[]> {
+export async function removeFollowedAuthors(user: User, authorsToRemove: User[]) {
   const result = await fetch(`${config.BACKEND_URL}/followedAuthors`, {
-    method: "PUT",
+    method: "DELETE",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       user,
-      followedAuthors
+      authorsToRemove
     })
   })
 
   if (!result.ok) {
-    throw new Error("Error while updating followed authors")
+    throw new Error("Error while removing followed authors")
   }
-
-  return await result.json() as User[]
 }

@@ -1,6 +1,6 @@
 import { Checkbox, FormControl, Radio, RadioGroup } from "@mui/joy"
 import classNames from "classnames"
-import { ChangeEvent, ReactNode, useEffect, useState } from "react"
+import { ReactNode, useEffect, useState } from "react"
 import { useQuery } from "react-query"
 import { Link, useNavigate, useParams } from "react-router-dom"
 
@@ -64,10 +64,6 @@ export function PublishPage() {
 
   const { post } = postQuery.data!
 
-  const handleAccessTierChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setAccessTier(parseInt(event.target.value) as AccessTier)
-  }
-
   const handleFormSubmit = async () => {
     setIsSubmittingForm(true)
     post.accessTier = accessTier
@@ -81,7 +77,7 @@ export function PublishPage() {
         <h2>This post is for</h2>
 
         <FormControl id="access-tier">
-          <RadioGroup value={accessTier.toString()} onChange={handleAccessTierChange}>
+          <RadioGroup value={accessTier.toString()} onChange={(event) => setAccessTier(parseInt(event.target.value) as AccessTier)}>
             <Radio value={AccessTier.PUBLIC.toString()} label="Everyone" variant="soft"/>
             <Radio value={AccessTier.PREMIUM.toString()} label="Premium subscribers only" variant="soft"/>
           </RadioGroup>

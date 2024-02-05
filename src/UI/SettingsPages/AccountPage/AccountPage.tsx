@@ -1,22 +1,26 @@
 import { faXmark } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Checkbox, FormControl, FormHelperText, FormLabel, Input, Modal, ModalDialog } from "@mui/joy"
+import { Elements } from "@stripe/react-stripe-js"
+import { loadStripe } from "@stripe/stripe-js"
 import classNames from "classnames"
 import { AnimatePresence, motion } from "framer-motion"
 import { ChangeEvent, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-import { SettingsSidebar } from "./SettingsSidebar.tsx"
-import { useAppContext } from "../../AppContext.tsx"
-import { checkEmailAvailability, checkUsernameAvailability, deleteUser, updateUser } from "../../Data/Backend/Apis/UsersApi.ts"
-import { ActionsFromAppUrl, AppUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
-import { scrollIntoView, useViewportSize } from "../../Util/BrowserUtils.ts"
-import { useDebounce } from "../../Util/ReactUtils.ts"
-import { Field, isValidEmail, isValidUsername } from "../../Util/ValidationUtils.ts"
-import { useHeaderTitle } from "../_CommonComponents/AppHeader/AppHeader.ts"
-import { ButtonLoader } from "../_CommonComponents/ButtonLoader.tsx"
-import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
-import { BottomRightInfoSnackbar } from "../_CommonComponents/Snackbar/BottomRightInfoSnackbar.tsx"
+import { PremiumMembershipSection } from "./PremiumMembershipSection.tsx"
+import { useAppContext } from "../../../AppContext.tsx"
+import { SettingsSidebar } from "../SettingsSidebar.tsx"
+import { checkEmailAvailability, checkUsernameAvailability, deleteUser, updateUser } from "../../../Data/Backend/Apis/UsersApi.ts"
+import { ActionsFromAppUrl, AppUrlQueryParam } from "../../../Util/AppUrlQueryParams.ts"
+import { scrollIntoView, useViewportSize } from "../../../Util/BrowserUtils.ts"
+import { useDebounce } from "../../../Util/ReactUtils.ts"
+import { Field, isValidEmail, isValidUsername } from "../../../Util/ValidationUtils.ts"
+import { useHeaderTitle } from "../../_CommonComponents/AppHeader/AppHeader.ts"
+import { ButtonLoader } from "../../_CommonComponents/ButtonLoader.tsx"
+import { CircularLoader } from "../../_CommonComponents/CircularLoader.tsx"
+import { BottomRightInfoSnackbar } from "../../_CommonComponents/Snackbar/BottomRightInfoSnackbar.tsx"
+import { config } from "../../../config.ts"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./AccountPage.scss"
@@ -25,6 +29,8 @@ const modalMotionVariants = {
   initial: { opacity: 0 },
   animate: { opacity: 1 }
 }
+
+const stripePromise = loadStripe(config.STRIPE_PUBLISHABLE_KEY)
 
 export function AccountPage() {
   const navigate = useNavigate()
@@ -53,13 +59,14 @@ export function AccountPage() {
   const [usernameFieldError, setUsernameFieldError] = useState("")
   const [isCheckingUsernameAvailability, setIsCheckingUsernameAvailability] = useState(false)
 
-  const [isSubmittingForm, setIsSubmittingForm] = useState(false)
+  const [isSavingAccountDetails, setIsSavingAccountDetails] = useState(false)
 
 
   // Danger zone
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [shouldAlsoDeletePosts, setShouldAlsoDeletePosts] = useState(false)
+  const [isDeletingAccount, setIsDeletingAccount] = useState(false)
 
   useHeaderTitle(isSidebarHideable && !isSidebarHidden ? "Settings" : "Account")
 
@@ -68,6 +75,9 @@ export function AccountPage() {
       navigate(`/?${AppUrlQueryParam.ACCESS_ERROR}`, { replace: true })
     }
   }, [loggedInUser, navigate])
+
+
+  // Name, username, email
 
   useEffect(() => {
     async function performEmailAvailabilityCheck() {
@@ -149,7 +159,7 @@ export function AccountPage() {
     return true
   }
 
-  function isFormValid(): boolean {
+  function areAccountDetailsValid(): boolean {
     return isNameFieldValid() && isEmailFieldValid() && isUsernameFieldValid()
   }
 
@@ -180,12 +190,12 @@ export function AccountPage() {
     isUsernameFieldValid()
   }
 
-  const handleFormSubmit = async () => {
-    if (!isFormValid()) {
+  const handleAccountDetailsSubmit = async () => {
+    if (!areAccountDetailsValid()) {
       return
     }
 
-    setIsSubmittingForm(true)
+    setIsSavingAccountDetails(true)
 
     await updateUser(appContext, {
       ...loggedInUser!,
@@ -194,17 +204,20 @@ export function AccountPage() {
       username: debouncedUsername
     })
 
-    setIsSubmittingForm(false)
+    setIsSavingAccountDetails(false)
     setHasSaved(true)
   }
 
-  const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
+
+  // Danger zone
+
+  const handleAlsoDeletePostsCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
     setShouldAlsoDeletePosts(event.target.checked)
   }
 
   const handleConfirmDeleteClick = async () => {
+    setIsDeletingAccount(true)
     await deleteUser(loggedInUser!, shouldAlsoDeletePosts)
-    setIsDeleteDialogOpen(false)
     navigate(`/?${AppUrlQueryParam.ACTION}=${ActionsFromAppUrl.SIGN_OUT}`)
   }
 
@@ -254,16 +267,20 @@ export function AccountPage() {
 
           <div className="button-wrapper">
             <button
-              className={classNames("button filled", { loading: isSubmittingForm })}
-              disabled={isSubmittingForm || emailFieldError !== "" || usernameFieldError !== ""}
+              className={classNames("button filled", { loading: isSavingAccountDetails })}
+              disabled={isSavingAccountDetails || emailFieldError !== "" || usernameFieldError !== ""}
               // eslint-disable-next-line @typescript-eslint/no-misused-promises
-              onClick={handleFormSubmit}
+              onClick={handleAccountDetailsSubmit}
             >
-              {isSubmittingForm && <ButtonLoader/>}
+              {isSavingAccountDetails && <ButtonLoader/>}
               <span>Save changes</span>
             </button>
           </div>
         </section>
+
+        <Elements stripe={stripePromise}>
+          <PremiumMembershipSection/>
+        </Elements>
 
         <section className="bordered danger">
           <h2>Danger Zone</h2>
@@ -296,11 +313,16 @@ export function AccountPage() {
                         variant="soft"
                         color="primary"
                         checked={shouldAlsoDeletePosts}
-                        onChange={handleCheckboxChange}
+                        onChange={handleAlsoDeletePostsCheckboxChange}
                       />
                     </FormControl>
-                    {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-                    <button className="button filled fixed-height danger" onClick={handleConfirmDeleteClick}>
+                    <button
+                      className={classNames("button filled fixed-height danger", { loading: isDeletingAccount })}
+                      disabled={isDeletingAccount}
+                      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                      onClick={handleConfirmDeleteClick}
+                    >
+                      {isDeletingAccount && <ButtonLoader/>}
                       <span>Delete my account</span>
                     </button>
                   </div>

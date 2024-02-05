@@ -16,11 +16,11 @@ const motionVariants = {
 
 type Props = {
   artists: Artist[];
-  followed: Artist[];
+  unfollowed: Artist[];
   onToggle: (artist: Artist) => void; // eslint-disable-line no-unused-vars
 }
 
-export function FollowedArtists({ artists, followed, onToggle }: Props) {
+export function FollowedArtists({ artists, unfollowed, onToggle }: Props) {
   const [isTooltipVisible, setIsTooltipVisible] = useState(true)
 
   const handleToggle = (artist: Artist) => {
@@ -33,7 +33,7 @@ export function FollowedArtists({ artists, followed, onToggle }: Props) {
       {isTooltipVisible && <TextTooltip onClose={() => setIsTooltipVisible(false)} text="Tap to toggle" />}
       {artists.map((artist) => {
         const { avatarUrl } = artist
-        const isActive = followed.some((followedArtist) => followedArtist.id === artist.id)
+        const isActive = !unfollowed.some((followedArtist) => followedArtist.id === artist.id)
 
         return (
           <motion.li

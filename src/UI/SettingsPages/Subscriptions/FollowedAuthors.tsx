@@ -14,11 +14,11 @@ const motionVariants = {
 
 type Props = {
   authors: User[];
-  followed: User[];
+  unfollowed: User[];
   onToggle: (author: User) => void; // eslint-disable-line no-unused-vars
 }
 
-export function FollowedAuthors({ authors, followed, onToggle }: Props) {
+export function FollowedAuthors({ authors, unfollowed, onToggle }: Props) {
   const handleToggle = (author: User) => {
     onToggle(author)
   }
@@ -27,7 +27,7 @@ export function FollowedAuthors({ authors, followed, onToggle }: Props) {
     <ul className="styleless following authors">
       {authors.map((author) => {
         const { avatarUrl } = author
-        const isActive = followed.some((followedAuthor) => followedAuthor.id === author.id)
+        const isActive = !unfollowed.some((followedAuthor) => followedAuthor.id === author.id)
 
         return (
           <motion.li

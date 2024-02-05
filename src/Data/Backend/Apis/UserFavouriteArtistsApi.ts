@@ -26,21 +26,19 @@ export async function storeFavouriteArtists(user: User, favouriteArtists: Artist
   return await result.json() as Artist[]
 }
 
-export async function updateFollowedArtists(user: User, followedArtists: Artist[]): Promise<Artist[]> {
-  const result = await fetch(`${config.BACKEND_URL}/followedArtists`, {
-    method: "PUT",
+export async function removeFavouriteArtists(user: User, artistsToRemove: Artist[]) {
+  const result = await fetch(`${config.BACKEND_URL}/favouriteArtists`, {
+    method: "DELETE",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       user,
-      followedArtists
+      artistsToRemove
     })
   })
 
   if (!result.ok) {
-    throw new Error("Error while updating followed artists")
+    throw new Error("Error while removing favourite artists")
   }
-
-  return await result.json() as Artist[]
 }
 
 export async function fetchFavouriteSpotifyArtists(appContext: AppContextType): Promise<SpotifyArtist[]> {

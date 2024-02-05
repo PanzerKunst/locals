@@ -14,9 +14,9 @@ export function TermsOfServicePage() {
           <p>Get Backstage (“the platform”) enables its users (“you”) to create and consume content about the music and artists they love.</p>
         </FadeIn>
         <FadeIn>
-          <p>Content Creators write posts (text and/or media), choosing upon publication to make the posts either visible to all users (public) or
-            limited to premium users. Users get access to premium content through a monthly payment, granting them a Premium Membership. The
-            platform’s revenue comes exclusively from Premium Memberships, and 90% of that revenue is redistributed to creators whose premium posts
+          <p>Content Creators (“authors”) write posts (text and/or media), choosing upon publication to make the posts either visible to all users
+            (public) or limited to premium users. Users get access to premium content through a monthly payment, granting them a Premium Membership.
+            The platform’s revenue comes exclusively from Premium Memberships, and 90% of that revenue is redistributed to authors whose premium posts
             are consumed.</p>
         </FadeIn>
         <FadeIn>
@@ -46,16 +46,16 @@ export function TermsOfServicePage() {
           <h2>Intellectual Property Rights</h2>
         </FadeIn>
         <FadeIn>
-          <p>Content Creators are solely responsible for ensuring that any content they post is original and created by them, or that they have
-            obtained all necessary rights and permissions to use and republish the content. By submitting content to the platform, Content Creators
+          <p>Authors are solely responsible for ensuring that any content they post is original and created by them, or that they
+            have obtained all necessary rights and permissions to use and republish the content. By submitting content to the platform, authors
             warrant that their content does not infringe on any third party&apos;s intellectual property rights or violate any applicable laws or
             regulations.</p>
         </FadeIn>
         <FadeIn>
-          <p>All content posted on Get Backstage remains the intellectual property of its creator. These creators retain full ownership rights to
-            their content. The use, reproduction, modification, or distribution of any content outside of Get Backstage is strictly prohibited without
-            the express written consent of the content&apos;s owner. By using this platform, users agree to respect the copyright and ownership rights
-            of all Content Creators.</p>
+          <p>All content posted on Get Backstage remains the intellectual property of its author. These authors retain full ownership rights to their
+            content. The use, reproduction, modification, or distribution of any content outside of Get Backstage is strictly prohibited without the
+            express written consent of the content&apos;s owner. By using this platform, users agree to respect the copyright and ownership rights of
+            all authors.</p>
         </FadeIn>
 
         <FadeIn>
@@ -65,7 +65,7 @@ export function TermsOfServicePage() {
           <p>Two types of financial transactions are involved:</p>
           <ul>
             <li>Users doing a monthly recurring payment for a Premium Membership</li>
-            <li>The Get Backstage platform paying monthly to Content Creators whose premium posts are consumed</li>
+            <li>The Get Backstage platform paying monthly to authors whose premium posts are consumed</li>
           </ul>
         </FadeIn>
         <FadeIn>
@@ -74,8 +74,11 @@ export function TermsOfServicePage() {
         </FadeIn>
         <FadeIn>
           <p>Users can cancel their premium membership at any time under their account settings. Please note that refunds are not available once the
-            payment for premium membership has been processed for the current month. The premium membership remains active and accessible until the
-            end of the month.</p>
+            payment for premium membership has been processed for the current period. The premium membership remains active and accessible until the
+            end of the period.</p>
+        </FadeIn>
+        <FadeIn>
+          <p>Authors receiving payments are responsible</p>
         </FadeIn>
 
         <FadeIn>

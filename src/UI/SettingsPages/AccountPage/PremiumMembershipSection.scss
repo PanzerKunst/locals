@@ -1,0 +1,9 @@
+.page.settings.account section.premium-membership {
+  > .StripeElement {
+    margin-top: 3vmin;
+  }
+
+  .button-wrapper {
+    gap: 6px;
+  }
+}

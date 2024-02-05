@@ -4,21 +4,21 @@
 .page.settings > main {
   > section > h2 {
     font-size: $variable-font-size-md;
-    margin-bottom: 0.5em;
+    margin-bottom: 1em;
   }
 
   .button-wrapper {
     display: flex;
     justify-content: center;
 
-    margin-top: 5vmin;
+    margin-top: 3vmin;
   }
 
   .MuiFormControl-root {
     margin-bottom: 3vmin;
   }
 
-  .MuiSnackbar-root.app-snackbar > svg {
+  .MuiSnackbar-colorNeutral.app-snackbar > svg {
     color: $color-icon-success;
   }
 }

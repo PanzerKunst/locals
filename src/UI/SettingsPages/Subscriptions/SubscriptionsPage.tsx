@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom"
 import { FollowedArtists } from "./FollowedArtists.tsx"
 import { FollowedAuthors } from "./FollowedAuthors.tsx"
 import { useAppContext } from "../../../AppContext.tsx"
-import { updateFollowedArtists } from "../../../Data/Backend/Apis/UserFavouriteArtistsApi.ts"
-import { updateFollowedAuthors } from "../../../Data/Backend/Apis/UserFollowingAuthorsApi.ts"
+import { removeFavouriteArtists } from "../../../Data/Backend/Apis/UserFavouriteArtistsApi.ts"
+import { removeFollowedAuthors } from "../../../Data/Backend/Apis/UserFollowingAuthorsApi.ts"
 import { Artist } from "../../../Data/Backend/Models/Artist.ts"
 import { User } from "../../../Data/Backend/Models/User.ts"
 import { AppUrlQueryParam } from "../../../Util/AppUrlQueryParams.ts"
@@ -31,12 +31,12 @@ export function SubscriptionsPage() {
 
   // Followed artists
   const artists = currentUser?.followedArtists || []
-  const [followedArtists, setFollowedArtists] = useState(artists)
+  const [unfollowedArtists, setUnfollowedArtists] = useState<Artist[]>([])
   const [isSavingFollowedArtists, setIsSavingFollowedArtists] = useState(false)
 
   // Followed authors
   const authors = currentUser?.followedAuthors || []
-  const [followedAuthors, setFollowedAuthors] = useState(authors)
+  const [unfollowedAuthors, setUnfollowedAuthors] = useState<User[]>([])
   const [isSavingFollowedAuthors, setIsSavingFollowedAuthors] = useState(false)
 
   useHeaderTitle(isSidebarHideable && !isSidebarHidden ? "Settings" : "Subscriptions")
@@ -48,30 +48,34 @@ export function SubscriptionsPage() {
   }, [loggedInUser, navigate])
 
   const handleToggleFollowingArtist = (artist: Artist) => {
-    const isAlreadyInList = followedArtists.some(followedArtist => followedArtist.id === artist.id)
+    const isAlreadyUnfollowed = unfollowedArtists.some(unfollowedArtist => unfollowedArtist.id === artist.id)
 
-    const updatedArtists = isAlreadyInList
-      ? followedArtists.filter(followedArtist => followedArtist.id !== artist.id)
-      : [...followedArtists, artist]
+    const updatedUnfollowedArtists = isAlreadyUnfollowed
+      ? unfollowedArtists.filter(unfollowedArtist => unfollowedArtist.id !== artist.id)
+      : [...unfollowedArtists, artist]
 
-    setFollowedArtists(updatedArtists)
+    setUnfollowedArtists(updatedUnfollowedArtists)
   }
 
   const handleToggleFollowingAuthor = (author: User) => {
-    const isAlreadyInList = followedAuthors.some(followedAuthor => followedAuthor.id === author.id)
+    const isAlreadyUnfollowed = unfollowedAuthors.some(unfollowedAuthor => unfollowedAuthor.id === author.id)
 
-    const updatedAuthors = isAlreadyInList
-      ? followedAuthors.filter(followedAuthor => followedAuthor.id !== author.id)
-      : [...followedAuthors, author]
+    const updatedUnfollowedAuthors = isAlreadyUnfollowed
+      ? unfollowedAuthors.filter(unfollowedAuthor => unfollowedAuthor.id !== author.id)
+      : [...unfollowedAuthors, author]
 
-    setFollowedAuthors(updatedAuthors)
+    setUnfollowedAuthors(updatedUnfollowedAuthors)
   }
 
   const handleSaveFollowedArtistsClick = async () => {
     setIsSavingFollowedArtists(true)
 
-    await updateFollowedArtists(loggedInUser!, followedArtists)
-    setLoggedInUser({ ...currentUser!, followedArtists })
+    await removeFavouriteArtists(loggedInUser!, unfollowedArtists)
+
+    setLoggedInUser({
+      ...currentUser!,
+      followedArtists: artists.filter(artist => !unfollowedArtists.some(unfollowedArtist => unfollowedArtist.id === artist.id))
+    })
 
     setIsSavingFollowedArtists(false)
   }
@@ -79,8 +83,12 @@ export function SubscriptionsPage() {
   const handleSaveFollowedAuthorsClick = async () => {
     setIsSavingFollowedAuthors(true)
 
-    await updateFollowedAuthors(loggedInUser!, followedAuthors)
-    setLoggedInUser({ ...currentUser!, followedAuthors })
+    await removeFollowedAuthors(loggedInUser!, unfollowedAuthors)
+
+    setLoggedInUser({
+      ...currentUser!,
+      followedAuthors: authors.filter(author => !unfollowedAuthors.some(unfollowedAuthor => unfollowedAuthor.id === author.id))
+    })
 
     setIsSavingFollowedAuthors(false)
   }
@@ -92,7 +100,7 @@ export function SubscriptionsPage() {
         <section>
           <h2>Subscribed Artists</h2>
 
-          <FollowedArtists artists={artists} followed={followedArtists} onToggle={handleToggleFollowingArtist}/>
+          <FollowedArtists artists={artists} unfollowed={unfollowedArtists} onToggle={handleToggleFollowingArtist}/>
 
           <div className="button-wrapper">
             {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
@@ -107,7 +115,7 @@ export function SubscriptionsPage() {
           <h2>Subscribed Authors</h2>
 
           {authors.length > 0 ? (
-            <FollowedAuthors authors={authors} followed={followedAuthors} onToggle={handleToggleFollowingAuthor}/>
+            <FollowedAuthors authors={authors} unfollowed={unfollowedAuthors} onToggle={handleToggleFollowingAuthor}/>
           ) : (
             <p>Not subscribed to any author.</p>
           )}

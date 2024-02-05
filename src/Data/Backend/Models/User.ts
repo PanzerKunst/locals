@@ -1,6 +1,6 @@
-// Taken by copy/pasting the last part of the bubble when hovering `users.$inferInsert`
 import { config } from "../../../config.ts"
 
+// Taken by copy/pasting the last part of the bubble when hovering `users.$inferInsert`
 export type NewUser = {
   name: string,
   spotifyId: string,
