@@ -1,7 +1,8 @@
 import { FormControl, FormLabel, Radio, RadioGroup } from "@mui/joy"
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
+import { CardElement, PaymentRequestButtonElement, useElements, useStripe } from "@stripe/react-stripe-js"
+import { PaymentRequest } from "@stripe/stripe-js"
 import classNames from "classnames"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import { useAppContext } from "../../../AppContext.tsx"
 import { subscribeToPremium } from "../../../Data/Backend/Apis/PremiumSubscriptionApi.ts"
@@ -9,7 +10,6 @@ import { Currency } from "../../../Data/Backend/Models/Currency.ts"
 import { ButtonLoader } from "../../_CommonComponents/ButtonLoader.tsx"
 import { ErrorSnackbar } from "../../_CommonComponents/Snackbar/ErrorSnackbar.tsx"
 import { stripeCardElementStyle } from "../../_CommonComponents/StripeCardElementStyle.ts"
-
 
 import "./PremiumMembershipSection.scss"
 
@@ -20,8 +20,34 @@ export function PremiumMembershipSection() {
 
   const [isPaymentDisplayed, setIsPaymentDisplayed] = useState(false)
   const [currency, setCurrency] = useState<Currency>(Currency.USD)
+  const [paymentRequest, setPaymentRequest] = useState<PaymentRequest>()
   const [paymentError, setPaymentError] = useState<string>("")
   const [isSubmittingForm, setIsSubmittingForm] = useState(false)
+
+  useEffect(() => {
+    async function performPaymentRequest(paymentRequest: PaymentRequest) {
+      const paymentResult = await paymentRequest.canMakePayment()
+
+      if (paymentResult) {
+        setPaymentRequest(paymentRequest)
+      }
+    }
+
+    if (stripe) {
+      const paymentRequest = stripe.paymentRequest({
+        country: "US",
+        currency: "usd",
+        total: {
+          label: "Subscription",
+          amount: 999 // $9.99, expressed in cents
+        },
+        requestPayerName: true,
+        requestPayerEmail: true
+      })
+
+      void performPaymentRequest(paymentRequest)
+    }
+  }, [stripe])
 
   const handleFormSubmit = async () => {
     const cardElement = elements?.getElement(CardElement)
@@ -72,8 +98,10 @@ export function PremiumMembershipSection() {
 
           <FormControl>
             <FormLabel>Card details</FormLabel>
-            <CardElement options={{ style: stripeCardElementStyle }} />
+            <CardElement options={{ style: stripeCardElementStyle }}/>
           </FormControl>
+
+          {paymentRequest && <PaymentRequestButtonElement options={{ paymentRequest }}/>}
 
           <div className="button-wrapper">
             <button

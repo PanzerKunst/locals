@@ -1,3 +1,4 @@
+@use "sass:math";
 @import "/src/UI/_CommonStyles/mixins";
 
 .container {
@@ -135,15 +136,119 @@
       border: 1px solid $color-border;
       border-radius: $border-radius-lg;
       padding: 1em;
-
-      &.danger {
-        border-color: $color-border-danger;
-      }
     }
 
     h2 {
       font-size: $variable-font-size-md;
       margin-bottom: 0.5em;
+    }
+  }
+
+  ul.following {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    $border-width: 10px;
+    gap: $border-width;
+
+    $vw-sm-md: math.div($vw-sm + $vw-md, 2);
+    @container (min-width: #{$vw-sm-md}) {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    @include cw(md) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    @include cw(lg) {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    position: relative;
+
+    > .tooltip {
+      right: 0.5em;
+      top: -3.5em;
+    }
+
+    > li {
+      transition: opacity #{$animation-duration-sm}s ease;
+
+      border-radius: $border-radius-md;
+      overflow: hidden; // So that the image doesn't overflow the border radius
+
+      &[aria-selected="false"] {
+        opacity: 0.3;
+      }
+
+      > .fade-in {
+        position: relative;
+        container-type: inline-size;
+        aspect-ratio: 1; // To have the right height even before the images are loaded
+
+        cursor: pointer;
+
+        background-color: $color-placeholder;
+
+        > img {
+          aspect-ratio: 1;
+          object-fit: cover;
+          height: 100%; // Otherwise portrait images make the container too tall
+        }
+
+        $container-breakpoint: 170px;
+
+        > span {
+          position: absolute;
+          bottom: 8%;
+          left: 8%;
+
+          $padding-right: 39px; // Space for checkbox
+          padding-right: $padding-right;
+          max-width: 150px + $padding-right;
+
+          color: $color-text-negative;
+          font-size: 18px;
+          font-weight: 700;
+          @include text-shadow;
+
+          @container (min-width: #{$container-breakpoint}) {
+            font-size: 20px;
+          }
+        }
+
+        > .check-icon-wrapper {
+          position: absolute;
+          right: 6%;
+          bottom: 5%;
+
+          > svg {
+            color: $color-icon-primary;
+            @include svg-shadow;
+            @include img-size(1.1em);
+          }
+
+          @container (min-width: #{$container-breakpoint}) {
+            bottom: 4%;
+
+            > svg {
+              @include img-size(1.4em);
+            }
+          }
+        }
+      }
+    }
+
+    &.artists > li > .fade-in::after {
+      content: "";
+
+      position: absolute;
+      top: 6%;
+      left: 6%;
+
+      background-image: url("/images/Spotify_Icon_RGB_White.png");
+      background-repeat: no-repeat;
+      @include img-size(10%);
     }
   }
 }

@@ -1,18 +1,16 @@
-import { faXmark } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Checkbox, FormControl, FormHelperText, FormLabel, Input, Modal, ModalDialog } from "@mui/joy"
+import { FormControl, FormHelperText, FormLabel, Input } from "@mui/joy"
 import { Elements } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
 import classNames from "classnames"
-import { AnimatePresence, motion } from "framer-motion"
 import { ChangeEvent, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
+import { DangerSection } from "./DangerSection.tsx"
 import { PremiumMembershipSection } from "./PremiumMembershipSection.tsx"
 import { useAppContext } from "../../../AppContext.tsx"
 import { SettingsSidebar } from "../SettingsSidebar.tsx"
-import { checkEmailAvailability, checkUsernameAvailability, deleteUser, updateUser } from "../../../Data/Backend/Apis/UsersApi.ts"
-import { ActionsFromAppUrl, AppUrlQueryParam } from "../../../Util/AppUrlQueryParams.ts"
+import { checkEmailAvailability, checkUsernameAvailability, updateUser } from "../../../Data/Backend/Apis/UsersApi.ts"
+import { AppUrlQueryParam } from "../../../Util/AppUrlQueryParams.ts"
 import { scrollIntoView, useViewportSize } from "../../../Util/BrowserUtils.ts"
 import { useDebounce } from "../../../Util/ReactUtils.ts"
 import { Field, isValidEmail, isValidUsername } from "../../../Util/ValidationUtils.ts"
@@ -24,11 +22,6 @@ import { config } from "../../../config.ts"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./AccountPage.scss"
-
-const modalMotionVariants = {
-  initial: { opacity: 0 },
-  animate: { opacity: 1 }
-}
 
 const stripePromise = loadStripe(config.STRIPE_PUBLISHABLE_KEY)
 
@@ -44,9 +37,6 @@ export function AccountPage() {
 
   const [hasSaved, setHasSaved] = useState(false)
 
-
-  // Name, username, email
-
   const [nameField, setNameField] = useState<Field>({ value: loggedInUser?.name || "", error: "" })
 
   const [email, setEmail] = useState(loggedInUser?.email || "")
@@ -61,13 +51,6 @@ export function AccountPage() {
 
   const [isSavingAccountDetails, setIsSavingAccountDetails] = useState(false)
 
-
-  // Danger zone
-
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
-  const [shouldAlsoDeletePosts, setShouldAlsoDeletePosts] = useState(false)
-  const [isDeletingAccount, setIsDeletingAccount] = useState(false)
-
   useHeaderTitle(isSidebarHideable && !isSidebarHidden ? "Settings" : "Account")
 
   useEffect(() => {
@@ -75,9 +58,6 @@ export function AccountPage() {
       navigate(`/?${AppUrlQueryParam.ACCESS_ERROR}`, { replace: true })
     }
   }, [loggedInUser, navigate])
-
-
-  // Name, username, email
 
   useEffect(() => {
     async function performEmailAvailabilityCheck() {
@@ -208,19 +188,6 @@ export function AccountPage() {
     setHasSaved(true)
   }
 
-
-  // Danger zone
-
-  const handleAlsoDeletePostsCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setShouldAlsoDeletePosts(event.target.checked)
-  }
-
-  const handleConfirmDeleteClick = async () => {
-    setIsDeletingAccount(true)
-    await deleteUser(loggedInUser!, shouldAlsoDeletePosts)
-    navigate(`/?${AppUrlQueryParam.ACTION}=${ActionsFromAppUrl.SIGN_OUT}`)
-  }
-
   return (
     <div className={classNames("page with-sidebar settings account", { "sidebar-hidden": isSidebarHideable && isSidebarHidden })}>
       <SettingsSidebar isHideable={isSidebarHideable}/>
@@ -282,55 +249,7 @@ export function AccountPage() {
           <PremiumMembershipSection/>
         </Elements>
 
-        <section className="bordered danger">
-          <h2>Danger Zone</h2>
-
-          <div className="button-wrapper">
-            <button className="button filled danger" onClick={() => setIsDeleteDialogOpen(true)}>
-              <span>Delete account</span>
-            </button>
-          </div>
-        </section>
-
-        <AnimatePresence>
-          {isDeleteDialogOpen && (
-            <Modal open={isDeleteDialogOpen} onClose={() => setIsDeleteDialogOpen(false)}>
-              <motion.div
-                initial={modalMotionVariants.initial}
-                animate={modalMotionVariants.animate}
-                exit={modalMotionVariants.initial}
-                transition={{ duration: Number(s.animationDurationXs) }}
-              >
-                <ModalDialog>
-                  <button className="button icon-only close" aria-label="close" onClick={() => setIsDeleteDialogOpen(false)}>
-                    <FontAwesomeIcon icon={faXmark}/>
-                  </button>
-                  <div>
-                    <span>Are you sure? Deletion is final.</span>
-                    <FormControl id="delete-posts">
-                      <Checkbox
-                        label="Also delete all my posts"
-                        variant="soft"
-                        color="primary"
-                        checked={shouldAlsoDeletePosts}
-                        onChange={handleAlsoDeletePostsCheckboxChange}
-                      />
-                    </FormControl>
-                    <button
-                      className={classNames("button filled fixed-height danger", { loading: isDeletingAccount })}
-                      disabled={isDeletingAccount}
-                      // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                      onClick={handleConfirmDeleteClick}
-                    >
-                      {isDeletingAccount && <ButtonLoader/>}
-                      <span>Delete my account</span>
-                    </button>
-                  </div>
-                </ModalDialog>
-              </motion.div>
-            </Modal>
-          )}
-        </AnimatePresence>
+        <DangerSection/>
 
         {hasSaved && (
           <BottomRightInfoSnackbar onClose={() => setHasSaved(false)}>
