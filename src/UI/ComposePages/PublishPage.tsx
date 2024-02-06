@@ -10,11 +10,9 @@ import { getPostPath } from "../../Data/Backend/BackendUtils.ts"
 import { AccessTier } from "../../Data/Backend/Models/Post.ts"
 import { AppUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
 import { isOnlyDigitsAndNotEmpty } from "../../Util/ValidationUtils.ts"
-import { AnimatedButton } from "../_CommonComponents/AnimatedButton.tsx"
 import { useHeaderTitle } from "../_CommonComponents/AppHeader/AppHeader.ts"
 import { ButtonLoader } from "../_CommonComponents/ButtonLoader.tsx"
 import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
-import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 
 import "./PublishPage.scss"
 
@@ -97,17 +95,15 @@ export function PublishPage() {
         </FormControl>
       </section>
 
-      <FadeIn className="action-buttons">
+      <div className="action-buttons">
         <Link to={`/compose/${post.id}`} className="underlined disappears">Edit Post</Link>
 
-        <AnimatedButton className="filling">
-          {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-          <button className={classNames("button", { "filling loading": isSubmittingForm })} disabled={isSubmittingForm} onClick={handleFormSubmit}>
-            {isSubmittingForm && <ButtonLoader/>}
-            <span>Publish</span>
-          </button>
-        </AnimatedButton>
-      </FadeIn>
+        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+        <button className={classNames("button filled", { loading: isSubmittingForm })} disabled={isSubmittingForm} onClick={handleFormSubmit}>
+          {isSubmittingForm && <ButtonLoader/>}
+          <span>Publish</span>
+        </button>
+      </div>
     </>
   )
 

@@ -1,16 +1,12 @@
 @import "/src/UI/_CommonStyles/mixins";
 
 .page.compose > main {
-  > .fade-in {
+  > section,
+  > div {
     margin-bottom: 5vmin;
-
-    &.button-wrapper {
-      display: flex;
-      justify-content: flex-end;
-    }
   }
 
-  .tag-fields {
+  > .tag-fields {
     display: grid;
     row-gap: 0.5em;
 
@@ -41,11 +37,11 @@
     }
   }
 
-  .form-control-title > .MuiInput-root {
+  > .form-control-title > .MuiInput-root {
     font-size: $variable-font-size-md;
   }
 
-  section.hero-media {
+  > .hero-media {
     display: grid;
     grid-template-columns: 2fr 1fr 2fr;
     justify-items: stretch;
@@ -56,7 +52,7 @@
     > div {
       aspect-ratio: 16 / 9;
 
-      &.fade-in {
+      &:not(.media-wrapper) {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -99,7 +95,7 @@
         }
       }
 
-      &:not(.fade-in) {
+      &.media-wrapper {
         position: relative;
 
         > img {
@@ -121,5 +117,10 @@
       font-size: $variable-font-size-sm;
       text-align: center;
     }
+  }
+
+  > .button-wrapper {
+    display: flex;
+    justify-content: flex-end;
   }
 }

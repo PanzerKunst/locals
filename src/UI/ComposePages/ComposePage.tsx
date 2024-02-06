@@ -12,11 +12,9 @@ import { ChangeEvent, ReactNode, useEffect, useRef, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 
 import { ActionableChipList } from "../_CommonComponents/ActionableChipList.tsx"
-import { AnimatedButton } from "../_CommonComponents/AnimatedButton.tsx"
 import { useHeaderTitle } from "../_CommonComponents/AppHeader/AppHeader.ts"
 import { ButtonLoader } from "../_CommonComponents/ButtonLoader.tsx"
 import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
-import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 import { SelectList } from "../_CommonComponents/SelectList.tsx"
 import { InputTooltip } from "../_CommonComponents/Tooltip/InputTooltip.tsx"
 import { VideoPlayer } from "../_CommonComponents/VideoPlayer.tsx"
@@ -329,7 +327,7 @@ export function ComposePage() {
 
   return renderContents(
     <>
-      <FadeIn className="tag-fields">
+      <section className="tag-fields">
         <FormControl error={tagsError !== ""} id="tags">
           <div className="input-and-select-list-wrapper">
             <FontAwesomeIcon icon={faMagnifyingGlass}/>
@@ -358,25 +356,23 @@ export function ComposePage() {
           renderItem={(artist: Artist) => <span>{artist.name}</span>}
           onDelete={handleDeleteArtistTag}
         />
-      </FadeIn>
+      </section>
 
-      <FadeIn>
-        <FormControl error={titleField.error !== ""} id="title" className="form-control-title">
-          <Input
-            variant="soft"
-            size="lg"
-            placeholder="Title"
-            autoComplete="off"
-            value={titleField.value}
-            onChange={handleTitleChange}
-          />
-          {titleField.error !== "" && <FormHelperText>{titleField.error}</FormHelperText>}
-        </FormControl>
-      </FadeIn>
+      <FormControl error={titleField.error !== ""} id="title" className="form-control-title">
+        <Input
+          variant="soft"
+          size="lg"
+          placeholder="Title"
+          autoComplete="off"
+          value={titleField.value}
+          onChange={handleTitleChange}
+        />
+        {titleField.error !== "" && <FormHelperText>{titleField.error}</FormHelperText>}
+      </FormControl>
 
       <section className="hero-media">
         {!heroImagePath ? (
-          <FadeIn>
+          <div>
             <span>Hero image</span>
             <div>
               <input
@@ -388,9 +384,9 @@ export function ComposePage() {
               />
               <button className="underlined appears" onClick={handleBrowseHeroImageClick}>Browse</button>
             </div>
-          </FadeIn>
+          </div>
         ) : (
-          <div>
+          <div className="media-wrapper">
             <img src={`${config.BACKEND_URL}/file/${heroImagePath}`} alt="Hero"/>
             <motion.button
               whileTap={{ scale: 0.9 }}
@@ -407,7 +403,7 @@ export function ComposePage() {
         <span>or</span>
 
         {!heroVideoUrl && (
-          <FadeIn>
+          <div>
             <span>Hero video</span>
             {!isHeroVideoUploading ? (
               <div>
@@ -428,11 +424,11 @@ export function ComposePage() {
             ) : (
               <CircularLoader/>
             )}
-          </FadeIn>
+          </div>
         )}
 
         {heroVideoUrl && (
-          <div>
+          <div className="media-wrapper">
             <VideoPlayer url={heroVideoUrl}/>
             <motion.button
               whileTap={{ scale: 0.9 }}
@@ -447,26 +443,22 @@ export function ComposePage() {
         )}
       </section>
 
-      <FadeIn>
-        <FormControl error={editorError !== ""} id="editor">
-          <div ref={editorRef}/>
-          {editorError !== "" && <FormHelperText>{editorError}</FormHelperText>}
-        </FormControl>
-      </FadeIn>
+      <FormControl error={editorError !== ""} id="editor">
+        <div ref={editorRef}/>
+        {editorError !== "" && <FormHelperText>{editorError}</FormHelperText>}
+      </FormControl>
 
-      <FadeIn className="button-wrapper">
-        <AnimatedButton className="filling">
-          <button
-            className={classNames("button", { "filling loading": isSubmittingForm })}
-            disabled={isSubmittingForm || tagsError !== "" || titleField.error !== "" || editorError !== ""}
-            // eslint-disable-next-line @typescript-eslint/no-misused-promises
-            onClick={handleFormSubmit}
-          >
-            {isSubmittingForm && <ButtonLoader/>}
-            <span>Save & Preview</span>
-          </button>
-        </AnimatedButton>
-      </FadeIn>
+      <div className="button-wrapper">
+        <button
+          className={classNames("button filled", { loading: isSubmittingForm })}
+          disabled={isSubmittingForm || tagsError !== "" || titleField.error !== "" || editorError !== ""}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          onClick={handleFormSubmit}
+        >
+          {isSubmittingForm && <ButtonLoader/>}
+          <span>Save & Preview</span>
+        </button>
+      </div>
     </>
   )
 

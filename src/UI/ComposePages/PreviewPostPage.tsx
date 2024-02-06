@@ -6,9 +6,7 @@ import { useAppContext } from "../../AppContext.tsx"
 import { fetchPostOfId } from "../../Data/Backend/Apis/PostsApi.ts"
 import { AppUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
 import { getPostWithTagsFromSession, savePostWithTagsInSession } from "../../Util/SessionStorage.ts"
-import { AnimatedButton } from "../_CommonComponents/AnimatedButton.tsx"
 import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
-import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 import { Post } from "../_CommonComponents/Post/Post.tsx"
 
 import "./PreviewPostPage.scss"
@@ -56,15 +54,13 @@ export function PreviewPostPage() {
     <>
       <Post postWithAuthorAndTags={postQuery.data!} preview/>
 
-      <FadeIn className="container action-buttons">
+      <div className="container action-buttons">
         <button className="underlined disappears" onClick={handleEditClick}>Edit</button>
 
-        <AnimatedButton className="filling">
-          <button className="button" onClick={handleFormSubmit}>
-            <span>Set publication settings</span>
-          </button>
-        </AnimatedButton>
-      </FadeIn>
+        <button className="button filled" onClick={handleFormSubmit}>
+          <span>Set publication settings</span>
+        </button>
+      </div>
     </>
   )
 
