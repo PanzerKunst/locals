@@ -345,7 +345,7 @@ export function ComposePage() {
             />
             <SelectList
               items={artistSearchResults.slice(0, 5)}
-              renderItem={(artist: Artist) => `@${artist.tagName}`}
+              renderItem={(artist: Artist) => artist.name}
               onSelect={handleArtistSelect}
               loading={isSearchingArtists}
             />
@@ -355,7 +355,7 @@ export function ComposePage() {
 
         <ActionableChipList
           items={taggedArtists}
-          renderItem={(artist: Artist) => <span>@{artist.tagName}</span>}
+          renderItem={(artist: Artist) => <span>{artist.name}</span>}
           onDelete={handleDeleteArtistTag}
         />
       </FadeIn>
