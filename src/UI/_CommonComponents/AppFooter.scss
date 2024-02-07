@@ -1,7 +1,7 @@
 @import "/src/UI/_CommonStyles/mixins";
 
 .app-footer {
-  background-color: $color-offset-bg;
+  background-color: $color-footer-bg;
 
   > .container {
     $elements-gap: 3em;
