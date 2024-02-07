@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  env: {browser: true, es2020: true},
+  env: { browser: true, es2020: true },
   extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended-type-checked",
@@ -29,42 +29,39 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
     project: ["./tsconfig.json", "./tsconfig.node.json"],
-    tsconfigRootDir: __dirname,
+    tsconfigRootDir: __dirname
   },
   rules: {
-    "quotes": ["error", "double"],
-    "indent": ["error", 2],
-    "semi": ["error", "never"],
-    "max-len": ["warn", {"code": 150}],
+    quotes: ["error", "double"],
+    indent: ["error", 2],
+    semi: ["error", "never"],
+    "max-len": ["warn", { code: 150 }],
     "no-unused-vars": "error",
     "no-restricted-syntax": ["error", {
       selector: "ExportDefaultDeclaration",
       message: "Prefer named exports."
     }],
     "react/react-in-jsx-scope": "off",
-    "react/jsx-max-props-per-line": ["error", {"maximum": 3}],
+    "react/jsx-max-props-per-line": ["error", { maximum: 3 }],
     "react/jsx-no-constructed-context-values": "error",
-    "@typescript-eslint/ban-ts-comment": ["error", {"ts-ignore": "allow-with-description"}],
+    "@typescript-eslint/ban-ts-comment": ["error", { "ts-ignore": "allow-with-description" }],
     "@typescript-eslint/no-unused-vars": "off", // Already covered by no-unused-vars
     "@typescript-eslint/no-unsafe-call": "off",
     "import/order": ["error", {
-      "groups": [
-        "external",
-        "internal"
-      ],
-      "pathGroups": [
+      groups: ["external", "internal"],
+      pathGroups: [
         {
-          "pattern": "(^@)|(^\\w)",
-          "group": "external"
+          pattern: "(^@)|(^\\w)",
+          group: "external"
         },
         {
-          "pattern": "^\\.(\\.)?",
-          "group": "internal"
+          pattern: "^\\.(\\.)?",
+          group: "internal"
         }
       ],
       "newlines-between": "always",
-      "alphabetize": {"order": "asc"}
+      alphabetize: { order: "asc" }
     }],
-    "react-refresh/only-export-components": ["warn", {allowConstantExport: true}],
+    "react-refresh/only-export-components": ["warn", { allowConstantExport: true }]
   }
-}
+};

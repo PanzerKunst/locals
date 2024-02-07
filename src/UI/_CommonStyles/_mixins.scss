@@ -97,7 +97,9 @@
 }
 
 @mixin darkened-image-bg($image-url) {
-  background: linear-gradient($color-darkened-image-filter, $color-darkened-image-filter), url($image-url) center;
+  background: linear-gradient($color-darkened-image-filter, $color-darkened-image-filter),
+    url($image-url) center;
+
   background-size: cover;
 }
 

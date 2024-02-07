@@ -4,8 +4,8 @@
 $color-black: rgb(0 0 0); // #000
 $color-black-transparent: color.adjust($color-black, $alpha: -1);
 $color-black-opacity-50pc: color.adjust($color-black, $alpha: -0.5);
-$color-black-opacity-20pc: color.adjust($color-black, $alpha: -0.80);
-$color-black-opacity-10pc: color.adjust($color-black, $alpha: -0.90);
+$color-black-opacity-20pc: color.adjust($color-black, $alpha: -0.8);
+$color-black-opacity-10pc: color.adjust($color-black, $alpha: -0.9);
 $color-black-opacity-5pc: color.adjust($color-black, $alpha: -0.95);
 $color-white: rgb(255 255 255); // #fff
 $color-white-opacity-50pc: color.adjust($color-white, $alpha: -0.5);

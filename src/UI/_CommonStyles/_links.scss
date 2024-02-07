@@ -7,6 +7,6 @@ a:not(.button) {
   text-decoration: none;
 
   &.underlined {
-    @include underlined
+    @include underlined;
   }
 }

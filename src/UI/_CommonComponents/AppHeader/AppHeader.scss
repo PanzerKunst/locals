@@ -40,7 +40,8 @@
 
     &.desktop-or-landing {
       @include drop-shadow;
-      transition: top #{$animation-duration-xs}s linear, background-color #{$animation-duration-md}s ease;
+      transition: top #{$animation-duration-xs}s linear,
+        background-color #{$animation-duration-md}s ease;
 
       &.dark {
         background-color: $color-header-bg-dark;
