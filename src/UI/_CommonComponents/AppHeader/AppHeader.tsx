@@ -19,7 +19,7 @@ let lastScrollY = window.scrollY
 export function AppHeader() {
   const appContext = useAppContext()
   const loggedInUser = appContext.loggedInUser?.user
-  const { isSidebarHidden, setIsSidebarHidden } = appContext
+  const { headerTitle, isSidebarHidden, setIsSidebarHidden } = appContext
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -130,10 +130,10 @@ export function AppHeader() {
             <FontAwesomeIcon icon={faArrowLeft} />
           </button>
         ) : (
-          <div className="left-image-wrapper"/>
+          <div className="image-placeholder"/>
         )}
 
-        {appContext.headerTitle && <h2>{appContext.headerTitle}</h2>}
+        {headerTitle && <h2>{headerTitle}</h2>}
 
         {isLandingPage && <Link to="/home" className="underlined appears"><span>Sign in</span></Link>}
 
