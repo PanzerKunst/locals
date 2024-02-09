@@ -1,22 +1,26 @@
+import classNames from "classnames"
 import { ReactNode, useEffect } from "react"
 import { useQuery } from "react-query"
 import { useNavigate } from "react-router-dom"
 
+import { DashboardSidebar } from "./DashboardSidebar.tsx"
 import { useAppContext } from "../../AppContext.tsx"
 import { fetchPostsByUsername } from "../../Data/Backend/Apis/PostsApi.ts"
 import { AppUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
 import { useHeaderTitle } from "../_CommonComponents/AppHeader/AppHeader.ts"
 import { CircularLoader } from "../_CommonComponents/CircularLoader.tsx"
 import { PostSnippet } from "../_CommonComponents/PostSnippet.tsx"
+import { useSidebarNav } from "../_CommonComponents/SidebarNav.ts"
 
 export function MyPostsPage() {
   const navigate = useNavigate()
   const loggedInUser = useAppContext().loggedInUser?.user
+  const { isSidebarHidden, isSidebarHideable } = useSidebarNav()
 
   // TODO const [fromDate, setFromDate] = useState<Date>(new Date())
   const fromDate = new Date()
 
-  useHeaderTitle("My Posts")
+  useHeaderTitle(isSidebarHideable && !isSidebarHidden ? "Creator Dashboard" : "My Posts")
 
   useEffect(() => {
     if (!loggedInUser) {
@@ -57,7 +61,10 @@ export function MyPostsPage() {
 
   function renderContents(children: ReactNode) {
     return (
-      <div className="page my-posts no-top-margin-on-mobile">
+      <div className={classNames("page with-sidebar dashboard my-posts no-top-margin-on-mobile",
+        { "sidebar-hidden": isSidebarHideable && isSidebarHidden }
+      )}>
+        <DashboardSidebar />
         <main>
           {children}
         </main>

@@ -64,6 +64,26 @@
       flex-grow: 1;
     }
 
+    > aside > nav > ul {
+      @include make-all-list-items-same-length;
+
+      width: max-content;
+
+      margin-inline: auto;
+      @include vw(md) {
+        margin-right: $min-content-side-margin;
+      }
+
+      .button.transparent {
+        width: 100%;
+        justify-content: flex-start;
+
+        &.active {
+          background-color: $color-sidebar-link-active;
+        }
+      }
+    }
+
     // Mobile, sidebar visible
     > aside {
       background-color: $color-sidebar-bg;

@@ -11,13 +11,12 @@ import { Artist } from "../../../Data/Backend/Models/Artist.ts"
 import { ArtistWithFollowStatus } from "../../../Data/Backend/Models/ArtistWithMore.ts"
 import { User } from "../../../Data/Backend/Models/User.ts"
 import { AppUrlQueryParam } from "../../../Util/AppUrlQueryParams.ts"
-import { useViewportSize } from "../../../Util/BrowserUtils.ts"
 import { useHeaderTitle } from "../../_CommonComponents/AppHeader/AppHeader.ts"
-import { SettingsSidebar } from "../SettingsSidebar.tsx"
 import { ButtonLoader } from "../../_CommonComponents/ButtonLoader.tsx"
+import { useSidebarNav } from "../../_CommonComponents/SidebarNav.ts"
 import { BottomRightInfoSnackbar } from "../../_CommonComponents/Snackbar/BottomRightInfoSnackbar.tsx"
+import { SettingsSidebar } from "../SettingsSidebar.tsx"
 
-import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./SubscriptionsPage.scss"
 
 export function SubscriptionsPage() {
@@ -25,11 +24,8 @@ export function SubscriptionsPage() {
   const appContext = useAppContext()
   const currentUser = appContext.loggedInUser
   const loggedInUser = currentUser?.user
-  const { isSidebarHidden, setLoggedInUser } = appContext
-
-  const viewportWidth = useViewportSize().width
-  const viewportWidthMd = parseInt(s.vwMd || "")
-  const isSidebarHideable = viewportWidth < viewportWidthMd
+  const { setLoggedInUser } = appContext
+  const { isSidebarHidden, isSidebarHideable } = useSidebarNav()
 
   const [hasSaved, setHasSaved] = useState(false)
 
@@ -105,7 +101,7 @@ export function SubscriptionsPage() {
 
   return (
     <div className={classNames("page with-sidebar settings subscriptions", { "sidebar-hidden": isSidebarHideable && isSidebarHidden })}>
-      <SettingsSidebar isHideable={isSidebarHideable}/>
+      <SettingsSidebar />
       <main className="container">
         <section>
           <h2>Subscribed Artists</h2>

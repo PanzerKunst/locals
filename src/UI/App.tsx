@@ -4,6 +4,7 @@ import { AtTagPage } from "./AtTagPage.tsx"
 import { ComposePage } from "./ComposePages/ComposePage.tsx"
 import { PreviewPostPage } from "./ComposePages/PreviewPostPage.tsx"
 import { PublishPage } from "./ComposePages/PublishPage.tsx"
+import { DashboardHomePage } from "./CreatorDashboardPages/DashboardHomePage.tsx"
 import { MyPostsPage } from "./CreatorDashboardPages/MyPostsPage.tsx"
 import { HomePage } from "./HomePage/HomePage.tsx"
 import { LandingPage } from "./LandingPage/LandingPage.tsx"
@@ -30,7 +31,8 @@ const router = createBrowserRouter([
       { path: "compose/preview", element: <PreviewPostPage /> },
       { path: "compose/:postId", element: <ComposePage /> },
       { path: "publish/:postId", element: <PublishPage /> },
-      { path: "dashboard", element: <MyPostsPage />},
+      { path: "dashboard", element: <DashboardHomePage />},
+      { path: "dashboard/my-posts", element: <MyPostsPage />},
       { path: "settings", element: <AccountPage />},
       { path: "settings/subscriptions", element: <SubscriptionsPage />},
       { path: "contact", element: <ContactPage /> },

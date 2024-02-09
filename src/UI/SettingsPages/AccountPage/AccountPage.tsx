@@ -8,19 +8,19 @@ import { useNavigate } from "react-router-dom"
 import { DangerSection } from "./DangerSection.tsx"
 import { PremiumMembershipSection } from "./PremiumMembershipSection.tsx"
 import { useAppContext } from "../../../AppContext.tsx"
-import { SettingsSidebar } from "../SettingsSidebar.tsx"
 import { checkEmailAvailability, checkUsernameAvailability, updateUser } from "../../../Data/Backend/Apis/UsersApi.ts"
 import { AppUrlQueryParam } from "../../../Util/AppUrlQueryParams.ts"
-import { scrollIntoView, useViewportSize } from "../../../Util/BrowserUtils.ts"
+import { scrollIntoView } from "../../../Util/BrowserUtils.ts"
 import { useDebounce } from "../../../Util/ReactUtils.ts"
 import { Field, isValidEmail, isValidUsername } from "../../../Util/ValidationUtils.ts"
+import { config } from "../../../config.ts"
 import { useHeaderTitle } from "../../_CommonComponents/AppHeader/AppHeader.ts"
 import { ButtonLoader } from "../../_CommonComponents/ButtonLoader.tsx"
 import { CircularLoader } from "../../_CommonComponents/CircularLoader.tsx"
+import { useSidebarNav } from "../../_CommonComponents/SidebarNav.ts"
 import { BottomRightInfoSnackbar } from "../../_CommonComponents/Snackbar/BottomRightInfoSnackbar.tsx"
-import { config } from "../../../config.ts"
+import { SettingsSidebar } from "../SettingsSidebar.tsx"
 
-import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./AccountPage.scss"
 
 const stripePromise = loadStripe(config.STRIPE_PUBLISHABLE_KEY)
@@ -29,11 +29,7 @@ export function AccountPage() {
   const navigate = useNavigate()
   const appContext = useAppContext()
   const loggedInUser = appContext.loggedInUser?.user
-  const { isSidebarHidden } = appContext
-
-  const viewportWidth = useViewportSize().width
-  const viewportWidthMd = parseInt(s.vwMd || "")
-  const isSidebarHideable = viewportWidth < viewportWidthMd
+  const { isSidebarHidden, isSidebarHideable } = useSidebarNav()
 
   const [hasSaved, setHasSaved] = useState(false)
 
@@ -190,7 +186,7 @@ export function AccountPage() {
 
   return (
     <div className={classNames("page with-sidebar settings account", { "sidebar-hidden": isSidebarHideable && isSidebarHidden })}>
-      <SettingsSidebar isHideable={isSidebarHideable}/>
+      <SettingsSidebar />
       <main className="container">
         <section className="bordered">
           <FormControl error={nameField.error !== ""} id="name">

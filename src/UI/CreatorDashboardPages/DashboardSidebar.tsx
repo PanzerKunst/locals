@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom"
 
 import { useSidebarNav } from "../_CommonComponents/SidebarNav.ts"
 
-export function SettingsSidebar() {
+export function DashboardSidebar() {
   const location = useLocation()
   const { handleClick } = useSidebarNav()
 
@@ -13,18 +13,18 @@ export function SettingsSidebar() {
         <ul className="styleless">
           <li>
             <button
-              className={classNames("button transparent", { active: location.pathname === "/settings" })}
-              onClick={() => handleClick("/settings")}
+              className={classNames("button transparent", { active: location.pathname === "/dashboard" })}
+              onClick={() => handleClick("/dashboard")}
             >
-              <span>Account</span>
+              <span>Home</span>
             </button>
           </li>
           <li>
             <button
-              className={classNames("button transparent", { active: location.pathname === "/settings/subscriptions" })}
-              onClick={() => handleClick("/settings/subscriptions")}
+              className={classNames("button transparent", { active: location.pathname === "/dashboard/my-posts" })}
+              onClick={() => handleClick("/dashboard/my-posts")}
             >
-              <span>Subscriptions</span>
+              <span>My Posts</span>
             </button>
           </li>
         </ul>
