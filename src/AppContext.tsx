@@ -2,7 +2,7 @@ import dayjs from "dayjs"
 import _isEqual from "lodash/isEqual"
 import { createContext, ReactNode, useCallback, useContext, useMemo, useState } from "react"
 
-import { UserWithFollowedArtistsAndAuthors } from "./Data/Backend/Models/UserWithMore.ts"
+import { UserWithFavouriteArtistsAndAuthors } from "./Data/Backend/Models/UserWithMore.ts"
 import {
   getLoggedInUserFromLocalStorage,
   getSpotifyApiAccessTokenFromLocalStorage,
@@ -24,8 +24,8 @@ export type AppContextType = {
   spotifyApiRefreshToken?: string;
   setSpotifyApiRefreshToken: (token: string | undefined) => void; // eslint-disable-line no-unused-vars
   spotifyApiTokenExpirationDate?: Date;
-  loggedInUser?: UserWithFollowedArtistsAndAuthors;
-  setLoggedInUser: (userWithFollowedArtistsAndAuthors: UserWithFollowedArtistsAndAuthors | undefined) => void; // eslint-disable-line no-unused-vars
+  loggedInUser?: UserWithFavouriteArtistsAndAuthors;
+  setLoggedInUser: (userWithFavouriteArtistsAndAuthors: UserWithFavouriteArtistsAndAuthors | undefined) => void; // eslint-disable-line no-unused-vars
   headerTitle?: string;
   setHeaderTitle: (title: string | undefined) => void; // eslint-disable-line no-unused-vars
   isSidebarHidden: boolean;
@@ -63,9 +63,9 @@ export function AppContextProvider({ children }: Props) {
     }
   }, [spotifyApiTokenExpirationDate])
 
-  const setLoggedInUser = useCallback((userWithFollowedArtistsAndAuthors: UserWithFollowedArtistsAndAuthors | undefined) => {
-    if (!_isEqual(loggedInUser, userWithFollowedArtistsAndAuthors)) {
-      setLoggedInUserState(userWithFollowedArtistsAndAuthors)
+  const setLoggedInUser = useCallback((userWithFavouriteArtistsAndAuthors: UserWithFavouriteArtistsAndAuthors | undefined) => {
+    if (!_isEqual(loggedInUser, userWithFavouriteArtistsAndAuthors)) {
+      setLoggedInUserState(userWithFavouriteArtistsAndAuthors)
     }
   }, [loggedInUser])
 
@@ -107,9 +107,9 @@ export function AppContextProvider({ children }: Props) {
 
     loggedInUser,
 
-    setLoggedInUser: (userWithFollowedArtistsAndAuthors: UserWithFollowedArtistsAndAuthors | undefined) => {
-      saveLoggedInUserInLocalStorage(userWithFollowedArtistsAndAuthors)
-      setLoggedInUser(userWithFollowedArtistsAndAuthors)
+    setLoggedInUser: (userWithFavouriteArtistsAndAuthors: UserWithFavouriteArtistsAndAuthors | undefined) => {
+      saveLoggedInUserInLocalStorage(userWithFavouriteArtistsAndAuthors)
+      setLoggedInUser(userWithFavouriteArtistsAndAuthors)
     },
 
     headerTitle,

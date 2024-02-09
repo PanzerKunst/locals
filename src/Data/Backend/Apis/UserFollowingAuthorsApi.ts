@@ -1,13 +1,13 @@
 import { AppContextType } from "../../../AppContext.tsx"
 import { config } from "../../../config.ts"
 import { User } from "../Models/User.ts"
-import { UserWithFollowedArtistsAndAuthors } from "../Models/UserWithMore.ts"
+import { UserWithFavouriteArtistsAndAuthors } from "../Models/UserWithMore.ts"
 
 export async function storeUserFollowingAuthor(
   appContext: AppContextType,
   user: User,
   followedAuthor: User
-): Promise<UserWithFollowedArtistsAndAuthors> {
+): Promise<UserWithFavouriteArtistsAndAuthors> {
   const result = await fetch(`${config.BACKEND_URL}/followingAuthor`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -21,11 +21,11 @@ export async function storeUserFollowingAuthor(
     throw new Error("Error while storing userFollowingAuthors")
   }
 
-  const userWithFollowedArtistsAndAuthors = await result.json() as UserWithFollowedArtistsAndAuthors
+  const userWithFavouriteArtistsAndAuthors = await result.json() as UserWithFavouriteArtistsAndAuthors
 
-  appContext.setLoggedInUser(userWithFollowedArtistsAndAuthors)
+  appContext.setLoggedInUser(userWithFavouriteArtistsAndAuthors)
 
-  return userWithFollowedArtistsAndAuthors
+  return userWithFavouriteArtistsAndAuthors
 }
 
 export async function removeFollowedAuthors(user: User, authorsToRemove: User[]) {

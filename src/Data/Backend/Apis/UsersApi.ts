@@ -8,12 +8,12 @@ import { config } from "../../../config.ts"
 import { GeoapifyFeature } from "../../Geoapify/Models/GeoapifyFeature.ts"
 import { SpotifyUserProfile } from "../../Spotify/Models/SpotifyUserProfile.ts"
 import { NewUser, User } from "../Models/User.ts"
-import { UserWithFollowedArtistsAndAuthors } from "../Models/UserWithMore.ts"
+import { UserWithFavouriteArtistsAndAuthors } from "../Models/UserWithMore.ts"
 
 export async function fetchUser(
   appContext: AppContextType,
   spotifyUserProfile: SpotifyUserProfile
-): Promise<UserWithFollowedArtistsAndAuthors | undefined> {
+): Promise<UserWithFavouriteArtistsAndAuthors | undefined> {
   const queryParams = { spotifyId: spotifyUserProfile.id }
 
   const result = await fetch(`${config.BACKEND_URL}/user?${qs.stringify(queryParams)}`, {
@@ -25,13 +25,13 @@ export async function fetchUser(
     throw new Error("Error while fetching user")
   }
 
-  const userWithFollowedArtistsAndAuthors = result.status === httpStatusCode.NO_CONTENT
+  const userWithFavouriteArtistsAndAuthors = result.status === httpStatusCode.NO_CONTENT
     ? undefined
-    : await result.json() as UserWithFollowedArtistsAndAuthors
+    : await result.json() as UserWithFavouriteArtistsAndAuthors
 
-  appContext.setLoggedInUser(userWithFollowedArtistsAndAuthors)
+  appContext.setLoggedInUser(userWithFavouriteArtistsAndAuthors)
 
-  return userWithFollowedArtistsAndAuthors
+  return userWithFavouriteArtistsAndAuthors
 }
 
 export async function checkUsernameAvailability(username: string): Promise<boolean> {
@@ -75,7 +75,7 @@ export async function storeUser(
   spotifyUserProfile: SpotifyUserProfile,
   username: string,
   geoapifyFeature: GeoapifyFeature
-): Promise<UserWithFollowedArtistsAndAuthors> {
+): Promise<UserWithFavouriteArtistsAndAuthors> {
   const newUser: NewUser = {
     spotifyId: spotifyUserProfile.id,
     name: spotifyUserProfile.display_name,
@@ -97,14 +97,14 @@ export async function storeUser(
     throw new Error(`Error while storing user ${JSON.stringify(newUser)}`)
   }
 
-  const userWithFollowedArtistsAndAuthors = await result.json() as UserWithFollowedArtistsAndAuthors
+  const userWithFavouriteArtistsAndAuthors = await result.json() as UserWithFavouriteArtistsAndAuthors
 
-  appContext.setLoggedInUser(userWithFollowedArtistsAndAuthors)
+  appContext.setLoggedInUser(userWithFavouriteArtistsAndAuthors)
 
-  return userWithFollowedArtistsAndAuthors
+  return userWithFavouriteArtistsAndAuthors
 }
 
-export async function updateUser(appContext: AppContextType, user: User): Promise<UserWithFollowedArtistsAndAuthors> {
+export async function updateUser(appContext: AppContextType, user: User): Promise<UserWithFavouriteArtistsAndAuthors> {
   const result = await fetch(`${config.BACKEND_URL}/user`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
@@ -115,11 +115,11 @@ export async function updateUser(appContext: AppContextType, user: User): Promis
     throw new Error(`Error while updating user ${JSON.stringify(user)}`)
   }
 
-  const updatedUserWithFollowedArtistsAndAuthors = await result.json() as UserWithFollowedArtistsAndAuthors
+  const updatedUserWithFavouriteArtistsAndAuthors = await result.json() as UserWithFavouriteArtistsAndAuthors
 
-  appContext.setLoggedInUser(updatedUserWithFollowedArtistsAndAuthors)
+  appContext.setLoggedInUser(updatedUserWithFavouriteArtistsAndAuthors)
 
-  return updatedUserWithFollowedArtistsAndAuthors
+  return updatedUserWithFavouriteArtistsAndAuthors
 }
 
 export async function deleteUser(user: User, shouldAlsoDeletePosts: boolean): Promise<void> {

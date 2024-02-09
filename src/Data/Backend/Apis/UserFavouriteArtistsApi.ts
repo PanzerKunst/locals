@@ -6,6 +6,7 @@ import { config } from "../../../config.ts"
 import { fetchTopArtists } from "../../Spotify/Apis/TopItemsApi.ts"
 import { SpotifyArtist } from "../../Spotify/Models/SpotifyArtist.ts"
 import { Artist } from "../Models/Artist.ts"
+import { ArtistWithFollowStatus } from "../Models/ArtistWithMore.ts"
 import { User } from "../Models/User.ts"
 
 export async function storeFavouriteArtists(user: User, favouriteArtists: Artist[], followedArtists: SpotifyArtist[]): Promise<Artist[]> {
@@ -26,13 +27,13 @@ export async function storeFavouriteArtists(user: User, favouriteArtists: Artist
   return await result.json() as Artist[]
 }
 
-export async function removeFavouriteArtists(user: User, artistsToRemove: Artist[]) {
+export async function updateFavouriteArtists(user: User, artistsWithFollowStatus: ArtistWithFollowStatus[]) {
   const result = await fetch(`${config.BACKEND_URL}/favouriteArtists`, {
-    method: "DELETE",
+    method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       user,
-      artistsToRemove
+      artistsWithFollowStatus
     })
   })
 

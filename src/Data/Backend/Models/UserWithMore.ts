@@ -1,15 +1,15 @@
-import { Artist, isArtistCompatible } from "./Artist.ts"
+import { ArtistWithFollowStatus, isArtistWithFollowStatusCompatible } from "./ArtistWithMore.ts"
 import { isUserCompatible, User } from "./User.ts"
 import { config } from "../../../config.ts"
 
-export type UserWithFollowedArtistsAndAuthors = {
+export type UserWithFavouriteArtistsAndAuthors = {
   user: User;
-  followedArtists: Artist[];
+  favouriteArtists: ArtistWithFollowStatus[];
   followedAuthors: User[];
 }
 
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
-export function isUserWithFollowedArtistsAndAuthorsCompatible(obj: any): obj is UserWithFollowedArtistsAndAuthors {
+export function isUserWithFavouriteArtistsAndAuthorsCompatible(obj: any): obj is UserWithFavouriteArtistsAndAuthors {
   // Check if the object is not null and is an object
   if (typeof obj !== "object" || !obj) {
     return false
@@ -18,7 +18,7 @@ export function isUserWithFollowedArtistsAndAuthorsCompatible(obj: any): obj is 
   if (!config.IS_PROD) {
     // Get all keys of the object
     const keys = Object.keys(obj)
-    const allowedKeys = ["user", "followedArtists", "followedAuthors"]
+    const allowedKeys = ["user", "favouriteArtists", "followedAuthors"]
 
     // Check for no additional keys
     if (keys.some(key => !allowedKeys.includes(key))) {
@@ -31,9 +31,9 @@ export function isUserWithFollowedArtistsAndAuthorsCompatible(obj: any): obj is 
     console.log("UserWithFollowedArtistsAndAuthors incompatible: '!isUserCompatible(obj.user)'")
     return false
   }
-  if (!Array.isArray(obj.followedArtists) || obj.followedArtists.some((item: any) => !isArtistCompatible(item))) {
+  if (!Array.isArray(obj.favouriteArtists) || obj.favouriteArtists.some((item: any) => !isArtistWithFollowStatusCompatible(item))) {
     // eslint-disable-next-line max-len
-    console.log("UserWithFollowedArtistsAndAuthors incompatible: '!Array.isArray(obj.followedArtists) || obj.followedArtists.some((item: any) => !isArtistCompatible(item))'")
+    console.log("UserWithFollowedArtistsAndAuthors incompatible: '!Array.isArray(obj.favouriteArtists) || obj.favouriteArtists.some((item: any) => !isArtistWithFollowStatusCompatible(item))'")
     return false
   }
   if (!Array.isArray(obj.followedAuthors) || obj.followedAuthors.some((item: any) => !isUserCompatible(item))) {

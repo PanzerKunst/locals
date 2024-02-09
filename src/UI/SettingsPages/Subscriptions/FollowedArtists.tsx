@@ -4,8 +4,9 @@ import { AnimatePresence, motion } from "framer-motion"
 import { useState } from "react"
 
 import { Artist } from "../../../Data/Backend/Models/Artist.ts"
-import { TextTooltip } from "../../_CommonComponents/Tooltip/TextTooltip.tsx"
+import { ArtistWithFollowStatus } from "../../../Data/Backend/Models/ArtistWithMore.ts"
 import { FadeIn } from "../../_CommonComponents/FadeIn.tsx"
+import { TextTooltip } from "../../_CommonComponents/Tooltip/TextTooltip.tsx"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 
@@ -15,12 +16,11 @@ const motionVariants = {
 }
 
 type Props = {
-  artists: Artist[];
-  unfollowed: Artist[];
+  artistWithFollowStatus: ArtistWithFollowStatus[];
   onToggle: (artist: Artist) => void; // eslint-disable-line no-unused-vars
 }
 
-export function FollowedArtists({ artists, unfollowed, onToggle }: Props) {
+export function FollowedArtists({ artistWithFollowStatus, onToggle }: Props) {
   const [isTooltipVisible, setIsTooltipVisible] = useState(true)
 
   const handleToggle = (artist: Artist) => {
@@ -31,9 +31,8 @@ export function FollowedArtists({ artists, unfollowed, onToggle }: Props) {
   return (
     <ul className="styleless following artists">
       {isTooltipVisible && <TextTooltip onClose={() => setIsTooltipVisible(false)} text="Tap to toggle" />}
-      {artists.map((artist) => {
+      {artistWithFollowStatus.map(({ artist, isFollowed }) => {
         const { avatarUrl } = artist
-        const isActive = !unfollowed.some((followedArtist) => followedArtist.id === artist.id)
 
         return (
           <motion.li
@@ -42,14 +41,14 @@ export function FollowedArtists({ artists, unfollowed, onToggle }: Props) {
             onClick={() => handleToggle(artist)}
             // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
             role="option"
-            aria-selected={isActive}
+            aria-selected={isFollowed}
           >
             <FadeIn>
               {avatarUrl && <img src={avatarUrl} alt="artist-avatar"/>}
               <span>{artist.name}</span>
 
               <AnimatePresence>
-                {isActive && <motion.div
+                {isFollowed && <motion.div
                   initial={motionVariants.initial}
                   animate={motionVariants.animate}
                   exit={motionVariants.initial}

@@ -5,15 +5,17 @@ import { useNavigate } from "react-router-dom"
 import { FollowedArtists } from "./FollowedArtists.tsx"
 import { FollowedAuthors } from "./FollowedAuthors.tsx"
 import { useAppContext } from "../../../AppContext.tsx"
-import { removeFavouriteArtists } from "../../../Data/Backend/Apis/UserFavouriteArtistsApi.ts"
+import { updateFavouriteArtists } from "../../../Data/Backend/Apis/UserFavouriteArtistsApi.ts"
 import { removeFollowedAuthors } from "../../../Data/Backend/Apis/UserFollowingAuthorsApi.ts"
 import { Artist } from "../../../Data/Backend/Models/Artist.ts"
+import { ArtistWithFollowStatus } from "../../../Data/Backend/Models/ArtistWithMore.ts"
 import { User } from "../../../Data/Backend/Models/User.ts"
 import { AppUrlQueryParam } from "../../../Util/AppUrlQueryParams.ts"
 import { useViewportSize } from "../../../Util/BrowserUtils.ts"
 import { useHeaderTitle } from "../../_CommonComponents/AppHeader/AppHeader.ts"
 import { SettingsSidebar } from "../SettingsSidebar.tsx"
 import { ButtonLoader } from "../../_CommonComponents/ButtonLoader.tsx"
+import { BottomRightInfoSnackbar } from "../../_CommonComponents/Snackbar/BottomRightInfoSnackbar.tsx"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./SubscriptionsPage.scss"
@@ -29,10 +31,11 @@ export function SubscriptionsPage() {
   const viewportWidthMd = parseInt(s.vwMd || "")
   const isSidebarHideable = viewportWidth < viewportWidthMd
 
-  // Followed artists
-  const artists = currentUser?.followedArtists || []
-  const [unfollowedArtists, setUnfollowedArtists] = useState<Artist[]>([])
-  const [isSavingFollowedArtists, setIsSavingFollowedArtists] = useState(false)
+  const [hasSaved, setHasSaved] = useState(false)
+
+  // Favourite artists
+  const [favouriteArtists, setFavouriteArtists] = useState<ArtistWithFollowStatus[]>(currentUser?.favouriteArtists || [])
+  const [isSavingFavouriteArtists, setIsSavingFavouriteArtists] = useState(false)
 
   // Followed authors
   const authors = currentUser?.followedAuthors || []
@@ -48,13 +51,18 @@ export function SubscriptionsPage() {
   }, [loggedInUser, navigate])
 
   const handleToggleFollowingArtist = (artist: Artist) => {
-    const isAlreadyUnfollowed = unfollowedArtists.some(unfollowedArtist => unfollowedArtist.id === artist.id)
+    const updatedFavouriteArtists = favouriteArtists.map(favouriteArtist => {
+      if (favouriteArtist.artist.id !== artist.id) {
+        return favouriteArtist
+      }
 
-    const updatedUnfollowedArtists = isAlreadyUnfollowed
-      ? unfollowedArtists.filter(unfollowedArtist => unfollowedArtist.id !== artist.id)
-      : [...unfollowedArtists, artist]
+      return {
+        ...favouriteArtist,
+        isFollowed: !favouriteArtist.isFollowed
+      }
+    })
 
-    setUnfollowedArtists(updatedUnfollowedArtists)
+    setFavouriteArtists(updatedFavouriteArtists)
   }
 
   const handleToggleFollowingAuthor = (author: User) => {
@@ -67,17 +75,18 @@ export function SubscriptionsPage() {
     setUnfollowedAuthors(updatedUnfollowedAuthors)
   }
 
-  const handleSaveFollowedArtistsClick = async () => {
-    setIsSavingFollowedArtists(true)
+  const handleSaveFavouriteArtistsClick = async () => {
+    setIsSavingFavouriteArtists(true)
 
-    await removeFavouriteArtists(loggedInUser!, unfollowedArtists)
+    await updateFavouriteArtists(loggedInUser!, favouriteArtists)
 
     setLoggedInUser({
       ...currentUser!,
-      followedArtists: artists.filter(artist => !unfollowedArtists.some(unfollowedArtist => unfollowedArtist.id === artist.id))
+      favouriteArtists
     })
 
-    setIsSavingFollowedArtists(false)
+    setIsSavingFavouriteArtists(false)
+    setHasSaved(true)
   }
 
   const handleSaveFollowedAuthorsClick = async () => {
@@ -91,6 +100,7 @@ export function SubscriptionsPage() {
     })
 
     setIsSavingFollowedAuthors(false)
+    setHasSaved(true)
   }
 
   return (
@@ -100,12 +110,12 @@ export function SubscriptionsPage() {
         <section>
           <h2>Subscribed Artists</h2>
 
-          <FollowedArtists artists={artists} unfollowed={unfollowedArtists} onToggle={handleToggleFollowingArtist}/>
+          <FollowedArtists artistWithFollowStatus={favouriteArtists} onToggle={handleToggleFollowingArtist}/>
 
           <div className="button-wrapper">
             {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-            <button className="button filled" onClick={handleSaveFollowedArtistsClick} disabled={isSavingFollowedArtists}>
-              {isSavingFollowedArtists && <ButtonLoader/>}
+            <button className="button filled" onClick={handleSaveFavouriteArtistsClick} disabled={isSavingFavouriteArtists}>
+              {isSavingFavouriteArtists && <ButtonLoader/>}
               <span>Save changes</span>
             </button>
           </div>
@@ -128,6 +138,12 @@ export function SubscriptionsPage() {
             </button>
           </div>
         </section>
+
+        {hasSaved && (
+          <BottomRightInfoSnackbar onClose={() => setHasSaved(false)}>
+            <span>Changes saved</span>
+          </BottomRightInfoSnackbar>
+        )}
       </main>
     </div>
   )
