@@ -5,9 +5,10 @@ import { ComposePage } from "./ComposePages/ComposePage.tsx"
 import { PreviewPostPage } from "./ComposePages/PreviewPostPage.tsx"
 import { PublishPage } from "./ComposePages/PublishPage.tsx"
 import { DashboardHomePage } from "./CreatorDashboardPages/DashboardHomePage.tsx"
+import { GettingPaidPage } from "./CreatorDashboardPages/GettingPaidPage/GettingPaidPage.tsx"
 import { MyPostsPage } from "./CreatorDashboardPages/MyPostsPage.tsx"
 import { HomePage } from "./HomePage/HomePage.tsx"
-import { LandingPage } from "./LandingPage/LandingPage.tsx"
+import { LandingPageFertility } from "./LandingPage/Fertility/LandingPageFertility.tsx"
 import { PostPage } from "./PostPage.tsx"
 import { RegisterPage } from "./RegisterPage/RegisterPage.tsx"
 import { AccountPage } from "./SettingsPages/AccountPage/AccountPage.tsx"
@@ -15,15 +16,15 @@ import { SubscriptionsPage } from "./SettingsPages/Subscriptions/SubscriptionsPa
 import { ContactPage } from "./SimplePages/ContactPage.tsx"
 import { PrivacyPolicyPage } from "./SimplePages/PrivacyPolicyPage.tsx"
 import { TermsOfServicePage } from "./SimplePages/TermsOfServicePage.tsx"
-import { Layout } from "./_CommonComponents/Layout.tsx"
+import { LayoutFertility } from "./_CommonComponents/LayoutFertility.tsx"
 import { AppContextProvider } from "../AppContext.tsx"
 
 import "./App.scss"
 
 const router = createBrowserRouter([
   {
-    path: "/", element: <Layout/>, children: [
-      { path: "/", element: <LandingPage /> },
+    path: "/", element: <LayoutFertility/>, children: [
+      { path: "/", element: <LandingPageFertility /> },
       { path: "home", element: <HomePage /> },
       { path: "spotify-callback", element: <HomePage /> },
       { path: "register", element: <RegisterPage /> },
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
       { path: "publish/:postId", element: <PublishPage /> },
       { path: "dashboard", element: <DashboardHomePage />},
       { path: "dashboard/my-posts", element: <MyPostsPage />},
+      { path: "dashboard/getting-paid", element: <GettingPaidPage />},
       { path: "settings", element: <AccountPage />},
       { path: "settings/subscriptions", element: <SubscriptionsPage />},
       { path: "contact", element: <ContactPage /> },
