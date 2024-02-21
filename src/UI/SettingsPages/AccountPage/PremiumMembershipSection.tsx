@@ -5,7 +5,7 @@ import classNames from "classnames"
 import { useEffect, useState } from "react"
 
 import { useAppContext } from "../../../AppContext.tsx"
-import { subscribeToPremium } from "../../../Data/Backend/Apis/PremiumSubscriptionApi.ts"
+import { subscribeToPremium } from "../../../Data/Backend/Apis/PaymentApi.ts"
 import { Currency } from "../../../Data/Backend/Models/Currency.ts"
 import { ButtonLoader } from "../../_CommonComponents/ButtonLoader.tsx"
 import { ErrorSnackbar } from "../../_CommonComponents/Snackbar/ErrorSnackbar.tsx"

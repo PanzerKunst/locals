@@ -27,6 +27,14 @@ export function DashboardSidebar() {
               <span>My Posts</span>
             </button>
           </li>
+          <li>
+            <button
+              className={classNames("button transparent", { active: location.pathname === "/dashboard/getting-paid" })}
+              onClick={() => handleClick("/dashboard/getting-paid")}
+            >
+              <span>Getting Paid</span>
+            </button>
+          </li>
         </ul>
       </nav>
     </aside>

@@ -1,0 +1,8 @@
+@import "/src/UI/_CommonStyles/numbers";
+
+.page.dashboard > main {
+  h2 {
+    font-size: $variable-font-size-md;
+    margin-bottom: 1em;
+  }
+}

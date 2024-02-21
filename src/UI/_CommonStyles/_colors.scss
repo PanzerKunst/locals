@@ -26,6 +26,7 @@ $color-green: rgb(31 193 31); // #1FC11F
 $color-green-spotify: rgb(30 215 96); // #1ed760
 $color-red: rgb(243 24 24); // #F31818
 $color-red-opacity-50pc: color.adjust($color-red, $alpha: -0.5);
+$color-purple-stripe: rgb(99 91 255); // #635bff
 
 // Functional colors, to use in the rest of the app
 $color-actionable-chip-bg: $color-greyscale-8;
@@ -40,7 +41,7 @@ $color-btn-bg-icon-only-dark-hover: $color-black-opacity-5pc;
 $color-btn-bg-icon-only-light-hover: $color-white-opacity-50pc;
 $color-btn-bg-primary-gradient-start: $color-primary-dark;
 $color-btn-bg-primary-gradient-end: $color-primary-light;
-$color-btn-bg-spotify: $color-green-spotify;
+$color-btn-bg-stripe: $color-purple-stripe;
 $color-btn-bg-transparent-hover: $color-greyscale-8;
 $color-btn-text: $color-white;
 $color-btn-text-pre-filled: $color-primary;

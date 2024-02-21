@@ -21,3 +21,13 @@ export async function subscribeToPremium(user: User, purchaseEmail: string, stri
     throw new Error(`Error while processing premium subscription ${JSON.stringify(newPremiumSubscription)}`)
   }
 }
+
+export async function fetchStripeConnectUrl() {
+  const result = await fetch(`${config.BACKEND_URL}/stripe-connect-url`, { method: "GET" })
+
+  if (!result.ok) {
+    throw new Error("Error while fetching Stripe Connect URL")
+  }
+
+  return await result.text()
+}

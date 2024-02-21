@@ -1,15 +1,15 @@
 import { faXmark } from "@fortawesome/free-solid-svg-icons"
-import { useNavigate } from "react-router-dom"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Checkbox, FormControl, Modal, ModalDialog } from "@mui/joy"
 import classNames from "classnames"
 import { AnimatePresence, motion } from "framer-motion"
 import { ChangeEvent, useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 import { useAppContext } from "../../../AppContext.tsx"
-import { ButtonLoader } from "../../_CommonComponents/ButtonLoader.tsx"
 import { deleteUser } from "../../../Data/Backend/Apis/UsersApi.ts"
-import { ActionsFromAppUrl, AppUrlQueryParam } from "../../../Util/AppUrlQueryParams.ts"
+import { signUserOut } from "../../../Util/DomainUtils.ts"
+import { ButtonLoader } from "../../_CommonComponents/ButtonLoader.tsx"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
 import "./DangerSection.scss"
@@ -21,7 +21,8 @@ const modalMotionVariants = {
 
 export function DangerSection() {
   const navigate = useNavigate()
-  const loggedInUser = useAppContext().loggedInUser?.user
+  const appContext = useAppContext()
+  const loggedInUser = appContext.loggedInUser?.user
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [shouldAlsoDeletePosts, setShouldAlsoDeletePosts] = useState(false)
@@ -38,7 +39,8 @@ export function DangerSection() {
 
     setIsDeletingAccount(true)
     await deleteUser(loggedInUser, shouldAlsoDeletePosts)
-    navigate(`/?${AppUrlQueryParam.ACTION}=${ActionsFromAppUrl.SIGN_OUT}`)
+    signUserOut(appContext)
+    navigate("/")
   }
 
   return (

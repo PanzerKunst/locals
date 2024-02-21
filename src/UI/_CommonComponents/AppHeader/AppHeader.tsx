@@ -5,8 +5,8 @@ import { useEffect, useRef, useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 
 import { useAppContext } from "../../../AppContext.tsx"
-import { ActionsFromAppUrl, AppUrlQueryParam } from "../../../Util/AppUrlQueryParams.ts"
 import { useViewportSize } from "../../../Util/BrowserUtils.ts"
+import { signUserOut } from "../../../Util/DomainUtils.ts"
 import { Menu } from "../Menu.tsx"
 
 import s from "/src/UI/_CommonStyles/_exports.module.scss"
@@ -182,7 +182,8 @@ export function AppHeader() {
             <span>Settings</span>
           </li>
           <li role="link" onClick={() => {
-            navigate(`/?${AppUrlQueryParam.ACTION}=${ActionsFromAppUrl.SIGN_OUT}`)
+            signUserOut(appContext)
+            navigate("/")
             setIsMenuOpen(false)
           }}>
             <FontAwesomeIcon icon={faArrowRightFromBracket}/>

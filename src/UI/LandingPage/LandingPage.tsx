@@ -1,11 +1,8 @@
-import { useEffect } from "react"
 import { Link } from "react-router-dom"
 
 import { LandingPageHero } from "./LandingPageHero.tsx"
-import { useAppContext } from "../../AppContext.tsx"
-import { ActionsFromAppUrl, AppUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
+import { AppUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
 import { getUrlQueryParam } from "../../Util/BrowserUtils.ts"
-import { savePostWithTagsInSession } from "../../Util/SessionStorage.ts"
 import { AnimatedButton } from "../_CommonComponents/AnimatedButton.tsx"
 import { FadeIn } from "../_CommonComponents/FadeIn.tsx"
 import { ErrorSnackbar } from "../_CommonComponents/Snackbar/ErrorSnackbar.tsx"
@@ -13,19 +10,6 @@ import { ErrorSnackbar } from "../_CommonComponents/Snackbar/ErrorSnackbar.tsx"
 import "./LandingPage.scss"
 
 export function LandingPage() {
-  const { setSpotifyApiAccessToken, setSpotifyApiRefreshToken, setLoggedInUser } = useAppContext()
-  const actionFromUrl = getUrlQueryParam(AppUrlQueryParam.ACTION)
-
-  useEffect(() => {
-    if (actionFromUrl === ActionsFromAppUrl.SIGN_OUT) {
-      savePostWithTagsInSession(undefined)
-
-      setSpotifyApiAccessToken(undefined)
-      setSpotifyApiRefreshToken(undefined)
-      setLoggedInUser(undefined)
-    }
-  }, [actionFromUrl, setLoggedInUser, setSpotifyApiAccessToken, setSpotifyApiRefreshToken])
-
   const spotifyCallbackErrorFromUrl = getUrlQueryParam(AppUrlQueryParam.SPOTIFY_CALLBACK_ERROR)
 
   return (

@@ -18,7 +18,7 @@ import { GeoapifyFeature } from "../../Data/Geoapify/Models/GeoapifyFeature.ts"
 import { SpotifyArtist } from "../../Data/Spotify/Models/SpotifyArtist.ts"
 import { isSpotifyUserProfileCompatible } from "../../Data/Spotify/Models/SpotifyUserProfile.ts"
 import { defaultFadeInDelay } from "../../Util/AnimationUtils.ts"
-import { ActionsFromAppUrl, AppUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
+import { EventsFromAppUrl, AppUrlQueryParam } from "../../Util/AppUrlQueryParams.ts"
 import { scrollIntoView } from "../../Util/BrowserUtils.ts"
 import { useDebounce } from "../../Util/ReactUtils.ts"
 import { getSpotifyProfileFromSession, saveSpotifyProfileInSession } from "../../Util/SessionStorage.ts"
@@ -268,7 +268,7 @@ export function RegisterPage() {
     await storeFavouriteArtists(userWithFollowedArtistsAndAuthors.user, storedArtists, followedArtists)
 
     saveSpotifyProfileInSession(undefined)
-    navigate(`/home?${AppUrlQueryParam.ACTION}=${ActionsFromAppUrl.REGISTRATION_SUCCESS}`)
+    navigate(`/home?${AppUrlQueryParam.EVENT}=${EventsFromAppUrl.REGISTRATION_SUCCESS}`)
   }
 
   return renderContents(

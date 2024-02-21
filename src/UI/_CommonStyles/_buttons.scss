@@ -85,10 +85,10 @@ a.button:not(.icon-only) {
     }
   } */
 
-  /* &.spotify {
+  &.stripe {
     color: $color-btn-text;
-    background: $color-btn-bg-spotify;
-  } */
+    background: $color-btn-bg-stripe;
+  }
 
   > span {
     padding-block: 0.35em 0.4em;

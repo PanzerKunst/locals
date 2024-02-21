@@ -2,14 +2,14 @@
 export enum AppUrlQueryParam {
   SPOTIFY_CALLBACK_CODE = "code",
   SPOTIFY_CALLBACK_ERROR = "error",
-  ACTION = "action",
+  EVENT = "event",
   ACCESS_ERROR = "access_error"
 }
 /* eslint-enable no-unused-vars */
 
 /* eslint-disable no-unused-vars */
-export enum ActionsFromAppUrl {
-  SIGN_OUT = "sign_out",
-  REGISTRATION_SUCCESS = "registration_success"
+export enum EventsFromAppUrl {
+  REGISTRATION_SUCCESS = "registration_success",
+  STRIPE_ONBOARDING_SUCCESS = "stripe_onboarding_success"
 }
 /* eslint-enable no-unused-vars */
