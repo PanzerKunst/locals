@@ -8,7 +8,7 @@ import { DashboardHomePage } from "./CreatorDashboardPages/DashboardHomePage.tsx
 import { GettingPaidPage } from "./CreatorDashboardPages/GettingPaidPage/GettingPaidPage.tsx"
 import { MyPostsPage } from "./CreatorDashboardPages/MyPostsPage.tsx"
 import { HomePage } from "./HomePage/HomePage.tsx"
-import { LandingPageFertility } from "./LandingPage/Fertility/LandingPageFertility.tsx"
+import { LandingPage } from "./LandingPage/LandingPage.tsx"
 import { PostPage } from "./PostPage.tsx"
 import { RegisterPage } from "./RegisterPage/RegisterPage.tsx"
 import { AccountPage } from "./SettingsPages/AccountPage/AccountPage.tsx"
@@ -16,15 +16,15 @@ import { SubscriptionsPage } from "./SettingsPages/Subscriptions/SubscriptionsPa
 import { ContactPage } from "./SimplePages/ContactPage.tsx"
 import { PrivacyPolicyPage } from "./SimplePages/PrivacyPolicyPage.tsx"
 import { TermsOfServicePage } from "./SimplePages/TermsOfServicePage.tsx"
-import { LayoutFertility } from "./_CommonComponents/LayoutFertility.tsx"
+import { Layout } from "./_CommonComponents/Layout.tsx"
 import { AppContextProvider } from "../AppContext.tsx"
 
 import "./App.scss"
 
 const router = createBrowserRouter([
   {
-    path: "/", element: <LayoutFertility/>, children: [
-      { path: "/", element: <LandingPageFertility /> },
+    path: "/", element: <Layout/>, children: [
+      { path: "/", element: <LandingPage /> },
       { path: "home", element: <HomePage /> },
       { path: "spotify-callback", element: <HomePage /> },
       { path: "register", element: <RegisterPage /> },
