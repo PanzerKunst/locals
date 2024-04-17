@@ -7,9 +7,10 @@ import "./VideoPlayer.scss"
 
 type Props = {
   url: string;
+  autoPlay?: boolean;
 }
 
-export function VideoPlayer({ url }: Props) {
+export function VideoPlayer({ url, autoPlay = false }: Props) {
   const isHosted = url.startsWith(config.BACKEND_URL)
 
   return (
@@ -21,6 +22,7 @@ export function VideoPlayer({ url }: Props) {
             src={url}
             controls
             playsInline
+            autoPlay={autoPlay}
           >
             Your browser does not support HTML5 video.
           </video>
@@ -28,9 +30,10 @@ export function VideoPlayer({ url }: Props) {
       ) : (
         <ReactPlayer
           url={url}
-          controls
           width="100%"
           height="100%"
+          controls
+          playing={autoPlay}
         />
       )}
     </div>
